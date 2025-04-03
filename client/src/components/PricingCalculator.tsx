@@ -374,6 +374,20 @@ export default function PricingCalculator() {
                       </>
                     )}
 
+                    <Button 
+                      onClick={calculateSavings} 
+                      className="w-full"
+                      disabled={isCalculating}
+                    >
+                      {isCalculating ? (
+                        <div className="flex items-center gap-2 justify-center">
+                          Calculating...
+                        </div>
+                      ) : (
+                        "Calculate Savings"
+                      )}
+                    </Button>
+
                     <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
                       <h4 className="font-medium text-slate-800 mb-2">
                         What's included:
@@ -445,20 +459,6 @@ export default function PricingCalculator() {
                         </li>
                       </ul>
                     </div>
-
-                    <Button 
-                      onClick={calculateSavings} 
-                      className="w-full"
-                      disabled={isCalculating}
-                    >
-                      {isCalculating ? (
-                        <div className="flex items-center gap-2 justify-center">
-                          Calculating...
-                        </div>
-                      ) : (
-                        "Calculate Savings Estimate"
-                      )}
-                    </Button>
 
                   </div>
                   <div className="flex justify-center mt-8">
