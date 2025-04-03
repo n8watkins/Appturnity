@@ -70,25 +70,25 @@ export default function PricingCalculator() {
 
   const formValues = form.watch();
 
+  const getPerUserCost = (userCount: number) => {
+    const maxCost = 50;  // Cost at 1 user
+    const minCost = 10;  // Cost at 100 users
+    const scaling = 30;  // Adjusts curve steepness
+    return Math.max(minCost, maxCost - Math.log(userCount) * scaling / Math.log(100));
+  };
+
   useEffect(() => {
-    const baseSaasCost = SAAS_MONTHLY;
-    const pagesCost = formValues.screens * 50;
-    const usersCost = formValues.users * 10;
+    const perUserCost = getPerUserCost(formValues.users);
+    const baseMonthlyCost = perUserCost * formValues.users;
 
     const advancedFeaturesCost =
-      (formValues.authentication ? AUTH_COST : 0) +
-      (formValues.payments ? PAYMENTS_COST : 0) +
-      (formValues.analytics ? ANALYTICS_COST : 0) +
-      (formValues.notifications ? NOTIFICATIONS_COST : 0) +
-      (formValues.roleBasedAccess ? ROLE_BASED_ACCESS_COST : 0);
+      (formValues.authentication ? AUTH_COST / 36 : 0) +
+      (formValues.payments ? PAYMENTS_COST / 36 : 0) +
+      (formValues.analytics ? ANALYTICS_COST / 36 : 0) +
+      (formValues.notifications ? NOTIFICATIONS_COST / 36 : 0) +
+      (formValues.roleBasedAccess ? ROLE_BASED_ACCESS_COST / 36 : 0);
 
-    const totalMonthlySaasCost = baseSaasCost + (
-      (formValues.authentication ? AUTH_COST : 0) +
-      (formValues.payments ? PAYMENTS_COST : 0) +
-      (formValues.analytics ? ANALYTICS_COST : 0) +
-      (formValues.notifications ? NOTIFICATIONS_COST : 0) +
-      (formValues.roleBasedAccess ? ROLE_BASED_ACCESS_COST : 0)
-    );
+    const totalMonthlySaasCost = baseMonthlyCost + advancedFeaturesCost;
     setTraditionalSaasCost(totalMonthlySaasCost);
 
     const oneTimeCost = BASE_COST + (countEnabledFeatures(formValues) * FEATURE_COST);
@@ -329,9 +329,6 @@ export default function PricingCalculator() {
                       <div className="text-4xl font-bold text-slate-600">
                         ${(traditionalSaasCost * 36).toLocaleString()}
                       </div>
-                      <p className="text-sm text-slate-500 mt-1">
-                        Based on your selections
-                      </p>
                     </div>
 
                     <div>
