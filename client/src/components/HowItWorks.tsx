@@ -30,8 +30,8 @@ export default function HowItWorks() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">How It Works</h2>
-          <p className="text-lg text-slate-600">Our streamlined process makes app development simple, transparent, and hassle-free.</p>
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">Your App Opportunity</h2>
+          <p className="text-lg text-slate-600">Our streamlined process turns your business needs into powerful, custom solutions.</p>
         </motion.div>
         
         <div className="grid md:grid-cols-3 gap-8">

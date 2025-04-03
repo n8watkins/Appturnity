@@ -18,9 +18,9 @@ export default function Header() {
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
               <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center">
-                <span className="text-white font-bold">SS</span>
+                <span className="text-white font-bold">AP</span>
               </div>
-              <span className="font-bold text-lg text-slate-900">Stupid Simple Apps</span>
+              <span className="font-bold text-lg text-slate-900">Appturnity</span>
             </Link>
           </div>
           

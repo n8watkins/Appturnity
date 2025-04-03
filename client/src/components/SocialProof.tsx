@@ -21,7 +21,7 @@ export default function SocialProof() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          Trusted by innovative companies
+          Trusted by forward-thinking companies
         </motion.h2>
         
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 items-center justify-items-center">

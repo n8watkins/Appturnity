@@ -19,7 +19,7 @@ const testimonials = [
     id: 3,
     name: "Emily Rodriguez",
     role: "Office Manager, Corvus Legal",
-    content: "Their client intake app transformed our firm. We tried several off-the-shelf solutions but none fit our workflow. Stupid Simple Apps built exactly what we needed - no more, no less."
+    content: "Their client intake app transformed our firm. We tried several off-the-shelf solutions but none fit our workflow. Appturnity built exactly what we needed - no more, no less."
   }
 ];
 

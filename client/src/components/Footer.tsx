@@ -9,9 +9,9 @@ export default function Footer() {
           <div>
             <div className="flex items-center space-x-2 mb-4">
               <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center">
-                <span className="text-white font-bold">SS</span>
+                <span className="text-white font-bold">AP</span>
               </div>
-              <span className="font-bold text-lg text-white">Stupid Simple Apps</span>
+              <span className="font-bold text-lg text-white">Appturnity</span>
             </div>
             <p className="mb-4">Custom apps without the complexity. Simple solutions at predictable prices.</p>
             <div className="flex space-x-4">
@@ -49,7 +49,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={16} />
-                <span>hello@stupidsimpleapps.com</span>
+                <span>hello@appturnity.com</span>
               </li>
               <li className="flex items-center gap-2">
                 <MapPin size={16} />
@@ -60,7 +60,7 @@ export default function Footer() {
         </div>
         
         <div className="border-t border-slate-800 mt-10 pt-6 text-sm text-center">
-          <p>&copy; {new Date().getFullYear()} Stupid Simple Apps. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Appturnity. All rights reserved.</p>
         </div>
       </div>
     </footer>

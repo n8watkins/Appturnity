@@ -73,8 +73,8 @@ export default function Contact() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">Ready to get started?</h2>
-            <p className="text-lg text-slate-600">Tell us about your project, and we'll get back to you within 1 business day.</p>
+            <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">Seize Your App Opportunity</h2>
+            <p className="text-lg text-slate-600">Tell us about your business needs, and we'll get back to you within 1 business day with a custom solution.</p>
           </motion.div>
           
           <motion.div
