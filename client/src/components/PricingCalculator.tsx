@@ -375,7 +375,7 @@ export default function PricingCalculator() {
                           <p className="text-sm text-green-600 mt-1">
                             Over 3 years compared to traditional SaaS
                           </p>
-                        </div>
+                        </motion.div>
                       </>
                     )}
 
