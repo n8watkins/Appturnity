@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -33,11 +32,12 @@ const pricingFormSchema = z.object({
 type PricingFormValues = z.infer<typeof pricingFormSchema>;
 
 const BASE_COST = 750;
-const AUTH_COST = 2000 + 250;
-const PAYMENTS_COST = 4000 + 250;
-const ANALYTICS_COST = 6500 + 250;
-const NOTIFICATIONS_COST = 3000 + 250;
-const ROLE_BASED_ACCESS_COST = 2000 + 250;
+const FEATURE_COST = 250;
+const AUTH_COST = 2000;
+const PAYMENTS_COST = 4000;
+const ANALYTICS_COST = 6500;
+const NOTIFICATIONS_COST = 3000;
+const ROLE_BASED_ACCESS_COST = 2000;
 const MONTHLY_MAINTENANCE = 50;
 const SAAS_MONTHLY = 150;
 
@@ -68,7 +68,7 @@ export default function PricingCalculator() {
     const pagesCost = formValues.screens * 50;
     const usersCost = formValues.users * 10;
 
-    const advancedFeaturesCost = 
+    const advancedFeaturesCost =
       (formValues.authentication ? AUTH_COST : 0) +
       (formValues.payments ? PAYMENTS_COST : 0) +
       (formValues.analytics ? ANALYTICS_COST : 0) +
@@ -77,6 +77,9 @@ export default function PricingCalculator() {
 
     const totalMonthlySaasCost = baseSaasCost + pagesCost + usersCost;
     setTraditionalSaasCost(totalMonthlySaasCost);
+
+    const oneTimeCost = BASE_COST + (Object.values(formValues).filter(val => typeof val === 'boolean' && val).length * FEATURE_COST) + advancedFeaturesCost;
+    setCalculatedOnetime(oneTimeCost);
   }, [formValues]);
 
   const calculateSavings = () => {
@@ -326,7 +329,7 @@ export default function PricingCalculator() {
                         ${(calculatedOnetime + (calculatedMonthly * 36)).toLocaleString()}
                       </div>
                       <p className="text-sm text-slate-500 mt-1">
-                        One-time fee + $50/month maintenance
+                        $750 one-time fee + $50/month maintenance
                       </p>
                     </div>
 
@@ -351,8 +354,8 @@ export default function PricingCalculator() {
                       <h3 className="text-lg font-semibold text-green-700 mb-2">
                         Your Estimated Savings
                       </h3>
-                      <motion.div 
-                        key={formValues.screens} 
+                      <motion.div
+                        key={formValues.screens}
                         initial={{ scale: 0.95, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         className="text-3xl font-bold text-green-600"
