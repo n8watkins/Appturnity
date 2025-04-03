@@ -94,20 +94,6 @@ export default function PricingCalculator() {
     }, 500);
   };
 
-  const form = useForm<PricingFormValues>({
-    resolver: zodResolver(pricingFormSchema),
-    defaultValues: {
-      screens: 5,
-      users: 10,
-      features: 5,
-      authentication: false,
-      payments: false,
-      analytics: false,
-      notifications: false
-    },
-  });
-
-
   return (
     <section id="pricing" className="py-20 bg-white scroll-mt-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
