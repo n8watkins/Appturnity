@@ -33,14 +33,15 @@ const pricingFormSchema = z.object({
 
 type PricingFormValues = z.infer<typeof pricingFormSchema>;
 
-const SCREEN_COST = 400;
-const BASE_COST = 5000;
+const PAGE_COST = 750;
+const BASE_COST = 750;
 const FEATURE_COST = 800;
 const AUTH_COST = 2000;
 const PAYMENTS_COST = 3000;
 const ANALYTICS_COST = 1500;
 const NOTIFICATIONS_COST = 1000;
-const MONTHLY_FACTOR = 0.1; // 10% of build cost for monthly fee
+const MONTHLY_MAINTENANCE = 50; // Fixed monthly maintenance fee
+const SAAS_MONTHLY = 150; // Traditional SaaS monthly fee
 
 export default function PricingCalculator() {
   const [expanded, setExpanded] = useState(false);
@@ -61,7 +62,7 @@ export default function PricingCalculator() {
   });
 
   const calculatePrice = (data: PricingFormValues) => {
-    let oneTimePrice = BASE_COST + (data.screens * SCREEN_COST) + (data.features * FEATURE_COST);
+    let oneTimePrice = BASE_COST + (data.screens * PAGE_COST) + (data.features * FEATURE_COST);
     
     // Add costs for additional features
     if (data.authentication) oneTimePrice += AUTH_COST;
@@ -73,11 +74,8 @@ export default function PricingCalculator() {
     const userFactor = data.users > 100 ? 1.2 : data.users > 50 ? 1.1 : 1;
     oneTimePrice = Math.round(oneTimePrice * userFactor);
     
-    // Calculate monthly maintenance fee
-    const monthlyFee = Math.round(oneTimePrice * MONTHLY_FACTOR);
-    
     setCalculatedOnetime(oneTimePrice);
-    setCalculatedMonthly(monthlyFee);
+    setCalculatedMonthly(MONTHLY_MAINTENANCE);
   };
 
   const onSubmit = (data: PricingFormValues) => {
@@ -133,7 +131,7 @@ export default function PricingCalculator() {
                         name="screens"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Number of Screens</FormLabel>
+                            <FormLabel>Number of Pages</FormLabel>
                             <div className="flex items-center gap-4">
                               <Slider
                                 min={1}
@@ -150,7 +148,7 @@ export default function PricingCalculator() {
                               </span>
                             </div>
                             <FormDescription>
-                              Each unique screen or page in your app
+                              Each unique page in your app
                             </FormDescription>
                           </FormItem>
                         )}
@@ -332,10 +330,10 @@ export default function PricingCalculator() {
                         Traditional SaaS Cost (3 Years)
                       </h3>
                       <div className="text-4xl font-bold text-slate-600">
-                        ${(calculatedOnetime * 2.5).toLocaleString()}
+                        ${(SAAS_MONTHLY * 36).toLocaleString()}
                       </div>
                       <p className="text-sm text-slate-500 mt-1">
-                        Based on typical per-user pricing
+                        $150/month typical SaaS cost
                       </p>
                     </div>
 
@@ -344,10 +342,22 @@ export default function PricingCalculator() {
                         Your Total Cost (3 Years)
                       </h3>
                       <div className="text-3xl font-bold text-primary">
-                        ${(calculatedOnetime + (calculatedMonthly * 36)).toLocaleString()}
+                        ${(calculatedOnetime + (MONTHLY_MAINTENANCE * 36)).toLocaleString()}
                       </div>
                       <p className="text-sm text-slate-500 mt-1">
-                        One-time fee + monthly maintenance
+                        One-time fee + $50/month maintenance
+                      </p>
+                    </div>
+
+                    <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                      <h3 className="text-lg font-semibold text-blue-700 mb-2">
+                        Monthly Savings
+                      </h3>
+                      <div className="text-3xl font-bold text-blue-600">
+                        ${(SAAS_MONTHLY - MONTHLY_MAINTENANCE).toLocaleString()}/month
+                      </div>
+                      <p className="text-sm text-blue-600 mt-1">
+                        Save ${((SAAS_MONTHLY - MONTHLY_MAINTENANCE) * 12).toLocaleString()} per year
                       </p>
                     </div>
 
