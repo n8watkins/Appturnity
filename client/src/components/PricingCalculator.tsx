@@ -346,39 +346,53 @@ export default function PricingCalculator() {
                       </p>
                     </div>
 
-                    <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                      <h3 className="text-lg font-semibold text-blue-700 mb-2">
-                        Monthly Savings
-                      </h3>
-                      <div className="text-3xl font-bold text-blue-600">
-                        ${(traditionalSaasCost - calculatedMonthly).toLocaleString()}/month
-                      </div>
-                      <p className="text-sm text-blue-600 mt-1">
-                        Save ${((traditionalSaasCost - calculatedMonthly) * 12).toLocaleString()} per year
-                      </p>
-                    </div>
-
-                    <div className="bg-green-50 p-4 rounded-lg border border-green-200 relative">
-                      {isCalculating && (
-                        <div className="absolute inset-0 bg-white/50 flex items-center justify-center rounded-lg">
-                          <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                    <Button 
+                      onClick={calculateSavings} 
+                      className="w-full"
+                      disabled={isCalculating}
+                    >
+                      {isCalculating ? (
+                        <div className="flex items-center gap-2">
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                          Calculating...
                         </div>
+                      ) : (
+                        "Calculate Savings Estimate"
                       )}
-                      <h3 className="text-lg font-semibold text-green-700 mb-2">
-                        Your Estimated Savings
-                      </h3>
-                      <motion.div
-                        key={formValues.screens}
-                        initial={{ scale: 0.95, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        className="text-3xl font-bold text-green-600"
-                      >
-                        ${estimatedSavings.toLocaleString()}
-                      </motion.div>
-                      <p className="text-sm text-green-600 mt-1">
-                        Over 3 years compared to traditional SaaS
-                      </p>
-                    </div>
+                    </Button>
+
+                    {estimatedSavings > 0 && (
+                      <>
+                        <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                          <h3 className="text-lg font-semibold text-blue-700 mb-2">
+                            Monthly Savings
+                          </h3>
+                          <div className="text-3xl font-bold text-blue-600">
+                            ${(traditionalSaasCost - calculatedMonthly).toLocaleString()}/month
+                          </div>
+                          <p className="text-sm text-blue-600 mt-1">
+                            Save ${((traditionalSaasCost - calculatedMonthly) * 12).toLocaleString()} per year
+                          </p>
+                        </div>
+
+                        <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                          <h3 className="text-lg font-semibold text-green-700 mb-2">
+                            Your Estimated Savings
+                          </h3>
+                          <motion.div
+                            key={formValues.screens}
+                            initial={{ scale: 0.95, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            className="text-3xl font-bold text-green-600"
+                          >
+                            ${estimatedSavings.toLocaleString()}
+                          </motion.div>
+                          <p className="text-sm text-green-600 mt-1">
+                            Over 3 years compared to traditional SaaS
+                          </p>
+                        </div>
+                      </>
+                    )}
 
                     <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
                       <h4 className="font-medium text-slate-800 mb-2">
@@ -452,7 +466,9 @@ export default function PricingCalculator() {
                       </ul>
                     </div>
 
-                    <Button variant="outline" className="w-full" asChild>
+                    </div>
+                  <div className="flex justify-center mt-8">
+                    <Button variant="outline" asChild>
                       <a href="#contact">Request Detailed Quote</a>
                     </Button>
                   </div>
