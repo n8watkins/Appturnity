@@ -41,6 +41,13 @@ const ROLE_BASED_ACCESS_COST = 2000;
 const MONTHLY_MAINTENANCE = 50;
 const SAAS_MONTHLY = 150;
 
+// Count number of enabled features for one-time fee calculation
+const countEnabledFeatures = (values: any) => 
+  Object.entries(values)
+    .filter(([key, value]) => 
+      ['authentication', 'payments', 'analytics', 'notifications', 'roleBasedAccess'].includes(key) && value
+    ).length;
+
 export default function PricingCalculator() {
   const [calculatedOnetime, setCalculatedOnetime] = useState(BASE_COST);
   const [calculatedMonthly, setCalculatedMonthly] = useState(MONTHLY_MAINTENANCE);
@@ -75,10 +82,16 @@ export default function PricingCalculator() {
       (formValues.notifications ? NOTIFICATIONS_COST : 0) +
       (formValues.roleBasedAccess ? ROLE_BASED_ACCESS_COST : 0);
 
-    const totalMonthlySaasCost = baseSaasCost + pagesCost + usersCost;
+    const totalMonthlySaasCost = baseSaasCost + (
+      (formValues.authentication ? AUTH_COST : 0) +
+      (formValues.payments ? PAYMENTS_COST : 0) +
+      (formValues.analytics ? ANALYTICS_COST : 0) +
+      (formValues.notifications ? NOTIFICATIONS_COST : 0) +
+      (formValues.roleBasedAccess ? ROLE_BASED_ACCESS_COST : 0)
+    );
     setTraditionalSaasCost(totalMonthlySaasCost);
 
-    const oneTimeCost = BASE_COST + (Object.values(formValues).filter(val => typeof val === 'boolean' && val).length * FEATURE_COST) + advancedFeaturesCost;
+    const oneTimeCost = BASE_COST + (countEnabledFeatures(formValues) * FEATURE_COST);
     setCalculatedOnetime(oneTimeCost);
   }, [formValues]);
 
