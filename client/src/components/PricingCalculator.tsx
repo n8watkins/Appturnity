@@ -351,13 +351,13 @@ export default function PricingCalculator() {
                             ${Math.round(traditionalSaasCost - calculatedMonthly).toLocaleString()}/month
                           </div>
                           <p className="text-sm text-blue-600 mt-1">
-                            Save ${((traditionalSaasCost - calculatedMonthly) * 12).toLocaleString()} per year
+                            Save ${Math.round((traditionalSaasCost - calculatedMonthly) * 12).toLocaleString()} per year
                           </p>
                         </div>
 
                         <div className="bg-green-50 p-4 rounded-lg border border-green-200">
                           <h3 className="text-lg font-semibold text-green-700 mb-2">
-                            Your Estimated Savings
+                            Total Estimated Savings
                           </h3>
                           <motion.div
                             key={formValues.screens}
