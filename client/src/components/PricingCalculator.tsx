@@ -490,8 +490,31 @@ export default function PricingCalculator() {
                 </div>
               </div>
               <div className="flex justify-center mt-8 border-t pt-8">
-                <Button variant="outline" size="lg" asChild>
-                  <a href="#contact">Request Detailed Quote</a>
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  onClick={() => {
+                    // Create URL params with calculator data
+                    const params = new URLSearchParams();
+                    params.append('screens', formValues.screens.toString());
+                    params.append('users', formValues.users.toString());
+                    
+                    // Add enabled features to params
+                    if (formValues.authentication) params.append('features', 'Authentication');
+                    if (formValues.payments) params.append('features', 'Payment Processing');
+                    if (formValues.analytics) params.append('features', 'Analytics Dashboard');
+                    if (formValues.notifications) params.append('features', 'Push Notifications');
+                    if (formValues.roleBasedAccess) params.append('features', 'Role-based Access Control');
+                    
+                    // Add costs to params
+                    params.append('oneTimeCost', calculatedOnetime.toString());
+                    params.append('monthlyCost', calculatedMonthly.toString());
+                    
+                    // Navigate to contact section with params
+                    window.location.href = `#contact?${params.toString()}`;
+                  }}
+                >
+                  Request Detailed Quote
                 </Button>
               </div>
             </CardContent>
