@@ -1,6 +1,6 @@
 import { Inter } from 'next/font/google';
-import { Toaster } from '../client/src/components/ui/toaster';
-import { QueryProvider } from './providers';
+import { Toaster } from '@/components/ui/toaster';
+import { Providers } from './providers';
 import '../client/src/index.css';
 import React from 'react';
 
@@ -17,12 +17,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <QueryProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.className} min-h-screen bg-background antialiased`}>
+        <Providers>
           {children}
           <Toaster />
-        </QueryProvider>
+        </Providers>
       </body>
     </html>
   );
