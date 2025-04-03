@@ -342,7 +342,7 @@ export default function PricingCalculator() {
                         ${(calculatedOnetime + (calculatedMonthly * 36)).toLocaleString()}
                       </div>
                       <p className="text-sm text-slate-500 mt-1">
-                        $750 one-time fee + $50/month maintenance
+                        ${calculatedOnetime.toLocaleString()} one-time fee + $50/month maintenance
                       </p>
                     </div>
 
