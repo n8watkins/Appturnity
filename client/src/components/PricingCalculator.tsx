@@ -28,7 +28,9 @@ const pricingFormSchema = z.object({
   authentication: z.boolean().default(false),
   payments: z.boolean().default(false),
   analytics: z.boolean().default(false),
-  notifications: z.boolean().default(false)
+  notifications: z.boolean().default(false),
+  roleBasedAccess: z.boolean().default(false),
+  fileUpload: z.boolean().default(false)
 });
 
 type PricingFormValues = z.infer<typeof pricingFormSchema>;
@@ -36,10 +38,12 @@ type PricingFormValues = z.infer<typeof pricingFormSchema>;
 const PAGE_COST = 750;
 const BASE_COST = 750;
 const FEATURE_COST = 800;
-const AUTH_COST = 2000;
-const PAYMENTS_COST = 3000;
-const ANALYTICS_COST = 1500;
-const NOTIFICATIONS_COST = 1000;
+const AUTH_COST = 2000; // Average of $1,000-$3,000
+const PAYMENTS_COST = 4000; // Average of $2,000-$6,000
+const ANALYTICS_COST = 6500; // Average of $3,000-$10,000
+const NOTIFICATIONS_COST = 3000; // Average of $2,000-$4,000
+const ROLE_BASED_ACCESS_COST = 2000; // Average of $1,000-$3,000
+const FILE_UPLOAD_COST = 2750; // Average of $1,500-$4,000
 const MONTHLY_MAINTENANCE = 50; // Fixed monthly maintenance fee
 const SAAS_MONTHLY = 150; // Traditional SaaS monthly fee
 
@@ -74,10 +78,12 @@ export default function PricingCalculator() {
 
     // Additional costs for advanced features
     const advancedFeaturesCost = 
-      (formValues.authentication ? 100 : 0) +
-      (formValues.payments ? 200 : 0) +
-      (formValues.analytics ? 150 : 0) +
-      (formValues.notifications ? 100 : 0);
+      (formValues.authentication ? AUTH_COST : 0) +
+      (formValues.payments ? PAYMENTS_COST : 0) +
+      (formValues.analytics ? ANALYTICS_COST : 0) +
+      (formValues.notifications ? NOTIFICATIONS_COST : 0) +
+      (formValues.roleBasedAccess ? ROLE_BASED_ACCESS_COST : 0) +
+      (formValues.fileUpload ? FILE_UPLOAD_COST : 0);
 
     const totalMonthlySaasCost = baseSaasCost + pagesCost + featuresCost + usersCost + advancedFeaturesCost;
     setTraditionalSaasCost(totalMonthlySaasCost);
@@ -309,6 +315,48 @@ export default function PricingCalculator() {
                                       <FormLabel>Push Notifications</FormLabel>
                                       <FormDescription>
                                         Email and in-app notification system
+                                      </FormDescription>
+                                    </div>
+                                    <FormControl>
+                                      <Switch
+                                        checked={field.value}
+                                        onCheckedChange={field.onChange}
+                                      />
+                                    </FormControl>
+                                  </FormItem>
+                                )}
+                              />
+
+                              <FormField
+                                control={form.control}
+                                name="roleBasedAccess"
+                                render={({ field }) => (
+                                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
+                                    <div className="space-y-0.5">
+                                      <FormLabel>Role-based Access Control</FormLabel>
+                                      <FormDescription>
+                                        User permissions and access management
+                                      </FormDescription>
+                                    </div>
+                                    <FormControl>
+                                      <Switch
+                                        checked={field.value}
+                                        onCheckedChange={field.onChange}
+                                      />
+                                    </FormControl>
+                                  </FormItem>
+                                )}
+                              />
+
+                              <FormField
+                                control={form.control}
+                                name="fileUpload"
+                                render={({ field }) => (
+                                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
+                                    <div className="space-y-0.5">
+                                      <FormLabel>File Upload System</FormLabel>
+                                      <FormDescription>
+                                        File storage and management capabilities
                                       </FormDescription>
                                     </div>
                                     <FormControl>
