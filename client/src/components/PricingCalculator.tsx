@@ -367,7 +367,7 @@ export default function PricingCalculator() {
                           <p className="text-sm text-blue-600 mt-1">
                             Save ${Math.round((traditionalSaasCost - calculatedMonthly) * 12).toLocaleString()} per year
                           </p>
-                        </div>
+                        </motion.div>
 
                         <motion.div 
                           initial={{ opacity: 0, y: -50 }}
