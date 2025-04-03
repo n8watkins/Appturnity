@@ -24,10 +24,12 @@ export default function Header() {
             </Link>
           </div>
           
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-6">
             <a href="#how-it-works" className="text-slate-600 hover:text-primary transition-colors">How It Works</a>
             <a href="#about" className="text-slate-600 hover:text-primary transition-colors">About</a>
             <a href="#testimonials" className="text-slate-600 hover:text-primary transition-colors">Testimonials</a>
+            <a href="#pricing" className="text-slate-600 hover:text-primary transition-colors">Pricing</a>
+            <a href="#schedule" className="text-slate-600 hover:text-primary transition-colors">Schedule</a>
             <a href="#contact" className="text-slate-600 hover:text-primary transition-colors">Contact</a>
           </nav>
           
@@ -60,6 +62,20 @@ export default function Header() {
                     onClick={navigateAndClose}
                   >
                     Testimonials
+                  </a>
+                  <a 
+                    href="#pricing" 
+                    className="text-slate-700 hover:text-primary transition-colors" 
+                    onClick={navigateAndClose}
+                  >
+                    Pricing
+                  </a>
+                  <a 
+                    href="#schedule" 
+                    className="text-slate-700 hover:text-primary transition-colors" 
+                    onClick={navigateAndClose}
+                  >
+                    Schedule
                   </a>
                   <a 
                     href="#contact" 

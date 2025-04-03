@@ -4,6 +4,8 @@ import SocialProof from "@/components/SocialProof";
 import HowItWorks from "@/components/HowItWorks";
 import About from "@/components/About";
 import Testimonials from "@/components/Testimonials";
+import PricingCalculator from "@/components/PricingCalculator";
+import CalendlyScheduler from "@/components/CalendlyScheduler";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
@@ -17,6 +19,8 @@ export default function Home() {
         <HowItWorks />
         <About />
         <Testimonials />
+        <PricingCalculator />
+        <CalendlyScheduler />
         <Contact />
       </div>
       <Footer />
