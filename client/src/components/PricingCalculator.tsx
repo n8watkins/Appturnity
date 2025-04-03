@@ -355,7 +355,12 @@ export default function PricingCalculator() {
                           </p>
                         </div>
 
-                        <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                        <motion.div 
+                          initial={{ opacity: 0, y: -50 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5 }}
+                          className="bg-green-50 p-4 rounded-lg border border-green-200"
+                        >
                           <h3 className="text-lg font-semibold text-green-700 mb-2">
                             Total Estimated Savings
                           </h3>
