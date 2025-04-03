@@ -62,18 +62,8 @@ export default function PricingCalculator() {
   });
 
   const calculatePrice = (data: PricingFormValues) => {
-    let oneTimePrice = BASE_COST + (data.screens * PAGE_COST) + (data.features * FEATURE_COST);
-    
-    // Add costs for additional features
-    if (data.authentication) oneTimePrice += AUTH_COST;
-    if (data.payments) oneTimePrice += PAYMENTS_COST;
-    if (data.analytics) oneTimePrice += ANALYTICS_COST;
-    if (data.notifications) oneTimePrice += NOTIFICATIONS_COST;
-    
-    // Adjust based on number of users (higher user count might need more infrastructure)
-    const userFactor = data.users > 100 ? 1.2 : data.users > 50 ? 1.1 : 1;
-    oneTimePrice = Math.round(oneTimePrice * userFactor);
-    
+    let oneTimePrice = BASE_COST; // Flat fee of $750
+
     setCalculatedOnetime(oneTimePrice);
     setCalculatedMonthly(MONTHLY_MAINTENANCE);
   };
