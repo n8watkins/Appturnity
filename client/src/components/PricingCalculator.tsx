@@ -44,7 +44,7 @@ const MONTHLY_MAINTENANCE = 50; // Fixed monthly maintenance fee
 const SAAS_MONTHLY = 150; // Traditional SaaS monthly fee
 
 export default function PricingCalculator() {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true); // Changed to true to open accordion by default
   const [calculatedOnetime, setCalculatedOnetime] = useState(BASE_COST);
   const [calculatedMonthly, setCalculatedMonthly] = useState(MONTHLY_MAINTENANCE);
   const [estimatedSavings, setEstimatedSavings] = useState(0);
@@ -55,8 +55,8 @@ export default function PricingCalculator() {
     resolver: zodResolver(pricingFormSchema),
     defaultValues: {
       screens: 5,
-      users: 10,
-      features: 5,
+      users: 1000,
+      features: 3,
       authentication: false,
       payments: false,
       analytics: false,
@@ -65,7 +65,7 @@ export default function PricingCalculator() {
   });
 
   const formValues = form.watch();
-  
+
   useEffect(() => {
     const baseSaasCost = SAAS_MONTHLY;
     const pagesCost = formValues.screens * 50; // $50 per page
@@ -354,7 +354,7 @@ export default function PricingCalculator() {
                         ${(calculatedOnetime + (calculatedMonthly * 36)).toLocaleString()}
                       </div>
                       <p className="text-sm text-slate-500 mt-1">
-                        One-time fee + $50/month maintenance
+                        $750 one-time fee + $50/month maintenance
                       </p>
                     </div>
 
