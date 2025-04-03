@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -20,7 +21,8 @@ import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const pricingFormSchema = z.object({
-  screens: z.number().min(1).max(20),
+  screens: z.number().min(1).max(10),
+  users: z.number().min(1).max(100),
   authentication: z.boolean().default(false),
   payments: z.boolean().default(false),
   analytics: z.boolean().default(false),
@@ -30,7 +32,6 @@ const pricingFormSchema = z.object({
 
 type PricingFormValues = z.infer<typeof pricingFormSchema>;
 
-const PAGE_COST = 750;
 const BASE_COST = 750;
 const AUTH_COST = 2000 + 250;
 const PAYMENTS_COST = 4000 + 250;
@@ -51,6 +52,7 @@ export default function PricingCalculator() {
     resolver: zodResolver(pricingFormSchema),
     defaultValues: {
       screens: 5,
+      users: 5,
       authentication: false,
       payments: false,
       analytics: false,
@@ -64,7 +66,7 @@ export default function PricingCalculator() {
   useEffect(() => {
     const baseSaasCost = SAAS_MONTHLY;
     const pagesCost = formValues.screens * 50;
-    const usersCost = formValues.screens * 10;
+    const usersCost = formValues.users * 10;
 
     const advancedFeaturesCost = 
       (formValues.authentication ? AUTH_COST : 0) +
@@ -138,7 +140,7 @@ export default function PricingCalculator() {
                             <div className="flex items-center gap-4">
                               <Slider
                                 min={1}
-                                max={20}
+                                max={10}
                                 step={1}
                                 defaultValue={[field.value]}
                                 onValueChange={(value) => {
@@ -147,11 +149,39 @@ export default function PricingCalculator() {
                                 className="flex-1"
                               />
                               <span className="w-12 text-center font-medium">
-                                {field.value}
+                                {field.value === 10 ? "10+" : field.value}
                               </span>
                             </div>
                             <FormDescription>
-                              Each unique page in your app (This also determines the number of users)
+                              Each unique page in your app
+                            </FormDescription>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="users"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Number of Users</FormLabel>
+                            <div className="flex items-center gap-4">
+                              <Slider
+                                min={1}
+                                max={100}
+                                step={1}
+                                defaultValue={[field.value]}
+                                onValueChange={(value) => {
+                                  field.onChange(value[0]);
+                                }}
+                                className="flex-1"
+                              />
+                              <span className="w-12 text-center font-medium">
+                                {field.value === 100 ? "100+" : field.value}
+                              </span>
+                            </div>
+                            <FormDescription>
+                              Expected number of users
                             </FormDescription>
                           </FormItem>
                         )}
