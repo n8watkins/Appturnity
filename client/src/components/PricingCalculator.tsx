@@ -45,8 +45,41 @@ const SAAS_MONTHLY = 150; // Traditional SaaS monthly fee
 
 export default function PricingCalculator() {
   const [expanded, setExpanded] = useState(false);
-  const [calculatedOnetime, setCalculatedOnetime] = useState(0);
-  const [calculatedMonthly, setCalculatedMonthly] = useState(0);
+  const [calculatedOnetime, setCalculatedOnetime] = useState(BASE_COST);
+  const [calculatedMonthly, setCalculatedMonthly] = useState(MONTHLY_MAINTENANCE);
+  const [estimatedSavings, setEstimatedSavings] = useState(0);
+  const [traditionalSaasCost, setTraditionalSaasCost] = useState(SAAS_MONTHLY);
+  const [isCalculating, setIsCalculating] = useState(false);
+
+  // Update traditional SaaS cost when form values change
+  const formValues = form.watch();
+  useEffect(() => {
+    const baseSaasCost = SAAS_MONTHLY;
+    const pagesCost = formValues.screens * 50; // $50 per page
+    const featuresCost = formValues.features * 30; // $30 per feature
+    const usersCost = formValues.users * 10; // $10 per user
+
+    // Additional costs for advanced features
+    const advancedFeaturesCost = 
+      (formValues.authentication ? 100 : 0) +
+      (formValues.payments ? 200 : 0) +
+      (formValues.analytics ? 150 : 0) +
+      (formValues.notifications ? 100 : 0);
+
+    const totalMonthlySaasCost = baseSaasCost + pagesCost + featuresCost + usersCost + advancedFeaturesCost;
+    setTraditionalSaasCost(totalMonthlySaasCost);
+  }, [formValues]);
+
+  const calculateSavings = () => {
+    setIsCalculating(true);
+    setTimeout(() => {
+      const threeYearSaasCost = traditionalSaasCost * 36;
+      const threeYearOurCost = calculatedOnetime + (calculatedMonthly * 36);
+      const savings = threeYearSaasCost - threeYearOurCost;
+      setEstimatedSavings(savings);
+      setIsCalculating(false);
+    }, 500);
+  };
 
   const form = useForm<PricingFormValues>({
     resolver: zodResolver(pricingFormSchema),
@@ -61,24 +94,6 @@ export default function PricingCalculator() {
     },
   });
 
-  const [isCalculating, setIsCalculating] = useState(false);
-
-  const calculatePrice = useCallback((data: PricingFormValues) => {
-    setIsCalculating(true);
-    // Simulate calculation time
-    setTimeout(() => {
-      let oneTimePrice = BASE_COST; // Flat fee of $750
-      setCalculatedOnetime(oneTimePrice);
-      setCalculatedMonthly(MONTHLY_MAINTENANCE);
-      setIsCalculating(false);
-    }, 500);
-  }, []);
-
-  // Recalculate price whenever form values change
-  const formValues = form.watch();
-  useEffect(() => {
-    calculatePrice(formValues);
-  }, [calculatePrice, formValues]);
 
   return (
     <section id="pricing" className="py-20 bg-white scroll-mt-16">
@@ -115,7 +130,10 @@ export default function PricingCalculator() {
                 <div>
                   <Form {...form}>
                     <form
-                      onSubmit={(e) => e.preventDefault()}
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        calculateSavings();
+                      }}
                       className="space-y-6"
                     >
                       <FormField
@@ -322,10 +340,10 @@ export default function PricingCalculator() {
                         Traditional SaaS Cost (3 Years)
                       </h3>
                       <div className="text-4xl font-bold text-slate-600">
-                        ${(SAAS_MONTHLY * 36).toLocaleString()}
+                        ${(traditionalSaasCost * 36).toLocaleString()}
                       </div>
                       <p className="text-sm text-slate-500 mt-1">
-                        $150/month typical SaaS cost
+                        Based on your selections
                       </p>
                     </div>
 
@@ -334,7 +352,7 @@ export default function PricingCalculator() {
                         Your Total Cost (3 Years)
                       </h3>
                       <div className="text-3xl font-bold text-primary">
-                        ${(calculatedOnetime + (MONTHLY_MAINTENANCE * 36)).toLocaleString()}
+                        ${(calculatedOnetime + (calculatedMonthly * 36)).toLocaleString()}
                       </div>
                       <p className="text-sm text-slate-500 mt-1">
                         One-time fee + $50/month maintenance
@@ -346,10 +364,10 @@ export default function PricingCalculator() {
                         Monthly Savings
                       </h3>
                       <div className="text-3xl font-bold text-blue-600">
-                        ${(SAAS_MONTHLY - MONTHLY_MAINTENANCE).toLocaleString()}/month
+                        ${(traditionalSaasCost - calculatedMonthly).toLocaleString()}/month
                       </div>
                       <p className="text-sm text-blue-600 mt-1">
-                        Save ${((SAAS_MONTHLY - MONTHLY_MAINTENANCE) * 12).toLocaleString()} per year
+                        Save ${((traditionalSaasCost - calculatedMonthly) * 12).toLocaleString()} per year
                       </p>
                     </div>
 
@@ -368,7 +386,7 @@ export default function PricingCalculator() {
                         animate={{ scale: 1, opacity: 1 }}
                         className="text-3xl font-bold text-green-600"
                       >
-                        ${((SAAS_MONTHLY * formValues.screens * 36) - (calculatedOnetime + (calculatedMonthly * 36))).toLocaleString()}
+                        ${estimatedSavings.toLocaleString()}
                       </motion.div>
                       <p className="text-sm text-green-600 mt-1">
                         Over 3 years compared to traditional SaaS
