@@ -31,15 +31,16 @@ const pricingFormSchema = z.object({
 
 type PricingFormValues = z.infer<typeof pricingFormSchema>;
 
-const BASE_COST = 750;
-const FEATURE_COST = 250;
-const AUTH_COST = 2000;
-const PAYMENTS_COST = 4000;
-const ANALYTICS_COST = 6500;
-const NOTIFICATIONS_COST = 3000;
-const ROLE_BASED_ACCESS_COST = 2000;
+const BASE_COST = 500;
+const PAGE_COST = 100;
+const FEATURE_COST = 200;
+const AUTH_COST = 1500;
+const PAYMENTS_COST = 3000;
+const ANALYTICS_COST = 5000;
+const NOTIFICATIONS_COST = 2500;
+const ROLE_BASED_ACCESS_COST = 1500;
 const MONTHLY_MAINTENANCE = 50;
-const SAAS_MONTHLY = 150;
+const SAAS_MONTHLY = 100;
 
 // Count number of enabled features for one-time fee calculation
 const countEnabledFeatures = (values: any) => 
@@ -91,7 +92,7 @@ export default function PricingCalculator() {
     const totalMonthlySaasCost = baseMonthlyCost + advancedFeaturesCost;
     setTraditionalSaasCost(totalMonthlySaasCost);
 
-    const oneTimeCost = BASE_COST + (countEnabledFeatures(formValues) * FEATURE_COST);
+    const oneTimeCost = Math.round(BASE_COST + (formValues.screens * PAGE_COST) + (countEnabledFeatures(formValues) * FEATURE_COST));
     setCalculatedOnetime(oneTimeCost);
   }, [formValues]);
 
@@ -116,7 +117,7 @@ export default function PricingCalculator() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">Cost Savings Calculator</h2>
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">Save Money with a Tool Made for You</h2>
           <p className="text-lg text-slate-600">
             See how much you can save compared to traditional SaaS solutions with our custom development approach.
           </p>
@@ -133,7 +134,7 @@ export default function PricingCalculator() {
             <CardHeader className="bg-slate-50 border-b border-slate-100">
               <CardTitle className="flex items-center text-2xl">
                 <Calculator className="mr-2 h-5 w-5 text-primary" />
-                Price Calculator
+                Cost Savings Calculator
               </CardTitle>
             </CardHeader>
             <CardContent className="p-6 md:p-8">
@@ -327,7 +328,7 @@ export default function PricingCalculator() {
                         Traditional SaaS Cost (3 Years)
                       </h3>
                       <div className="text-4xl font-bold text-slate-600">
-                        ${(traditionalSaasCost * 36).toLocaleString()}
+                        ${Math.round(traditionalSaasCost * 36).toLocaleString()}
                       </div>
                     </div>
 
@@ -365,7 +366,7 @@ export default function PricingCalculator() {
                             Monthly Savings
                           </h3>
                           <div className="text-3xl font-bold text-blue-600">
-                            ${(traditionalSaasCost - calculatedMonthly).toLocaleString()}/month
+                            ${Math.round(traditionalSaasCost - calculatedMonthly).toLocaleString()}/month
                           </div>
                           <p className="text-sm text-blue-600 mt-1">
                             Save ${((traditionalSaasCost - calculatedMonthly) * 12).toLocaleString()} per year
