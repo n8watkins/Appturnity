@@ -97,6 +97,15 @@ export default function PricingCalculator() {
     setCalculatedOnetime(oneTimeCost);
   }, [formValues]);
 
+  useEffect(() => {
+    if (estimatedSavings > 0) {
+      const threeYearSaasCost = traditionalSaasCost * 36;
+      const threeYearOurCost = calculatedOnetime + (calculatedMonthly * 36);
+      const savings = threeYearSaasCost - threeYearOurCost;
+      setEstimatedSavings(savings);
+    }
+  }, [traditionalSaasCost, calculatedOnetime, calculatedMonthly]);
+
   const calculateSavings = () => {
     setIsCalculating(true);
     setTimeout(() => {
@@ -379,19 +388,25 @@ export default function PricingCalculator() {
                       </>
                     )}
 
-                    <Button 
-                      onClick={calculateSavings} 
-                      className="w-full"
-                      disabled={isCalculating}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5 }}
                     >
-                      {isCalculating ? (
-                        <div className="flex items-center gap-2 justify-center">
-                          Calculating...
-                        </div>
-                      ) : (
-                        "Calculate Savings"
-                      )}
-                    </Button>
+                      <Button 
+                        onClick={calculateSavings} 
+                        className="w-full"
+                        disabled={isCalculating}
+                      >
+                        {isCalculating ? (
+                          <div className="flex items-center gap-2 justify-center">
+                            Calculating...
+                          </div>
+                        ) : (
+                          "Calculate Savings"
+                        )}
+                      </Button>
+                    </motion.div>
 
                     <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
                       <h4 className="font-medium text-slate-800 mb-2">
