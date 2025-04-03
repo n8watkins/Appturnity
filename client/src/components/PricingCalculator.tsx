@@ -115,7 +115,7 @@ export default function PricingCalculator() {
                 <div>
                   <Form {...form}>
                     <form
-                      onSubmit={form.handleSubmit(onSubmit)}
+                      onSubmit={(e) => e.preventDefault()}
                       className="space-y-6"
                     >
                       <FormField
