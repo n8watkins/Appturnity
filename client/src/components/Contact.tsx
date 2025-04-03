@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
@@ -31,7 +31,6 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-  const [initialMessage, setInitialMessage] = useState('');
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -42,45 +41,6 @@ export default function Contact() {
       message: '',
     },
   });
-  
-  // Parse URL parameters when component mounts
-  useEffect(() => {
-    // Get URL hash and extract query parameters
-    const hash = window.location.hash;
-    if (hash.includes('?')) {
-      const queryString = hash.split('?')[1];
-      const params = new URLSearchParams(queryString);
-      
-      // Extract calculator data
-      const screens = params.get('screens');
-      const users = params.get('users');
-      const features = params.getAll('features');
-      const oneTimeCost = params.get('oneTimeCost');
-      const monthlyCost = params.get('monthlyCost');
-      
-      // Construct a detailed message from the parameters
-      if (screens && users) {
-        let messageText = `Request for a custom app with ${screens} pages for ${users} users.\n\n`;
-        
-        if (features.length > 0) {
-          messageText += "Required features:\n";
-          features.forEach(feature => {
-            messageText += `- ${feature}\n`;
-          });
-          messageText += "\n";
-        }
-        
-        if (oneTimeCost && monthlyCost) {
-          messageText += `Estimated cost: $${parseInt(oneTimeCost).toLocaleString()} one-time fee + $${monthlyCost}/month maintenance`;
-        }
-        
-        setInitialMessage(messageText);
-        
-        // Set the message in the form
-        form.setValue('message', messageText);
-      }
-    }
-  }, [form]);
 
   async function onSubmit(data: ContactFormValues) {
     setIsSubmitting(true);
