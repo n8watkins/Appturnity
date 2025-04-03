@@ -25,7 +25,7 @@ export default function Header() {
           </div>
           
           <nav className="hidden md:flex items-center space-x-6">
-            <a href="#how-it-works" className="text-slate-600 hover:text-primary transition-colors">How It Works</a>
+            <a href="#how-we-work" className="text-slate-600 hover:text-primary transition-colors">How We Work</a>
             <a href="#about" className="text-slate-600 hover:text-primary transition-colors">About</a>
             <a href="#testimonials" className="text-slate-600 hover:text-primary transition-colors">Testimonials</a>
             <a href="#pricing" className="text-slate-600 hover:text-primary transition-colors">Pricing</a>
@@ -43,11 +43,11 @@ export default function Header() {
               <SheetContent side="right" className="w-[240px] sm:w-[300px]">
                 <div className="flex flex-col gap-6 mt-6">
                   <a 
-                    href="#how-it-works" 
+                    href="#how-we-work" 
                     className="text-slate-700 hover:text-primary transition-colors" 
                     onClick={navigateAndClose}
                   >
-                    How It Works
+                    How We Work
                   </a>
                   <a 
                     href="#about" 

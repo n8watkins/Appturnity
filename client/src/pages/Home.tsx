@@ -1,11 +1,11 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import SocialProof from "@/components/SocialProof";
-import HowItWorks from "@/components/HowItWorks";
+import HowWeWork from "@/components/HowWeWork";
 import About from "@/components/About";
 import Testimonials from "@/components/Testimonials";
 import PricingCalculator from "@/components/PricingCalculator";
-import CalendlyScheduler from "@/components/CalendlyScheduler";
+import ScheduleConsultation from "@/components/ScheduleConsultation";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
@@ -16,11 +16,11 @@ export default function Home() {
       <div className="flex-1">
         <Hero />
         <SocialProof />
-        <HowItWorks />
+        <HowWeWork />
         <About />
         <Testimonials />
         <PricingCalculator />
-        <CalendlyScheduler />
+        <ScheduleConsultation />
         <Contact />
       </div>
       <Footer />

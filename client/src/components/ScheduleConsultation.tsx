@@ -5,22 +5,21 @@ import { Calendar, CalendarDays, Clock, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-export default function CalendlyScheduler() {
+export default function ScheduleConsultation() {
   const [step, setStep] = useState(1);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [selectedDate, setDate] = useState('');
-  const [selectedTime, setTime] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedTime, setSelectedTime] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
   const availableDates = [
-    "Monday, April 6, 2025",
-    "Tuesday, April 7, 2025",
-    "Wednesday, April 8, 2025",
-    "Thursday, April 9, 2025",
-    "Friday, April 10, 2025"
+    "Monday, April 7, 2025",
+    "Tuesday, April 8, 2025",
+    "Wednesday, April 9, 2025",
+    "Thursday, April 10, 2025",
+    "Friday, April 11, 2025"
   ];
 
   const availableTimes = [
@@ -38,7 +37,7 @@ export default function CalendlyScheduler() {
   };
 
   return (
-    <section id="schedule" className="py-20 bg-slate-50 scroll-mt-16">
+    <section id="schedule" className="py-20 bg-primary scroll-mt-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="max-w-3xl mx-auto text-center mb-16"
@@ -47,10 +46,10 @@ export default function CalendlyScheduler() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">
+          <h2 className="text-3xl font-bold tracking-tight text-white mb-4">
             Schedule a Consultation
           </h2>
-          <p className="text-lg text-slate-600">
+          <p className="text-lg text-white/80">
             Book a free 30-minute call to discuss your project needs and how we can help
           </p>
         </motion.div>
@@ -112,7 +111,7 @@ export default function CalendlyScheduler() {
                               type="button"
                               variant={dateOption === selectedDate ? "default" : "outline"}
                               className="justify-start h-auto py-3 px-4"
-                              onClick={() => setDate(dateOption)}
+                              onClick={() => setSelectedDate(dateOption)}
                             >
                               {dateOption}
                             </Button>
@@ -123,7 +122,7 @@ export default function CalendlyScheduler() {
                       <Button 
                         type="button" 
                         className="w-full"
-                        disabled={!date}
+                        disabled={!selectedDate}
                         onClick={() => setStep(2)}
                       >
                         Continue
@@ -139,15 +138,15 @@ export default function CalendlyScheduler() {
                           <span className="font-medium">Select a Time</span>
                         </div>
                         <div className="grid grid-cols-2 gap-3">
-                          {availableTimes.map((time, i) => (
+                          {availableTimes.map((timeOption, i) => (
                             <Button
                               key={i}
                               type="button"
-                              variant={time === selectedTime ? "default" : "outline"}
+                              variant={timeOption === selectedTime ? "default" : "outline"}
                               className="justify-center"
-                              onClick={() => setTime(time)}
+                              onClick={() => setSelectedTime(timeOption)}
                             >
-                              {time}
+                              {timeOption}
                             </Button>
                           ))}
                         </div>
@@ -196,7 +195,7 @@ export default function CalendlyScheduler() {
                         </Button>
                         <Button 
                           type="submit" 
-                          disabled={!time || !name || !email}
+                          disabled={!selectedTime || !name || !email}
                           className="flex-1"
                         >
                           Schedule Meeting
@@ -221,14 +220,14 @@ export default function CalendlyScheduler() {
                       <CalendarDays className="h-5 w-5 text-primary mt-0.5" />
                       <div>
                         <div className="font-medium text-slate-900">Date</div>
-                        <div className="text-slate-600">{date}</div>
+                        <div className="text-slate-600">{selectedDate}</div>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
                       <Clock className="h-5 w-5 text-primary mt-0.5" />
                       <div>
                         <div className="font-medium text-slate-900">Time</div>
-                        <div className="text-slate-600">{time}</div>
+                        <div className="text-slate-600">{selectedTime}</div>
                       </div>
                     </div>
                   </div>
