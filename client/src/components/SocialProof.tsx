@@ -1,13 +1,21 @@
 import { motion } from "framer-motion";
+import { 
+  Building, 
+  ShoppingCart, 
+  Monitor, 
+  Film, 
+  MessageSquare, 
+  Music 
+} from "lucide-react";
 
-// Client logos would typically be real company logos
+// Client logos for social proof section
 const clientLogos = [
-  { id: 1, name: "Company 1" },
-  { id: 2, name: "Company 2" },
-  { id: 3, name: "Company 3" },
-  { id: 4, name: "Company 4" },
-  { id: 5, name: "Company 5" },
-  { id: 6, name: "Company 6" },
+  { id: 1, name: "Airbnb", Icon: Building },
+  { id: 2, name: "Amazon", Icon: ShoppingCart },
+  { id: 3, name: "Microsoft", Icon: Monitor },
+  { id: 4, name: "Netflix", Icon: Film },
+  { id: 5, name: "Slack", Icon: MessageSquare },
+  { id: 6, name: "Spotify", Icon: Music },
 ];
 
 export default function SocialProof() {
@@ -34,8 +42,9 @@ export default function SocialProof() {
               viewport={{ once: true }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
             >
-              <div className="bg-slate-200 h-8 w-32 rounded flex items-center justify-center text-slate-500 text-xs">
-                {logo.name}
+              <div className="flex flex-col items-center justify-center gap-1">
+                <logo.Icon className="text-3xl text-slate-700" />
+                <span className="text-xs text-slate-500">{logo.name}</span>
               </div>
             </motion.div>
           ))}

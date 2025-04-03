@@ -11,8 +11,8 @@ export default function CalendlyScheduler() {
   const [step, setStep] = useState(1);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [selectedDate, setDate] = useState('');
-  const [selectedTime, setTime] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedTime, setSelectedTime] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
   const availableDates = [
@@ -112,7 +112,7 @@ export default function CalendlyScheduler() {
                               type="button"
                               variant={dateOption === selectedDate ? "default" : "outline"}
                               className="justify-start h-auto py-3 px-4"
-                              onClick={() => setDate(dateOption)}
+                              onClick={() => setSelectedDate(dateOption)}
                             >
                               {dateOption}
                             </Button>
@@ -123,7 +123,7 @@ export default function CalendlyScheduler() {
                       <Button 
                         type="button" 
                         className="w-full"
-                        disabled={!date}
+                        disabled={!selectedDate}
                         onClick={() => setStep(2)}
                       >
                         Continue
@@ -145,7 +145,7 @@ export default function CalendlyScheduler() {
                               type="button"
                               variant={time === selectedTime ? "default" : "outline"}
                               className="justify-center"
-                              onClick={() => setTime(time)}
+                              onClick={() => setSelectedTime(time)}
                             >
                               {time}
                             </Button>
@@ -196,7 +196,7 @@ export default function CalendlyScheduler() {
                         </Button>
                         <Button 
                           type="submit" 
-                          disabled={!time || !name || !email}
+                          disabled={!selectedTime || !name || !email}
                           className="flex-1"
                         >
                           Schedule Meeting
@@ -221,14 +221,14 @@ export default function CalendlyScheduler() {
                       <CalendarDays className="h-5 w-5 text-primary mt-0.5" />
                       <div>
                         <div className="font-medium text-slate-900">Date</div>
-                        <div className="text-slate-600">{date}</div>
+                        <div className="text-slate-600">{selectedDate}</div>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
                       <Clock className="h-5 w-5 text-primary mt-0.5" />
                       <div>
                         <div className="font-medium text-slate-900">Time</div>
-                        <div className="text-slate-600">{time}</div>
+                        <div className="text-slate-600">{selectedTime}</div>
                       </div>
                     </div>
                   </div>
