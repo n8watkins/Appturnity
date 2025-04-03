@@ -1,9 +1,9 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import { Calculator, ChevronDown, ChevronUp } from "lucide-react";
+import { Calculator } from "lucide-react";
 
 import {
   Form,
@@ -14,41 +14,33 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const pricingFormSchema = z.object({
   screens: z.number().min(1).max(20),
-  users: z.number().min(1).max(100),
-  features: z.number().min(1).max(50),
   authentication: z.boolean().default(false),
   payments: z.boolean().default(false),
   analytics: z.boolean().default(false),
   notifications: z.boolean().default(false),
   roleBasedAccess: z.boolean().default(false),
-  fileUpload: z.boolean().default(false)
 });
 
 type PricingFormValues = z.infer<typeof pricingFormSchema>;
 
 const PAGE_COST = 750;
 const BASE_COST = 750;
-const FEATURE_COST = 800;
-const AUTH_COST = 2000; // Average of $1,000-$3,000
-const PAYMENTS_COST = 4000; // Average of $2,000-$6,000
-const ANALYTICS_COST = 6500; // Average of $3,000-$10,000
-const NOTIFICATIONS_COST = 3000; // Average of $2,000-$4,000
-const ROLE_BASED_ACCESS_COST = 2000; // Average of $1,000-$3,000
-const FILE_UPLOAD_COST = 2750; // Average of $1,500-$4,000
-const MONTHLY_MAINTENANCE = 50; // Fixed monthly maintenance fee
-const SAAS_MONTHLY = 150; // Traditional SaaS monthly fee
+const AUTH_COST = 2000 + 250;
+const PAYMENTS_COST = 4000 + 250;
+const ANALYTICS_COST = 6500 + 250;
+const NOTIFICATIONS_COST = 3000 + 250;
+const ROLE_BASED_ACCESS_COST = 2000 + 250;
+const MONTHLY_MAINTENANCE = 50;
+const SAAS_MONTHLY = 150;
 
 export default function PricingCalculator() {
-  const [expanded, setExpanded] = useState(true); // Changed to true to open accordion by default
   const [calculatedOnetime, setCalculatedOnetime] = useState(BASE_COST);
   const [calculatedMonthly, setCalculatedMonthly] = useState(MONTHLY_MAINTENANCE);
   const [estimatedSavings, setEstimatedSavings] = useState(0);
@@ -59,12 +51,11 @@ export default function PricingCalculator() {
     resolver: zodResolver(pricingFormSchema),
     defaultValues: {
       screens: 5,
-      users: 5,
-      features: 3,
       authentication: false,
       payments: false,
       analytics: false,
-      notifications: false
+      notifications: false,
+      roleBasedAccess: false,
     },
   });
 
@@ -72,20 +63,17 @@ export default function PricingCalculator() {
 
   useEffect(() => {
     const baseSaasCost = SAAS_MONTHLY;
-    const pagesCost = formValues.screens * 50; // $50 per page
-    const featuresCost = formValues.features * 30; // $30 per feature
-    const usersCost = formValues.users * 10; // $10 per user
+    const pagesCost = formValues.screens * 50;
+    const usersCost = formValues.screens * 10;
 
-    // Additional costs for advanced features
     const advancedFeaturesCost = 
       (formValues.authentication ? AUTH_COST : 0) +
       (formValues.payments ? PAYMENTS_COST : 0) +
       (formValues.analytics ? ANALYTICS_COST : 0) +
       (formValues.notifications ? NOTIFICATIONS_COST : 0) +
-      (formValues.roleBasedAccess ? ROLE_BASED_ACCESS_COST : 0) +
-      (formValues.fileUpload ? FILE_UPLOAD_COST : 0);
+      (formValues.roleBasedAccess ? ROLE_BASED_ACCESS_COST : 0);
 
-    const totalMonthlySaasCost = baseSaasCost + pagesCost + featuresCost + usersCost + advancedFeaturesCost;
+    const totalMonthlySaasCost = baseSaasCost + pagesCost + usersCost;
     setTraditionalSaasCost(totalMonthlySaasCost);
   }, [formValues]);
 
@@ -163,215 +151,121 @@ export default function PricingCalculator() {
                               </span>
                             </div>
                             <FormDescription>
-                              Each unique page in your app
+                              Each unique page in your app (This also determines the number of users)
                             </FormDescription>
                           </FormItem>
                         )}
                       />
 
-                      <FormField
-                        control={form.control}
-                        name="features"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Number of Features</FormLabel>
-                            <div className="flex items-center gap-4">
-                              <Slider
-                                min={1}
-                                max={50}
-                                step={1}
-                                defaultValue={[field.value]}
-                                onValueChange={(value) => {
-                                  field.onChange(value[0]);
-                                }}
-                                className="flex-1"
-                              />
-                              <span className="w-12 text-center font-medium">
-                                {field.value}
-                              </span>
-                            </div>
-                            <FormDescription>
-                              Core functionality and components
-                            </FormDescription>
-                          </FormItem>
-                        )}
-                      />
+                      <div className="pt-4">
+                        <h3 className="text-lg font-semibold mb-4">Advanced Features</h3>
+                        <div className="space-y-4">
+                          <FormField
+                            control={form.control}
+                            name="authentication"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
+                                <div className="space-y-0.5">
+                                  <FormLabel>User Authentication</FormLabel>
+                                  <FormDescription>
+                                    Login, registration and user profiles
+                                  </FormDescription>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
 
-                      <FormField
-                        control={form.control}
-                        name="users"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Expected Monthly Users</FormLabel>
-                            <div className="flex items-center gap-4">
-                              <Slider
-                                min={1}
-                                max={100}
-                                step={1}
-                                defaultValue={[field.value]}
-                                onValueChange={(value) => {
-                                  field.onChange(value[0]);
-                                }}
-                                className="flex-1"
-                              />
-                              <Input
-                                type="number"
-                                className="w-20"
-                                value={field.value}
-                                onChange={(e) => {
-                                  const value = parseInt(e.target.value);
-                                  if (!isNaN(value) && value >= 1 && value <= 1000) {
-                                    field.onChange(value);
-                                  }
-                                }}
-                              />
-                            </div>
-                          </FormItem>
-                        )}
-                      />
+                          <FormField
+                            control={form.control}
+                            name="payments"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
+                                <div className="space-y-0.5">
+                                  <FormLabel>Payment Processing</FormLabel>
+                                  <FormDescription>
+                                    Stripe or other payment gateway integration
+                                  </FormDescription>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
 
-                      <Accordion
-                        type="single"
-                        collapsible
-                        className="w-full"
-                        value={expanded ? "advanced" : ""}
-                        onValueChange={(value) => setExpanded(value === "advanced")}
-                      >
-                        <AccordionItem value="advanced">
-                          <AccordionTrigger className="text-primary">
-                            Advanced Features
-                          </AccordionTrigger>
-                          <AccordionContent>
-                            <div className="space-y-4 pt-2">
-                              <FormField
-                                control={form.control}
-                                name="authentication"
-                                render={({ field }) => (
-                                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                                    <div className="space-y-0.5">
-                                      <FormLabel>User Authentication</FormLabel>
-                                      <FormDescription>
-                                        Login, registration and user profiles
-                                      </FormDescription>
-                                    </div>
-                                    <FormControl>
-                                      <Switch
-                                        checked={field.value}
-                                        onCheckedChange={field.onChange}
-                                      />
-                                    </FormControl>
-                                  </FormItem>
-                                )}
-                              />
+                          <FormField
+                            control={form.control}
+                            name="analytics"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
+                                <div className="space-y-0.5">
+                                  <FormLabel>Analytics Dashboard</FormLabel>
+                                  <FormDescription>
+                                    User insights and usage tracking
+                                  </FormDescription>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
 
-                              <FormField
-                                control={form.control}
-                                name="payments"
-                                render={({ field }) => (
-                                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                                    <div className="space-y-0.5">
-                                      <FormLabel>Payment Processing</FormLabel>
-                                      <FormDescription>
-                                        Stripe or other payment gateway integration
-                                      </FormDescription>
-                                    </div>
-                                    <FormControl>
-                                      <Switch
-                                        checked={field.value}
-                                        onCheckedChange={field.onChange}
-                                      />
-                                    </FormControl>
-                                  </FormItem>
-                                )}
-                              />
+                          <FormField
+                            control={form.control}
+                            name="notifications"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
+                                <div className="space-y-0.5">
+                                  <FormLabel>Push Notifications</FormLabel>
+                                  <FormDescription>
+                                    Email and in-app notification system
+                                  </FormDescription>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
 
-                              <FormField
-                                control={form.control}
-                                name="analytics"
-                                render={({ field }) => (
-                                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                                    <div className="space-y-0.5">
-                                      <FormLabel>Analytics Dashboard</FormLabel>
-                                      <FormDescription>
-                                        User insights and usage tracking
-                                      </FormDescription>
-                                    </div>
-                                    <FormControl>
-                                      <Switch
-                                        checked={field.value}
-                                        onCheckedChange={field.onChange}
-                                      />
-                                    </FormControl>
-                                  </FormItem>
-                                )}
-                              />
-
-                              <FormField
-                                control={form.control}
-                                name="notifications"
-                                render={({ field }) => (
-                                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                                    <div className="space-y-0.5">
-                                      <FormLabel>Push Notifications</FormLabel>
-                                      <FormDescription>
-                                        Email and in-app notification system
-                                      </FormDescription>
-                                    </div>
-                                    <FormControl>
-                                      <Switch
-                                        checked={field.value}
-                                        onCheckedChange={field.onChange}
-                                      />
-                                    </FormControl>
-                                  </FormItem>
-                                )}
-                              />
-
-                              <FormField
-                                control={form.control}
-                                name="roleBasedAccess"
-                                render={({ field }) => (
-                                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                                    <div className="space-y-0.5">
-                                      <FormLabel>Role-based Access Control</FormLabel>
-                                      <FormDescription>
-                                        User permissions and access management
-                                      </FormDescription>
-                                    </div>
-                                    <FormControl>
-                                      <Switch
-                                        checked={field.value}
-                                        onCheckedChange={field.onChange}
-                                      />
-                                    </FormControl>
-                                  </FormItem>
-                                )}
-                              />
-
-                              <FormField
-                                control={form.control}
-                                name="fileUpload"
-                                render={({ field }) => (
-                                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                                    <div className="space-y-0.5">
-                                      <FormLabel>File Upload System</FormLabel>
-                                      <FormDescription>
-                                        File storage and management capabilities
-                                      </FormDescription>
-                                    </div>
-                                    <FormControl>
-                                      <Switch
-                                        checked={field.value}
-                                        onCheckedChange={field.onChange}
-                                      />
-                                    </FormControl>
-                                  </FormItem>
-                                )}
-                              />
-                            </div>
-                          </AccordionContent>
-                        </AccordionItem>
-                      </Accordion>
+                          <FormField
+                            control={form.control}
+                            name="roleBasedAccess"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
+                                <div className="space-y-0.5">
+                                  <FormLabel>Role-based Access Control</FormLabel>
+                                  <FormDescription>
+                                    User permissions and access management
+                                  </FormDescription>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      </div>
 
                       <Button type="submit" className="w-full">
                         Calculate Estimate
@@ -402,7 +296,7 @@ export default function PricingCalculator() {
                         ${(calculatedOnetime + (calculatedMonthly * 36)).toLocaleString()}
                       </div>
                       <p className="text-sm text-slate-500 mt-1">
-                        $750 one-time fee + $50/month maintenance
+                        One-time fee + $50/month maintenance
                       </p>
                     </div>
 
