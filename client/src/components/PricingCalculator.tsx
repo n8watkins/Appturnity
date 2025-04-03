@@ -352,7 +352,12 @@ export default function PricingCalculator() {
 
                     {estimatedSavings > 0 && (
                       <>
-                        <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                        <motion.div 
+                          initial={{ opacity: 0, y: -50 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, delay: 0.2 }}
+                          className="bg-blue-50 p-4 rounded-lg border border-blue-200"
+                        >
                           <h3 className="text-lg font-semibold text-blue-700 mb-2">
                             Monthly Savings
                           </h3>
@@ -367,7 +372,7 @@ export default function PricingCalculator() {
                         <motion.div 
                           initial={{ opacity: 0, y: -50 }}
                           animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.5 }}
+                          transition={{ duration: 0.5, delay: 0.4 }}
                           className="bg-green-50 p-4 rounded-lg border border-green-200"
                         >
                           <h3 className="text-lg font-semibold text-green-700 mb-2">
@@ -379,7 +384,7 @@ export default function PricingCalculator() {
                             animate={{ scale: 1, opacity: 1 }}
                             className="text-3xl font-bold text-green-600"
                           >
-                            ${estimatedSavings.toLocaleString()}
+                            ${Math.round(estimatedSavings).toLocaleString()}
                           </motion.div>
                           <p className="text-sm text-green-600 mt-1">
                             Over 3 years compared to traditional SaaS
@@ -389,7 +394,7 @@ export default function PricingCalculator() {
                     )}
 
                     <motion.div
-                      initial={{ opacity: 0, y: 20 }}
+                      initial={{ opacity: 0, y: -50 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5 }}
                     >
