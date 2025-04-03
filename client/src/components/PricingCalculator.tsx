@@ -31,7 +31,7 @@ const pricingFormSchema = z.object({
 
 type PricingFormValues = z.infer<typeof pricingFormSchema>;
 
-const BASE_COST = 500;
+const BASE_COST = 750;
 const PAGE_COST = 100;
 const FEATURE_COST = 200;
 const AUTH_COST = 1500;
@@ -81,6 +81,7 @@ export default function PricingCalculator() {
   useEffect(() => {
     const perUserCost = getPerUserCost(formValues.users);
     const baseMonthlyCost = perUserCost * formValues.users;
+    const pageMonthlyCost = formValues.screens * 25; // $25 per page per month
 
     const advancedFeaturesCost =
       (formValues.authentication ? AUTH_COST / 36 : 0) +
@@ -89,7 +90,7 @@ export default function PricingCalculator() {
       (formValues.notifications ? NOTIFICATIONS_COST / 36 : 0) +
       (formValues.roleBasedAccess ? ROLE_BASED_ACCESS_COST / 36 : 0);
 
-    const totalMonthlySaasCost = baseMonthlyCost + advancedFeaturesCost;
+    const totalMonthlySaasCost = baseMonthlyCost + pageMonthlyCost + advancedFeaturesCost;
     setTraditionalSaasCost(totalMonthlySaasCost);
 
     const oneTimeCost = Math.round(BASE_COST + (countEnabledFeatures(formValues) * FEATURE_COST));
