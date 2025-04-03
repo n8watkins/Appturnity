@@ -23,7 +23,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 
 const pricingFormSchema = z.object({
   screens: z.number().min(1).max(20),
-  users: z.number().min(1).max(1000),
+  users: z.number().min(1).max(100),
   features: z.number().min(1).max(50),
   authentication: z.boolean().default(false),
   payments: z.boolean().default(false),
@@ -59,7 +59,7 @@ export default function PricingCalculator() {
     resolver: zodResolver(pricingFormSchema),
     defaultValues: {
       screens: 5,
-      users: 1000,
+      users: 5,
       features: 3,
       authentication: false,
       payments: false,
@@ -206,8 +206,8 @@ export default function PricingCalculator() {
                             <div className="flex items-center gap-4">
                               <Slider
                                 min={1}
-                                max={1000}
-                                step={10}
+                                max={100}
+                                step={1}
                                 defaultValue={[field.value]}
                                 onValueChange={(value) => {
                                   field.onChange(value[0]);
