@@ -314,10 +314,6 @@ export default function PricingCalculator() {
                           />
                         </div>
                       </div>
-
-                      <Button type="submit" className="w-full">
-                        Calculate Estimate
-                      </Button>
                     </form>
                   </Form>
                 </div>
