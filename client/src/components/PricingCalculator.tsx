@@ -487,12 +487,12 @@ export default function PricingCalculator() {
                     </div>
 
                   </div>
-                  <div className="flex justify-center mt-8">
-                    <Button variant="outline" asChild>
-                      <a href="#contact">Request Detailed Quote</a>
-                    </Button>
-                  </div>
                 </div>
+              </div>
+              <div className="flex justify-center mt-8 border-t pt-8">
+                <Button variant="outline" size="lg" asChild>
+                  <a href="#contact">Request Detailed Quote</a>
+                </Button>
               </div>
             </CardContent>
           </Card>
