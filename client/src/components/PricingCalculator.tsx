@@ -446,6 +446,20 @@ export default function PricingCalculator() {
                       </ul>
                     </div>
 
+                    <Button 
+                      onClick={calculateSavings} 
+                      className="w-full"
+                      disabled={isCalculating}
+                    >
+                      {isCalculating ? (
+                        <div className="flex items-center gap-2 justify-center">
+                          Calculating...
+                        </div>
+                      ) : (
+                        "Calculate Savings Estimate"
+                      )}
+                    </Button>
+
                   </div>
                   <div className="flex justify-center mt-8">
                     <Button variant="outline" asChild>
