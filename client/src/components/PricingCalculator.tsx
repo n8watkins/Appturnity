@@ -51,8 +51,21 @@ export default function PricingCalculator() {
   const [traditionalSaasCost, setTraditionalSaasCost] = useState(SAAS_MONTHLY);
   const [isCalculating, setIsCalculating] = useState(false);
 
-  // Update traditional SaaS cost when form values change
+  const form = useForm<PricingFormValues>({
+    resolver: zodResolver(pricingFormSchema),
+    defaultValues: {
+      screens: 5,
+      users: 10,
+      features: 5,
+      authentication: false,
+      payments: false,
+      analytics: false,
+      notifications: false
+    },
+  });
+
   const formValues = form.watch();
+  
   useEffect(() => {
     const baseSaasCost = SAAS_MONTHLY;
     const pagesCost = formValues.screens * 50; // $50 per page
