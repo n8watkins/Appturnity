@@ -92,7 +92,7 @@ export default function PricingCalculator() {
     const totalMonthlySaasCost = baseMonthlyCost + advancedFeaturesCost;
     setTraditionalSaasCost(totalMonthlySaasCost);
 
-    const oneTimeCost = Math.round(BASE_COST + (formValues.screens * PAGE_COST) + (countEnabledFeatures(formValues) * FEATURE_COST));
+    const oneTimeCost = Math.round(BASE_COST + (countEnabledFeatures(formValues) * FEATURE_COST));
     setCalculatedOnetime(oneTimeCost);
   }, [formValues]);
 
@@ -334,7 +334,7 @@ export default function PricingCalculator() {
 
                     <div>
                       <h3 className="text-lg font-semibold text-slate-700 mb-2">
-                        Your Total Cost (3 Years)
+                        Appturnity Costs (3 Years)
                       </h3>
                       <div className="text-3xl font-bold text-primary">
                         ${(calculatedOnetime + (calculatedMonthly * 36)).toLocaleString()}
