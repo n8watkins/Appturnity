@@ -100,9 +100,9 @@ export default function PricingCalculator() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">Transparent Pricing</h2>
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">Cost Savings Calculator</h2>
           <p className="text-lg text-slate-600">
-            Calculate an estimate for your custom app. We charge a one-time development fee and a predictable monthly maintenance fee.
+            See how much you can save compared to traditional SaaS solutions with our custom development approach.
           </p>
         </motion.div>
 
@@ -329,25 +329,37 @@ export default function PricingCalculator() {
                   <div className="space-y-6">
                     <div>
                       <h3 className="text-lg font-semibold text-slate-700 mb-2">
-                        Estimated One-Time Cost
+                        Traditional SaaS Cost (3 Years)
                       </h3>
-                      <div className="text-4xl font-bold text-primary">
-                        ${calculatedOnetime.toLocaleString()}
+                      <div className="text-4xl font-bold text-slate-600">
+                        ${(calculatedOnetime * 2.5).toLocaleString()}
                       </div>
                       <p className="text-sm text-slate-500 mt-1">
-                        One-time development fee
+                        Based on typical per-user pricing
                       </p>
                     </div>
 
                     <div>
                       <h3 className="text-lg font-semibold text-slate-700 mb-2">
-                        Monthly Maintenance
+                        Your Total Cost (3 Years)
                       </h3>
-                      <div className="text-3xl font-bold text-slate-900">
-                        ${calculatedMonthly.toLocaleString()}/month
+                      <div className="text-3xl font-bold text-primary">
+                        ${(calculatedOnetime + (calculatedMonthly * 36)).toLocaleString()}
                       </div>
                       <p className="text-sm text-slate-500 mt-1">
-                        Includes hosting, updates, and support
+                        One-time fee + monthly maintenance
+                      </p>
+                    </div>
+
+                    <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                      <h3 className="text-lg font-semibold text-green-700 mb-2">
+                        Your Estimated Savings
+                      </h3>
+                      <div className="text-3xl font-bold text-green-600">
+                        ${(calculatedOnetime * 2.5 - (calculatedOnetime + (calculatedMonthly * 36))).toLocaleString()}
+                      </div>
+                      <p className="text-sm text-green-600 mt-1">
+                        Over 3 years compared to traditional SaaS
                       </p>
                     </div>
 

@@ -29,7 +29,7 @@ export default function Header() {
             <a href="#about" className="text-slate-600 hover:text-primary transition-colors">About</a>
             <a href="#testimonials" className="text-slate-600 hover:text-primary transition-colors">Testimonials</a>
             <a href="#pricing" className="text-slate-600 hover:text-primary transition-colors">Pricing</a>
-            <a href="#schedule" className="text-slate-600 hover:text-primary transition-colors">Schedule</a>
+            <a href="#schedule" className="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 transition-colors">Schedule</a>
             <a href="#contact" className="text-slate-600 hover:text-primary transition-colors">Contact</a>
           </nav>
           
