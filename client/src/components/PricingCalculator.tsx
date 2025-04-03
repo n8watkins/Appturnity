@@ -61,22 +61,24 @@ export default function PricingCalculator() {
     },
   });
 
-  const calculatePrice = (data: PricingFormValues) => {
-    let oneTimePrice = BASE_COST; // Flat fee of $750
+  const [isCalculating, setIsCalculating] = useState(false);
 
-    setCalculatedOnetime(oneTimePrice);
-    setCalculatedMonthly(MONTHLY_MAINTENANCE);
-  };
-
-  const onSubmit = (data: PricingFormValues) => {
-    calculatePrice(data);
-  };
+  const calculatePrice = useCallback((data: PricingFormValues) => {
+    setIsCalculating(true);
+    // Simulate calculation time
+    setTimeout(() => {
+      let oneTimePrice = BASE_COST; // Flat fee of $750
+      setCalculatedOnetime(oneTimePrice);
+      setCalculatedMonthly(MONTHLY_MAINTENANCE);
+      setIsCalculating(false);
+    }, 500);
+  }, []);
 
   // Recalculate price whenever form values change
   const formValues = form.watch();
-  useState(() => {
+  useEffect(() => {
     calculatePrice(formValues);
-  });
+  }, [calculatePrice, formValues]);
 
   return (
     <section id="pricing" className="py-20 bg-white scroll-mt-16">
@@ -351,13 +353,23 @@ export default function PricingCalculator() {
                       </p>
                     </div>
 
-                    <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                    <div className="bg-green-50 p-4 rounded-lg border border-green-200 relative">
+                      {isCalculating && (
+                        <div className="absolute inset-0 bg-white/50 flex items-center justify-center rounded-lg">
+                          <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                        </div>
+                      )}
                       <h3 className="text-lg font-semibold text-green-700 mb-2">
                         Your Estimated Savings
                       </h3>
-                      <div className="text-3xl font-bold text-green-600">
-                        ${(calculatedOnetime * 2.5 - (calculatedOnetime + (calculatedMonthly * 36))).toLocaleString()}
-                      </div>
+                      <motion.div 
+                        key={formValues.screens} 
+                        initial={{ scale: 0.95, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className="text-3xl font-bold text-green-600"
+                      >
+                        ${((SAAS_MONTHLY * formValues.screens * 36) - (calculatedOnetime + (calculatedMonthly * 36))).toLocaleString()}
+                      </motion.div>
                       <p className="text-sm text-green-600 mt-1">
                         Over 3 years compared to traditional SaaS
                       </p>
