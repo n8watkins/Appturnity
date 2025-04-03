@@ -345,21 +345,6 @@ export default function PricingCalculator() {
                       </p>
                     </div>
 
-                    <Button 
-                      onClick={calculateSavings} 
-                      className="w-full"
-                      disabled={isCalculating}
-                    >
-                      {isCalculating ? (
-                        <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                          Calculating...
-                        </div>
-                      ) : (
-                        "Calculate Savings Estimate"
-                      )}
-                    </Button>
-
                     {estimatedSavings > 0 && (
                       <>
                         <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
@@ -465,7 +450,7 @@ export default function PricingCalculator() {
                       </ul>
                     </div>
 
-                    </div>
+                  </div>
                   <div className="flex justify-center mt-8">
                     <Button variant="outline" asChild>
                       <a href="#contact">Request Detailed Quote</a>
