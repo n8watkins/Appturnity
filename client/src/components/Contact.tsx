@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
@@ -41,6 +41,24 @@ export default function Contact() {
     },
   });
 
+  // Effect to load saved data from sessionStorage
+  useEffect(() => {
+    // We need to make sure we're running in the browser environment
+    if (typeof window !== 'undefined') {
+      try {
+        // Get any previously stored contact message
+        const savedMessage = sessionStorage.getItem('contactMessage');
+        
+        if (savedMessage) {
+          form.setValue('message', savedMessage);
+        }
+      } catch (e) {
+        // Fail silently if sessionStorage is not available
+        console.error("Error accessing sessionStorage:", e);
+      }
+    }
+  }, [form]);
+
   async function onSubmit(data: ContactFormValues) {
     setIsSubmitting(true);
     try {
@@ -49,6 +67,11 @@ export default function Contact() {
         title: "Message sent!",
         description: "We'll get back to you within 1 business day.",
       });
+      // Clear session storage data after successful submission
+      if (typeof window !== 'undefined') {
+        sessionStorage.removeItem('contactMessage');
+        sessionStorage.removeItem('pricingFormData');
+      }
       form.reset();
     } catch (error) {
       toast({

@@ -490,8 +490,42 @@ export default function PricingCalculator() {
                 </div>
               </div>
               <div className="flex justify-center mt-8 border-t pt-8">
-                <Button variant="outline" size="lg" asChild>
-                  <a href="#contact">Request Detailed Quote</a>
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  onClick={() => {
+                    // Save form data to session storage
+                    const formData = {
+                      screens: formValues.screens,
+                      users: formValues.users,
+                      features: {
+                        authentication: formValues.authentication,
+                        payments: formValues.payments,
+                        analytics: formValues.analytics,
+                        notifications: formValues.notifications,
+                        roleBasedAccess: formValues.roleBasedAccess
+                      }
+                    };
+                    
+                    // Store as a string in sessionStorage
+                    sessionStorage.setItem('pricingFormData', JSON.stringify(formData));
+                    
+                    // Create message for contact form
+                    const featuresList = Object.entries(formData.features)
+                      .filter(([_, enabled]) => enabled)
+                      .map(([feature]) => feature)
+                      .join(', ');
+                    
+                    const message = `I'm interested in a custom app with ${formData.screens} screens for ${formData.users} users. ${featuresList ? `Features needed: ${featuresList}.` : ''}`;
+                    sessionStorage.setItem('contactMessage', message);
+                    
+                    // Scroll to contact form
+                    import('@/lib/utils').then(({ scrollToElement }) => {
+                      scrollToElement('contact');
+                    });
+                  }}
+                >
+                  Request Detailed Quote
                 </Button>
               </div>
             </CardContent>
