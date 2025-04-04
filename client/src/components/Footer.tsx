@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Phone, Mail, MapPin, Twitter, Linkedin, Github } from "lucide-react";
+import { Phone, Mail, Twitter, Linkedin, Github } from "lucide-react";
 
 export default function Footer() {
   return (
