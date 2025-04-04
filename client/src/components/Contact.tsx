@@ -231,6 +231,7 @@ export default function Contact() {
                       url="https://calendly.com/nathancwatkins23/web-consulting"
                       variant="outline"
                       className="w-full"
+                      openInNewTab={true}
                       prefill={{
                         name: form.getValues().name || '',
                         email: form.getValues().email || '',

@@ -110,14 +110,25 @@ export function CalendlyButton({
   children = "Schedule a meeting",
   prefill,
   utm,
+  openInNewTab = false,
   ...props
-}: CalendlyEmbedProps & { children?: React.ReactNode } & ButtonProps) {
+}: CalendlyEmbedProps & { 
+  children?: React.ReactNode,
+  openInNewTab?: boolean 
+} & ButtonProps) {
   
   useEffect(() => {
     loadCalendlyScript();
   }, []);
   
   const handleClick = async () => {
+    if (openInNewTab) {
+      // Open in a new tab directly
+      window.open(url, '_blank');
+      return;
+    }
+    
+    // Otherwise use the popup widget
     await loadCalendlyScript();
     
     if ((window as any).Calendly) {
