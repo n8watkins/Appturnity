@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
+import { Calendar, Mail } from 'lucide-react';
 
 import {
   Form,
@@ -157,9 +158,52 @@ export default function Contact() {
                     </Button>
                   </form>
                 </Form>
+                
+                <div className="mt-6 text-center">
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <span className="w-full border-t border-slate-200" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-white px-2 text-slate-500">or</span>
+                    </div>
+                  </div>
+                  
+                  <Button 
+                    variant="outline" 
+                    className="mt-6 w-full flex items-center justify-center gap-2 text-primary hover:text-primary-foreground"
+                    onClick={() => window.open('https://calendly.com/stupid-simple-apps', '_blank')}
+                  >
+                    <Calendar className="h-4 w-4" />
+                    Schedule directly via Calendly
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </motion.div>
+          
+          {/* Contact Info */}
+          <div className="mt-10 text-center">
+            <h3 className="text-xl font-medium mb-4">Have questions?</h3>
+            <div className="flex flex-col items-center gap-3">
+              <a 
+                href="mailto:hello@stupid-simple-apps.com" 
+                className="flex items-center gap-2 text-primary hover:underline"
+              >
+                <Mail className="h-4 w-4" />
+                hello@stupid-simple-apps.com
+              </a>
+              <a 
+                href="https://calendly.com/stupid-simple-apps" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-primary hover:underline"
+              >
+                <Calendar className="h-4 w-4" />
+                Schedule a call
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
