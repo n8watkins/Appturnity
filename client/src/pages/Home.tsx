@@ -5,7 +5,6 @@ import HowWeWork from "@/components/HowWeWork";
 import About from "@/components/About";
 import Testimonials from "@/components/Testimonials";
 import PricingCalculator from "@/components/PricingCalculator";
-import ScheduleConsultation from "@/components/ScheduleConsultation";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
@@ -20,7 +19,6 @@ export default function Home() {
         <About />
         <Testimonials />
         <PricingCalculator />
-        <ScheduleConsultation />
         <Contact />
       </div>
       <Footer />

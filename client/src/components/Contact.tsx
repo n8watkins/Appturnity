@@ -22,8 +22,7 @@ import { Card, CardContent } from '@/components/ui/card';
 
 const contactFormSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Invalid email address'),
-  company: z.string().optional(),
+  email: z.string().email('Please enter a valid email address'),
   message: z.string().min(10, 'Message must be at least 10 characters'),
 });
 
@@ -38,7 +37,6 @@ export default function Contact() {
     defaultValues: {
       name: '',
       email: '',
-      company: '',
       message: '',
     },
   });
@@ -66,29 +64,27 @@ export default function Contact() {
   return (
     <section id="contact" className="py-20 bg-white scroll-mt-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto">
-          <motion.div 
-            className="text-center mb-10"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">Seize Your App Opportunity</h2>
-            <p className="text-lg text-slate-600">Tell us about your business needs, and we'll get back to you within 1 business day with a custom solution.</p>
-          </motion.div>
-          
+        <div className="flex flex-col lg:flex-row gap-8 items-start max-w-6xl mx-auto">
           <motion.div
+            className="flex-1"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
+            <div className="mb-6">
+              <div className="inline-flex bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm font-medium mb-4">
+                Get Started
+              </div>
+              <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">Ready for a Simpler Solution?</h2>
+              <p className="text-slate-600 mb-6">Tell us about your needs and we'll schedule a free consultation to see if we're a good fit.</p>
+            </div>
+            
             <Card className="shadow-lg border border-slate-200">
               <CardContent className="p-6 md:p-8">
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    <div className="grid md:grid-cols-2 gap-6">
+                    <div>
                       <FormField
                         control={form.control}
                         name="name"
@@ -98,10 +94,13 @@ export default function Contact() {
                             <FormControl>
                               <Input placeholder="Your name" {...field} />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="text-red-500 text-sm" />
                           </FormItem>
                         )}
                       />
+                    </div>
+
+                    <div>
                       <FormField
                         control={form.control}
                         name="email"
@@ -109,52 +108,40 @@ export default function Contact() {
                           <FormItem>
                             <FormLabel>Email</FormLabel>
                             <FormControl>
-                              <Input placeholder="you@example.com" {...field} />
+                              <Input placeholder="you@company.com" {...field} />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="text-red-500 text-sm" />
                           </FormItem>
                         )}
                       />
                     </div>
 
-                    <FormField
-                      control={form.control}
-                      name="company"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Company</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Your company" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="message"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>What do you need help with?</FormLabel>
-                          <FormControl>
-                            <Textarea 
-                              placeholder="Tell us about your project..." 
-                              className="min-h-[120px]" 
-                              {...field} 
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <div>
+                      <FormField
+                        control={form.control}
+                        name="message"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Tell us about your app needs</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                placeholder="What problem are you trying to solve?" 
+                                className="min-h-[120px]" 
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormMessage className="text-red-500 text-sm" />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
 
                     <Button
                       type="submit"
-                      className="w-full h-12"
+                      className="w-full h-12 bg-blue-500 hover:bg-blue-600"
                       disabled={isSubmitting}
                     >
-                      {isSubmitting ? "Sending..." : "Submit Request"}
+                      {isSubmitting ? "Sending..." : "Schedule Free Consultation"}
                     </Button>
                   </form>
                 </Form>
@@ -182,28 +169,68 @@ export default function Contact() {
             </Card>
           </motion.div>
           
-          {/* Contact Info */}
-          <div className="mt-10 text-center">
-            <h3 className="text-xl font-medium mb-4">Have questions?</h3>
-            <div className="flex flex-col items-center gap-3">
-              <a 
-                href="mailto:hello@stupid-simple-apps.com" 
-                className="flex items-center gap-2 text-primary hover:underline"
-              >
-                <Mail className="h-4 w-4" />
-                hello@stupid-simple-apps.com
-              </a>
-              <a 
-                href="https://calendly.com/stupid-simple-apps" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-primary hover:underline"
-              >
-                <Calendar className="h-4 w-4" />
-                Schedule a call
-              </a>
+          {/* Why Choose Us Column */}
+          <motion.div
+            className="flex-1 bg-slate-900 text-white p-8 rounded-lg"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <h3 className="text-2xl font-bold mb-8">Why Clients Choose Us</h3>
+            
+            <div className="space-y-6">
+              <div className="flex items-start gap-3">
+                <div className="text-orange-400 mt-1">✓</div>
+                <div>
+                  <h4 className="font-semibold text-white">Custom apps designed around your specific workflow</h4>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <div className="text-orange-400 mt-1">✓</div>
+                <div>
+                  <h4 className="font-semibold text-white">Flat monthly fee with no per-user pricing</h4>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <div className="text-orange-400 mt-1">✓</div>
+                <div>
+                  <h4 className="font-semibold text-white">No bloated features you'll never use</h4>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <div className="text-orange-400 mt-1">✓</div>
+                <div>
+                  <h4 className="font-semibold text-white">Ongoing support and updates included</h4>
+                </div>
+              </div>
             </div>
-          </div>
+            
+            <div className="mt-16 pt-6 border-t border-slate-700">
+              <h4 className="text-xl font-medium mb-4">Have questions?</h4>
+              <div className="space-y-3">
+                <a 
+                  href="mailto:hello@stupid-simple-apps.com" 
+                  className="flex items-center gap-2 text-blue-300 hover:text-blue-200"
+                >
+                  <Mail className="h-4 w-4" />
+                  hello@stupid-simple-apps.com
+                </a>
+                <a 
+                  href="https://calendly.com/stupid-simple-apps" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-blue-300 hover:text-blue-200"
+                >
+                  <Calendar className="h-4 w-4" />
+                  Schedule a call
+                </a>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>
