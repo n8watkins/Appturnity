@@ -9,7 +9,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center space-x-2 mb-4">
               <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center">
-                <span className="text-white font-bold">AP</span>
+                <span className="text-white font-bold">A</span>
               </div>
               <span className="font-bold text-lg text-white">Appturnity</span>
             </div>
@@ -49,16 +49,13 @@ export default function Footer() {
             <ul className="space-y-2">
               <li className="flex items-center gap-2">
                 <Phone size={16} />
-                <span>(123) 456-7890</span>
+                <span>(818) 600-1142</span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={16} />
-                <span>hello@appturnity.com</span>
+                <span>nathancwatkins23@gmail.com</span>
               </li>
-              <li className="flex items-center gap-2">
-                <MapPin size={16} />
-                <span>123 App Street, San Francisco, CA 94107</span>
-              </li>
+
             </ul>
           </div>
         </div>

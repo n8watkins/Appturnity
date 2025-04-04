@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
-import { Calendar, Mail } from 'lucide-react';
+import { Calendar, Mail, Phone } from 'lucide-react';
 import { CalendlyButton } from '@/components/ui/calendly-embed';
 
 import {
@@ -292,11 +292,11 @@ export default function Contact() {
               <h4 className="text-xl font-medium mb-4">Have questions?</h4>
               <div className="space-y-3">
                 <a 
-                  href="mailto:hello@stupid-simple-apps.com" 
+                  href="mailto:nathancwatkins23@gmail.com" 
                   className="flex items-center gap-2 text-blue-300 hover:text-blue-200"
                 >
                   <Mail className="h-4 w-4" />
-                  hello@stupid-simple-apps.com
+                  nathancwatkins23@gmail.com
                 </a>
                 <button 
                   onClick={() => window.open('https://calendly.com/nathancwatkins23/web-consulting', '_blank')}
@@ -305,6 +305,13 @@ export default function Contact() {
                   <Calendar className="h-4 w-4" />
                   Schedule a call
                 </button>
+                <a 
+                  href="tel:+18186001142" 
+                  className="flex items-center gap-2 text-blue-300 hover:text-blue-200"
+                >
+                  <Phone className="h-4 w-4" />
+                  (818) 600-1142
+                </a>
               </div>
             </div>
           </motion.div>
