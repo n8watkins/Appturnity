@@ -3,8 +3,8 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 
 // Configuration
 const hostname = '0.0.0.0';
-const nextPort = 3000; // Next.js is running on port 3000
-const expressPort = 5000; // Express proxy runs on port 5000 (required by Replit)
+const nextPort = 3001; // Next.js is running on port 3001 (changed to avoid conflict)
+const expressPort = 5001; // Express proxy runs on port 5001 (changed to avoid conflict with main Express)
 
 // Create Express server for proxying
 const app = express();
@@ -31,8 +31,8 @@ const server = app.listen(expressPort, hostname, () => {
 }).on('error', (err) => {
   if (err.code === 'EADDRINUSE') {
     console.log(`> Port ${expressPort} is already in use.`);
-    console.log('> The Next.js server is still running on port 3000.');
-    console.log(`> You can access it through the existing proxy at http://${hostname}:${expressPort}`);
+    console.log(`> The Next.js server is still running on port ${nextPort}.`);
+    console.log(`> You may need to change the port in server-next.js to avoid conflicts.`);
   } else {
     console.error('Server error:', err);
   }
