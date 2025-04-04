@@ -29,7 +29,7 @@ const nextConfig = {
 
     return config;
   },
-  // Allow importing from client directory
+  // Allow importing from client and app directories
   modularizeImports: {
     '@/components': {
       transform: './client/src/components/{{member}}',
@@ -42,6 +42,12 @@ const nextConfig = {
     },
     '@/shared': {
       transform: './shared/{{member}}',
+    },
+    '@app/components': {
+      transform: './app/components/{{member}}',
+    },
+    '@app/lib': {
+      transform: './app/lib/{{member}}',
     },
   },
   // Specify path aliases

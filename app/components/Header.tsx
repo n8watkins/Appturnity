@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
-import { Button } from "./ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@app/components/ui/sheet";
+import { Button } from "@app/components/ui/button";
 import { Menu } from "lucide-react";
-import { handleSmoothScroll, scrollToElement } from "../lib/utils";
+import { handleSmoothScroll, scrollToElement } from "@app/lib/utils";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,50 +1,39 @@
-import { createServer } from 'http';
-import { parse } from 'url';
-import next from 'next';
 import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
-const dev = process.env.NODE_ENV !== 'production';
+// Configuration
 const hostname = '0.0.0.0';
-const port = 3000; // Using port 3000 for Next.js
-const expressPort = 5000; // Express will run on port 5000 as required by Replit
+const nextPort = 3000; // Next.js is running on port 3000
+const expressPort = 5000; // Express proxy runs on port 5000 (required by Replit)
 
-// Initialize Next.js
-const nextApp = next({ dev, hostname, port });
-const handle = nextApp.getRequestHandler();
+// Create Express server for proxying
+const app = express();
 
-nextApp.prepare().then(() => {
-  // Start the Next.js server
-  createServer(async (req, res) => {
-    try {
-      const parsedUrl = parse(req.url, true);
-      await handle(req, res, parsedUrl);
-    } catch (err) {
-      console.error('Error occurred handling Next.js request', req.url, err);
-      res.statusCode = 500;
-      res.end('Internal Server Error');
-    }
-  })
-  .once('error', (err) => {
-    console.error('Next.js server error:', err);
-    process.exit(1);
-  })
-  .listen(port, hostname, () => {
-    console.log(`> Next.js ready on http://${hostname}:${port}`);
-    
-    // Create an Express server that proxies to Next.js
-    const expressApp = express();
-    
-    // Proxy all requests to the Next.js server
-    expressApp.use('/', createProxyMiddleware({
-      target: `http://${hostname}:${port}`,
-      changeOrigin: true,
-      ws: true,
-    }));
-    
-    // Start Express server on Replit's required port
-    expressApp.listen(expressPort, hostname, () => {
-      console.log(`> Express proxy ready on http://${hostname}:${expressPort}`);
-    });
-  });
+// Configure proxy middleware
+const proxyOptions = {
+  target: `http://${hostname}:${nextPort}`,
+  changeOrigin: true,
+  ws: true, // Support WebSocket connections
+  logLevel: 'debug',
+  pathRewrite: { '^/': '/' }
+};
+
+// Create the proxy middleware instance
+const proxy = createProxyMiddleware(proxyOptions);
+
+// Use the proxy for all routes - this will forward everything to Next.js
+app.use('/', proxy);
+
+// Start Express server on Replit's required port with error handling
+const server = app.listen(expressPort, hostname, () => {
+  console.log(`> Express proxy ready on http://${hostname}:${expressPort}`);
+  console.log(`> Proxying to Next.js on http://${hostname}:${nextPort}`);
+}).on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.log(`> Port ${expressPort} is already in use.`);
+    console.log('> The Next.js server is still running on port 3000.');
+    console.log(`> You can access it through the existing proxy at http://${hostname}:${expressPort}`);
+  } else {
+    console.error('Server error:', err);
+  }
 });
