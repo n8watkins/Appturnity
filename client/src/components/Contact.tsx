@@ -297,15 +297,13 @@ export default function Contact() {
                   <Mail className="h-4 w-4" />
                   hello@stupid-simple-apps.com
                 </a>
-                <a 
-                  href="https://calendly.com/nathancwatkins23/web-consulting" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-blue-300 hover:text-blue-200"
+                <button 
+                  onClick={() => window.open('https://calendly.com/nathancwatkins23/web-consulting', '_blank')}
+                  className="flex items-center gap-2 text-blue-300 hover:text-blue-200 bg-transparent border-0 cursor-pointer p-0"
                 >
                   <Calendar className="h-4 w-4" />
                   Schedule a call
-                </a>
+                </button>
               </div>
             </div>
           </motion.div>
