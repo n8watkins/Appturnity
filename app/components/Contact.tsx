@@ -76,17 +76,17 @@ export default function Contact() {
   return (
     <section id="contact" className="py-20 bg-white scroll-mt-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Centered heading across the entire screen */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">Ready for a Simpler Solution?</h2>
+          <p className="text-slate-600 max-w-2xl mx-auto">Tell us about your needs and we'll schedule a free consultation to see if we're a good fit.</p>
+        </div>
+        
+        {/* Two columns side by side */}
         <div className="flex flex-col lg:flex-row gap-8 items-start max-w-6xl mx-auto">
+          {/* Contact Form Column */}
           <div className="flex-1">
-            <div className="mb-6">
-              <div className="inline-flex bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm font-medium mb-4">
-                Get Started
-              </div>
-              <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">Ready for a Simpler Solution?</h2>
-              <p className="text-slate-600 mb-6">Tell us about your needs and we'll schedule a free consultation to see if we're a good fit.</p>
-            </div>
-            
-            <Card className="shadow-lg border border-slate-200">
+            <Card className="shadow-lg border border-slate-200 h-full">
               <CardContent className="p-6 md:p-8">
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
