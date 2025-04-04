@@ -291,13 +291,6 @@ export default function Contact() {
             <div className="mt-16 pt-6 border-t border-slate-700">
               <h4 className="text-xl font-medium mb-4">Have questions?</h4>
               <div className="space-y-3">
-                <a 
-                  href="mailto:nathancwatkins23@gmail.com" 
-                  className="flex items-center gap-2 text-blue-300 hover:text-blue-200"
-                >
-                  <Mail className="h-4 w-4" />
-                  nathancwatkins23@gmail.com
-                </a>
                 <button 
                   onClick={() => window.open('https://calendly.com/nathancwatkins23/web-consulting', '_blank')}
                   className="flex items-center gap-2 text-blue-300 hover:text-blue-200 bg-transparent border-0 cursor-pointer p-0"
@@ -311,6 +304,13 @@ export default function Contact() {
                 >
                   <Phone className="h-4 w-4" />
                   (818) 600-1142
+                </a>
+                <a 
+                  href="mailto:nathancwatkins23@gmail.com" 
+                  className="flex items-center gap-2 text-blue-300 hover:text-blue-200"
+                >
+                  <Mail className="h-4 w-4" />
+                  nathancwatkins23@gmail.com
                 </a>
               </div>
             </div>

@@ -55,7 +55,6 @@ export default function Footer() {
                 <Mail size={16} />
                 <span>nathancwatkins23@gmail.com</span>
               </li>
-
             </ul>
           </div>
         </div>
