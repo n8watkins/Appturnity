@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
- 
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
@@ -12,19 +12,18 @@ export function cn(...inputs: ClassValue[]) {
  * @param offset - Optional offset from the top of the element (default: 80px to account for fixed header)
  */
 export function scrollToElement(elementId: string, offset: number = 80) {
-  if (typeof window === 'undefined') return; // Guard for server-side rendering
+  if (typeof window === 'undefined') return; // Server-side guard
   
   const element = document.getElementById(elementId);
+  if (!element) return;
   
-  if (element) {
-    const elementPosition = element.getBoundingClientRect().top;
-    const offsetPosition = elementPosition + window.pageYOffset - offset;
-    
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: "smooth"
-    });
-  }
+  const elementPosition = element.getBoundingClientRect().top;
+  const offsetPosition = elementPosition + window.pageYOffset - offset;
+  
+  window.scrollTo({
+    top: offsetPosition,
+    behavior: 'smooth'
+  });
 }
 
 /**
@@ -34,14 +33,11 @@ export function scrollToElement(elementId: string, offset: number = 80) {
  * @param callback - Optional callback to execute after click (e.g., closing a mobile menu)
  */
 export function handleSmoothScroll(
-  event: React.MouseEvent<HTMLAnchorElement>, 
-  targetId: string, 
+  event: React.MouseEvent<HTMLAnchorElement>,
+  targetId: string,
   callback?: () => void
 ) {
   event.preventDefault();
   scrollToElement(targetId);
-  
-  if (callback) {
-    callback();
-  }
+  if (callback) callback();
 }
