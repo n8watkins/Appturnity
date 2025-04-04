@@ -25,7 +25,6 @@ const pricingFormSchema = z.object({
   authentication: z.boolean().default(false),
   payments: z.boolean().default(false),
   analytics: z.boolean().default(false),
-  notifications: z.boolean().default(false),
   roleBasedAccess: z.boolean().default(false),
 });
 
@@ -46,7 +45,7 @@ const SAAS_MONTHLY = 100;
 const countEnabledFeatures = (values: any) => 
   Object.entries(values)
     .filter(([key, value]) => 
-      ['authentication', 'payments', 'analytics', 'notifications', 'roleBasedAccess'].includes(key) && value
+      ['authentication', 'payments', 'analytics', 'roleBasedAccess'].includes(key) && value
     ).length;
 
 export default function PricingCalculator() {
@@ -64,7 +63,6 @@ export default function PricingCalculator() {
       authentication: false,
       payments: false,
       analytics: false,
-      notifications: false,
       roleBasedAccess: false,
     },
   });
@@ -87,7 +85,6 @@ export default function PricingCalculator() {
       (formValues.authentication ? AUTH_COST / 36 : 0) +
       (formValues.payments ? PAYMENTS_COST / 36 : 0) +
       (formValues.analytics ? ANALYTICS_COST / 36 : 0) +
-      (formValues.notifications ? NOTIFICATIONS_COST / 36 : 0) +
       (formValues.roleBasedAccess ? ROLE_BASED_ACCESS_COST / 36 : 0);
 
     const totalMonthlySaasCost = baseMonthlyCost + pageMonthlyCost + advancedFeaturesCost;
@@ -280,26 +277,7 @@ export default function PricingCalculator() {
                             )}
                           />
 
-                          <FormField
-                            control={form.control}
-                            name="notifications"
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                                <div className="space-y-0.5">
-                                  <FormLabel>Push Notifications</FormLabel>
-                                  <FormDescription>
-                                    Email and in-app notification system
-                                  </FormDescription>
-                                </div>
-                                <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
-                                </FormControl>
-                              </FormItem>
-                            )}
-                          />
+
 
                           <FormField
                             control={form.control}
@@ -329,6 +307,49 @@ export default function PricingCalculator() {
 
                 <div className="flex flex-col justify-center">
                   <div className="space-y-6">
+                    {estimatedSavings > 0 && (
+                      <>
+                        <motion.div 
+                          initial={{ opacity: 0, y: -50 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, delay: 0.2 }}
+                          className="bg-green-50 p-4 rounded-lg border border-green-200"
+                        >
+                          <h3 className="text-lg font-semibold text-green-700 mb-2">
+                            Total Estimated Savings
+                          </h3>
+                          <motion.div
+                            key={formValues.screens}
+                            initial={{ scale: 0.95, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            className="text-3xl font-bold text-green-600"
+                          >
+                            ${Math.round(estimatedSavings).toLocaleString()}
+                          </motion.div>
+                          <p className="text-sm text-green-600 mt-1">
+                            Over 3 years compared to traditional SaaS
+                          </p>
+                        </motion.div>
+
+                        <motion.div 
+                          initial={{ opacity: 0, y: -50 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, delay: 0.4 }}
+                          className="bg-blue-50 p-4 rounded-lg border border-blue-200"
+                        >
+                          <h3 className="text-lg font-semibold text-blue-700 mb-2">
+                            Monthly Savings
+                          </h3>
+                          <div className="text-3xl font-bold text-blue-600">
+                            ${Math.round(traditionalSaasCost - calculatedMonthly).toLocaleString()}/month
+                          </div>
+                          <p className="text-sm text-blue-600 mt-1">
+                            Save ${Math.round((traditionalSaasCost - calculatedMonthly) * 12).toLocaleString()} per year
+                          </p>
+                        </motion.div>
+                      </>
+                    )}
+
                     <div>
                       <h3 className="text-lg font-semibold text-slate-700 mb-2">
                         Traditional SaaS Cost (3 Years)
@@ -350,58 +371,16 @@ export default function PricingCalculator() {
                       </p>
                     </div>
 
-                    {estimatedSavings > 0 && (
-                      <>
-                        <motion.div 
-                          initial={{ opacity: 0, y: -50 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.5, delay: 0.2 }}
-                          className="bg-blue-50 p-4 rounded-lg border border-blue-200"
-                        >
-                          <h3 className="text-lg font-semibold text-blue-700 mb-2">
-                            Monthly Savings
-                          </h3>
-                          <div className="text-3xl font-bold text-blue-600">
-                            ${Math.round(traditionalSaasCost - calculatedMonthly).toLocaleString()}/month
-                          </div>
-                          <p className="text-sm text-blue-600 mt-1">
-                            Save ${Math.round((traditionalSaasCost - calculatedMonthly) * 12).toLocaleString()} per year
-                          </p>
-                        </motion.div>
-
-                        <motion.div 
-                          initial={{ opacity: 0, y: -50 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.5, delay: 0.4 }}
-                          className="bg-green-50 p-4 rounded-lg border border-green-200"
-                        >
-                          <h3 className="text-lg font-semibold text-green-700 mb-2">
-                            Total Estimated Savings
-                          </h3>
-                          <motion.div
-                            key={formValues.screens}
-                            initial={{ scale: 0.95, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            className="text-3xl font-bold text-green-600"
-                          >
-                            ${Math.round(estimatedSavings).toLocaleString()}
-                          </motion.div>
-                          <p className="text-sm text-green-600 mt-1">
-                            Over 3 years compared to traditional SaaS
-                          </p>
-                        </motion.div>
-                      </>
-                    )}
-
                     <motion.div
                       layout
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.3 }}
+                      className="mt-4"
                     >
                       <Button 
                         onClick={calculateSavings} 
-                        className="w-full"
+                        className="w-full relative overflow-hidden group"
                         disabled={isCalculating}
                       >
                         {isCalculating ? (
@@ -409,12 +388,15 @@ export default function PricingCalculator() {
                             Calculating...
                           </div>
                         ) : (
-                          "Calculate Savings"
+                          <>
+                            <span className="relative z-10">Calculate Savings</span>
+                            <span className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></span>
+                          </>
                         )}
                       </Button>
                     </motion.div>
 
-                    <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                    <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 mt-4">
                       <h4 className="font-medium text-slate-800 mb-2">
                         What's included:
                       </h4>
@@ -502,7 +484,6 @@ export default function PricingCalculator() {
                         authentication: formValues.authentication,
                         payments: formValues.payments,
                         analytics: formValues.analytics,
-                        notifications: formValues.notifications,
                         roleBasedAccess: formValues.roleBasedAccess
                       }
                     };
@@ -515,7 +496,6 @@ export default function PricingCalculator() {
                       authentication: "User Authentication",
                       payments: "Payment Processing",
                       analytics: "Analytics Dashboard",
-                      notifications: "Push Notifications",
                       roleBasedAccess: "Role-based Access Control"
                     };
                     
