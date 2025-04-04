@@ -39,7 +39,7 @@ export default function CalendlyScheduler() {
             <CardContent className="p-0">
               {/* Directly embed Calendly scheduler */}
               <CalendlyEmbed
-                url="https://calendly.com/stupid-simple-apps/30min"
+                url="https://calendly.com/nathancwatkins23/web-consulting"
                 utm={{
                   utmSource: "website",
                   utmMedium: "scheduler_page"

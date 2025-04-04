@@ -228,7 +228,7 @@ export default function Contact() {
                   
                   <div className="mt-6">
                     <CalendlyButton
-                      url="https://calendly.com/stupid-simple-apps/30min"
+                      url="https://calendly.com/nathancwatkins23/web-consulting"
                       variant="outline"
                       className="w-full"
                       prefill={{
@@ -298,7 +298,7 @@ export default function Contact() {
                   hello@stupid-simple-apps.com
                 </a>
                 <a 
-                  href="https://calendly.com/stupid-simple-apps" 
+                  href="https://calendly.com/nathancwatkins23/web-consulting" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-blue-300 hover:text-blue-200"
