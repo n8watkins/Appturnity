@@ -1,16 +1,19 @@
-import { clsx, type ClassValue } from "clsx"
+import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
-
+ 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
 /**
  * Smooth scrolls to the HTML element with the provided ID
+ * Client-side utility for smooth scrolling
  * @param elementId - The ID of the element to scroll to (without the # prefix)
  * @param offset - Optional offset from the top of the element (default: 80px to account for fixed header)
  */
 export function scrollToElement(elementId: string, offset: number = 80) {
+  if (typeof window === 'undefined') return; // Guard for server-side rendering
+  
   const element = document.getElementById(elementId);
   
   if (element) {

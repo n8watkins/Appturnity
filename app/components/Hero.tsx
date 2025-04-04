@@ -1,7 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+'use client';
+
+import { Button } from "./ui/button";
 import { Sparkles, Check, ArrowRight } from "lucide-react";
-import { handleSmoothScroll } from "@/lib/utils";
+import { handleSmoothScroll } from "../lib/utils";
 
 export default function Hero() {
   return (
@@ -13,11 +14,7 @@ export default function Hero() {
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
+          <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary mb-6">
               <Sparkles className="h-4 w-4" />
               <span className="text-sm font-medium">Transform your business</span>
@@ -43,18 +40,15 @@ export default function Hero() {
                 "Focused functionality, no bloated features",
                 "Custom-built to solve your specific challenges"
               ].map((item, i) => (
-                <motion.div 
+                <div 
                   key={i}
                   className="flex items-start gap-2"
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.7 + (i * 0.1) }}
                 >
                   <div className="mt-1 bg-green-100 rounded-full p-0.5">
                     <Check className="h-4 w-4 text-green-600" />
                   </div>
                   <span className="text-slate-700">{item}</span>
-                </motion.div>
+                </div>
               ))}
             </div>
             
@@ -87,14 +81,9 @@ export default function Hero() {
                 </a>
               </Button>
             </div>
-          </motion.div>
+          </div>
           
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-2xl"
-          >
+          <div className="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
             {/* Main image */}
             <img 
               src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
@@ -109,12 +98,7 @@ export default function Hero() {
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="relative w-full max-w-sm">
                 {/* Desktop mockup */}
-                <motion.div 
-                  className="absolute -top-16 -right-5 w-72 h-48 bg-white rounded-lg shadow-2xl overflow-hidden border border-slate-200"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.6, duration: 0.5 }}
-                >
+                <div className="absolute -top-16 -right-5 w-72 h-48 bg-white rounded-lg shadow-2xl overflow-hidden border border-slate-200">
                   <div className="h-8 bg-slate-100 border-b flex items-center px-3 gap-1.5">
                     <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
                     <div className="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
@@ -125,15 +109,10 @@ export default function Hero() {
                     <div className="h-20 bg-slate-100 rounded mb-2"></div>
                     <div className="h-4 w-1/2 bg-slate-200 rounded"></div>
                   </div>
-                </motion.div>
+                </div>
                 
                 {/* Mobile mockup */}
-                <motion.div 
-                  className="absolute bottom-8 -left-5 w-36 h-64 bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.8, duration: 0.5 }}
-                >
+                <div className="absolute bottom-8 -left-5 w-36 h-64 bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
                   <div className="h-5 bg-slate-800 flex justify-center items-end pb-0.5">
                     <div className="w-20 h-1.5 bg-slate-600 rounded"></div>
                   </div>
@@ -146,24 +125,19 @@ export default function Hero() {
                       <div className="h-3 w-2/3 bg-slate-200 rounded"></div>
                     </div>
                   </div>
-                </motion.div>
+                </div>
                 
                 {/* Main card */}
-                <motion.div 
-                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 bg-white/95 backdrop-blur-sm p-6 rounded-lg shadow-2xl text-center rotate-2 hover:rotate-0 transition-transform duration-300"
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 1, duration: 0.5 }}
-                >
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 bg-white/95 backdrop-blur-sm p-6 rounded-lg shadow-2xl text-center rotate-2 hover:rotate-0 transition-transform duration-300">
                   <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Sparkles className="h-6 w-6 text-primary" />
                   </div>
                   <h3 className="font-bold text-2xl mb-2 text-primary">Apps that work for you</h3>
                   <p className="text-slate-700">Custom solutions that solve real business problems without unnecessary complexity</p>
-                </motion.div>
+                </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

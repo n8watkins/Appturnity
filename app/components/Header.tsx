@@ -1,9 +1,11 @@
+'use client';
+
 import { useState } from "react";
-import { Link } from "wouter";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { Button } from "./ui/button";
 import { Menu } from "lucide-react";
-import { handleSmoothScroll, scrollToElement } from "@/lib/utils";
+import { handleSmoothScroll, scrollToElement } from "../lib/utils";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
