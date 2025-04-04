@@ -1,5 +1,4 @@
 #!/bin/bash
 
-# Start Next.js server
-echo "Starting Next.js server..."
-NODE_OPTIONS="--experimental-modules" node server-next.js
+# Run the Next.js application in development mode
+npx next dev -p 3000

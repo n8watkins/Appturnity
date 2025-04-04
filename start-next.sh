@@ -1,4 +1,4 @@
 #!/bin/bash
 
-echo "Starting Next.js server..."
-NODE_OPTIONS="--experimental-modules" node server-next.js
+# Start the Next.js application in production mode
+npx next start -p 3000
