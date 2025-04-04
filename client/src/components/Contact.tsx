@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
 import { Calendar, Mail } from 'lucide-react';
+import { CalendlyPopupButton, CalendlyDialog } from '@/components/ui/calendly-embed';
 
 import {
   Form,
@@ -225,14 +226,41 @@ export default function Contact() {
                     </div>
                   </div>
                   
-                  <Button 
-                    variant="outline" 
-                    className="mt-6 w-full flex items-center justify-center gap-2 text-primary hover:text-primary-foreground"
-                    onClick={() => window.open('https://calendly.com/stupid-simple-apps', '_blank')}
-                  >
-                    <Calendar className="h-4 w-4" />
-                    Schedule directly via Calendly
-                  </Button>
+                  <div className="mt-6 grid gap-3">
+                    {/* Option 1: Popup Button */}
+                    <CalendlyPopupButton
+                      url="https://calendly.com/stupid-simple-apps/30min"
+                      variant="outline"
+                      className="w-full flex items-center justify-center gap-2 text-primary hover:text-primary-foreground"
+                      prefill={{
+                        name: form.getValues().name || '',
+                        email: form.getValues().email || '',
+                        customAnswers: {
+                          "a1": form.getValues().message || ''
+                        }
+                      }}
+                    >
+                      <Calendar className="h-4 w-4" />
+                      Schedule via Calendly Popup
+                    </CalendlyPopupButton>
+                    
+                    {/* Option 2: Modal Dialog */}
+                    <CalendlyDialog
+                      url="https://calendly.com/stupid-simple-apps/30min"
+                      buttonText="Schedule via Calendly Dialog"
+                      prefill={{
+                        name: form.getValues().name || '',
+                        email: form.getValues().email || '',
+                        customAnswers: {
+                          "a1": form.getValues().message || ''
+                        }
+                      }}
+                      buttonProps={{
+                        variant: "outline",
+                        className: "w-full"
+                      }}
+                    />
+                  </div>
                 </div>
               </CardContent>
             </Card>
