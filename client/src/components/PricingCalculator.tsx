@@ -510,13 +510,24 @@ export default function PricingCalculator() {
                     // Store as a string in sessionStorage
                     sessionStorage.setItem('pricingFormData', JSON.stringify(formData));
                     
-                    // Create message for contact form
+                    // Create message for contact form with better formatting of feature names
+                    const featureLabels = {
+                      authentication: "User Authentication",
+                      payments: "Payment Processing",
+                      analytics: "Analytics Dashboard",
+                      notifications: "Push Notifications",
+                      roleBasedAccess: "Role-based Access Control"
+                    };
+                    
                     const featuresList = Object.entries(formData.features)
                       .filter(([_, enabled]) => enabled)
-                      .map(([feature]) => feature)
+                      .map(([feature]) => featureLabels[feature as keyof typeof featureLabels] || feature)
                       .join(', ');
                     
-                    const message = `I'm interested in a custom app with ${formData.screens} screens for ${formData.users} users. ${featuresList ? `Features needed: ${featuresList}.` : ''}`;
+                    // Create a more detailed message
+                    const message = `I'm interested in a custom app with ${formData.screens} screens for ${formData.users} users.\n\n${featuresList ? `Advanced features I need:\n- ${featuresList.replace(/, /g, '\n- ')}\n\n` : ''}Please provide a quote based on these requirements.`;
+                    
+                    console.log("Setting contact message in sessionStorage:", message);
                     sessionStorage.setItem('contactMessage', message);
                     
                     // Scroll to contact form

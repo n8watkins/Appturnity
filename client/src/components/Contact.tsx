@@ -50,6 +50,7 @@ export default function Contact() {
         const savedMessage = sessionStorage.getItem('contactMessage');
         
         if (savedMessage) {
+          console.log("Loading saved message from session storage:", savedMessage);
           form.setValue('message', savedMessage);
         }
       } catch (e) {
@@ -57,6 +58,27 @@ export default function Contact() {
         console.error("Error accessing sessionStorage:", e);
       }
     }
+    
+    // Setup a focus event listener to reload data when coming back to this section
+    const handleFocus = () => {
+      if (typeof window !== 'undefined') {
+        const savedMessage = sessionStorage.getItem('contactMessage');
+        if (savedMessage) {
+          console.log("Focus event - loading message:", savedMessage);
+          form.setValue('message', savedMessage);
+        }
+      }
+    };
+    
+    // Add event listeners
+    window.addEventListener('focus', handleFocus);
+    document.addEventListener('scroll', handleFocus, { passive: true });
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      document.removeEventListener('scroll', handleFocus);
+    };
   }, [form]);
 
   async function onSubmit(data: ContactFormValues) {
@@ -84,8 +106,24 @@ export default function Contact() {
     }
   }
 
+  // Function to load message data from session storage - can be called directly
+  const loadSessionData = () => {
+    if (typeof window !== 'undefined') {
+      const savedMessage = sessionStorage.getItem('contactMessage');
+      if (savedMessage) {
+        console.log("Manual load of saved message:", savedMessage);
+        form.setValue('message', savedMessage);
+      }
+    }
+  };
+
   return (
-    <section id="contact" className="py-20 bg-white scroll-mt-16">
+    <section 
+      id="contact" 
+      className="py-20 bg-white scroll-mt-16" 
+      onFocus={loadSessionData}
+      onClick={loadSessionData}
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Centered heading across the entire screen */}
         <motion.div 
@@ -94,6 +132,7 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
+          onViewportEnter={loadSessionData}
         >
           <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">Ready for a Simpler Solution?</h2>
           <p className="text-slate-600 max-w-2xl mx-auto">Tell us about your needs and we'll schedule a free consultation to see if we're a good fit.</p>
@@ -156,6 +195,7 @@ export default function Contact() {
                               <Textarea 
                                 placeholder="What problem are you trying to solve?" 
                                 className="min-h-[120px]" 
+                                onFocus={loadSessionData}
                                 {...field} 
                               />
                             </FormControl>
