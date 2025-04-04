@@ -1,18 +1,14 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calendar } from 'lucide-react';
-import { CalendlyButton } from '@/components/ui/calendly-embed';
+import { CalendlyEmbed } from '@/components/ui/calendly-embed';
 
 export default function CalendlyScheduler() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-
   return (
     <section id="schedule" className="py-20 bg-slate-50 scroll-mt-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="max-w-3xl mx-auto text-center mb-16"
+          className="max-w-3xl mx-auto text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -31,48 +27,50 @@ export default function CalendlyScheduler() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="max-w-3xl mx-auto"
+          className="max-w-4xl mx-auto"
         >
           <Card className="shadow-lg border border-slate-200 overflow-hidden">
             <CardHeader className="bg-slate-50 border-b border-slate-100">
               <CardTitle className="flex items-center text-2xl">
                 <Calendar className="mr-2 h-5 w-5 text-primary" />
-                Book Your Free Consultation
+                Choose a Time for Your Free Consultation
               </CardTitle>
             </CardHeader>
-            <CardContent className="p-6 md:p-8 text-center">
-              <p className="text-slate-600 mb-8">
-                Click the button below to open our Calendly scheduling page and choose a time that works for you.
-              </p>
-              
-              <div className="max-w-sm mx-auto">
-                <CalendlyButton
-                  url="https://calendly.com/stupid-simple-apps/30min"
-                  className="w-full py-6 text-lg"
-                  prefill={{
-                    name: name,
-                    email: email
-                  }}
-                  utm={{
-                    utmSource: "website",
-                    utmMedium: "scheduling_page"
-                  }}
-                >
-                  Schedule Your Free Consultation
-                </CalendlyButton>
-              </div>
-              
-              <div className="mt-8 text-sm text-slate-500">
-                <p>By scheduling a consultation, you'll get:</p>
-                <ul className="mt-2 space-y-1 list-disc list-inside text-left max-w-md mx-auto">
-                  <li>A personalized assessment of your app needs</li>
-                  <li>Clear pricing information with no hidden fees</li>
-                  <li>Recommendations on the best approach for your project</li>
-                  <li>Answers to any questions about our process</li>
-                </ul>
-              </div>
+            <CardContent className="p-0">
+              {/* Directly embed Calendly scheduler */}
+              <CalendlyEmbed
+                url="https://calendly.com/stupid-simple-apps/30min"
+                utm={{
+                  utmSource: "website",
+                  utmMedium: "scheduler_page"
+                }}
+              />
             </CardContent>
           </Card>
+          
+          <div className="mt-8 bg-white p-6 rounded-lg shadow-md border border-slate-200">
+            <h3 className="text-lg font-semibold text-slate-900 mb-4">
+              What to Expect
+            </h3>
+            <ul className="space-y-3">
+              <li className="flex gap-3">
+                <div className="text-primary">✓</div>
+                <div>A personalized assessment of your app needs</div>
+              </li>
+              <li className="flex gap-3">
+                <div className="text-primary">✓</div>
+                <div>Clear pricing information with no hidden fees</div>
+              </li>
+              <li className="flex gap-3">
+                <div className="text-primary">✓</div>
+                <div>Recommendations on the best approach for your project</div>
+              </li>
+              <li className="flex gap-3">
+                <div className="text-primary">✓</div>
+                <div>Answers to any questions about our process</div>
+              </li>
+            </ul>
+          </div>
         </motion.div>
       </div>
     </section>

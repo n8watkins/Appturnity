@@ -239,7 +239,7 @@ export default function Contact() {
                         }
                       }}
                     >
-                      Schedule directly via Calendly
+                      Schedule a call with Calendly
                     </CalendlyButton>
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Button, ButtonProps } from '@/components/ui/button';
 import { Calendar } from 'lucide-react';
 
@@ -20,7 +20,91 @@ interface CalendlyEmbedProps {
   };
 }
 
-// Simple button that opens Calendly in a new window
+// Load the Calendly script once
+const loadCalendlyScript = (): Promise<void> => {
+  return new Promise((resolve) => {
+    if (typeof window !== 'undefined') {
+      // Check if Calendly is already loaded
+      if ((window as any).Calendly) {
+        resolve();
+        return;
+      }
+      
+      // Check if script is already being loaded
+      if (document.querySelector('script[src="https://assets.calendly.com/assets/external/widget.js"]')) {
+        // If script is loading, wait for it to complete
+        const checkCalendly = setInterval(() => {
+          if ((window as any).Calendly) {
+            clearInterval(checkCalendly);
+            resolve();
+          }
+        }, 100);
+        return;
+      }
+      
+      // Load the script if not already loaded or loading
+      const script = document.createElement('script');
+      script.src = 'https://assets.calendly.com/assets/external/widget.js';
+      script.onload = () => resolve();
+      script.async = true;
+      document.head.appendChild(script);
+    }
+  });
+};
+
+// Embedded Calendly widget component
+export function CalendlyEmbed({ 
+  url,
+  prefill,
+  utm,
+  className = ''
+}: CalendlyEmbedProps & { className?: string }) {
+  const calendlyRoot = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!calendlyRoot.current) return;
+    
+    let cleanup: () => void;
+    
+    const initCalendly = async () => {
+      await loadCalendlyScript();
+      
+      if (!calendlyRoot.current || !(window as any).Calendly) return;
+      
+      (window as any).Calendly.initInlineWidget({
+        url: url,
+        parentElement: calendlyRoot.current,
+        prefill: prefill,
+        utm: utm
+      });
+      
+      // Return cleanup function
+      cleanup = () => {
+        // Clean up any event listeners or references if needed
+        if (calendlyRoot.current) {
+          calendlyRoot.current.innerHTML = '';
+        }
+      };
+    };
+    
+    initCalendly();
+    
+    return () => {
+      if (cleanup) cleanup();
+    };
+  }, [url, prefill, utm]);
+  
+  return (
+    <div 
+      ref={calendlyRoot} 
+      className={`calendly-inline-widget ${className}`}
+      style={{ minHeight: '650px' }}
+      data-auto-load="false"
+    ></div>
+  );
+}
+
+// Button that opens Calendly in a popup
 export function CalendlyButton({ 
   url,
   children = "Schedule a meeting",
@@ -29,47 +113,20 @@ export function CalendlyButton({
   ...props
 }: CalendlyEmbedProps & { children?: React.ReactNode } & ButtonProps) {
   
-  // Effect to load the Calendly script once when component mounts
   useEffect(() => {
-    // Only add the script if it doesn't exist already
-    if (!document.querySelector('script[src="https://assets.calendly.com/assets/external/widget.js"]')) {
-      const script = document.createElement('script');
-      script.src = 'https://assets.calendly.com/assets/external/widget.js';
-      script.async = true;
-      document.body.appendChild(script);
-    }
+    loadCalendlyScript();
   }, []);
   
-  const handleClick = () => {
-    // Open Calendly in a new window directly
-    const baseUrl = url;
-    const params = new URLSearchParams();
+  const handleClick = async () => {
+    await loadCalendlyScript();
     
-    // Add prefill parameters
-    if (prefill) {
-      if (prefill.name) params.append('name', prefill.name);
-      if (prefill.email) params.append('email', prefill.email);
-      if (prefill.customAnswers) {
-        Object.entries(prefill.customAnswers).forEach(([key, value]) => {
-          params.append(`a1`, value);
-        });
-      }
+    if ((window as any).Calendly) {
+      (window as any).Calendly.initPopupWidget({
+        url: url,
+        prefill: prefill,
+        utm: utm
+      });
     }
-    
-    // Add UTM parameters
-    if (utm) {
-      if (utm.utmCampaign) params.append('utm_campaign', utm.utmCampaign);
-      if (utm.utmSource) params.append('utm_source', utm.utmSource);
-      if (utm.utmMedium) params.append('utm_medium', utm.utmMedium);
-      if (utm.utmContent) params.append('utm_content', utm.utmContent);
-      if (utm.utmTerm) params.append('utm_term', utm.utmTerm);
-    }
-    
-    // Build the final URL
-    const finalUrl = params.toString() ? `${baseUrl}?${params.toString()}` : baseUrl;
-    
-    // Open in a new window
-    window.open(finalUrl, '_blank');
   };
 
   return (
