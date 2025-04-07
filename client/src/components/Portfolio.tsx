@@ -25,7 +25,7 @@ const portfolioItems: PortfolioItem[] = [
     title: "Care Compass",
     description:
       "A custom-built website with modern design and functionality that helped increase conversion rates by 30%.",
-    image: "/portfolio-assets/carecompass.png",
+    image: "/src/public/portfolio-assets/carecompass.png",
     tags: ["Web Design", "Healthcare", "Responsive"],
     link: "https://care-compass.replit.app",
   },
@@ -34,7 +34,7 @@ const portfolioItems: PortfolioItem[] = [
     title: "Riverwood Ranch",
     description:
       "A streamlined web application that automated business processes, saving the client 20+ hours per week.",
-    image: "/portfolio-assets/riverwood.png",
+    image: "/src/public/portfolio-assets/riverwood.png",
     tags: ["Web App", "Business Solutions", "Automation"],
     link: "https://riverwood-ranch.replit.app/",
   },
