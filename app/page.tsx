@@ -3,6 +3,7 @@
 // Import the migrated components
 import Header from './components/Header';
 import Hero from './components/Hero';
+import Portfolio from './components/Portfolio';
 import Contact from './components/Contact';
 
 // Still using original components while migration is in progress
@@ -20,6 +21,7 @@ export default function HomePage() {
         <Hero />
         <HowWeWork />
         <About />
+        <Portfolio />
         <Testimonials />
         <PricingCalculator />
         <Contact />

@@ -55,6 +55,13 @@ export default function Header() {
               About
             </a>
             <a 
+              href="#portfolio" 
+              className="text-slate-600 hover:text-primary transition-colors"
+              onClick={(e) => handleSmoothScroll(e, "portfolio")}
+            >
+              Portfolio
+            </a>
+            <a 
               href="#testimonials" 
               className="text-slate-600 hover:text-primary transition-colors"
               onClick={(e) => handleSmoothScroll(e, "testimonials")}
@@ -99,6 +106,13 @@ export default function Header() {
                     onClick={navigateAndClose}
                   >
                     About
+                  </a>
+                  <a 
+                    href="#portfolio" 
+                    className="text-slate-700 hover:text-primary transition-colors" 
+                    onClick={navigateAndClose}
+                  >
+                    Portfolio
                   </a>
                   <a 
                     href="#testimonials" 
