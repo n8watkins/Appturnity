@@ -22,20 +22,19 @@ interface PortfolioItem {
 const portfolioItems: PortfolioItem[] = [
   {
     id: 1,
-    title: "Client Website 1",
+    title: "Care Compass",
     description:
       "A custom-built website with modern design and functionality that helped increase conversion rates by 30%.",
     image: "/portfolio-assets/carecompass.png",
-    tags: ["Web Design", "E-commerce", "Responsive"],
+    tags: ["Web Design", "Healthcare", "Responsive"],
     link: "https://care-compass.replit.app",
   },
   {
     id: 2,
-    title: "Client Website 2",
+    title: "Riverwood Ranch",
     description:
       "A streamlined web application that automated business processes, saving the client 20+ hours per week.",
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=1200",
+    image: "/portfolio-assets/riverwood.png",
     tags: ["Web App", "Business Solutions", "Automation"],
     link: "https://riverwood-ranch.replit.app/",
   },
