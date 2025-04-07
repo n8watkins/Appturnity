@@ -1,8 +1,15 @@
-'use client';
+"use client";
 
 import { ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "../components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "../components/ui/card";
 import { Button } from "../components/ui/button";
 
 interface PortfolioItem {
@@ -18,39 +25,46 @@ const portfolioItems: PortfolioItem[] = [
   {
     id: 1,
     title: "Client Website 1",
-    description: "A custom-built website with modern design and functionality that helped increase conversion rates by 30%.",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=1200",
+    description:
+      "A custom-built website with modern design and functionality that helped increase conversion rates by 30%.",
+    image: "../client/public/portfolio-assets/riverwood.png",
     tags: ["Web Design", "E-commerce", "Responsive"],
-    link: "https://example-client1.com"
+    link: "https://riverwood-ranch.replit.app/",
   },
   {
     id: 2,
     title: "Client Website 2",
-    description: "A streamlined web application that automated business processes, saving the client 20+ hours per week.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=1200",
+    description:
+      "A streamlined web application that automated business processes, saving the client 20+ hours per week.",
+    image:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=1200",
     tags: ["Web App", "Business Solutions", "Automation"],
-    link: "https://example-client2.com"
-  }
+    link: "https://care-compass.replit.app/",
+  },
 ];
 
 export default function Portfolio() {
   return (
     <section id="portfolio" className="py-20 bg-white scroll-mt-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div 
+        <motion.div
           className="max-w-3xl mx-auto text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">Our Work</h2>
-          <p className="text-lg text-slate-600">Check out some of the projects we've delivered for our clients.</p>
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">
+            Our Work
+          </h2>
+          <p className="text-lg text-slate-600">
+            Check out some of the projects we've delivered for our clients.
+          </p>
         </motion.div>
-        
+
         <div className="grid md:grid-cols-2 gap-8">
           {portfolioItems.map((item, index) => (
-            <motion.div 
+            <motion.div
               key={item.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -59,9 +73,9 @@ export default function Portfolio() {
             >
               <Card className="overflow-hidden h-full flex flex-col hover:shadow-md transition-shadow">
                 <div className="relative aspect-video overflow-hidden">
-                  <img 
-                    src={item.image} 
-                    alt={item.title} 
+                  <img
+                    src={item.image}
+                    alt={item.title}
                     className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                   />
                 </div>
@@ -70,8 +84,8 @@ export default function Portfolio() {
                   <CardDescription>
                     <div className="flex flex-wrap gap-2 mt-2">
                       {item.tags.map((tag) => (
-                        <span 
-                          key={tag} 
+                        <span
+                          key={tag}
                           className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary"
                         >
                           {tag}
@@ -85,7 +99,12 @@ export default function Portfolio() {
                 </CardContent>
                 <CardFooter className="mt-auto">
                   <Button asChild variant="outline" size="sm">
-                    <a href={item.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1">
+                    <a
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1"
+                    >
                       <span>Visit Site</span>
                       <ExternalLink size={16} />
                     </a>

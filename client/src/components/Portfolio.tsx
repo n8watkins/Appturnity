@@ -43,7 +43,7 @@ export default function Portfolio() {
           transition={{ duration: 0.5 }}
         >
           <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">Our Work</h2>
-          <p className="text-lg text-slate-600">Check out some of the projects we've delivered for our clients.</p>
+          <p className="text-lg text-slate-600">Check out the quality we deliver t our clients.</p>
         </motion.div>
         
         <div className="grid md:grid-cols-2 gap-8">
