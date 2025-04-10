@@ -56,15 +56,18 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = 5000;
+  // In Replit, we'll consistently use port 3000
+  // to avoid conflicts with Firebase and other services that might use port 5000
+  const port = 3000;
+  
+  // Simplify server startup since we're using a fixed port
   server.listen({
     port,
     host: "0.0.0.0",
     reusePort: true,
   }, () => {
     log(`serving on port ${port}`);
+  }).on('error', (err: any) => {
+    log(`Error starting server: ${err.message}`);
   });
 })();
