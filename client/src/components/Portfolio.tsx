@@ -22,12 +22,12 @@ interface PortfolioItem {
 const portfolioItems: PortfolioItem[] = [
   {
     id: 1,
-    title: "Care Compass",
+    title: "GuardCastAI",
     description:
-      "A custom-built website with modern design and functionality that helped increase conversion rates by 30%.",
-    image: "/src/public/portfolio-assets/carecompass.png",
-    tags: ["Web Design", "Healthcare", "Responsive"],
-    link: "https://care-compass.replit.app",
+      "An AI-powered security automation service designed to monitor, detect, and respond to threats in real time. Built with modern UI and seamless backend integrations.",
+    image: "/src/public/portfolio-assets/guardcastai.png",
+    tags: ["AI", "Automation", "Security", "Real-Time"],
+    link: "https://guardcast-a4457.web.app/",
   },
   {
     id: 2,

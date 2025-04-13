@@ -4,7 +4,6 @@
     "client/src/**/*",
     "server/**/*",
     "shared/**/*",
-    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",

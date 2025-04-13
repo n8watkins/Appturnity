@@ -6,6 +6,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Log API request durations
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
@@ -36,38 +37,32 @@ app.use((req, res, next) => {
   next();
 });
 
+// Main server setup
 (async () => {
   const server = await registerRoutes(app);
 
+  // Error handling middleware
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
-
     res.status(status).json({ message });
     throw err;
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
+  // Setting up Vite only in development mode
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
     serveStatic(app);
   }
 
-  // In Replit, we'll consistently use port 3000
-  // to avoid conflicts with Firebase and other services that might use port 5000
   const port = 3000;
   
-  // Simplify server startup since we're using a fixed port
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
-    log(`serving on port ${port}`);
+  // Start the server on 127.0.0.1 (IPv4 address)
+  server.listen(3000, "localhost", () => {
+    log(`Server is running on http://localhost:3000`);
   }).on('error', (err: any) => {
     log(`Error starting server: ${err.message}`);
   });
+  
 })();
