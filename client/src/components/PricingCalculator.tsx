@@ -19,6 +19,20 @@ import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+
+import {
+  BASE_COST,
+  PAGE_COST,
+  FEATURE_COST,
+  AUTH_COST,
+  PAYMENTS_COST,
+  ANALYTICS_COST,
+  NOTIFICATIONS_COST,
+  ROLE_BASED_ACCESS_COST,
+  MONTHLY_MAINTENANCE,
+  SAAS_MONTHLY
+} from '../../../data/constants.ts';
+
 const pricingFormSchema = z.object({
   screens: z.number().min(1).max(10),
   users: z.number().min(1).max(100),
@@ -29,17 +43,6 @@ const pricingFormSchema = z.object({
 });
 
 type PricingFormValues = z.infer<typeof pricingFormSchema>;
-
-const BASE_COST = 750;
-const PAGE_COST = 100;
-const FEATURE_COST = 200;
-const AUTH_COST = 1500;
-const PAYMENTS_COST = 3000;
-const ANALYTICS_COST = 5000;
-const NOTIFICATIONS_COST = 2500;
-const ROLE_BASED_ACCESS_COST = 1500;
-const MONTHLY_MAINTENANCE = 50;
-const SAAS_MONTHLY = 100;
 
 // Count number of enabled features for one-time fee calculation
 const countEnabledFeatures = (values: any) => 
@@ -367,7 +370,7 @@ export default function PricingCalculator() {
                         ${(calculatedOnetime + (calculatedMonthly * 36)).toLocaleString()}
                       </div>
                       <p className="text-sm text-slate-500 mt-1">
-                        ${calculatedOnetime.toLocaleString()} one-time fee + $50/month maintenance
+                        ${calculatedOnetime.toLocaleString()} one-time fee + ${MONTHLY_MAINTENANCE}/month maintenance
                       </p>
                     </div>
 

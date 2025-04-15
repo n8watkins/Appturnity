@@ -1,0 +1,10 @@
+export const BASE_COST = 1500;
+export const PAGE_COST = 100;
+export const FEATURE_COST = 200;
+export const AUTH_COST = 1500;
+export const PAYMENTS_COST = 3000;
+export const ANALYTICS_COST = 5000;
+export const NOTIFICATIONS_COST = 2500;
+export const ROLE_BASED_ACCESS_COST = 1500;
+export const MONTHLY_MAINTENANCE = 0;
+export const SAAS_MONTHLY = 100;

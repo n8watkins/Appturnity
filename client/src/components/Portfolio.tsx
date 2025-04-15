@@ -25,7 +25,7 @@ const portfolioItems: PortfolioItem[] = [
     title: "GuardCastAI",
     description:
       "An AI-powered security automation service designed to monitor, detect, and respond to threats in real time. Built with modern UI and seamless backend integrations.",
-    image: "/src/public/portfolio-assets/guardcastai.png",
+    image: "/src/public/portfolio-assets/guardcast.png",
     tags: ["AI", "Automation", "Security", "Real-Time"],
     link: "https://guardcast-a4457.web.app/",
   },
@@ -36,7 +36,7 @@ const portfolioItems: PortfolioItem[] = [
       "A streamlined web application that automated business processes, saving the client 20+ hours per week.",
     image: "/src/public/portfolio-assets/riverwood.png",
     tags: ["Web App", "Business Solutions", "Automation"],
-    link: "https://riverwood-ranch.replit.app/",
+    link: "https://riverwood-c3409.web.app/",
   },
 ];
 
