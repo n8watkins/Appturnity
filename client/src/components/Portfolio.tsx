@@ -25,16 +25,16 @@ const portfolioItems: PortfolioItem[] = [
     title: "GuardCastAI",
     description:
       "An AI-powered security automation service designed to monitor, detect, and respond to threats in real time. Built with modern UI and seamless backend integrations.",
-    image: "/src/public/portfolio-assets/guardcast.png",
+    image: "/public/guardcast.png",
     tags: ["AI", "Automation", "Security", "Real-Time"],
     link: "https://guardcast-a4457.web.app/",
   },
   {
     id: 2,
-    title: "Riverwood Ranch",
+    title: "Community Homepage",
     description:
       "A streamlined web application that automated business processes, saving the client 20+ hours per week.",
-    image: "/src/public/portfolio-assets/riverwood.png",
+    image: "/public/riverwood.png",
     tags: ["Web App", "Business Solutions", "Automation"],
     link: "https://riverwood-c3409.web.app/",
   },
@@ -55,7 +55,7 @@ export default function Portfolio() {
             Our Work
           </h2>
           <p className="text-lg text-slate-600">
-            Check out the quality we deliver t our clients.
+            Check out the quality we deliver to our clients.
           </p>
         </motion.div>
 
