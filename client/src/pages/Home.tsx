@@ -7,6 +7,7 @@ import Testimonials from "@/components/Testimonials";
 import PricingCalculator from "@/components/PricingCalculator";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import TextUsWidget from "@/components/TextUsWidget";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
         <Testimonials />
         <PricingCalculator />
         <Contact />
+        <TextUsWidget/>
       </div>
       <Footer />
     </div>
