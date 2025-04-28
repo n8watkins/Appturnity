@@ -31,6 +31,7 @@ export default function Header() {
       <Helmet>
         <title>Appturnity - Web Consulting</title>
         <meta name="description" content="Custom landing pages built to drive trust and growth." />
+    <meta name="google-site-verification" content="tY1kZLONMnmFfumFbh0EHixuCoGOFCmvNJW8qVYIRHA" />
         <link rel="icon" href="/a-icon.png" />
       </Helmet>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
