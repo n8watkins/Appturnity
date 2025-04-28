@@ -20,43 +20,46 @@ export default function Hero() {
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary mb-6">
               <Sparkles className="h-4 w-4" />
-              <span className="text-sm font-medium">Transform your business</span>
+              <span className="text-sm font-medium">Modern designs, real results</span>
             </div>
             
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 mb-6 leading-tight">
-              Your <span className="text-primary relative">
-                opportunity
+            Professional <br className="hidden md:block" /> <span className="text-primary relative">
+            landing pages
                 <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M1 5.5C54.5 2.5 150.5 1.5 299 11.5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="text-primary/30"/>
                 </svg>
               </span> <br className="hidden md:block" />
-              for better apps
+              for  growing <span className="lg:block">businesses 🚀</span> 
             </h1>
             
             <p className="text-lg md:text-xl text-slate-600 mb-8 max-w-xl">
-              Custom apps for businesses seeking simplicity and efficiency. No feature overload, no per-seat pricing — just powerful solutions with predictable pricing.
+            Delivering modern designs that drive leads and build trust.
             </p>
             
             <div className="space-y-4 mb-8">
-              {[
-                "Flat monthly fee with no per-user charges",
-                "Focused functionality, no bloated features",
-                "Custom-built to solve your specific challenges"
-              ].map((item, i) => (
-                <motion.div 
-                  key={i}
-                  className="flex items-start gap-2"
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.7 + (i * 0.1) }}
-                >
-                  <div className="mt-1 bg-green-100 rounded-full p-0.5">
-                    <Check className="h-4 w-4 text-green-600" />
-                  </div>
-                  <span className="text-slate-700">{item}</span>
-                </motion.div>
-              ))}
-            </div>
+  {[
+    { title: "Upfront Pricing", description: "No monthly traps or surprise costs" },
+    { title: "Lead-Driven Design", description: "Built to drive calls and inquiries" },
+    { title: "Tailored to You", description: "Landing pages crafted for your brand and goals" },
+  ].map((item, i) => (
+    <motion.div 
+      key={i}
+      className="flex items-start gap-2"
+      initial={{ opacity: 0, x: -10 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.3, delay: 0.7 + (i * 0.1) }}
+    >
+      <div className="mt-1 bg-green-100 rounded-full p-0.5">
+        <Check className="h-4 w-4 text-green-600" />
+      </div>
+      <span className="text-slate-700">
+        <span className="font-semibold">{item.title}:</span> {item.description}
+      </span>
+    </motion.div>
+  ))}
+</div>
+
             
             <div className="flex flex-col sm:flex-row gap-4">
               <Button 
@@ -150,7 +153,7 @@ export default function Hero() {
                 
                 {/* Main card */}
                 <motion.div 
-                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 bg-white/95 backdrop-blur-sm p-6 rounded-lg shadow-2xl text-center rotate-2 hover:rotate-0 transition-transform duration-300"
+                className="absolute top-1/2 -left-[5%] md:left-[15%]  transform -translate-x-1/2 -translate-y-1/2 w-80 bg-white/95 backdrop-blur-sm p-6 rounded-lg shadow-2xl text-center rotate-2 hover:rotate-0 transition-transform duration-300"
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 1, duration: 0.5 }}
@@ -158,8 +161,8 @@ export default function Hero() {
                   <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Sparkles className="h-6 w-6 text-primary" />
                   </div>
-                  <h3 className="font-bold text-2xl mb-2 text-primary">Apps that work for you</h3>
-                  <p className="text-slate-700">Custom solutions that solve real business problems without unnecessary complexity</p>
+                  <h3 className="font-bold text-2xl mb-2 text-primary">First impressions count</h3>
+                  <p className="text-slate-700">We'll showcase your hard work the right way.</p>
                 </motion.div>
               </div>
             </div>

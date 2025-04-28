@@ -4,6 +4,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { handleSmoothScroll, scrollToElement } from "@/lib/utils";
+import { Helmet } from "react-helmet";
+
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,14 +28,16 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-sm">
+      <Helmet>
+        <title>Appturnity - Web Consulting</title>
+        <meta name="description" content="Custom landing pages built to drive trust and growth." />
+        <link rel="icon" href="/a-icon.png" />
+      </Helmet>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center">
-                <span className="text-white font-bold">A</span>
-              </div>
-              <span className="font-bold text-lg text-slate-900">Appturnity</span>
+              <img src="/appturnity.png" alt="Appturnity" width={200} height={200} />
             </Link>
           </div>
           

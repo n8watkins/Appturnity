@@ -25,7 +25,7 @@ const portfolioItems: PortfolioItem[] = [
     title: "GuardCastAI",
     description:
       "An AI-powered security automation service designed to monitor, detect, and respond to threats in real time. Built with modern UI and seamless backend integrations.",
-    image: "/public/guardcast.png",
+    image: "/guardcast.png",
     tags: ["AI", "Automation", "Security", "Real-Time"],
     link: "https://guardcast-a4457.web.app/",
   },
@@ -34,7 +34,7 @@ const portfolioItems: PortfolioItem[] = [
     title: "Community Homepage",
     description:
       "A streamlined web application that automated business processes, saving the client 20+ hours per week.",
-    image: "/public/riverwood.png",
+    image: "/riverwood.png",
     tags: ["Web App", "Business Solutions", "Automation"],
     link: "https://riverwood-c3409.web.app/",
   },
@@ -78,8 +78,7 @@ export default function Portfolio() {
                 </div>
                 <CardHeader>
                   <CardTitle>{item.title}</CardTitle>
-                  <CardDescription>
-                    <div className="flex flex-wrap gap-2 mt-2">
+                  <CardDescription className="flex flex-wrap gap-2 mt-2">
                       {item.tags.map((tag) => (
                         <span
                           key={tag}
@@ -88,7 +87,6 @@ export default function Portfolio() {
                           {tag}
                         </span>
                       ))}
-                    </div>
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
