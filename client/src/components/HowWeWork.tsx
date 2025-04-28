@@ -1,21 +1,26 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { MessageSquare, MonitorSmartphone, RefreshCcw } from "lucide-react"; // Icons
+import { handleSmoothScroll } from "@/lib/utils"; // 👈 Add this import
 
 const steps = [
   {
     id: 1,
-    title: "Consultation",
-    description: "We meet to understand exactly what you need. No jargon, no technical barriers - just a conversation about your goals."
+    title: "Consultation & Discovery",
+    description: "We start with a simple conversation — no jargon, no technical barriers. Just a clear understanding of your goals and how we can showcase your hard work the right way.",
+    Icon: MessageSquare
   },
   {
     id: 2,
-    title: "Design & Build",
-    description: "We create your custom app with only the features you need - nothing more, nothing less. Simple, intuitive, and focused."
+    title: "Modern Design & Development",
+    description: "We craft a landing page tailored to your business — clean, fast, and focused on building trust and driving growth.",
+    Icon: MonitorSmartphone
   },
   {
     id: 3,
-    title: "Maintenance & Support",
-    description: "Pay one flat monthly fee for updates, support, and hosting. No per-seat pricing, no hidden costs - just predictable billing."
+    title: "Ongoing Support & Updates",
+    description: "Stay confident with predictable updates, support, and hosting — no per-seat fees, no hidden costs, just reliable care.",
+    Icon: RefreshCcw
   }
 ];
 
@@ -31,7 +36,7 @@ export default function HowWeWork() {
           transition={{ duration: 0.5 }}
         >
           <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">How We Work</h2>
-          <p className="text-lg text-slate-600">Our streamlined process turns your business needs into powerful, custom solutions.</p>
+          <p className="text-lg text-slate-600">Our streamlined process turns your business needs into powerful, custom landing page solutions.</p>
         </motion.div>
         
         <div className="grid md:grid-cols-3 gap-8">
@@ -45,7 +50,7 @@ export default function HowWeWork() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                <span className="text-primary font-bold text-xl">{step.id}</span>
+                <step.Icon className="h-6 w-6 text-primary" />
               </div>
               <h3 className="text-xl font-semibold text-slate-900 mb-3">{step.title}</h3>
               <p className="text-slate-600 mb-4">{step.description}</p>
@@ -66,7 +71,12 @@ export default function HowWeWork() {
             className="font-medium"
             asChild
           >
-            <a href="#contact">Start Your Project</a>
+            <a 
+              href="#contact" 
+              onClick={(e) => handleSmoothScroll(e, "contact")} // 👈 Smooth scroll added here
+            >
+              Start Your Project
+            </a>
           </Button>
         </motion.div>
       </div>
