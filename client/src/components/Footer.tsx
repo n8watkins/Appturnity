@@ -13,7 +13,10 @@ export default function Footer() {
               </div>
               <span className="font-bold text-lg text-white">Appturnity</span>
             </div>
-            <p className="mb-4">Custom apps without the complexity. Simple solutions at predictable prices.</p>
+            <p className="mb-4">
+              Custom apps without the complexity.<br />
+              Simple solutions. Predictable prices.
+            </p>
             <div className="flex space-x-4">
               <a href="#" className="text-slate-400 hover:text-white transition-colors">
                 <span className="sr-only">X (Twitter)</span>
