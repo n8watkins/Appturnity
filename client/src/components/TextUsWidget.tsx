@@ -1,10 +1,7 @@
-"use client"
-
 import { useState, useEffect, useRef } from "react"
 import { MessageSquare, X, Send, Calendar, PhoneCall } from "lucide-react"
 import Lottie from "lottie-react"
 import { z } from "zod"
-import { ShineBorder } from "@/components/magicui/shine-border"
 
 type Msg = {
   sender: "user" | "bot"

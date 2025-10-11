@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
 import { Calendar, Mail, Phone } from 'lucide-react';
@@ -32,6 +33,7 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -83,13 +85,31 @@ export default function Contact() {
   }, [form]);
 
   async function onSubmit(data: ContactFormValues) {
+    if (!executeRecaptcha) {
+      toast({
+        title: "reCAPTCHA not ready",
+        description: "Please wait a moment and try again.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     try {
-      await apiRequest('POST', '/api/contact', data);
+      // Execute reCAPTCHA to get token
+      const recaptchaToken = await executeRecaptcha('contact_form');
+
+      // Send form data with reCAPTCHA token
+      await apiRequest('POST', '/api/contact', {
+        ...data,
+        recaptchaToken,
+      });
+
       toast({
         title: "Message sent!",
         description: "We'll get back to you within 1 business day.",
       });
+
       // Clear session storage data after successful submission
       if (typeof window !== 'undefined') {
         sessionStorage.removeItem('contactMessage');

@@ -1,6 +1,5 @@
 {
   "include": [
-    "app/**/*",
     "client/src/**/*",
     "server/**/*"
   ],
@@ -30,17 +29,9 @@
     "types": [
       "node"
     ],
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
     "paths": {
       "@/*": [
         "./client/src/*"
-      ],
-      "@app/*": [
-        "./app/*"
       ]
     },
     "target": "ES2017",

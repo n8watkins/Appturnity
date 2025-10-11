@@ -8,7 +8,38 @@ const contactFormSchema = z.object({
   email: z.string().email(),
   company: z.string().optional(),
   message: z.string().min(10),
+  recaptchaToken: z.string().min(1),
 });
+
+// Function to verify reCAPTCHA token with Google
+async function verifyRecaptcha(token: string): Promise<boolean> {
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+
+  if (!secretKey) {
+    console.warn("RECAPTCHA_SECRET_KEY not configured, skipping verification");
+    return true; // Allow in development if not configured
+  }
+
+  try {
+    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `secret=${secretKey}&response=${token}`,
+    });
+
+    const data = await response.json();
+
+    // Check if verification was successful and score is above threshold
+    // reCAPTCHA v3 returns a score from 0.0 to 1.0
+    // 0.5 is a reasonable threshold (higher = more likely human)
+    return data.success && data.score >= 0.5;
+  } catch (error) {
+    console.error("reCAPTCHA verification error:", error);
+    return false;
+  }
+}
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Contact form submission endpoint
@@ -17,8 +48,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Validate the request body
       const validatedData = contactFormSchema.parse(req.body);
 
+      // Verify reCAPTCHA token
+      const isHuman = await verifyRecaptcha(validatedData.recaptchaToken);
+
+      if (!isHuman) {
+        return res.status(400).json({
+          success: false,
+          message: "reCAPTCHA verification failed. Please try again."
+        });
+      }
+
+      // Remove recaptchaToken before sending email
+      const { recaptchaToken, ...emailData } = validatedData;
+
       // Send email notification
-      await sendContactEmail(validatedData);
+      await sendContactEmail(emailData);
 
       console.log("Contact form submission sent via email:", validatedData.email);
 
