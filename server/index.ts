@@ -143,13 +143,30 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  const port = 3000;
-  
-  // Start the server on 127.0.0.1 (IPv4 address)
-  server.listen(3000, "localhost", () => {
-    log(`Server is running on http://localhost:3000`);
-  }).on('error', (err: any) => {
-    log(`Error starting server: ${err.message}`);
-  });
+  // Try to start server on available port
+  const preferredPort = 3000;
+  const maxPort = 3010; // Try up to port 3010
+
+  function tryListen(port: number) {
+    server.listen(port, "localhost", () => {
+      log(`Server is running on http://localhost:${port}`);
+    }).on('error', (err: any) => {
+      if (err.code === 'EADDRINUSE') {
+        if (port < maxPort) {
+          console.warn(`⚠️  Port ${port} is in use, trying ${port + 1}...`);
+          tryListen(port + 1);
+        } else {
+          console.error(`❌ Could not find an available port between ${preferredPort} and ${maxPort}`);
+          console.error(`   Please close other applications or specify a different port.`);
+          process.exit(1);
+        }
+      } else {
+        console.error(`❌ Error starting server: ${err.message}`);
+        process.exit(1);
+      }
+    });
+  }
+
+  tryListen(preferredPort);
   
 })();
