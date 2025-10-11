@@ -173,7 +173,13 @@ export default function ChatWidget() {
           description: data.message || "Your message couldn't be sent. Please try again.",
           variant: "destructive",
         })
+        // Reset animation state on error so user can retry
+        setIsAnimating(false)
+        return
       }
+
+      // Only set message sent if successful
+      setMessageSent(true)
     } catch (error) {
       console.error('Error sending message:', error)
       toast({
@@ -181,9 +187,9 @@ export default function ChatWidget() {
         description: "Your message couldn't be sent. Please try again.",
         variant: "destructive",
       })
+      // Reset animation state on error so user can retry
+      setIsAnimating(false)
     }
-
-    setMessageSent(true)
   }
 
   // — when Lottie finishes, append messages —
