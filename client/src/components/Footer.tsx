@@ -1,4 +1,5 @@
-import { Phone, Mail } from "lucide-react";
+import { Phone, Mail, Calendar } from "lucide-react";
+import { handleSmoothScroll } from "@/lib/utils";
 
 export default function Footer() {
   return (
@@ -26,18 +27,77 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li><a href="#how-we-work" className="hover:text-white transition-colors">How We Work</a></li>
-              <li><a href="#about" className="hover:text-white transition-colors">About</a></li>
-              <li><a href="#portfolio" className="hover:text-white transition-colors">Portfolio</a></li>
-              <li><a href="#testimonials" className="hover:text-white transition-colors">Testimonials</a></li>
-              <li><a href="#pricing" className="hover:text-white transition-colors">Pricing Calculator</a></li>
-              <li><a href="#contact" className="hover:text-white transition-colors">Contact & Quiz</a></li>
+              <li>
+                <a
+                  href="#how-we-work"
+                  onClick={(e) => handleSmoothScroll(e, "how-we-work")}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
+                  How We Work
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#about"
+                  onClick={(e) => handleSmoothScroll(e, "about")}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
+                  About
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#portfolio"
+                  onClick={(e) => handleSmoothScroll(e, "portfolio")}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
+                  Portfolio
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#testimonials"
+                  onClick={(e) => handleSmoothScroll(e, "testimonials")}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
+                  Testimonials
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#pricing"
+                  onClick={(e) => handleSmoothScroll(e, "pricing")}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
+                  Pricing Calculator
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#contact"
+                  onClick={(e) => handleSmoothScroll(e, "contact")}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
+                  Contact & Quiz
+                </a>
+              </li>
             </ul>
           </div>
 
           <div>
             <h3 className="text-white font-semibold mb-4">Contact Us</h3>
             <ul className="space-y-2">
+              <li>
+                <a
+                  href="https://calendly.com/nathancwatkins23/web-consulting?month=2025-04"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 hover:text-white transition-colors"
+                >
+                  <Calendar size={16} />
+                  <span>Schedule a Call</span>
+                </a>
+              </li>
               <li>
                 <a href="tel:+18182888082" className="flex items-center gap-2 hover:text-white transition-colors">
                   <Phone size={16} />
