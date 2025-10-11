@@ -1,14 +1,29 @@
+import { lazy, Suspense } from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import HowWeWork from "@/components/HowWeWork";
 import About from "@/components/About";
-import Portfolio from "@/components/Portfolio";
-import Testimonials from "@/components/Testimonials";
-import PricingCalculator from "@/components/PricingCalculator";
-import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
-import ChatWidget from "@/components/ChatWidget";
 import QuizCTA from "@/components/QuizCTA";
+
+// Lazy load heavy components that are below the fold
+const Portfolio = lazy(() => import("@/components/Portfolio"));
+const Testimonials = lazy(() => import("@/components/Testimonials"));
+const PricingCalculator = lazy(() => import("@/components/PricingCalculator"));
+const Contact = lazy(() => import("@/components/Contact"));
+const ChatWidget = lazy(() => import("@/components/ChatWidget"));
+
+// Loading fallback component for lazy-loaded sections
+function SectionLoader() {
+  return (
+    <div className="w-full py-20 flex items-center justify-center">
+      <div className="animate-pulse flex flex-col items-center gap-4">
+        <div className="h-12 w-12 rounded-full border-4 border-blue-200 border-t-blue-500 animate-spin"></div>
+        <p className="text-slate-500 text-sm">Loading...</p>
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   return (
@@ -19,11 +34,26 @@ export default function Home() {
         <HowWeWork />
         <About />
         <QuizCTA variant="banner" />
-        <Portfolio />
-        <Testimonials />
-        <PricingCalculator />
-        <Contact />
-        <ChatWidget/>
+
+        <Suspense fallback={<SectionLoader />}>
+          <Portfolio />
+        </Suspense>
+
+        <Suspense fallback={<SectionLoader />}>
+          <Testimonials />
+        </Suspense>
+
+        <Suspense fallback={<SectionLoader />}>
+          <PricingCalculator />
+        </Suspense>
+
+        <Suspense fallback={<SectionLoader />}>
+          <Contact />
+        </Suspense>
+
+        <Suspense fallback={<SectionLoader />}>
+          <ChatWidget />
+        </Suspense>
       </div>
       <Footer />
     </div>
