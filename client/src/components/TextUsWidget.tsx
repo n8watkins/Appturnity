@@ -306,7 +306,7 @@ export default function TextChatWidget() {
                       </button>
                     ))}
                   </div>
-                  <form onSubmit={handleSubmit} className="space-y-3">
+                  <form onSubmit={handleSubmit} className="space-y-3" autoComplete="on">
                     <input
                       type="text" name="hp_field" value={form.hp_field}
                       onChange={handleChange}
@@ -315,6 +315,7 @@ export default function TextChatWidget() {
                     />
                     <div>
                       <input
+                        id="chat-name"
                         name="name"
                         type="text"
                         placeholder="Name"
@@ -327,6 +328,7 @@ export default function TextChatWidget() {
                     </div>
                     <div>
                       <input
+                        id="chat-email"
                         name="email"
                         type="email"
                         placeholder="Email"
