@@ -1,6 +1,8 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 
 interface ContactFormData {
   name: string;
@@ -11,6 +13,18 @@ interface ContactFormData {
 
 export async function sendContactEmail(data: ContactFormData) {
   const { name, email, company, message } = data;
+
+  // Development mode: log to console instead of sending email
+  if (!resend) {
+    console.log("\n" + "=".repeat(60));
+    console.log("📧 DEVELOPMENT MODE: Email not sent (no RESEND_API_KEY)");
+    console.log("=".repeat(60));
+    console.log(`From: ${name} <${email}>`);
+    if (company) console.log(`Company: ${company}`);
+    console.log(`Message:\n${message}`);
+    console.log("=".repeat(60) + "\n");
+    return { success: true, mode: 'development' };
+  }
 
   const htmlContent = `
     <!DOCTYPE html>

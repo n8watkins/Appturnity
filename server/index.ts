@@ -7,15 +7,26 @@ import { setupVite, serveStatic, log } from "./vite";
 
 // Validate required environment variables
 function validateEnvVars() {
+  const isDevelopment = process.env.NODE_ENV !== "production";
   const required = ["RESEND_API_KEY", "CONTACT_EMAIL"];
   const missing = required.filter((key) => !process.env[key]);
 
   if (missing.length > 0) {
-    console.error("❌ Missing required environment variables:");
-    missing.forEach((key) => console.error(`   - ${key}`));
-    console.error("\nPlease create a .env file with these variables.");
-    console.error("See .env.example for reference.\n");
-    process.exit(1);
+    if (isDevelopment) {
+      // In development, just warn - allow server to start
+      console.warn("⚠️  Missing environment variables (development mode):");
+      missing.forEach((key) => console.warn(`   - ${key}`));
+      console.warn("\n🔧 Development Mode: Server will start anyway");
+      console.warn("📝 Note: Contact form submissions will fail without RESEND_API_KEY");
+      console.warn("💡 Copy .env.example to .env and add your keys when ready\n");
+    } else {
+      // In production, fail hard
+      console.error("❌ Missing required environment variables:");
+      missing.forEach((key) => console.error(`   - ${key}`));
+      console.error("\nPlease create a .env file with these variables.");
+      console.error("See .env.example for reference.\n");
+      process.exit(1);
+    }
   }
 
   // Warn about optional but recommended variables
@@ -26,7 +37,9 @@ function validateEnvVars() {
     console.warn("⚠️  VITE_RECAPTCHA_SITE_KEY not set - reCAPTCHA won't load on frontend");
   }
 
-  log("✓ Environment variables validated");
+  if (missing.length === 0) {
+    log("✓ Environment variables validated");
+  }
 }
 
 // Validate environment on startup
