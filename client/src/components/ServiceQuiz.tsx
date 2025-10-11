@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, ChevronLeft, Sparkles, Download } from "lucide-react";
+import { ChevronRight, ChevronLeft, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import PremiumFeatureModal from "@/components/PremiumFeatureModal";
 
 interface QuizQuestion {
   id: string;
@@ -128,7 +127,6 @@ export default function ServiceQuiz({ onComplete }: ServiceQuizProps) {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [isCompleted, setIsCompleted] = useState(false);
   const [isAdvancing, setIsAdvancing] = useState(false);
-  const [showPremiumModal, setShowPremiumModal] = useState(false);
 
   const currentQuestion = quizQuestions[currentStep];
   const progress = ((currentStep + 1) / quizQuestions.length) * 100;
@@ -229,99 +227,71 @@ export default function ServiceQuiz({ onComplete }: ServiceQuizProps) {
     }
   };
 
-  const handleExportData = () => {
-    // Show premium modal for guest users
-    setShowPremiumModal(true);
-  };
-
   // Show celebration screen when completed
   if (isCompleted) {
     return (
-      <>
-        <Card className="border-2 border-primary/20 shadow-lg bg-gradient-to-br from-primary/5 via-purple-50 to-primary/10">
-          <CardContent className="p-8 md:p-12">
+      <Card className="border-2 border-primary/20 shadow-lg bg-gradient-to-br from-primary/5 via-purple-50 to-primary/10">
+        <CardContent className="p-8 md:p-12">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5, type: "spring" }}
+            className="text-center"
+          >
             <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5, type: "spring" }}
-              className="text-center"
+              initial={{ scale: 0 }}
+              animate={{ scale: [0, 1.2, 1] }}
+              transition={{ duration: 0.6, times: [0, 0.6, 1] }}
+              className="mb-6 flex justify-center"
             >
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: [0, 1.2, 1] }}
-                transition={{ duration: 0.6, times: [0, 0.6, 1] }}
-                className="mb-6 flex justify-center"
-              >
-                <div className="w-24 h-24 bg-gradient-to-br from-primary to-purple-600 rounded-full flex items-center justify-center">
-                  <Sparkles className="w-12 h-12 text-white" />
-                </div>
-              </motion.div>
-
-              <motion.h3
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
-                className="text-3xl md:text-4xl font-bold text-slate-900 mb-4"
-              >
-                Quiz Complete! 🎉
-              </motion.h3>
-
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
-                className="text-lg text-slate-600 mb-6"
-              >
-                Great! We're preparing your personalized results...
-              </motion.p>
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.7, duration: 0.5 }}
-                className="flex justify-center gap-2 mb-6"
-              >
-                {[0, 1, 2].map((i) => (
-                  <motion.div
-                    key={i}
-                    className="w-3 h-3 bg-primary rounded-full"
-                    animate={{
-                      scale: [1, 1.3, 1],
-                      opacity: [0.5, 1, 0.5],
-                    }}
-                    transition={{
-                      duration: 1,
-                      repeat: Infinity,
-                      delay: i * 0.2,
-                    }}
-                  />
-                ))}
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.9, duration: 0.4 }}
-              >
-                <Button
-                  onClick={handleExportData}
-                  variant="outline"
-                  className="gap-2 border-primary/30 hover:bg-primary/5"
-                >
-                  <Download className="w-4 h-4" />
-                  Export Results
-                </Button>
-              </motion.div>
+              <div className="w-24 h-24 bg-gradient-to-br from-primary to-purple-600 rounded-full flex items-center justify-center">
+                <Sparkles className="w-12 h-12 text-white" />
+              </div>
             </motion.div>
-          </CardContent>
-        </Card>
 
-        <PremiumFeatureModal
-          isOpen={showPremiumModal}
-          onClose={() => setShowPremiumModal(false)}
-          featureName="Data Export"
-        />
-      </>
+            <motion.h3
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="text-3xl md:text-4xl font-bold text-slate-900 mb-4"
+            >
+              Quiz Complete! 🎉
+            </motion.h3>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+              className="text-lg text-slate-600 mb-6"
+            >
+              Great! We're preparing your personalized results...
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7, duration: 0.5 }}
+              className="flex justify-center gap-2"
+            >
+              {[0, 1, 2].map((i) => (
+                <motion.div
+                  key={i}
+                  className="w-3 h-3 bg-primary rounded-full"
+                  animate={{
+                    scale: [1, 1.3, 1],
+                    opacity: [0.5, 1, 0.5],
+                  }}
+                  transition={{
+                    duration: 1,
+                    repeat: Infinity,
+                    delay: i * 0.2,
+                  }}
+                />
+              ))}
+            </motion.div>
+          </motion.div>
+        </CardContent>
+      </Card>
     );
   }
 
