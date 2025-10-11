@@ -148,7 +148,7 @@ export default function Testimonials() {
           </button>
 
           {/* Carousel Container */}
-          <div className="overflow-hidden">
+          <div className="overflow-hidden px-4 py-4 -mx-4 -my-4">
             <AnimatePresence initial={false} custom={direction} mode="wait">
               <motion.div
                 key={currentIndex}
