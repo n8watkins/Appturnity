@@ -82,6 +82,20 @@ export default function ServiceQuiz({ onComplete }: ServiceQuizProps) {
 
   const handleSelect = (value: string) => {
     setSelectedOption(value);
+
+    const newAnswers = { ...answers, [currentQuestion.id]: value };
+    setAnswers(newAnswers);
+
+    // Auto-advance after a short delay for visual feedback
+    setTimeout(() => {
+      if (currentStep < quizQuestions.length - 1) {
+        setCurrentStep(currentStep + 1);
+        setSelectedOption("");
+      } else {
+        // Quiz complete
+        onComplete(newAnswers);
+      }
+    }, 400);
   };
 
   const handleNext = () => {
