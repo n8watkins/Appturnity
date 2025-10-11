@@ -24,17 +24,17 @@ export default function Hero() {
               <span className="text-sm font-medium">Modern designs, real results</span>
             </div>
             
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 mb-6 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold tracking-tight text-slate-900 mb-6 leading-tight">
             Professional <br className="hidden md:block" /> <span className="text-primary relative">
             landing pages
                 <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M1 5.5C54.5 2.5 150.5 1.5 299 11.5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="text-primary/30"/>
                 </svg>
               </span> <br className="hidden md:block" />
-              for  growing <span className="lg:block">businesses 🚀</span> 
+              for  growing <span className="lg:block">businesses 🚀</span>
             </h1>
-            
-            <p className="text-lg md:text-xl text-slate-600 mb-8 max-w-xl">
+
+            <p className="text-base sm:text-lg md:text-lg lg:text-xl text-slate-600 mb-8 max-w-xl">
             Delivering modern designs that drive leads and build trust.
             </p>
             
