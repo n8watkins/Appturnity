@@ -43,29 +43,29 @@ export default function Header() {
           </div>
           
           <nav className="hidden md:flex items-center space-x-6">
-            <a 
-              href="#how-we-work" 
+            <a
+              href="#how-we-work"
               className="text-slate-600 hover:text-primary transition-colors"
               onClick={(e) => handleSmoothScroll(e, "how-we-work")}
             >
               How We Work
             </a>
-            <a 
-              href="#about" 
+            <a
+              href="#about"
               className="text-slate-600 hover:text-primary transition-colors"
               onClick={(e) => handleSmoothScroll(e, "about")}
             >
               About
             </a>
-            <a 
-              href="#portfolio" 
+            <a
+              href="#portfolio"
               className="text-slate-600 hover:text-primary transition-colors"
               onClick={(e) => handleSmoothScroll(e, "portfolio")}
             >
               Portfolio
             </a>
-            <a 
-              href="#testimonials" 
+            <a
+              href="#testimonials"
               className="text-slate-600 hover:text-primary transition-colors"
               onClick={(e) => handleSmoothScroll(e, "testimonials")}
             >
@@ -80,7 +80,14 @@ export default function Header() {
             </a>
             <a
               href="#contact"
-              className="flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 transition-colors"
+              className="px-4 py-2 rounded-md bg-white border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-200 shadow-sm"
+              onClick={(e) => handleSmoothScroll(e, "contact")}
+            >
+              Contact
+            </a>
+            <a
+              href="#contact"
+              className="flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 transition-colors shadow-sm"
               onClick={(e) => handleSmoothScroll(e, "contact")}
             >
               <Sparkles className="h-4 w-4" />
@@ -134,7 +141,14 @@ export default function Header() {
                   </a>
                   <a
                     href="#contact"
-                    className="flex items-center gap-2 text-slate-700 hover:text-primary transition-colors font-semibold"
+                    className="px-4 py-2 rounded-md bg-white border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-200 text-center"
+                    onClick={navigateAndClose}
+                  >
+                    Contact
+                  </a>
+                  <a
+                    href="#contact"
+                    className="flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 transition-colors shadow-sm"
                     onClick={navigateAndClose}
                   >
                     <Sparkles className="h-4 w-4" />
