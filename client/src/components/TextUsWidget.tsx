@@ -213,7 +213,7 @@ export default function TextChatWidget() {
               >
                 {m.sender==="bot" ? (
                   <img
-                    src="/portrait.jpg"
+                    src="/portrait.webp"
                     alt="Bot"
                     className="w-8 h-8 rounded-full object-cover"
                   />

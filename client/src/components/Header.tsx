@@ -38,7 +38,7 @@ export default function Header() {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
-              <img src="/appturnity.png" alt="Appturnity" width={200} height={200} />
+              <img src="/appturnity.webp" alt="Appturnity" width={200} height={200} />
             </Link>
           </div>
           

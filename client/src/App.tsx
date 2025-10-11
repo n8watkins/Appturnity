@@ -5,11 +5,13 @@ import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
+import Success from "@/pages/Success";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/success" component={Success} />
       <Route component={NotFound} />
     </Switch>
   );

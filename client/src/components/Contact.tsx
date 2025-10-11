@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { useLocation } from 'wouter';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
 import { Calendar, Mail, Phone } from 'lucide-react';
@@ -34,6 +35,7 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const { executeRecaptcha } = useGoogleReCaptcha();
+  const [, setLocation] = useLocation();
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -103,17 +105,15 @@ export default function Contact() {
         recaptchaToken,
       });
 
-      toast({
-        title: "Message sent!",
-        description: "We'll get back to you within 1 business day.",
-      });
-
       // Clear session storage data after successful submission
       if (typeof window !== 'undefined') {
         sessionStorage.removeItem('contactMessage');
         sessionStorage.removeItem('pricingFormData');
       }
       form.reset();
+
+      // Redirect to success page
+      setLocation('/success');
     } catch (error) {
       toast({
         title: "Something went wrong",
