@@ -332,7 +332,7 @@ export default function ChatWidget() {
                       <button
                         key={s}
                         onClick={() => toggleSuggestion(s)}
-                        className={`px-3 py-1 rounded-full text-md font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-95 ${
+                        className={`px-3 py-1 rounded-full text-md font-semibold transition-all duration-0 ease-in-out ${
                           selectedSuggestions.includes(s)
                             ? "bg-primary text-white shadow-md"
                             : "bg-gray-200 hover:bg-gray-300 hover:shadow-sm"
