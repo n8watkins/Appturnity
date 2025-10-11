@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
@@ -34,7 +34,7 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [quizCompleted, setQuizCompleted] = useState(false);
+  const [textareaHeight, setTextareaHeight] = useState('120px');
   const { toast } = useToast();
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [, setLocation] = useLocation();
@@ -49,43 +49,21 @@ export default function Contact() {
     },
   });
 
-  // Effect to load saved data from sessionStorage
+  // Watch message field to adjust textarea height dynamically
+  const messageValue = form.watch('message');
   useEffect(() => {
-    // We need to make sure we're running in the browser environment
-    if (typeof window !== 'undefined') {
-      try {
-        // Get any previously stored contact message
-        const savedMessage = sessionStorage.getItem('contactMessage');
-        
-        if (savedMessage) {
-          form.setValue('message', savedMessage);
-        }
-      } catch (e) {
-        // Fail silently if sessionStorage is not available
-        console.error("Error accessing sessionStorage:", e);
+    if (messageValue) {
+      const lineCount = messageValue.split('\n').length;
+      // If more than 8 lines, make textarea taller
+      if (lineCount > 8) {
+        setTextareaHeight('300px');
+      } else if (lineCount > 5) {
+        setTextareaHeight('200px');
+      } else {
+        setTextareaHeight('120px');
       }
     }
-    
-    // Setup a focus event listener to reload data when coming back to this section
-    const handleFocus = () => {
-      if (typeof window !== 'undefined') {
-        const savedMessage = sessionStorage.getItem('contactMessage');
-        if (savedMessage) {
-          form.setValue('message', savedMessage);
-        }
-      }
-    };
-    
-    // Add event listeners
-    window.addEventListener('focus', handleFocus);
-    document.addEventListener('scroll', handleFocus, { passive: true });
-    
-    // Cleanup
-    return () => {
-      window.removeEventListener('focus', handleFocus);
-      document.removeEventListener('scroll', handleFocus);
-    };
-  }, [form]);
+  }, [messageValue]);
 
   async function onSubmit(data: ContactFormValues) {
     if (!executeRecaptcha) {
@@ -108,11 +86,6 @@ export default function Contact() {
         recaptchaToken,
       });
 
-      // Clear session storage data after successful submission
-      if (typeof window !== 'undefined') {
-        sessionStorage.removeItem('contactMessage');
-        sessionStorage.removeItem('pricingFormData');
-      }
       form.reset();
 
       // Redirect to success page
@@ -128,78 +101,108 @@ export default function Contact() {
     }
   }
 
-  // Function to load message data from session storage - can be called directly
-  const loadSessionData = () => {
-    if (typeof window !== 'undefined') {
-      const savedMessage = sessionStorage.getItem('contactMessage');
-      if (savedMessage) {
-        form.setValue('message', savedMessage);
-      }
-    }
-  };
-
   // Handle quiz completion
-  const handleQuizComplete = (results: Record<string, string>) => {
+  const handleQuizComplete = (results: Record<string, string | string[]>) => {
     // Format quiz results into a message
     const labelMap: Record<string, string> = {
-      projectType: "Project Type",
-      primaryGoal: "Primary Goal",
-      features: "Features Needed",
-      timeline: "Timeline",
-      budget: "Budget Range",
+      currentSituation: "Current Situation",
+      industry: "Industry",
+      businessGoal: "Business Goals",
+      targetAudience: "Target Audience",
+      features: "Desired Features",
+      projectScope: "Solution Type",
+      existingAssets: "Brand Materials",
+      timeline: "Launch Timeline",
+      investment: "Investment Budget",
     };
 
     const valueMap: Record<string, Record<string, string>> = {
-      projectType: {
-        "landing-page": "Landing Page",
-        "business-website": "Business Website",
-        "web-app": "Web Application",
-        "ecommerce": "E-commerce Store",
-        "not-sure": "Not Sure Yet",
+      currentSituation: {
+        "no-website": "No Website Yet",
+        "outdated-website": "Outdated Website",
+        "losing-leads": "Losing Leads",
+        "paying-too-much": "Paying Too Much for SaaS",
+        "manual-processes": "Too Many Manual Processes",
       },
-      primaryGoal: {
-        "generate-leads": "Generate More Leads",
-        "sell-products": "Sell Products/Services",
-        "build-brand": "Build Brand Awareness",
-        "automate-process": "Automate Business Processes",
-        "replace-saas": "Replace Expensive SaaS",
+      industry: {
+        "professional-services": "Professional Services",
+        "healthcare": "Healthcare",
+        "home-services": "Home Services",
+        "retail-ecommerce": "Retail/E-commerce",
+        "real-estate": "Real Estate",
+        "technology": "Technology/SaaS",
+        "hospitality": "Hospitality",
+        "other": "Other",
+      },
+      businessGoal: {
+        "more-customers": "Get More Customers",
+        "save-time": "Save Time",
+        "reduce-costs": "Reduce Costs",
+        "improve-credibility": "Look More Professional",
+        "scale-business": "Scale My Business",
+      },
+      targetAudience: {
+        "b2b": "Businesses (B2B)",
+        "b2c": "Consumers (B2C)",
+        "both": "Both B2B and B2C",
+        "internal": "Internal Team",
       },
       features: {
         "contact-forms": "Contact Forms",
-        "booking-scheduling": "Booking/Scheduling System",
-        "payment-integration": "Payment Integration",
-        "user-accounts": "User Account System",
+        "booking-scheduling": "Booking/Scheduling",
+        "payment-processing": "Payment Processing",
+        "user-accounts": "User Accounts/Login",
+        "cms": "Content Management",
+        "analytics": "Analytics Dashboard",
         "integrations": "Third-party Integrations",
-        "custom-tools": "Custom Tools/Calculators",
+        "none": "None / Basic Website",
+      },
+      projectScope: {
+        "simple-landing": "Simple Landing Page",
+        "full-website": "Complete Website",
+        "custom-app": "Custom Web Application",
+        "ecommerce-store": "E-commerce Store",
+        "not-sure": "Not Sure Yet",
+      },
+      existingAssets: {
+        "full-brand": "Yes, Full Branding",
+        "partial-brand": "Some Materials",
+        "no-brand": "No, Need Help",
       },
       timeline: {
-        "asap": "As Soon As Possible",
-        "1-2-months": "1-2 Months",
-        "3-6-months": "3-6 Months",
-        "flexible": "Flexible Timeline",
+        "urgent": "Within 2-4 Weeks",
+        "normal": "1-2 Months",
+        "planning": "2-3 Months",
+        "flexible": "3+ Months",
       },
-      budget: {
-        "under-5k": "Under $5,000",
-        "5k-10k": "$5,000 - $10,000",
-        "10k-25k": "$10,000 - $25,000",
-        "25k-plus": "$25,000+",
-        "not-sure": "Need Budget Guidance",
+      investment: {
+        "budget-conscious": "Under $3,000",
+        "standard": "$3,000 - $7,000",
+        "premium": "$7,000 - $15,000",
+        "enterprise": "$15,000+",
+        "flexible": "Flexible Budget",
       },
     };
 
-    const formattedMessage = Object.entries(results)
+    const formattedSections = Object.entries(results)
       .map(([key, value]) => {
         const label = labelMap[key] || key;
-        const displayValue = valueMap[key]?.[value] || value;
-        return `${label}: ${displayValue}`;
+        if (Array.isArray(value)) {
+          const displayValues = value
+            .map(v => `  • ${valueMap[key]?.[v] || v}`)
+            .join("\n");
+          return `${label}:\n${displayValues}`;
+        } else {
+          const displayValue = valueMap[key]?.[value] || value;
+          return `${label}:\n  • ${displayValue}`;
+        }
       })
-      .join("\n");
+      .join("\n\n");
 
-    const finalMessage = `I'm interested in discussing a project with the following details:\n\n${formattedMessage}\n\nLooking forward to hearing from you!`;
+    const finalMessage = `I'm interested in discussing a project with the following details:\n\n${formattedSections}\n\nLooking forward to hearing from you!`;
 
     // Set the message in the form
     form.setValue('message', finalMessage);
-    setQuizCompleted(true);
 
     // Smooth scroll to the form button with a delay
     setTimeout(() => {
@@ -215,8 +218,6 @@ export default function Contact() {
       id="contact"
       className="py-20 bg-white scroll-mt-16"
       aria-label="Contact form section"
-      onFocus={loadSessionData}
-      onClick={loadSessionData}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Centered heading across the entire screen */}
@@ -226,36 +227,32 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          onViewportEnter={loadSessionData}
         >
           <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">Ready for a Simpler Solution?</h2>
           <p className="text-slate-600 max-w-2xl mx-auto">
-            {!quizCompleted
-              ? "Take our quick 2-minute quiz to help us understand your needs better"
-              : "Great! Now tell us a bit more about yourself and we'll be in touch"}
+            Take our quick 2-minute quiz to help us understand your needs better, or fill out the form directly
           </p>
         </motion.div>
 
-        {/* Service Quiz - shown first */}
-        {!quizCompleted && (
-          <motion.div
-            className="max-w-3xl mx-auto mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <ServiceQuiz onComplete={handleQuizComplete} />
-          </motion.div>
-        )}
+        {/* Service Quiz */}
+        <motion.div
+          className="max-w-3xl mx-auto mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <ServiceQuiz onComplete={handleQuizComplete} />
+        </motion.div>
 
-        {/* Two columns side by side - shown after quiz */}
-        {quizCompleted && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="flex flex-col lg:flex-row gap-8 items-start max-w-6xl mx-auto">
+        {/* Two columns side by side - contact form */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <div className="flex flex-col lg:flex-row gap-8 items-start max-w-6xl mx-auto">
           {/* Contact Form Column */}
           <motion.div
             className="flex-1"
@@ -312,11 +309,10 @@ export default function Contact() {
                           <FormItem>
                             <FormLabel>Tell us about your app needs</FormLabel>
                             <FormControl>
-                              <Textarea 
-                                placeholder="What problem are you trying to solve?" 
-                                className="min-h-[120px]" 
-                                onFocus={loadSessionData}
-                                {...field} 
+                              <Textarea
+                                placeholder="What problem are you trying to solve?"
+                                style={{ minHeight: textareaHeight }}
+                                {...field}
                               />
                             </FormControl>
                             <FormMessage className="text-red-500 text-sm" />
@@ -436,8 +432,7 @@ export default function Contact() {
             </div>
           </motion.div>
         </div>
-          </motion.div>
-        )}
+        </motion.div>
       </div>
     </section>
   );

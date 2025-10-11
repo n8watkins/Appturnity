@@ -35,21 +35,10 @@ import {
 
 const pricingFormSchema = z.object({
   screens: z.number().min(1).max(10),
-  users: z.number().min(1).max(100),
-  authentication: z.boolean().default(false),
-  payments: z.boolean().default(false),
-  analytics: z.boolean().default(false),
-  roleBasedAccess: z.boolean().default(false),
+  users: z.number().min(1).max(20),
 });
 
 type PricingFormValues = z.infer<typeof pricingFormSchema>;
-
-// Count number of enabled features for one-time fee calculation
-const countEnabledFeatures = (values: any) => 
-  Object.entries(values)
-    .filter(([key, value]) => 
-      ['authentication', 'payments', 'analytics', 'roleBasedAccess'].includes(key) && value
-    ).length;
 
 export default function PricingCalculator() {
   const [calculatedOnetime, setCalculatedOnetime] = useState(BASE_COST);
@@ -61,12 +50,8 @@ export default function PricingCalculator() {
   const form = useForm<PricingFormValues>({
     resolver: zodResolver(pricingFormSchema),
     defaultValues: {
-      screens: 5,
+      screens: 1,
       users: 5,
-      authentication: false,
-      payments: false,
-      analytics: false,
-      roleBasedAccess: false,
     },
   });
 
@@ -74,9 +59,9 @@ export default function PricingCalculator() {
 
   const getPerUserCost = (userCount: number) => {
     const maxCost = 50;  // Cost at 1 user
-    const minCost = 10;  // Cost at 100 users
+    const minCost = 15;  // Cost at 20 users
     const scaling = 30;  // Adjusts curve steepness
-    return Math.max(minCost, maxCost - Math.log(userCount) * scaling / Math.log(100));
+    return Math.max(minCost, maxCost - Math.log(userCount) * scaling / Math.log(20));
   };
 
   useEffect(() => {
@@ -84,16 +69,10 @@ export default function PricingCalculator() {
     const baseMonthlyCost = perUserCost * formValues.users;
     const pageMonthlyCost = formValues.screens * 25; // $25 per page per month
 
-    const advancedFeaturesCost =
-      (formValues.authentication ? AUTH_COST / 36 : 0) +
-      (formValues.payments ? PAYMENTS_COST / 36 : 0) +
-      (formValues.analytics ? ANALYTICS_COST / 36 : 0) +
-      (formValues.roleBasedAccess ? ROLE_BASED_ACCESS_COST / 36 : 0);
-
-    const totalMonthlySaasCost = baseMonthlyCost + pageMonthlyCost + advancedFeaturesCost;
+    const totalMonthlySaasCost = baseMonthlyCost + pageMonthlyCost;
     setTraditionalSaasCost(totalMonthlySaasCost);
 
-    const oneTimeCost = Math.round(BASE_COST + (countEnabledFeatures(formValues) * FEATURE_COST));
+    const oneTimeCost = Math.round(BASE_COST + (formValues.screens * PAGE_COST));
     setCalculatedOnetime(oneTimeCost);
   }, [formValues]);
 
@@ -195,7 +174,7 @@ export default function PricingCalculator() {
                             <div className="flex items-center gap-4">
                               <Slider
                                 min={1}
-                                max={100}
+                                max={20}
                                 step={1}
                                 defaultValue={[field.value]}
                                 onValueChange={(value) => {
@@ -204,7 +183,7 @@ export default function PricingCalculator() {
                                 className="flex-1"
                               />
                               <span className="w-12 text-center font-medium">
-                                {field.value === 100 ? "100+" : field.value}
+                                {field.value === 20 ? "20+" : field.value}
                               </span>
                             </div>
                             <FormDescription>
@@ -213,146 +192,104 @@ export default function PricingCalculator() {
                           </FormItem>
                         )}
                       />
-
-                      <div className="pt-4">
-                        <h3 className="text-lg font-semibold mb-4">Advanced Features</h3>
-                        <div className="space-y-4">
-                          <FormField
-                            control={form.control}
-                            name="authentication"
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                                <div className="space-y-0.5">
-                                  <FormLabel>User Authentication</FormLabel>
-                                  <FormDescription>
-                                    Login, registration and user profiles
-                                  </FormDescription>
-                                </div>
-                                <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
-                                </FormControl>
-                              </FormItem>
-                            )}
-                          />
-
-                          <FormField
-                            control={form.control}
-                            name="payments"
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                                <div className="space-y-0.5">
-                                  <FormLabel>Payment Processing</FormLabel>
-                                  <FormDescription>
-                                    Stripe or other payment gateway integration
-                                  </FormDescription>
-                                </div>
-                                <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
-                                </FormControl>
-                              </FormItem>
-                            )}
-                          />
-
-                          <FormField
-                            control={form.control}
-                            name="analytics"
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                                <div className="space-y-0.5">
-                                  <FormLabel>Analytics Dashboard</FormLabel>
-                                  <FormDescription>
-                                    User insights and usage tracking
-                                  </FormDescription>
-                                </div>
-                                <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
-                                </FormControl>
-                              </FormItem>
-                            )}
-                          />
-
-
-
-                          <FormField
-                            control={form.control}
-                            name="roleBasedAccess"
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                                <div className="space-y-0.5">
-                                  <FormLabel>Role-based Access Control</FormLabel>
-                                  <FormDescription>
-                                    User permissions and access management
-                                  </FormDescription>
-                                </div>
-                                <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
-                                </FormControl>
-                              </FormItem>
-                            )}
-                          />
-                        </div>
-                      </div>
                     </form>
                   </Form>
+
+                  <div className="bg-slate-50 p-6 rounded-lg border border-slate-200 mt-6">
+                    <h4 className="font-semibold text-slate-900 mb-4 text-lg">
+                      Everything You Need Included:
+                    </h4>
+
+                    <div className="space-y-4">
+                      <div>
+                        <h5 className="font-semibold text-slate-800 mb-2 text-sm">Design & Development</h5>
+                        <ul className="space-y-2 text-sm text-slate-600 ml-2">
+                          <li className="flex items-start">
+                            <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>Custom design tailored to your brand</span>
+                          </li>
+                          <li className="flex items-start">
+                            <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>Mobile-responsive across all devices</span>
+                          </li>
+                          <li className="flex items-start">
+                            <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>Fast loading & optimized performance</span>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div>
+                        <h5 className="font-semibold text-slate-800 mb-2 text-sm">Lead Generation</h5>
+                        <ul className="space-y-2 text-sm text-slate-600 ml-2">
+                          <li className="flex items-start">
+                            <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>Contact forms & lead capture</span>
+                          </li>
+                          <li className="flex items-start">
+                            <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>SEO optimization for search engines</span>
+                          </li>
+                          <li className="flex items-start">
+                            <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>Analytics integration</span>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div>
+                        <h5 className="font-semibold text-slate-800 mb-2 text-sm">Hosting & Security</h5>
+                        <ul className="space-y-2 text-sm text-slate-600 ml-2">
+                          <li className="flex items-start">
+                            <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>Reliable hosting (99.9% uptime)</span>
+                          </li>
+                          <li className="flex items-start">
+                            <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>SSL security certificate</span>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div>
+                        <h5 className="font-semibold text-slate-800 mb-2 text-sm">Ongoing Support</h5>
+                        <ul className="space-y-2 text-sm text-slate-600 ml-2">
+                          <li className="flex items-start">
+                            <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>Continuous updates & improvements</span>
+                          </li>
+                          <li className="flex items-start">
+                            <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>Technical support & bug fixes</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="flex flex-col justify-center">
                   <div className="space-y-6">
-                    {estimatedSavings > 0 && (
-                      <>
-                        <motion.div 
-                          initial={{ opacity: 0, y: -50 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.5, delay: 0.2 }}
-                          className="bg-green-50 p-4 rounded-lg border border-green-200"
-                        >
-                          <h3 className="text-lg font-semibold text-green-700 mb-2">
-                            Total Estimated Savings
-                          </h3>
-                          <motion.div
-                            key={formValues.screens}
-                            initial={{ scale: 0.95, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            className="text-3xl font-bold text-green-600"
-                          >
-                            ${Math.round(estimatedSavings).toLocaleString()}
-                          </motion.div>
-                          <p className="text-sm text-green-600 mt-1">
-                            Over 3 years compared to traditional SaaS
-                          </p>
-                        </motion.div>
-
-                        <motion.div 
-                          initial={{ opacity: 0, y: -50 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.5, delay: 0.4 }}
-                          className="bg-blue-50 p-4 rounded-lg border border-blue-200"
-                        >
-                          <h3 className="text-lg font-semibold text-blue-700 mb-2">
-                            Monthly Savings
-                          </h3>
-                          <div className="text-3xl font-bold text-blue-600">
-                            ${Math.round(traditionalSaasCost - calculatedMonthly).toLocaleString()}/month
-                          </div>
-                          <p className="text-sm text-blue-600 mt-1">
-                            Save ${Math.round((traditionalSaasCost - calculatedMonthly) * 12).toLocaleString()} per year
-                          </p>
-                        </motion.div>
-                      </>
-                    )}
-
                     <div>
                       <h3 className="text-lg font-semibold text-slate-700 mb-2">
                         Traditional SaaS Cost (3 Years)
@@ -360,6 +297,9 @@ export default function PricingCalculator() {
                       <div className="text-4xl font-bold text-slate-600">
                         ${Math.round(traditionalSaasCost * 36).toLocaleString()}
                       </div>
+                      <p className="text-sm text-slate-500 mt-1">
+                        ${Math.round(traditionalSaasCost).toLocaleString()}/month
+                      </p>
                     </div>
 
                     <div>
@@ -381,8 +321,8 @@ export default function PricingCalculator() {
                       transition={{ duration: 0.3 }}
                       className="mt-4"
                     >
-                      <Button 
-                        onClick={calculateSavings} 
+                      <Button
+                        onClick={calculateSavings}
                         className="w-full relative overflow-hidden group"
                         disabled={isCalculating}
                       >
@@ -399,126 +339,68 @@ export default function PricingCalculator() {
                       </Button>
                     </motion.div>
 
-                    <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 mt-4">
-                      <h4 className="font-medium text-slate-800 mb-2">
-                        What's included:
-                      </h4>
-                      <ul className="space-y-2 text-sm text-slate-600">
-                        <li className="flex items-start">
-                          <svg
-                            className="h-5 w-5 text-primary flex-shrink-0 mr-2"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
+                    {estimatedSavings > 0 && (
+                      <>
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, delay: 0.2 }}
+                          className="bg-green-50 p-4 rounded-lg border border-green-200"
+                        >
+                          <h3 className="text-lg font-semibold text-green-700 mb-2">
+                            Total Estimated Savings
+                          </h3>
+                          <motion.div
+                            key={formValues.screens}
+                            initial={{ scale: 0.95, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            className="text-3xl font-bold text-green-600"
                           >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
-                          <span>Custom design and development</span>
-                        </li>
-                        <li className="flex items-start">
-                          <svg
-                            className="h-5 w-5 text-primary flex-shrink-0 mr-2"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
-                          <span>Unlimited users with no per-seat pricing</span>
-                        </li>
-                        <li className="flex items-start">
-                          <svg
-                            className="h-5 w-5 text-primary flex-shrink-0 mr-2"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
-                          <span>Continuous updates and improvements</span>
-                        </li>
-                        <li className="flex items-start">
-                          <svg
-                            className="h-5 w-5 text-primary flex-shrink-0 mr-2"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
-                          <span>Technical support and bug fixes</span>
-                        </li>
-                      </ul>
-                    </div>
+                            ${Math.round(estimatedSavings).toLocaleString()}
+                          </motion.div>
+                          <p className="text-sm text-green-600 mt-1">
+                            Over 3 years compared to traditional SaaS
+                          </p>
+                        </motion.div>
 
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, delay: 0.4 }}
+                          className="bg-blue-50 p-4 rounded-lg border border-blue-200"
+                        >
+                          <h3 className="text-lg font-semibold text-blue-700 mb-2">
+                            Monthly Savings
+                          </h3>
+                          <div className="text-3xl font-bold text-blue-600">
+                            ${Math.round(traditionalSaasCost - calculatedMonthly).toLocaleString()}/month
+                          </div>
+                          <p className="text-sm text-blue-600 mt-1">
+                            Save ${Math.round((traditionalSaasCost - calculatedMonthly) * 12).toLocaleString()} per year
+                          </p>
+                        </motion.div>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
               <div className="flex justify-center mt-8 border-t pt-8">
-                <Button 
-                  variant="outline" 
-                  size="lg" 
-                  onClick={() => {
-                    // Save form data to session storage
-                    const formData = {
-                      screens: formValues.screens,
-                      users: formValues.users,
-                      features: {
-                        authentication: formValues.authentication,
-                        payments: formValues.payments,
-                        analytics: formValues.analytics,
-                        roleBasedAccess: formValues.roleBasedAccess
-                      }
-                    };
-                    
-                    // Store as a string in sessionStorage
-                    sessionStorage.setItem('pricingFormData', JSON.stringify(formData));
-                    
-                    // Create message for contact form with better formatting of feature names
-                    const featureLabels = {
-                      authentication: "User Authentication",
-                      payments: "Payment Processing",
-                      analytics: "Analytics Dashboard",
-                      roleBasedAccess: "Role-based Access Control"
-                    };
-                    
-                    const featuresList = Object.entries(formData.features)
-                      .filter(([_, enabled]) => enabled)
-                      .map(([feature]) => featureLabels[feature as keyof typeof featureLabels] || feature)
-                      .join(', ');
-                    
-                    // Create a more detailed message
-                    const message = `I'm interested in a custom app with ${formData.screens} screens for ${formData.users} users.\n\n${featuresList ? `Advanced features I need:\n- ${featuresList.replace(/, /g, '\n- ')}\n\n` : ''}Please provide a quote based on these requirements.`;
-
-                    sessionStorage.setItem('contactMessage', message);
-                    
-                    // Scroll to contact form
-                    import('@/lib/utils').then(({ scrollToElement }) => {
-                      scrollToElement('contact');
-                    });
-                  }}
+                <Button
+                  variant="outline"
+                  size="lg"
+                  asChild
                 >
-                  Request Detailed Quote
+                  <a
+                    href="#contact"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      import('@/lib/utils').then(({ scrollToElement }) => {
+                        scrollToElement('contact');
+                      });
+                    }}
+                  >
+                    Get Started with Quiz
+                  </a>
                 </Button>
               </div>
             </CardContent>

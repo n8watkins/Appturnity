@@ -8,6 +8,7 @@ import PricingCalculator from "@/components/PricingCalculator";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import TextUsWidget from "@/components/TextUsWidget";
+import QuizCTA from "@/components/QuizCTA";
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
         <Hero />
         <HowWeWork />
         <About />
+        <QuizCTA variant="banner" />
         <Portfolio />
         <Testimonials />
         <PricingCalculator />

@@ -149,7 +149,7 @@ app.use((req, res, next) => {
 
   function tryListen(port: number) {
     server.listen(port, "localhost", () => {
-      log(`Server is running on http://localhost:${port}`);
+      log(`http://localhost:${port} - Server is running`);
     }).on('error', (err: any) => {
       if (err.code === 'EADDRINUSE') {
         if (port < maxPort) {

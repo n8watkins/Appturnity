@@ -1,4 +1,4 @@
-export const BASE_COST = 1500;
+export const BASE_COST = 650;
 export const PAGE_COST = 100;
 export const FEATURE_COST = 200;
 export const AUTH_COST = 1500;

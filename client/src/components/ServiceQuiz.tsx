@@ -8,117 +8,292 @@ interface QuizQuestion {
   id: string;
   question: string;
   options: { value: string; label: string; description?: string }[];
+  multiSelect?: boolean;
 }
 
 const quizQuestions: QuizQuestion[] = [
   {
-    id: "projectType",
-    question: "What type of website do you need?",
+    id: "currentSituation",
+    question: "What's your current situation?",
     options: [
-      { value: "landing-page", label: "Landing Page", description: "Single page to drive conversions" },
-      { value: "business-website", label: "Business Website", description: "Multi-page company site" },
-      { value: "web-app", label: "Web Application", description: "Custom interactive tool or platform" },
-      { value: "ecommerce", label: "E-commerce", description: "Online store to sell products" },
-      { value: "not-sure", label: "Not Sure", description: "Help me figure it out" },
+      { value: "no-website", label: "No Website Yet", description: "Starting from scratch" },
+      { value: "outdated-website", label: "Outdated Website", description: "Need a modern redesign" },
+      { value: "losing-leads", label: "Losing Leads", description: "Website isn't converting visitors" },
+      { value: "paying-too-much", label: "Paying Too Much for SaaS", description: "Want to own my solution" },
+      { value: "manual-processes", label: "Too Many Manual Processes", description: "Need automation tools" },
     ],
   },
   {
-    id: "primaryGoal",
-    question: "What's your primary goal?",
+    id: "industry",
+    question: "What industry are you in?",
     options: [
-      { value: "generate-leads", label: "Generate Leads", description: "Get more inquiries and contacts" },
-      { value: "sell-products", label: "Sell Products/Services", description: "Drive online sales" },
-      { value: "build-brand", label: "Build Brand Awareness", description: "Increase visibility and credibility" },
-      { value: "automate-process", label: "Automate Business Process", description: "Save time with custom tools" },
-      { value: "replace-saas", label: "Replace Expensive SaaS", description: "Own your solution, cut monthly costs" },
+      { value: "professional-services", label: "Professional Services", description: "Consulting, legal, accounting" },
+      { value: "healthcare", label: "Healthcare", description: "Medical, dental, wellness" },
+      { value: "home-services", label: "Home Services", description: "HVAC, roofing, plumbing, contractors" },
+      { value: "retail-ecommerce", label: "Retail/E-commerce", description: "Online or physical stores" },
+      { value: "real-estate", label: "Real Estate", description: "Property sales or rentals" },
+      { value: "technology", label: "Technology/SaaS", description: "Software or tech services" },
+      { value: "hospitality", label: "Hospitality", description: "Restaurants, hotels, events" },
+      { value: "other", label: "Other", description: "Not listed above" },
+    ],
+  },
+  {
+    id: "businessGoal",
+    question: "What business outcomes do you want? (Select all that apply)",
+    multiSelect: true,
+    options: [
+      { value: "more-customers", label: "Get More Customers", description: "Increase leads and sales" },
+      { value: "save-time", label: "Save Time", description: "Automate repetitive tasks" },
+      { value: "reduce-costs", label: "Reduce Costs", description: "Cut expensive subscriptions" },
+      { value: "improve-credibility", label: "Look More Professional", description: "Build trust with better design" },
+      { value: "scale-business", label: "Scale My Business", description: "Support growth with better systems" },
+    ],
+  },
+  {
+    id: "targetAudience",
+    question: "Who is your primary target audience?",
+    options: [
+      { value: "b2b", label: "Businesses (B2B)", description: "Selling to other companies" },
+      { value: "b2c", label: "Consumers (B2C)", description: "Selling to individuals" },
+      { value: "both", label: "Both B2B and B2C", description: "Serve both markets" },
+      { value: "internal", label: "Internal Team", description: "Tools for my own team" },
     ],
   },
   {
     id: "features",
-    question: "Do you need any custom features?",
+    question: "What features do you need? (Select all that apply)",
+    multiSelect: true,
     options: [
       { value: "contact-forms", label: "Contact Forms", description: "Lead capture and inquiries" },
       { value: "booking-scheduling", label: "Booking/Scheduling", description: "Appointment management" },
-      { value: "payment-integration", label: "Payment Integration", description: "Accept payments online" },
-      { value: "user-accounts", label: "User Accounts", description: "Login and user profiles" },
+      { value: "payment-processing", label: "Payment Processing", description: "Accept online payments" },
+      { value: "user-accounts", label: "User Accounts/Login", description: "User authentication system" },
+      { value: "cms", label: "Content Management", description: "Easy content updates" },
+      { value: "analytics", label: "Analytics Dashboard", description: "Track performance metrics" },
       { value: "integrations", label: "Third-party Integrations", description: "Connect with other tools" },
-      { value: "custom-tools", label: "Custom Tools/Calculators", description: "Interactive features" },
+      { value: "none", label: "None / Basic Website", description: "Just need information pages" },
+    ],
+  },
+  {
+    id: "projectScope",
+    question: "What type of solution fits your needs?",
+    options: [
+      { value: "simple-landing", label: "Simple Landing Page", description: "One page to capture leads" },
+      { value: "full-website", label: "Complete Website", description: "Multi-page site with full content" },
+      { value: "custom-app", label: "Custom Web Application", description: "Tailored tools for your workflow" },
+      { value: "ecommerce-store", label: "E-commerce Store", description: "Sell products online" },
+      { value: "not-sure", label: "Not Sure Yet", description: "Help me figure it out" },
+    ],
+  },
+  {
+    id: "existingAssets",
+    question: "Do you have existing brand materials?",
+    options: [
+      { value: "full-brand", label: "Yes, Full Branding", description: "Logo, colors, fonts, guidelines" },
+      { value: "partial-brand", label: "Some Materials", description: "Logo and colors only" },
+      { value: "no-brand", label: "No, Need Help", description: "Starting from scratch" },
     ],
   },
   {
     id: "timeline",
-    question: "What's your timeline?",
+    question: "When do you need this launched?",
     options: [
-      { value: "asap", label: "As soon as possible", description: "Urgent need" },
-      { value: "1-2-months", label: "1-2 months", description: "Normal timeline" },
-      { value: "3-6-months", label: "3-6 months", description: "Long-term planning" },
-      { value: "flexible", label: "Flexible", description: "No rush" },
+      { value: "urgent", label: "Within 2-4 Weeks", description: "Urgent business need" },
+      { value: "normal", label: "1-2 Months", description: "Standard timeline" },
+      { value: "planning", label: "2-3 Months", description: "Still planning details" },
+      { value: "flexible", label: "3+ Months", description: "No immediate rush" },
     ],
   },
   {
-    id: "budget",
-    question: "What's your budget range?",
+    id: "investment",
+    question: "What's your investment budget?",
     options: [
-      { value: "under-5k", label: "Under $5,000", description: "Starter package" },
-      { value: "5k-10k", label: "$5,000 - $10,000", description: "Standard project" },
-      { value: "10k-25k", label: "$10,000 - $25,000", description: "Advanced project" },
-      { value: "25k-plus", label: "$25,000+", description: "Enterprise solution" },
-      { value: "not-sure", label: "Not sure yet", description: "Need guidance" },
+      { value: "budget-conscious", label: "Under $3,000", description: "Essential features only" },
+      { value: "standard", label: "$3,000 - $7,000", description: "Professional solution" },
+      { value: "premium", label: "$7,000 - $15,000", description: "Advanced features & design" },
+      { value: "enterprise", label: "$15,000+", description: "Custom enterprise solution" },
+      { value: "flexible", label: "Flexible Budget", description: "Show me what's possible" },
     ],
   },
 ];
 
 interface ServiceQuizProps {
-  onComplete: (results: Record<string, string>) => void;
+  onComplete: (results: Record<string, string | string[]>) => void;
 }
 
 export default function ServiceQuiz({ onComplete }: ServiceQuizProps) {
   const [currentStep, setCurrentStep] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [selectedOption, setSelectedOption] = useState<string>("");
+  const [answers, setAnswers] = useState<Record<string, string | string[]>>({});
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [isAdvancing, setIsAdvancing] = useState(false);
 
   const currentQuestion = quizQuestions[currentStep];
   const progress = ((currentStep + 1) / quizQuestions.length) * 100;
+  const isMultiSelect = currentQuestion.multiSelect;
 
   const handleSelect = (value: string) => {
-    setSelectedOption(value);
+    if (isMultiSelect) {
+      // Handle multi-select toggle
+      const newSelected = selectedOptions.includes(value)
+        ? selectedOptions.filter(v => v !== value)
+        : [...selectedOptions, value];
+      setSelectedOptions(newSelected);
+    } else {
+      // Prevent selection if we're already advancing
+      if (isAdvancing) return;
 
-    const newAnswers = { ...answers, [currentQuestion.id]: value };
-    setAnswers(newAnswers);
+      // Lock selections by setting isAdvancing
+      setIsAdvancing(true);
 
-    // Auto-advance after a short delay for visual feedback
-    setTimeout(() => {
-      if (currentStep < quizQuestions.length - 1) {
-        setCurrentStep(currentStep + 1);
-        setSelectedOption("");
-      } else {
-        // Quiz complete
-        onComplete(newAnswers);
-      }
-    }, 400);
+      // Handle single select with auto-advance
+      setSelectedOptions([value]);
+      const newAnswers = { ...answers, [currentQuestion.id]: value };
+      setAnswers(newAnswers);
+
+      // Auto-advance after a short delay for visual feedback
+      setTimeout(() => {
+        if (currentStep < quizQuestions.length - 1) {
+          setCurrentStep(currentStep + 1);
+          // Load previous answers for next question if going back
+          const nextQuestion = quizQuestions[currentStep + 1];
+          const nextAnswer = newAnswers[nextQuestion.id];
+          setSelectedOptions(
+            Array.isArray(nextAnswer) ? nextAnswer : nextAnswer ? [nextAnswer] : []
+          );
+          // Unlock selections for next question
+          setIsAdvancing(false);
+        } else {
+          // Quiz complete - show celebration
+          setIsCompleted(true);
+          setTimeout(() => {
+            onComplete(newAnswers);
+            // Reset quiz after completion so user can retake
+            setTimeout(() => {
+              setIsCompleted(false);
+              setCurrentStep(0);
+              setAnswers({});
+              setSelectedOptions([]);
+              setIsAdvancing(false);
+            }, 500);
+          }, 2500);
+        }
+      }, 400);
+    }
   };
 
   const handleNext = () => {
-    if (!selectedOption) return;
+    if (selectedOptions.length === 0) return;
 
-    const newAnswers = { ...answers, [currentQuestion.id]: selectedOption };
+    const answerValue = isMultiSelect ? selectedOptions : selectedOptions[0];
+    const newAnswers = { ...answers, [currentQuestion.id]: answerValue };
     setAnswers(newAnswers);
 
     if (currentStep < quizQuestions.length - 1) {
       setCurrentStep(currentStep + 1);
-      setSelectedOption("");
+      // Load previous answers for next question
+      const nextQuestion = quizQuestions[currentStep + 1];
+      const nextAnswer = newAnswers[nextQuestion.id];
+      setSelectedOptions(
+        Array.isArray(nextAnswer) ? nextAnswer : nextAnswer ? [nextAnswer] : []
+      );
     } else {
-      // Quiz complete
-      onComplete(newAnswers);
+      // Quiz complete - show celebration
+      setIsCompleted(true);
+      setTimeout(() => {
+        onComplete(newAnswers);
+        // Reset quiz after completion so user can retake
+        setTimeout(() => {
+          setIsCompleted(false);
+          setCurrentStep(0);
+          setAnswers({});
+          setSelectedOptions([]);
+          setIsAdvancing(false);
+        }, 500);
+      }, 2500);
     }
   };
 
   const handleBack = () => {
     if (currentStep > 0) {
+      // Reset advancing state when going back
+      setIsAdvancing(false);
       setCurrentStep(currentStep - 1);
-      setSelectedOption(answers[quizQuestions[currentStep - 1].id] || "");
+      const prevQuestion = quizQuestions[currentStep - 1];
+      const prevAnswer = answers[prevQuestion.id];
+      setSelectedOptions(
+        Array.isArray(prevAnswer) ? prevAnswer : prevAnswer ? [prevAnswer] : []
+      );
     }
   };
+
+  // Show celebration screen when completed
+  if (isCompleted) {
+    return (
+      <Card className="border-2 border-primary/20 shadow-lg bg-gradient-to-br from-primary/5 via-purple-50 to-primary/10">
+        <CardContent className="p-8 md:p-12">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5, type: "spring" }}
+            className="text-center"
+          >
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: [0, 1.2, 1] }}
+              transition={{ duration: 0.6, times: [0, 0.6, 1] }}
+              className="mb-6 flex justify-center"
+            >
+              <div className="w-24 h-24 bg-gradient-to-br from-primary to-purple-600 rounded-full flex items-center justify-center">
+                <Sparkles className="w-12 h-12 text-white" />
+              </div>
+            </motion.div>
+
+            <motion.h3
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="text-3xl md:text-4xl font-bold text-slate-900 mb-4"
+            >
+              Quiz Complete! 🎉
+            </motion.h3>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+              className="text-lg text-slate-600 mb-6"
+            >
+              Great! We're preparing your personalized results...
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7, duration: 0.5 }}
+              className="flex justify-center gap-2"
+            >
+              {[0, 1, 2].map((i) => (
+                <motion.div
+                  key={i}
+                  className="w-3 h-3 bg-primary rounded-full"
+                  animate={{
+                    scale: [1, 1.3, 1],
+                    opacity: [0.5, 1, 0.5],
+                  }}
+                  transition={{
+                    duration: 1,
+                    repeat: Infinity,
+                    delay: i * 0.2,
+                  }}
+                />
+              ))}
+            </motion.div>
+          </motion.div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="border-2 border-primary/20 shadow-lg">
@@ -159,75 +334,90 @@ export default function ServiceQuiz({ onComplete }: ServiceQuizProps) {
                   {currentQuestion.question}
                 </h3>
               </div>
-              <p className="text-slate-600">Select the option that best fits your needs</p>
+              <p className="text-slate-600">
+                {isMultiSelect
+                  ? "Select all that apply, then click Next"
+                  : "Select the option that best fits your needs"}
+              </p>
             </div>
 
             {/* Options */}
             <div className="space-y-3 mb-8">
-              {currentQuestion.options.map((option) => (
-                <motion.button
-                  key={option.value}
-                  onClick={() => handleSelect(option.value)}
-                  className={`
-                    w-full text-left p-4 rounded-lg border-2 transition-all
-                    ${
-                      selectedOption === option.value
-                        ? "border-primary bg-primary/5 shadow-md"
-                        : "border-slate-200 hover:border-primary/50 hover:bg-slate-50"
-                    }
-                  `}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <div className="flex items-start gap-3">
-                    <div
-                      className={`
-                      w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 flex-shrink-0
+              {currentQuestion.options.map((option) => {
+                const isSelected = selectedOptions.includes(option.value);
+                const isDisabled = !isMultiSelect && isAdvancing;
+                return (
+                  <motion.button
+                    key={option.value}
+                    onClick={() => handleSelect(option.value)}
+                    disabled={isDisabled}
+                    className={`
+                      w-full text-left p-4 rounded-lg border-2 transition-all
                       ${
-                        selectedOption === option.value
-                          ? "border-primary bg-primary"
-                          : "border-slate-300"
+                        isSelected
+                          ? "border-primary bg-primary/5 shadow-md"
+                          : "border-slate-200 hover:border-primary/50 hover:bg-slate-50"
                       }
+                      ${isDisabled ? "cursor-not-allowed opacity-60" : ""}
                     `}
-                    >
-                      {selectedOption === option.value && (
-                        <motion.div
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          className="w-2 h-2 bg-white rounded-full"
-                        />
-                      )}
+                    whileHover={!isDisabled ? { scale: 1.02 } : {}}
+                    whileTap={!isDisabled ? { scale: 0.98 } : {}}
+                  >
+                    <div className="flex items-start gap-3">
+                      <div
+                        className={`
+                        w-5 h-5 ${isMultiSelect ? 'rounded' : 'rounded-full'} border-2 flex items-center justify-center mt-0.5 flex-shrink-0
+                        ${
+                          isSelected
+                            ? "border-primary bg-primary"
+                            : "border-slate-300"
+                        }
+                      `}
+                      >
+                        {isSelected && (
+                          <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            className={isMultiSelect ? "text-white text-xs" : "w-2 h-2 bg-white rounded-full"}
+                          >
+                            {isMultiSelect && "✓"}
+                          </motion.div>
+                        )}
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-semibold text-slate-900">{option.label}</div>
+                        {option.description && (
+                          <div className="text-sm text-slate-600 mt-1">
+                            {option.description}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <div className="font-semibold text-slate-900">{option.label}</div>
-                      {option.description && (
-                        <div className="text-sm text-slate-600 mt-1">
-                          {option.description}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </motion.button>
-              ))}
+                  </motion.button>
+                );
+              })}
             </div>
           </motion.div>
         </AnimatePresence>
 
         {/* Navigation */}
         <div className="flex justify-between items-center">
-          <Button
-            variant="ghost"
-            onClick={handleBack}
-            disabled={currentStep === 0}
-            className="gap-2"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            Back
-          </Button>
+          {currentStep > 0 ? (
+            <Button
+              variant="ghost"
+              onClick={handleBack}
+              className="gap-2"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              Back
+            </Button>
+          ) : (
+            <div></div>
+          )}
 
           <Button
             onClick={handleNext}
-            disabled={!selectedOption}
+            disabled={selectedOptions.length === 0}
             className="gap-2"
           >
             {currentStep < quizQuestions.length - 1 ? (

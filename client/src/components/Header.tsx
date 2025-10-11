@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { Menu, Sparkles } from "lucide-react";
 import { handleSmoothScroll, scrollToElement } from "@/lib/utils";
 import { Helmet } from "react-helmet";
 
@@ -71,19 +71,20 @@ export default function Header() {
             >
               Testimonials
             </a>
-            <a 
-              href="#pricing" 
+            <a
+              href="#pricing"
               className="text-slate-600 hover:text-primary transition-colors"
               onClick={(e) => handleSmoothScroll(e, "pricing")}
             >
               Pricing
             </a>
-            <a 
-              href="#contact" 
-              className="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 transition-colors"
+            <a
+              href="#contact"
+              className="flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 transition-colors"
               onClick={(e) => handleSmoothScroll(e, "contact")}
             >
-              Contact
+              <Sparkles className="h-4 w-4" />
+              Take Quiz
             </a>
           </nav>
           
@@ -124,19 +125,20 @@ export default function Header() {
                   >
                     Testimonials
                   </a>
-                  <a 
-                    href="#pricing" 
-                    className="text-slate-700 hover:text-primary transition-colors" 
+                  <a
+                    href="#pricing"
+                    className="text-slate-700 hover:text-primary transition-colors"
                     onClick={navigateAndClose}
                   >
                     Pricing
                   </a>
-                  <a 
-                    href="#contact" 
-                    className="text-slate-700 hover:text-primary transition-colors" 
+                  <a
+                    href="#contact"
+                    className="flex items-center gap-2 text-slate-700 hover:text-primary transition-colors font-semibold"
                     onClick={navigateAndClose}
                   >
-                    Contact
+                    <Sparkles className="h-4 w-4" />
+                    Take Quiz
                   </a>
                 </div>
               </SheetContent>

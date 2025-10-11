@@ -2,16 +2,17 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Sparkles, Check, ArrowRight } from "lucide-react";
 import { handleSmoothScroll } from "@/lib/utils";
+import QuizCTA from "@/components/QuizCTA";
 
 export default function Hero() {
   return (
-    <section className="relative py-20 md:py-32 overflow-hidden bg-gradient-to-b from-slate-50 to-white">
+    <section className="relative py-20 md:py-32 overflow-hidden bg-gradient-to-b from-slate-50 to-white select-none">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
         <div className="absolute top-1/2 -left-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
       </div>
       
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 select-none">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -109,11 +110,11 @@ export default function Hero() {
             <div className="absolute inset-0 bg-gradient-to-tr from-primary/70 via-primary/30 to-transparent mix-blend-multiply"></div>
             
             {/* Floating device mockups */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative w-full max-w-sm">
-                {/* Desktop mockup */}
-                <motion.div 
-                  className="absolute -top-16 -right-5 w-72 h-48 bg-white rounded-lg shadow-2xl overflow-hidden border border-slate-200"
+            <div className="absolute inset-0 flex items-center justify-center md:justify-start p-4 md:p-0">
+              <div className="relative w-full md:max-w-sm h-full md:h-auto">
+                {/* Desktop mockup - hidden on mobile, shown on md+ */}
+                <motion.div
+                  className="hidden md:block absolute -top-16 -right-5 w-72 h-48 bg-white rounded-lg shadow-2xl overflow-hidden border border-slate-200"
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.6, duration: 0.5 }}
@@ -129,41 +130,33 @@ export default function Hero() {
                     <div className="h-4 w-1/2 bg-slate-200 rounded"></div>
                   </div>
                 </motion.div>
-                
-                {/* Mobile mockup */}
-                <motion.div 
-                  className="absolute bottom-8 -left-5 w-36 h-64 bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200"
+
+                {/* Mobile mockup - adjusted for mobile view */}
+                <motion.div
+                  className="absolute bottom-4 left-4 md:bottom-8 md:-left-5 w-28 md:w-36 h-52 md:h-64 bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200"
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.8, duration: 0.5 }}
                 >
-                  <div className="h-5 bg-slate-800 flex justify-center items-end pb-0.5">
-                    <div className="w-20 h-1.5 bg-slate-600 rounded"></div>
+                  <div className="h-4 md:h-5 bg-slate-800 flex justify-center items-end pb-0.5">
+                    <div className="w-16 md:w-20 h-1 md:h-1.5 bg-slate-600 rounded"></div>
                   </div>
-                  <div className="p-2">
-                    <div className="h-3 w-1/2 bg-slate-200 rounded mb-2"></div>
-                    <div className="h-24 bg-primary/10 rounded mb-2"></div>
-                    <div className="space-y-1.5">
-                      <div className="h-3 bg-slate-200 rounded"></div>
-                      <div className="h-3 bg-slate-200 rounded"></div>
-                      <div className="h-3 w-2/3 bg-slate-200 rounded"></div>
+                  <div className="p-1.5 md:p-2">
+                    <div className="h-2 md:h-3 w-1/2 bg-slate-200 rounded mb-1.5 md:mb-2"></div>
+                    <div className="h-20 md:h-24 bg-primary/10 rounded mb-1.5 md:mb-2"></div>
+                    <div className="space-y-1 md:space-y-1.5">
+                      <div className="h-2 md:h-3 bg-slate-200 rounded"></div>
+                      <div className="h-2 md:h-3 bg-slate-200 rounded"></div>
+                      <div className="h-2 md:h-3 w-2/3 bg-slate-200 rounded"></div>
                     </div>
                   </div>
                 </motion.div>
-                
-                {/* Main card */}
-                <motion.div 
-                className="absolute top-1/2 -left-[5%] md:left-[15%]  transform -translate-x-1/2 -translate-y-1/2 w-80 bg-white/95 backdrop-blur-sm p-6 rounded-lg shadow-2xl text-center rotate-2 hover:rotate-0 transition-transform duration-300"
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 1, duration: 0.5 }}
-                >
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Sparkles className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="font-bold text-2xl mb-2 text-primary">First impressions count</h3>
-                  <p className="text-slate-700">We'll showcase your hard work the right way.</p>
-                </motion.div>
+
+                {/* Quiz CTA Card - centered in image overlay */}
+                <QuizCTA
+                  variant="card"
+                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[280px] md:w-80 md:rotate-2 hover:rotate-0 transition-transform duration-300"
+                />
               </div>
             </div>
           </motion.div>

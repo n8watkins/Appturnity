@@ -41,9 +41,9 @@ export default function HowWeWork() {
         
         <div className="grid md:grid-cols-3 gap-8">
           {steps.map((step, index) => (
-            <motion.div 
+            <motion.div
               key={step.id}
-              className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow"
+              className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow group"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -54,7 +54,7 @@ export default function HowWeWork() {
               </div>
               <h3 className="text-xl font-semibold text-slate-900 mb-3">{step.title}</h3>
               <p className="text-slate-600 mb-4">{step.description}</p>
-              <div className="h-1 w-16 bg-primary rounded"></div>
+              <div className="h-1 w-16 bg-primary rounded transition-all duration-300 group-hover:w-32"></div>
             </motion.div>
           ))}
         </div>
