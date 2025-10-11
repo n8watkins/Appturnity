@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="bg-slate-900 text-slate-400 py-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center space-x-2 mb-4">
               <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center">
@@ -25,7 +25,7 @@ export default function Footer() {
           </div>
           
           <div>
-            <h3 className="text-white font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-white font-semibold mb-4">Sitemap</h3>
             <ul className="space-y-2">
               <li>
                 <a
@@ -63,6 +63,12 @@ export default function Footer() {
                   Testimonials
                 </a>
               </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-white font-semibold mb-4">Tools</h3>
+            <ul className="space-y-2">
               <li>
                 <a
                   href="#pricing"
@@ -78,7 +84,7 @@ export default function Footer() {
                   onClick={(e) => handleSmoothScroll(e, "contact")}
                   className="hover:text-white transition-colors cursor-pointer"
                 >
-                  Contact & Quiz
+                  Service Quiz
                 </a>
               </li>
             </ul>
