@@ -7,7 +7,7 @@ import Testimonials from "@/components/Testimonials";
 import PricingCalculator from "@/components/PricingCalculator";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
-import TextUsWidget from "@/components/TextUsWidget";
+import ChatWidget from "@/components/ChatWidget";
 import QuizCTA from "@/components/QuizCTA";
 
 export default function Home() {
@@ -23,7 +23,7 @@ export default function Home() {
         <Testimonials />
         <PricingCalculator />
         <Contact />
-        <TextUsWidget/>
+        <ChatWidget/>
       </div>
       <Footer />
     </div>

@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react"
 import { MessageSquare, X, Send, Calendar, PhoneCall } from "lucide-react"
 import Lottie from "lottie-react"
 import { z } from "zod"
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
+import { useToast } from '@/hooks/use-toast'
 
 type Msg = {
   sender: "user" | "bot"
@@ -34,7 +36,7 @@ function loadJSON<T>(key: string, fallback: T): T {
   }
 }
 
-export default function TextChatWidget() {
+export default function ChatWidget() {
   // ——— load persisted state ———
   const [isOpen, setIsOpen] = useState<boolean>(() =>
     loadJSON("chat-isOpen", false)
@@ -55,6 +57,10 @@ export default function TextChatWidget() {
   const [selectedSuggestions, setSelectedSuggestions] = useState<string[]>([])
   const pending = useRef<{ name:string; email:string; text:string; suggestions?:string[] } | null>(null)
   const [errors, setErrors]     = useState<Record<string,string[]>>({})
+
+  // ——— reCAPTCHA and toast ———
+  const { executeRecaptcha } = useGoogleReCaptcha()
+  const { toast } = useToast()
 
   // refs for click-away and scrolling
   const containerRef    = useRef<HTMLDivElement>(null)
@@ -114,6 +120,16 @@ export default function TextChatWidget() {
     setErrors({})
     if (form.hp_field) return  // spam honeypot
 
+    // Check if reCAPTCHA is ready
+    if (!executeRecaptcha) {
+      toast({
+        title: "reCAPTCHA not ready",
+        description: "Please wait a moment and try again.",
+        variant: "destructive",
+      })
+      return
+    }
+
     const name  = form.name.trim().split(" ")[0] || "There"
     const email = form.email.trim()
     const text  = form.message.trim()
@@ -130,6 +146,9 @@ export default function TextChatWidget() {
 
     // Send to API
     try {
+      // Execute reCAPTCHA to get token
+      const recaptchaToken = await executeRecaptcha('chat_widget')
+
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
@@ -141,6 +160,7 @@ export default function TextChatWidget() {
           message: form.message.trim(),
           suggestions: selectedSuggestions.length ? selectedSuggestions : undefined,
           hp_field: form.hp_field,
+          recaptchaToken,
         }),
       })
 
@@ -148,9 +168,19 @@ export default function TextChatWidget() {
 
       if (!response.ok) {
         console.error('Failed to send message:', data.message)
+        toast({
+          title: "Something went wrong",
+          description: data.message || "Your message couldn't be sent. Please try again.",
+          variant: "destructive",
+        })
       }
     } catch (error) {
       console.error('Error sending message:', error)
+      toast({
+        title: "Something went wrong",
+        description: "Your message couldn't be sent. Please try again.",
+        variant: "destructive",
+      })
     }
 
     setMessageSent(true)

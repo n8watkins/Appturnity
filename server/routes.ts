@@ -17,6 +17,7 @@ const chatWidgetSchema = z.object({
   message: z.string().min(1).max(500),
   suggestions: z.array(z.string()).optional(),
   hp_field: z.string().optional(),
+  recaptchaToken: z.string().min(1),
 });
 
 // Function to verify reCAPTCHA token with Google
@@ -107,8 +108,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Remove hp_field before sending email
-      const { hp_field, ...emailData } = validatedData;
+      // Verify reCAPTCHA token
+      const isHuman = await verifyRecaptcha(validatedData.recaptchaToken);
+
+      if (!isHuman) {
+        return res.status(400).json({
+          success: false,
+          message: "reCAPTCHA verification failed. Please try again."
+        });
+      }
+
+      // Remove hp_field and recaptchaToken before sending email
+      const { hp_field, recaptchaToken, ...emailData } = validatedData;
 
       // Send email notification
       await sendChatWidgetEmail(emailData);
