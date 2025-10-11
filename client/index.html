@@ -33,6 +33,25 @@
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#667eea" />
+
+    <!-- Google Analytics -->
+    <script>
+      // Only load Google Analytics if measurement ID is configured
+      if (window.VITE_GA_MEASUREMENT_ID || import.meta.env.VITE_GA_MEASUREMENT_ID) {
+        const GA_ID = window.VITE_GA_MEASUREMENT_ID || import.meta.env.VITE_GA_MEASUREMENT_ID;
+
+        // Google tag (gtag.js)
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+        document.head.appendChild(script);
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', GA_ID);
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

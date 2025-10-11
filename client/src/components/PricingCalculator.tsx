@@ -509,8 +509,7 @@ export default function PricingCalculator() {
                     
                     // Create a more detailed message
                     const message = `I'm interested in a custom app with ${formData.screens} screens for ${formData.users} users.\n\n${featuresList ? `Advanced features I need:\n- ${featuresList.replace(/, /g, '\n- ')}\n\n` : ''}Please provide a quote based on these requirements.`;
-                    
-                    console.log("Setting contact message in sessionStorage:", message);
+
                     sessionStorage.setItem('contactMessage', message);
                     
                     // Scroll to contact form

@@ -33,12 +33,20 @@
   RECAPTCHA_SECRET_KEY=your_secret_key_here
   ```
 
-### 3. Configure Environment Variables
+### 3. Get Google Analytics (Optional)
+- [ ] Go to https://analytics.google.com
+- [ ] Create a new property for your website
+- [ ] Copy the Measurement ID (starts with `G-`)
+- [ ] Add to `.env` as `VITE_GA_MEASUREMENT_ID=G-...`
+- [ ] Analytics will automatically load when the ID is present
+
+### 4. Configure Environment Variables
 - [ ] Create `.env` file: `cp .env.example .env`
 - [ ] Add Resend API key
 - [ ] Add your contact email (where forms will be sent)
 - [ ] Add reCAPTCHA site key (VITE_ prefix for frontend)
 - [ ] Add reCAPTCHA secret key (for backend)
+- [ ] Add Google Analytics ID (optional)
 - [ ] Verify `.env` is in `.gitignore` (it already is!)
 
 ## 🧪 Testing
@@ -46,6 +54,7 @@
 ### Local Development
 - [ ] Run `npm install` to ensure all dependencies are installed
 - [ ] Run `npm run check` to verify TypeScript compiles
+- [ ] Run `npm run test:run` to run the test suite
 - [ ] Run `npm run dev` to start the development server
 - [ ] Open http://localhost:3000 in browser
 - [ ] Test the contact form:
@@ -88,16 +97,36 @@ Make sure to set in your hosting service:
 - [ ] `VITE_RECAPTCHA_SITE_KEY` (if building on host)
 - [ ] `NODE_ENV=production`
 
-## 📝 Optional Improvements
+## 📝 Completed Improvements
+
+### Phase 1: Security Hardening ✅
+- [x] Add rate limiting (express-rate-limit package) - 100 req/15min globally, 5 req/hour for contact
+- [x] Add CORS configuration for production
+- [x] Add Helmet security headers with CSP
+- [x] Environment variable validation on server startup
+- [x] Fix npm audit vulnerabilities (11/14 resolved)
+- [x] Rename robot.txt to robots.txt
+
+### Phase 2: Code Quality & Analytics ✅
+- [x] Remove console.log statements from production code
+- [x] Add ARIA attributes to forms for accessibility
+- [x] Add Google Analytics tracking (optional, conditional loading)
+
+### Phase 3: Testing & CI/CD ✅
+- [x] Set up Vitest testing infrastructure
+- [x] Add @testing-library/react for component testing
+- [x] Create GitHub Actions CI workflow (type check, test, build)
+
+## 📝 Optional Future Improvements
 
 ### Nice to Have
-- [ ] Add rate limiting (express-rate-limit package)
-- [ ] Set up monitoring/alerts for email failures
-- [ ] Add Google Analytics or Plausible
+- [ ] Set up error monitoring service (Sentry, LogRocket)
+- [ ] Add performance monitoring/alerts
 - [ ] Create better social share image (replace generated-icon.png)
 - [ ] Set up custom domain
 - [ ] Add sitemap.xml for SEO
 - [ ] Test on mobile devices
+- [ ] Add E2E tests with Playwright
 
 ### Future Features
 - [ ] Add success/thank you page after form submission

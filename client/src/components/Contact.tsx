@@ -53,7 +53,6 @@ export default function Contact() {
         const savedMessage = sessionStorage.getItem('contactMessage');
         
         if (savedMessage) {
-          console.log("Loading saved message from session storage:", savedMessage);
           form.setValue('message', savedMessage);
         }
       } catch (e) {
@@ -67,7 +66,6 @@ export default function Contact() {
       if (typeof window !== 'undefined') {
         const savedMessage = sessionStorage.getItem('contactMessage');
         if (savedMessage) {
-          console.log("Focus event - loading message:", savedMessage);
           form.setValue('message', savedMessage);
         }
       }
@@ -132,16 +130,16 @@ export default function Contact() {
     if (typeof window !== 'undefined') {
       const savedMessage = sessionStorage.getItem('contactMessage');
       if (savedMessage) {
-        console.log("Manual load of saved message:", savedMessage);
         form.setValue('message', savedMessage);
       }
     }
   };
 
   return (
-    <section 
-      id="contact" 
-      className="py-20 bg-white scroll-mt-16" 
+    <section
+      id="contact"
+      className="py-20 bg-white scroll-mt-16"
+      aria-label="Contact form section"
       onFocus={loadSessionData}
       onClick={loadSessionData}
     >
@@ -172,7 +170,11 @@ export default function Contact() {
             <Card className="shadow-lg border border-slate-200 h-full">
               <CardContent className="p-6 md:p-8">
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-6"
+                    aria-label="Contact form"
+                  >
                     <div>
                       <FormField
                         control={form.control}
