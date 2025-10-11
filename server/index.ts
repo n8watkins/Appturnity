@@ -1,8 +1,82 @@
 import express, { type Request, Response, NextFunction } from "express";
+import cors from "cors";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
+// Validate required environment variables
+function validateEnvVars() {
+  const required = ["RESEND_API_KEY", "CONTACT_EMAIL"];
+  const missing = required.filter((key) => !process.env[key]);
+
+  if (missing.length > 0) {
+    console.error("❌ Missing required environment variables:");
+    missing.forEach((key) => console.error(`   - ${key}`));
+    console.error("\nPlease create a .env file with these variables.");
+    console.error("See .env.example for reference.\n");
+    process.exit(1);
+  }
+
+  // Warn about optional but recommended variables
+  if (!process.env.RECAPTCHA_SECRET_KEY) {
+    console.warn("⚠️  RECAPTCHA_SECRET_KEY not set - reCAPTCHA verification will be skipped");
+  }
+  if (!process.env.VITE_RECAPTCHA_SITE_KEY) {
+    console.warn("⚠️  VITE_RECAPTCHA_SITE_KEY not set - reCAPTCHA won't load on frontend");
+  }
+
+  log("✓ Environment variables validated");
+}
+
+// Validate environment on startup
+validateEnvVars();
+
 const app = express();
+
+// Security middleware
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://www.google.com", "https://www.gstatic.com"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "https:", "blob:"],
+      connectSrc: ["'self'", "https://www.google.com"],
+      frameSrc: ["https://www.google.com"],
+    },
+  },
+}));
+
+// CORS configuration
+app.use(cors({
+  origin: process.env.NODE_ENV === "production"
+    ? process.env.FRONTEND_URL || false
+    : true, // Allow all origins in development
+  credentials: true,
+}));
+
+// Rate limiting for API endpoints
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: "Too many requests from this IP, please try again later.",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Stricter rate limit for contact form
+const contactLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 5, // Limit each IP to 5 contact form submissions per hour
+  message: "Too many contact form submissions, please try again later.",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+app.use("/api", apiLimiter);
+app.use("/api/contact", contactLimiter);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
