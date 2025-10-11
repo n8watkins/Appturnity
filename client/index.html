@@ -34,6 +34,146 @@
     <!-- Theme Color -->
     <meta name="theme-color" content="#667eea" />
 
+    <!-- JSON-LD Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://appturnity.com/#organization",
+          "name": "Appturnity",
+          "url": "https://appturnity.com",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://appturnity.com/appturnity.webp",
+            "width": 200,
+            "height": 200
+          },
+          "description": "Professional web design and development agency specializing in custom landing pages and web applications for growing businesses.",
+          "email": "nathancwatkins23@gmail.com",
+          "telephone": "+1-818-600-1142",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+1-818-600-1142",
+            "contactType": "Customer Service",
+            "email": "nathancwatkins23@gmail.com",
+            "availableLanguage": "English"
+          },
+          "sameAs": []
+        },
+        {
+          "@type": "LocalBusiness",
+          "@id": "https://appturnity.com/#localbusiness",
+          "name": "Appturnity",
+          "image": "https://appturnity.com/appturnity.webp",
+          "url": "https://appturnity.com",
+          "telephone": "+1-818-600-1142",
+          "email": "nathancwatkins23@gmail.com",
+          "priceRange": "$$",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "US",
+            "addressRegion": "CA"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 34.0522,
+            "longitude": -118.2437
+          },
+          "areaServed": {
+            "@type": "State",
+            "name": "California"
+          },
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "opens": "09:00",
+            "closes": "17:00"
+          }
+        },
+        {
+          "@type": "ProfessionalService",
+          "@id": "https://appturnity.com/#service",
+          "name": "Web Design & Development Services",
+          "provider": {
+            "@id": "https://appturnity.com/#organization"
+          },
+          "serviceType": "Web Design and Development",
+          "areaServed": {
+            "@type": "Country",
+            "name": "United States"
+          },
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Web Services",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Custom Landing Page Development",
+                  "description": "Professional, conversion-optimized landing pages designed specifically for your business needs."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Web Application Development",
+                  "description": "Custom web applications built to automate your business processes and save time."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Business Website Design",
+                  "description": "Modern, responsive websites that drive leads and grow your business."
+                }
+              }
+            ]
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://appturnity.com/#website",
+          "url": "https://appturnity.com",
+          "name": "Appturnity - Professional Landing Pages",
+          "description": "Modern, lead-driven landing pages with upfront pricing and no monthly traps.",
+          "publisher": {
+            "@id": "https://appturnity.com/#organization"
+          },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://appturnity.com/#webpage",
+          "url": "https://appturnity.com",
+          "name": "Appturnity - Professional Landing Pages for Growing Businesses",
+          "description": "Modern, lead-driven landing pages with upfront pricing and no monthly traps. Built to drive calls and inquiries for your growing business.",
+          "isPartOf": {
+            "@id": "https://appturnity.com/#website"
+          },
+          "about": {
+            "@id": "https://appturnity.com/#organization"
+          },
+          "primaryImageOfPage": {
+            "@type": "ImageObject",
+            "url": "https://appturnity.com/appturnity.webp"
+          },
+          "inLanguage": "en-US"
+        }
+      ]
+    }
+    </script>
+
     <!-- Google Analytics -->
     <script>
       // Only load Google Analytics if measurement ID is configured
