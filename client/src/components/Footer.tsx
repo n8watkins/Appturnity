@@ -40,7 +40,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li className="flex items-center gap-2">
                 <Phone size={16} />
-                <span>(818) 600-1142</span>
+                <span>(818) 288-8082</span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={16} />
@@ -50,8 +50,14 @@ export default function Footer() {
           </div>
         </div>
         
-        <div className="border-t border-slate-800 mt-10 pt-6 text-sm text-center">
-          <p>&copy; {new Date().getFullYear()} Appturnity. All rights reserved.</p>
+        <div className="border-t border-slate-800 mt-10 pt-6 text-sm">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p>&copy; {new Date().getFullYear()} Appturnity. All rights reserved.</p>
+            <div className="flex gap-6">
+              <a href="/terms" className="hover:text-white transition-colors">Terms of Use</a>
+              <a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

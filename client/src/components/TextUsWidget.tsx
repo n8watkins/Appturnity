@@ -335,7 +335,7 @@ export default function TextChatWidget() {
                 </a>
                 <span className="text-gray-500 font-semibold">or</span>
                 <a
-                  href="tel:8186001142"
+                  href="tel:8182888082"
                   className="flex-1 flex items-center justify-center bg-white text-primary border border-primary rounded-md py-2 hover:scale-105 transition duration-200"
                 >
                   <PhoneCall className="mr-2"/> Call Now

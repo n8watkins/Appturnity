@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
@@ -9,6 +9,7 @@ import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
 import { Calendar, Mail, Phone } from 'lucide-react';
 import { CalendlyButton } from '@/components/ui/calendly-embed';
+import ServiceQuiz from '@/components/ServiceQuiz';
 
 import {
   Form,
@@ -33,9 +34,11 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [quizCompleted, setQuizCompleted] = useState(false);
   const { toast } = useToast();
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [, setLocation] = useLocation();
+  const formButtonRef = useRef<HTMLButtonElement>(null);
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -135,6 +138,78 @@ export default function Contact() {
     }
   };
 
+  // Handle quiz completion
+  const handleQuizComplete = (results: Record<string, string>) => {
+    // Format quiz results into a message
+    const labelMap: Record<string, string> = {
+      projectType: "Project Type",
+      primaryGoal: "Primary Goal",
+      features: "Features Needed",
+      timeline: "Timeline",
+      budget: "Budget Range",
+    };
+
+    const valueMap: Record<string, Record<string, string>> = {
+      projectType: {
+        "landing-page": "Landing Page",
+        "business-website": "Business Website",
+        "web-app": "Web Application",
+        "ecommerce": "E-commerce Store",
+        "not-sure": "Not Sure Yet",
+      },
+      primaryGoal: {
+        "generate-leads": "Generate More Leads",
+        "sell-products": "Sell Products/Services",
+        "build-brand": "Build Brand Awareness",
+        "automate-process": "Automate Business Processes",
+        "replace-saas": "Replace Expensive SaaS",
+      },
+      features: {
+        "contact-forms": "Contact Forms",
+        "booking-scheduling": "Booking/Scheduling System",
+        "payment-integration": "Payment Integration",
+        "user-accounts": "User Account System",
+        "integrations": "Third-party Integrations",
+        "custom-tools": "Custom Tools/Calculators",
+      },
+      timeline: {
+        "asap": "As Soon As Possible",
+        "1-2-months": "1-2 Months",
+        "3-6-months": "3-6 Months",
+        "flexible": "Flexible Timeline",
+      },
+      budget: {
+        "under-5k": "Under $5,000",
+        "5k-10k": "$5,000 - $10,000",
+        "10k-25k": "$10,000 - $25,000",
+        "25k-plus": "$25,000+",
+        "not-sure": "Need Budget Guidance",
+      },
+    };
+
+    const formattedMessage = Object.entries(results)
+      .map(([key, value]) => {
+        const label = labelMap[key] || key;
+        const displayValue = valueMap[key]?.[value] || value;
+        return `${label}: ${displayValue}`;
+      })
+      .join("\n");
+
+    const finalMessage = `I'm interested in discussing a project with the following details:\n\n${formattedMessage}\n\nLooking forward to hearing from you!`;
+
+    // Set the message in the form
+    form.setValue('message', finalMessage);
+    setQuizCompleted(true);
+
+    // Smooth scroll to the form button with a delay
+    setTimeout(() => {
+      formButtonRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }, 500);
+  };
+
   return (
     <section
       id="contact"
@@ -145,7 +220,7 @@ export default function Contact() {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Centered heading across the entire screen */}
-        <motion.div 
+        <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -154,11 +229,33 @@ export default function Contact() {
           onViewportEnter={loadSessionData}
         >
           <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">Ready for a Simpler Solution?</h2>
-          <p className="text-slate-600 max-w-2xl mx-auto">Tell us about your needs and we'll schedule a free consultation to see if we're a good fit.</p>
+          <p className="text-slate-600 max-w-2xl mx-auto">
+            {!quizCompleted
+              ? "Take our quick 2-minute quiz to help us understand your needs better"
+              : "Great! Now tell us a bit more about yourself and we'll be in touch"}
+          </p>
         </motion.div>
 
-        {/* Two columns side by side */}
-        <div className="flex flex-col lg:flex-row gap-8 items-start max-w-6xl mx-auto">
+        {/* Service Quiz - shown first */}
+        {!quizCompleted && (
+          <motion.div
+            className="max-w-3xl mx-auto mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <ServiceQuiz onComplete={handleQuizComplete} />
+          </motion.div>
+        )}
+
+        {/* Two columns side by side - shown after quiz */}
+        {quizCompleted && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="flex flex-col lg:flex-row gap-8 items-start max-w-6xl mx-auto">
           {/* Contact Form Column */}
           <motion.div
             className="flex-1"
@@ -229,6 +326,7 @@ export default function Contact() {
                     </div>
 
                     <Button
+                      ref={formButtonRef}
                       type="submit"
                       className="w-full h-12 bg-blue-500 hover:bg-blue-600"
                       disabled={isSubmitting}
@@ -320,12 +418,12 @@ export default function Contact() {
                   <Calendar className="h-4 w-4" />
                   Schedule a call
                 </button>
-                <a 
-                  href="tel:+18186001142" 
+                <a
+                  href="tel:+18182888082"
                   className="flex items-center gap-2 text-blue-300 hover:text-blue-200"
                 >
                   <Phone className="h-4 w-4" />
-                  (818) 600-1142
+                  (818) 288-8082
                 </a>
                 <a 
                   href="mailto:nathancwatkins23@gmail.com" 
@@ -338,6 +436,8 @@ export default function Contact() {
             </div>
           </motion.div>
         </div>
+          </motion.div>
+        )}
       </div>
     </section>
   );

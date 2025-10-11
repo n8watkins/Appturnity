@@ -148,7 +148,7 @@ export default function Success() {
               className="gap-2"
             >
               <a
-                href="https://calendly.com/nathancwatkins23/web-consulting?month=2025-04"
+                href="https://calendly.com/nathancwatkins23/web-consulting"
                 target="_blank"
                 rel="noopener noreferrer"
               >
