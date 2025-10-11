@@ -41,6 +41,15 @@ export async function setupVite(app: Express, server: Server) {
     appType: "custom",
   });
 
+  // Clean up Vite server on process termination
+  const cleanup = async () => {
+    await vite.close();
+  };
+
+  process.on('SIGTERM', cleanup);
+  process.on('SIGINT', cleanup);
+  process.on('exit', cleanup);
+
   app.use(vite.middlewares);
   app.use("*", async (req, res, next) => {
     const url = req.originalUrl;
