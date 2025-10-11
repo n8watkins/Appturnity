@@ -57,16 +57,19 @@ const testimonials = [
 export default function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const itemsPerView = 3;
 
-  // Auto-rotate testimonials every 5 seconds
+  // Auto-rotate testimonials every 5 seconds (when not paused)
   useEffect(() => {
+    if (isPaused) return;
+
     const timer = setInterval(() => {
       goToNext();
     }, 5000);
 
     return () => clearInterval(timer);
-  }, [currentIndex]);
+  }, [currentIndex, isPaused]);
 
   const goToNext = () => {
     setDirection(1);
@@ -122,7 +125,11 @@ export default function Testimonials() {
           <p className="text-lg text-slate-600">Don't just take our word for it. Here's what others have to say about working with us.</p>
         </motion.div>
 
-        <div className="relative max-w-7xl mx-auto">
+        <div
+          className="relative max-w-7xl mx-auto"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
           {/* Navigation Buttons */}
           <button
             onClick={goToPrevious}
