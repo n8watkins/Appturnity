@@ -26,25 +26,29 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li><a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a></li>
-              <li><a href="#about" className="hover:text-white transition-colors">About Us</a></li>
+              <li><a href="#how-we-work" className="hover:text-white transition-colors">How We Work</a></li>
+              <li><a href="#about" className="hover:text-white transition-colors">About</a></li>
+              <li><a href="#portfolio" className="hover:text-white transition-colors">Portfolio</a></li>
               <li><a href="#testimonials" className="hover:text-white transition-colors">Testimonials</a></li>
-              <li><a href="#pricing" className="hover:text-white transition-colors">Pricing</a></li>
-              <li><a href="#schedule" className="hover:text-white transition-colors">Schedule</a></li>
-              <li><a href="#contact" className="hover:text-white transition-colors">Contact</a></li>
+              <li><a href="#pricing" className="hover:text-white transition-colors">Pricing Calculator</a></li>
+              <li><a href="#contact" className="hover:text-white transition-colors">Contact & Quiz</a></li>
             </ul>
           </div>
-          
+
           <div>
             <h3 className="text-white font-semibold mb-4">Contact Us</h3>
             <ul className="space-y-2">
-              <li className="flex items-center gap-2">
-                <Phone size={16} />
-                <span>(818) 288-8082</span>
+              <li>
+                <a href="tel:+18182888082" className="flex items-center gap-2 hover:text-white transition-colors">
+                  <Phone size={16} />
+                  <span>(818) 288-8082</span>
+                </a>
               </li>
-              <li className="flex items-center gap-2">
-                <Mail size={16} />
-                <span>nathancwatkins23@gmail.com</span>
+              <li>
+                <a href="mailto:nathancwatkins23@gmail.com" className="flex items-center gap-2 hover:text-white transition-colors">
+                  <Mail size={16} />
+                  <span>nathancwatkins23@gmail.com</span>
+                </a>
               </li>
             </ul>
           </div>
