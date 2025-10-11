@@ -43,7 +43,7 @@ export default function HowWeWork() {
           {steps.map((step, index) => (
             <motion.div
               key={step.id}
-              className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow group"
+              className="bg-white rounded-xl border border-slate-200 p-6 shadow-[0_4px_20px_rgba(59,130,246,0.15)] hover:shadow-[0_8px_30px_rgba(59,130,246,0.35)] transition-all duration-300 group"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
