@@ -322,7 +322,7 @@ export default function TextChatWidget() {
                         value={form.name}
                         onChange={handleChange}
                         autoComplete="name"
-                        className="w-full border-2 rounded-lg px-3 py-2 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 placeholder:text-gray-400"
+                        className="w-full border-2 rounded-lg px-3 py-2 border-gray-300 focus:border-primary focus:ring-0 focus:outline-none transition-all duration-200 placeholder:text-gray-400"
                       />
                       {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name[0]}</p>}
                     </div>
@@ -335,7 +335,7 @@ export default function TextChatWidget() {
                         value={form.email}
                         onChange={handleChange}
                         autoComplete="email"
-                        className="w-full border-2 rounded-lg px-3 py-2 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 placeholder:text-gray-400"
+                        className="w-full border-2 rounded-lg px-3 py-2 border-gray-300 focus:border-primary focus:ring-0 focus:outline-none transition-all duration-200 placeholder:text-gray-400"
                       />
                       {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email[0]}</p>}
                     </div>
@@ -343,7 +343,7 @@ export default function TextChatWidget() {
                       <textarea
                         name="message" placeholder="Message" value={form.message}
                         onChange={handleChange}
-                        className="w-full border-2 rounded-lg px-3 py-2 border-gray-300 h-20 resize-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 placeholder:text-gray-400"
+                        className="w-full border-2 rounded-lg px-3 py-2 border-gray-300 h-20 resize-none focus:border-primary focus:ring-0 focus:outline-none transition-all duration-200 placeholder:text-gray-400"
                       />
                       <div className="absolute -bottom-3 right-2 text-xs text-gray-500">
                         {form.message.length}/{MAX_MESSAGE_LENGTH}
