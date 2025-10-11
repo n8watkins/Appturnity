@@ -45,6 +45,9 @@ function validateEnvVars() {
 // Validate environment on startup
 validateEnvVars();
 
+// Increase max listeners for development hot reload
+process.setMaxListeners(20);
+
 const app = express();
 
 // Security middleware
