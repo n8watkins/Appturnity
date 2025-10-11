@@ -24,7 +24,7 @@ export default function Hero() {
               <span className="text-sm font-medium">Modern designs, real results</span>
             </div>
             
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold tracking-tight text-slate-900 mb-6 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight text-slate-900 mb-6 leading-tight">
             Professional <br className="hidden md:block" /> <span className="text-primary relative">
             landing pages
                 <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none" xmlns="http://www.w3.org/2000/svg">
