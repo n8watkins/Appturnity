@@ -164,7 +164,7 @@ export default function Testimonials() {
                 className="grid md:grid-cols-3 gap-8"
               >
                 {visibleTestimonials.map((testimonial) => (
-                  <Card key={testimonial.id} className="h-full shadow border border-slate-200">
+                  <Card key={testimonial.id} className="h-full shadow border border-slate-200 transition-transform duration-300 hover:scale-105 cursor-pointer">
                     <CardContent className="p-6">
                       <div className="mb-6">
                         <h4 className="font-semibold text-slate-900">{testimonial.name}</h4>
