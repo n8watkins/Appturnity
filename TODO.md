@@ -97,26 +97,6 @@ Make sure to set in your hosting service:
 - [ ] `VITE_RECAPTCHA_SITE_KEY` (if building on host)
 - [ ] `NODE_ENV=production`
 
-## 📝 Completed Improvements
-
-### Phase 1: Security Hardening ✅
-- [x] Add rate limiting (express-rate-limit package) - 100 req/15min globally, 5 req/hour for contact
-- [x] Add CORS configuration for production
-- [x] Add Helmet security headers with CSP
-- [x] Environment variable validation on server startup
-- [x] Fix npm audit vulnerabilities (11/14 resolved)
-- [x] Rename robot.txt to robots.txt
-
-### Phase 2: Code Quality & Analytics ✅
-- [x] Remove console.log statements from production code
-- [x] Add ARIA attributes to forms for accessibility
-- [x] Add Google Analytics tracking (optional, conditional loading)
-
-### Phase 3: Testing & CI/CD ✅
-- [x] Set up Vitest testing infrastructure
-- [x] Add @testing-library/react for component testing
-- [x] Create GitHub Actions CI workflow (type check, test, build)
-
 ## 📝 Optional Future Improvements
 
 ### Nice to Have
