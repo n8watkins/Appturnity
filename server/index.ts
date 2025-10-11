@@ -87,8 +87,18 @@ const contactLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+// Rate limit for chat widget
+const chatLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 10, // Limit each IP to 10 chat messages per hour
+  message: "Too many messages, please try again later.",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 app.use("/api", apiLimiter);
 app.use("/api/contact", contactLimiter);
+app.use("/api/chat", chatLimiter);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

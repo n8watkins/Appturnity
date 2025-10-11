@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { z } from "zod";
-import { sendContactEmail } from "./email";
+import { sendContactEmail, sendChatWidgetEmail } from "./email";
 
 const contactFormSchema = z.object({
   name: z.string().min(2),
@@ -9,6 +9,14 @@ const contactFormSchema = z.object({
   company: z.string().optional(),
   message: z.string().min(10),
   recaptchaToken: z.string().min(1),
+});
+
+const chatWidgetSchema = z.object({
+  name: z.string().min(1),
+  email: z.string().email(),
+  message: z.string().min(1).max(500),
+  suggestions: z.array(z.string()).optional(),
+  hp_field: z.string().optional(),
 });
 
 // Function to verify reCAPTCHA token with Google
@@ -81,6 +89,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
       return res.status(500).json({
         success: false,
         message: "An error occurred while processing your request"
+      });
+    }
+  });
+
+  // Chat widget submission endpoint
+  app.post("/api/chat", async (req, res) => {
+    try {
+      // Validate the request body
+      const validatedData = chatWidgetSchema.parse(req.body);
+
+      // Check honeypot field
+      if (validatedData.hp_field) {
+        return res.status(400).json({
+          success: false,
+          message: "Spam detected"
+        });
+      }
+
+      // Remove hp_field before sending email
+      const { hp_field, ...emailData } = validatedData;
+
+      // Send email notification
+      await sendChatWidgetEmail(emailData);
+
+      console.log("Chat widget submission sent via email:", validatedData.email);
+
+      return res.status(200).json({ success: true, message: "Message sent successfully" });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({
+          success: false,
+          message: "Validation failed",
+          errors: error.errors
+        });
+      }
+
+      console.error("Error processing chat widget:", error);
+
+      return res.status(500).json({
+        success: false,
+        message: "An error occurred while sending your message"
       });
     }
   });

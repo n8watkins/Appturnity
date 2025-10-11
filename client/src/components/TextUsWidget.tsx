@@ -104,7 +104,7 @@ export default function TextChatWidget() {
     )
 
   // — submit handler —
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const result = chatSchema.safeParse(form)
     if (!result.success) {
@@ -126,8 +126,34 @@ export default function TextChatWidget() {
 
     setForm({ name:"", email:"", message:"", hp_field:"" })
     setSelectedSuggestions([])
-    setMessageSent(true)
     setIsAnimating(true)
+
+    // Send to API
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          email: form.email.trim(),
+          message: form.message.trim(),
+          suggestions: selectedSuggestions.length ? selectedSuggestions : undefined,
+          hp_field: form.hp_field,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        console.error('Failed to send message:', data.message)
+      }
+    } catch (error) {
+      console.error('Error sending message:', error)
+    }
+
+    setMessageSent(true)
   }
 
   // — when Lottie finishes, append messages —
@@ -199,7 +225,11 @@ export default function TextChatWidget() {
               />
               message
             </span>
-            <button onClick={toggleOpen} className="p-1 hover:scale-110 transition">
+            <button
+              onClick={toggleOpen}
+              className="p-1.5 rounded-full hover:bg-white/20 transition-all duration-200 ease-in-out transform hover:scale-110 active:scale-95"
+              aria-label="Close chat"
+            >
               <X size={20}/>
             </button>
           </div>
@@ -266,10 +296,10 @@ export default function TextChatWidget() {
                       <button
                         key={s}
                         onClick={() => toggleSuggestion(s)}
-                        className={`px-3 py-1 rounded-full text-md font-semibold ${
+                        className={`px-3 py-1 rounded-full text-md font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-95 ${
                           selectedSuggestions.includes(s)
-                            ? "bg-primary text-white"
-                            : "bg-gray-200 hover:bg-gray-300"
+                            ? "bg-primary text-white shadow-md"
+                            : "bg-gray-200 hover:bg-gray-300 hover:shadow-sm"
                         }`}
                       >
                         {s}
@@ -283,34 +313,42 @@ export default function TextChatWidget() {
                       autoComplete="off" tabIndex={-1}
                       className="hidden"
                     />
-                    <input
-                      name="name" placeholder="Name" value={form.name}
-                      onChange={handleChange}
-                      className="w-full border-2 rounded-md px-2 py-1 border-gray-300 focus:ring-primary"
-                    />
-                    {errors.name && <p className="text-red-500 text-sm">{errors.name[0]}</p>}
-                    <input
-                      name="email" type="email" placeholder="Email" value={form.email}
-                      onChange={handleChange}
-                      className="w-full border-2 rounded-md px-2 py-1 border-gray-300 focus:ring-primary"
-                    />
-                    {errors.email && <p className="text-red-500 text-sm">{errors.email[0]}</p>}
+                    {/* Connected contact fields */}
+                    <div className="bg-gray-50 border-2 border-gray-300 rounded-lg p-3 space-y-2 focus-within:border-primary focus-within:bg-white transition-all duration-200">
+                      <input
+                        name="name" placeholder="Name" value={form.name}
+                        onChange={handleChange}
+                        className="w-full bg-transparent border-none px-1 py-1 focus:outline-none focus:ring-0 placeholder:text-gray-400"
+                      />
+                      <hr className="border-gray-300" />
+                      <input
+                        name="email" type="email" placeholder="Email" value={form.email}
+                        onChange={handleChange}
+                        className="w-full bg-transparent border-none px-1 py-1 focus:outline-none focus:ring-0 placeholder:text-gray-400"
+                      />
+                    </div>
+                    {(errors.name || errors.email) && (
+                      <div className="text-red-500 text-sm space-y-1">
+                        {errors.name && <p>{errors.name[0]}</p>}
+                        {errors.email && <p>{errors.email[0]}</p>}
+                      </div>
+                    )}
                     <div className="relative">
                       <textarea
                         name="message" placeholder="Message" value={form.message}
                         onChange={handleChange}
-                        className="w-full border-2 rounded-md px-2 py-1 border-gray-300 h-20 resize-none focus:ring-primary"
+                        className="w-full border-2 rounded-lg px-3 py-2 border-gray-300 h-20 resize-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 placeholder:text-gray-400"
                       />
                       <div className="absolute -bottom-3 right-2 text-xs text-gray-500">
                         {form.message.length}/{MAX_MESSAGE_LENGTH}
                       </div>
-                      {errors.message && <p className="text-red-500 text-sm">{errors.message[0]}</p>}
+                      {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message[0]}</p>}
                     </div>
                     <button
                       type="submit"
-                      className="w-full flex items-center justify-center bg-primary text-white rounded-2xl py-2 hover:bg-primary/90 transition"
+                      className="w-full flex items-center justify-center bg-primary text-white rounded-2xl py-2.5 font-semibold hover:bg-primary/90 hover:shadow-lg transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98]"
                     >
-                      <Send className="mr-2"/> Send
+                      <Send className="mr-2 h-4 w-4"/> Send Message
                     </button>
                   </form>
                 </>
@@ -320,7 +358,7 @@ export default function TextChatWidget() {
 
           {/* follow-up actions */}
           {messageSent && showActions && (
-            <div className="p-4 bg-white space-y-3">
+            <div className="p-4 bg-white space-y-3 animate-slide-up-fade">
               <div className="text-center italic text-sm text-black">
                 For immediate assistance please reach out below:
               </div>
@@ -328,17 +366,17 @@ export default function TextChatWidget() {
               <div className="flex gap-2 items-center">
                 <a
                   href="https://calendly.com/nathancwatkins23/web-consulting?month=2025-04"
-                  className="flex-1 flex items-center justify-center bg-primary text-white rounded-md py-2 hover:scale-105 transition duration-200"
+                  className="flex-1 flex items-center justify-center bg-primary text-white rounded-lg py-2.5 font-semibold hover:bg-primary/90 hover:shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-95"
                   target="_blank" rel="noopener"
                 >
-                  <Calendar className="mr-2"/> Schedule
+                  <Calendar className="mr-2 h-4 w-4"/> Schedule
                 </a>
                 <span className="text-gray-500 font-semibold">or</span>
                 <a
                   href="tel:8182888082"
-                  className="flex-1 flex items-center justify-center bg-white text-primary border border-primary rounded-md py-2 hover:scale-105 transition duration-200"
+                  className="flex-1 flex items-center justify-center bg-white text-primary border-2 border-primary rounded-lg py-2.5 font-semibold hover:bg-primary/5 hover:shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-95"
                 >
-                  <PhoneCall className="mr-2"/> Call Now
+                  <PhoneCall className="mr-2 h-4 w-4"/> Call Now
                 </a>
               </div>
             </div>
