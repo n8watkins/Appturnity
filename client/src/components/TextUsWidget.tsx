@@ -313,8 +313,7 @@ export default function TextChatWidget() {
                       autoComplete="off" tabIndex={-1}
                       className="hidden"
                     />
-                    {/* Connected contact fields container */}
-                    <div className="bg-gray-50 border-2 border-gray-300 rounded-lg overflow-hidden focus-within:border-primary focus-within:bg-white transition-all duration-200">
+                    <div>
                       <input
                         name="name"
                         type="text"
@@ -322,8 +321,11 @@ export default function TextChatWidget() {
                         value={form.name}
                         onChange={handleChange}
                         autoComplete="name"
-                        className="w-full bg-transparent px-3 py-2.5 focus:outline-none focus:ring-0 placeholder:text-gray-400 border-b border-gray-300"
+                        className="w-full border-2 rounded-lg px-3 py-2 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 placeholder:text-gray-400"
                       />
+                      {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name[0]}</p>}
+                    </div>
+                    <div>
                       <input
                         name="email"
                         type="email"
@@ -331,15 +333,10 @@ export default function TextChatWidget() {
                         value={form.email}
                         onChange={handleChange}
                         autoComplete="email"
-                        className="w-full bg-transparent px-3 py-2.5 focus:outline-none focus:ring-0 placeholder:text-gray-400"
+                        className="w-full border-2 rounded-lg px-3 py-2 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 placeholder:text-gray-400"
                       />
+                      {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email[0]}</p>}
                     </div>
-                    {(errors.name || errors.email) && (
-                      <div className="text-red-500 text-sm space-y-1">
-                        {errors.name && <p>{errors.name[0]}</p>}
-                        {errors.email && <p>{errors.email[0]}</p>}
-                      </div>
-                    )}
                     <div className="relative">
                       <textarea
                         name="message" placeholder="Message" value={form.message}
