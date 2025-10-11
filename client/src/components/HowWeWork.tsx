@@ -43,7 +43,7 @@ export default function HowWeWork() {
           {steps.map((step, index) => (
             <motion.div
               key={step.id}
-              className="bg-white rounded-xl border border-slate-200 p-6 shadow-[0_4px_20px_rgba(59,130,246,0.15)] hover:shadow-[0_8px_30px_rgba(59,130,246,0.35)] transition-all duration-300 group"
+              className="bg-white rounded-xl border border-slate-200 p-6 shadow-[0_4px_20px_rgba(59,130,246,0.15)] hover:shadow-[0_8px_30px_rgba(59,130,246,0.35)] transition-all duration-300 group flex flex-col"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -53,7 +53,7 @@ export default function HowWeWork() {
                 <step.Icon className="h-6 w-6 text-primary" />
               </div>
               <h3 className="text-xl font-semibold text-slate-900 mb-3">{step.title}</h3>
-              <p className="text-slate-600 mb-4">{step.description}</p>
+              <p className="text-slate-600 mb-4 flex-grow">{step.description}</p>
               <div className="h-1 w-16 bg-primary rounded transition-all duration-300 group-hover:w-32"></div>
             </motion.div>
           ))}
