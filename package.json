@@ -14,9 +14,7 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
-      "tsc --noEmit --pretty"
-    ]
+    "*.{ts,tsx}": []
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

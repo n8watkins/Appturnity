@@ -313,18 +313,25 @@ export default function TextChatWidget() {
                       autoComplete="off" tabIndex={-1}
                       className="hidden"
                     />
-                    {/* Connected contact fields */}
-                    <div className="bg-gray-50 border-2 border-gray-300 rounded-lg p-3 space-y-2 focus-within:border-primary focus-within:bg-white transition-all duration-200">
+                    {/* Connected contact fields container */}
+                    <div className="bg-gray-50 border-2 border-gray-300 rounded-lg overflow-hidden focus-within:border-primary focus-within:bg-white transition-all duration-200">
                       <input
-                        name="name" placeholder="Name" value={form.name}
+                        name="name"
+                        type="text"
+                        placeholder="Name"
+                        value={form.name}
                         onChange={handleChange}
-                        className="w-full bg-transparent border-none px-1 py-1 focus:outline-none focus:ring-0 placeholder:text-gray-400"
+                        autoComplete="name"
+                        className="w-full bg-transparent px-3 py-2.5 focus:outline-none focus:ring-0 placeholder:text-gray-400 border-b border-gray-300"
                       />
-                      <hr className="border-gray-300" />
                       <input
-                        name="email" type="email" placeholder="Email" value={form.email}
+                        name="email"
+                        type="email"
+                        placeholder="Email"
+                        value={form.email}
                         onChange={handleChange}
-                        className="w-full bg-transparent border-none px-1 py-1 focus:outline-none focus:ring-0 placeholder:text-gray-400"
+                        autoComplete="email"
+                        className="w-full bg-transparent px-3 py-2.5 focus:outline-none focus:ring-0 placeholder:text-gray-400"
                       />
                     </div>
                     {(errors.name || errors.email) && (
