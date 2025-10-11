@@ -10,7 +10,13 @@
     "check": "tsc",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "tsc --noEmit --pretty"
+    ]
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -93,7 +99,9 @@
     "@vitest/ui": "^3.2.4",
     "autoprefixer": "^10.4.20",
     "esbuild": "^0.25.0",
+    "husky": "^9.1.7",
     "jsdom": "^27.0.0",
+    "lint-staged": "^16.2.4",
     "postcss": "^8.4.47",
     "sharp": "^0.34.4",
     "tailwindcss": "^3.4.14",
