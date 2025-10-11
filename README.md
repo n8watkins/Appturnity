@@ -1,23 +1,55 @@
-# Stupid Simple Apps - Website
+# Appturnity - Landing Page
 
-A modern, responsive landing page for "Stupid Simple Apps" design agency that showcases our commitment to straightforward, affordable digital solutions.
+A modern, responsive landing page for Appturnity, a design agency that creates custom landing pages and applications for growing businesses.
 
 ## Tech Stack
 
-- **Frontend**: React, Next.js
-- **Styling**: Tailwind CSS, Shadcn UI Components
-- **Form Handling**: React Hook Form, Zod validation
+- **Frontend**: React 18 + TypeScript
+- **Build Tool**: Vite
+- **Backend**: Express.js
+- **Styling**: Tailwind CSS + Shadcn UI Components
+- **Form Handling**: React Hook Form + Zod validation
+- **Email**: Resend API
+- **Animations**: Framer Motion
 - **Deployment**: Firebase Hosting
 
-## Running the Site Locally
+## Setup Instructions
 
-To run the site locally:
+### 1. Install Dependencies
 
 ```bash
-# Install dependencies
 npm install
+```
 
-# Start the development server
+### 2. Configure Environment Variables
+
+Create a `.env` file in the root directory:
+
+```bash
+cp .env.example .env
+```
+
+Then edit `.env` and add your values:
+
+```env
+# Get your API key from https://resend.com
+RESEND_API_KEY=re_your_api_key_here
+
+# Email address to receive contact form submissions
+CONTACT_EMAIL=your-email@example.com
+
+NODE_ENV=development
+```
+
+**Getting a Resend API Key:**
+1. Sign up at [resend.com](https://resend.com)
+2. Verify your email
+3. Create an API key in the dashboard
+4. For production, add and verify your custom domain
+
+### 3. Start Development Server
+
+```bash
 npm run dev
 ```
 
@@ -25,57 +57,62 @@ The site will be available at http://localhost:3000
 
 ## Project Structure
 
-The project is currently in transition, with parallel implementations in both Next.js and client-side React:
+```
+.
+├── client/src/          # React frontend application
+│   ├── components/      # React components
+│   ├── pages/          # Route pages
+│   └── lib/            # Utilities & helpers
+├── server/             # Express.js backend
+│   ├── index.ts        # Server entry point
+│   ├── routes.ts       # API routes
+│   ├── email.ts        # Email service with Resend
+│   └── vite.ts         # Dev server configuration
+└── data/               # Constants (pricing, etc.)
+```
 
-- **Next.js version**: Located in the `/app` directory (primary)
-- **Client-side React version**: Located in the `/client` directory
+## Features
+
+### Interactive Pricing Calculator
+- Real-time cost estimation for custom app development
+- Compares custom development vs traditional SaaS pricing
+- Calculates potential 3-year savings
+- Pre-fills contact form with pricing details
+
+### Contact Form
+- Sends formatted emails via Resend API
+- Form validation with Zod
+- Calendly integration for scheduling calls
+- Beautiful HTML email templates with brand styling
 
 ## Deployment Instructions
 
-### Setting Up Firebase Hosting
+### Firebase Hosting
 
-This project is configured to deploy to Firebase Hosting. Follow these steps to set up and deploy:
+This project deploys to Firebase Hosting for the frontend. Note that the backend (Express server) will need to be deployed separately to a Node.js hosting service.
+
+**For Static Hosting:**
 
 1. **Create a Firebase Project**:
    - Go to the [Firebase Console](https://console.firebase.google.com/)
    - Click "Add project" and follow the prompts
-   - Make note of your Firebase project ID
 
-2. **Initialize Firebase in this Project**:
-   - Run the initialization script:
-     ```bash
-     ./init-firebase.sh
-     ```
-   - This will guide you through:
-     - Logging in to your Firebase account
-     - Selecting your Firebase project
-     - Configuring hosting settings
+2. **Initialize & Deploy**:
+   ```bash
+   ./init-firebase.sh    # First time only
+   ./deploy-firebase.sh  # Build and deploy
+   ```
 
-   - When prompted:
-     - For "public directory", enter: `dist/public`
-     - For "single-page app rewrites", select `yes`
-     - For GitHub workflow setup, select `no`
-     - For file overwrites, select `no` to keep your configurations
+3. **Configure Environment Variables**:
+   - Set up your Resend API key and contact email in your hosting environment
+   - For production, you'll need a Node.js hosting service (Vercel, Railway, Render, etc.)
 
-3. **Deploy the Site**:
-   - Run the deployment script:
-     ```bash
-     ./deploy-firebase.sh
-     ```
-   - This will:
-     - Build the project
-     - Deploy it to Firebase hosting
+### Production Considerations
 
-4. **Access Your Live Site**:
-   - Once deployment is complete, your site will be available at:
-     - `https://YOUR-PROJECT-ID.web.app`
-     - `https://YOUR-PROJECT-ID.firebaseapp.com`
-
-### Troubleshooting
-
-- If you encounter port conflicts (common with port 5000), the server will automatically use port 3000 instead.
-- If the initialization or deployment fails, check the error messages for guidance.
-- Ensure your Firebase project ID is correctly set in the `.firebaserc` file.
+- **Environment Variables**: Set `RESEND_API_KEY` and `CONTACT_EMAIL` in your production environment
+- **Custom Domain**: Verify your domain with Resend for production email sending
+- **Email From Address**: Update `server/email.ts:116` to use your verified domain
+- **CORS**: Add CORS configuration if frontend and backend are on different domains
 
 ## License
 
