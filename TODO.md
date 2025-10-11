@@ -33,12 +33,13 @@
   RECAPTCHA_SECRET_KEY=your_secret_key_here
   ```
 
-### 3. Get Google Analytics (Optional)
+### 3. Get Google Analytics ⚠️ TODO
 - [ ] Go to https://analytics.google.com
 - [ ] Create a new property for your website
 - [ ] Copy the Measurement ID (starts with `G-`)
 - [ ] Add to `.env` as `VITE_GA_MEASUREMENT_ID=G-...`
 - [ ] Analytics will automatically load when the ID is present
+- [ ] **IMPORTANT: This needs to be implemented for production**
 
 ### 4. Configure Environment Variables
 - [ ] Create `.env` file: `cp .env.example .env`
@@ -46,7 +47,7 @@
 - [ ] Add your contact email (where forms will be sent)
 - [ ] Add reCAPTCHA site key (VITE_ prefix for frontend)
 - [ ] Add reCAPTCHA secret key (for backend)
-- [ ] Add Google Analytics ID (optional)
+- [ ] Add Google Analytics ID ⚠️ (needs to be implemented)
 - [ ] Verify `.env` is in `.gitignore` (it already is!)
 
 ## 🧪 Testing
@@ -67,8 +68,10 @@
 - [ ] Update email "from" address in `server/email.ts:116`
 - [ ] Add production domain to reCAPTCHA admin
 - [ ] Set all environment variables in hosting service
+- [ ] **Set up Google Analytics tracking** ⚠️
 - [ ] Test form submission in production
 - [ ] Monitor email delivery in Resend dashboard
+- [ ] Verify Google Analytics is collecting data
 
 ## 🚀 Deployment
 
@@ -95,6 +98,7 @@ Make sure to set in your hosting service:
 - [ ] `CONTACT_EMAIL`
 - [ ] `RECAPTCHA_SECRET_KEY`
 - [ ] `VITE_RECAPTCHA_SITE_KEY` (if building on host)
+- [ ] `VITE_GA_MEASUREMENT_ID` ⚠️ (needs to be set)
 - [ ] `NODE_ENV=production`
 
 ## 📝 Optional Future Improvements
