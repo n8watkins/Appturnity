@@ -93,7 +93,7 @@ export default function PricingCalculator() {
       const savings = threeYearSaasCost - threeYearOurCost;
       setEstimatedSavings(savings);
       setIsCalculating(false);
-    }, 500);
+    }, 800);
   };
 
   return (
@@ -342,9 +342,13 @@ export default function PricingCalculator() {
                     {estimatedSavings > 0 && (
                       <>
                         <motion.div
-                          initial={{ opacity: 0, y: 20 }}
+                          initial={{ opacity: 0, y: 30 }}
                           animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.5, delay: 0.2 }}
+                          transition={{
+                            duration: 0.8,
+                            delay: 0,
+                            ease: [0.25, 0.46, 0.45, 0.94]
+                          }}
                           className="bg-green-50 p-4 rounded-lg border border-green-200"
                         >
                           <h3 className="text-lg font-semibold text-green-700 mb-2">
@@ -354,6 +358,11 @@ export default function PricingCalculator() {
                             key={formValues.screens}
                             initial={{ scale: 0.95, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
+                            transition={{
+                              duration: 0.6,
+                              delay: 0.3,
+                              ease: [0.25, 0.46, 0.45, 0.94]
+                            }}
                             className="text-3xl font-bold text-green-600"
                           >
                             ${Math.round(estimatedSavings).toLocaleString()}
@@ -364,17 +373,30 @@ export default function PricingCalculator() {
                         </motion.div>
 
                         <motion.div
-                          initial={{ opacity: 0, y: 20 }}
+                          initial={{ opacity: 0, y: 30 }}
                           animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.5, delay: 0.4 }}
+                          transition={{
+                            duration: 0.8,
+                            delay: 0.15,
+                            ease: [0.25, 0.46, 0.45, 0.94]
+                          }}
                           className="bg-blue-50 p-4 rounded-lg border border-blue-200"
                         >
                           <h3 className="text-lg font-semibold text-blue-700 mb-2">
                             Monthly Savings
                           </h3>
-                          <div className="text-3xl font-bold text-blue-600">
+                          <motion.div
+                            initial={{ scale: 0.95, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{
+                              duration: 0.6,
+                              delay: 0.45,
+                              ease: [0.25, 0.46, 0.45, 0.94]
+                            }}
+                            className="text-3xl font-bold text-blue-600"
+                          >
                             ${Math.round(traditionalSaasCost - calculatedMonthly).toLocaleString()}/month
-                          </div>
+                          </motion.div>
                           <p className="text-sm text-blue-600 mt-1">
                             Save ${Math.round((traditionalSaasCost - calculatedMonthly) * 12).toLocaleString()} per year
                           </p>
