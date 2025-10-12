@@ -49,11 +49,11 @@ export default function Home() {
         </Suspense>
 
         <Suspense fallback={<SectionLoader />}>
-          <Contact />
+          <PricingCalculator />
         </Suspense>
 
         <Suspense fallback={<SectionLoader />}>
-          <PricingCalculator />
+          <Contact />
         </Suspense>
 
         <Suspense fallback={<SectionLoader />}>
