@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Sparkles, Clock, DollarSign, CheckCircle2, ArrowRight } from "lucide-react";
+import { Sparkles, Clock, DollarSign, CheckCircle2, ArrowRight, RotateCcw } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import type { Recommendation } from "@/lib/quizRecommendations";
@@ -7,9 +7,10 @@ import type { Recommendation } from "@/lib/quizRecommendations";
 interface RecommendationCardProps {
   recommendation: Recommendation;
   onContinue: () => void;
+  onRetake: () => void;
 }
 
-export default function RecommendationCard({ recommendation, onContinue }: RecommendationCardProps) {
+export default function RecommendationCard({ recommendation, onContinue, onRetake }: RecommendationCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -105,7 +106,7 @@ export default function RecommendationCard({ recommendation, onContinue }: Recom
               <CheckCircle2 className="w-5 h-5 text-green-600" />
               What's Included
             </h4>
-            <div className="grid gap-2">
+            <div className="grid md:grid-cols-2 gap-x-4 gap-y-2">
               {recommendation.includes.map((item, index) => (
                 <motion.div
                   key={index}
@@ -126,19 +127,32 @@ export default function RecommendationCard({ recommendation, onContinue }: Recom
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.4 }}
-            className="bg-gradient-to-r from-primary/10 via-purple-50 to-primary/10 rounded-lg p-5 text-center"
+            className="space-y-4"
           >
-            <p className="text-sm text-slate-700 mb-4">
-              💡 <span className="font-semibold">Next Step:</span> Fill out the form below to get a detailed quote and timeline customized for your specific needs.
-            </p>
-            <Button
-              onClick={onContinue}
-              size="lg"
-              className="w-full gap-2 group h-12"
-            >
-              Get Your Detailed Quote
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            <div className="bg-gradient-to-r from-primary/10 via-purple-50 to-primary/10 rounded-lg p-5 text-center">
+              <p className="text-sm text-slate-700 mb-4">
+                💡 <span className="font-semibold">Next Step:</span> Fill out the form below to get a detailed quote and timeline customized for your specific needs.
+              </p>
+              <Button
+                onClick={onContinue}
+                size="lg"
+                className="w-full gap-2 group h-12"
+              >
+                Get Your Detailed Quote
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </div>
+            <div className="text-center">
+              <Button
+                onClick={onRetake}
+                variant="ghost"
+                size="sm"
+                className="gap-2 text-slate-600 hover:text-slate-900"
+              >
+                <RotateCcw className="w-4 h-4" />
+                Take Quiz Again
+              </Button>
+            </div>
           </motion.div>
         </CardContent>
       </Card>

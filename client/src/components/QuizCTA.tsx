@@ -40,7 +40,7 @@ export default function QuizCTA({ variant = "banner", className = "" }: QuizCTAP
           Find Your Perfect Solution
         </h3>
         <p className="text-slate-700 text-sm md:text-base">
-          Take our 2-minute quiz to get a personalized recommendation
+          Take our 60-second quiz to get a personalized recommendation
         </p>
       </motion.div>
     );
@@ -67,21 +67,21 @@ export default function QuizCTA({ variant = "banner", className = "" }: QuizCTAP
           </h2>
           <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
             Take our interactive quiz to discover the perfect web solution for your business.
-            Get personalized recommendations in just 2 minutes.
+            Get personalized recommendations in just 60 seconds.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-8">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-5 w-5 text-green-600" />
-              <span className="text-slate-700">Only 9 questions</span>
+              <span className="text-slate-700">Only 11 questions</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-5 w-5 text-green-600" />
-              <span className="text-slate-700">Get detailed quotes faster</span>
+              <span className="text-slate-700">Personalized pricing estimate</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-5 w-5 text-green-600" />
-              <span className="text-slate-700">Quick recommendations</span>
+              <span className="text-slate-700">Instant solution roadmap</span>
             </div>
           </div>
 

@@ -38,6 +38,7 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [textareaHeight, setTextareaHeight] = useState('120px');
   const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
+  const [quizKey, setQuizKey] = useState(0); // Key to force quiz remount
   const { toast } = useToast();
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [, setLocation] = useLocation();
@@ -253,6 +254,15 @@ export default function Contact() {
     }, 500);
   };
 
+  // Handle quiz retake
+  const handleRetakeQuiz = () => {
+    setRecommendation(null);
+    form.setValue('message', '');
+    setQuizKey(prev => prev + 1); // Force quiz to remount and reset
+    // Scroll to quiz
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section
       id="contact"
@@ -270,7 +280,7 @@ export default function Contact() {
         >
           <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">Ready for a Simpler Solution?</h2>
           <p className="text-slate-600 max-w-2xl mx-auto">
-            Take our quick 2-minute quiz to help us understand your needs better, or fill out the form directly
+            Take our quick 60-second quiz to get instant pricing and a custom solution roadmap, or fill out the form directly
           </p>
         </motion.div>
 
@@ -282,7 +292,7 @@ export default function Contact() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <ServiceQuiz onComplete={handleQuizComplete} />
+          <ServiceQuiz key={quizKey} onComplete={handleQuizComplete} />
         </motion.div>
 
         {/* Recommendation Card */}
@@ -301,6 +311,7 @@ export default function Contact() {
                   block: 'center'
                 });
               }}
+              onRetake={handleRetakeQuiz}
             />
           </motion.div>
         )}
