@@ -128,159 +128,94 @@ export default function PricingCalculator() {
             </CardHeader>
             <CardContent className="p-6 md:p-8">
               <div className="grid md:grid-cols-2 gap-8">
+                {/* Left Column - What's Included */}
                 <div>
-                  <Form {...form}>
-                    <form
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        calculateSavings();
-                      }}
-                      className="space-y-6"
-                    >
-                      <FormField
-                        control={form.control}
-                        name="screens"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Number of Pages</FormLabel>
-                            <div className="flex items-center gap-4">
-                              <Slider
-                                min={1}
-                                max={10}
-                                step={1}
-                                defaultValue={[field.value]}
-                                onValueChange={(value) => {
-                                  field.onChange(value[0]);
-                                }}
-                                className="flex-1"
-                              />
-                              <span className="w-12 text-center font-medium">
-                                {field.value === 10 ? "10+" : field.value}
-                              </span>
-                            </div>
-                            <FormDescription>
-                              Each unique page in your app
-                            </FormDescription>
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="users"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Number of Users</FormLabel>
-                            <div className="flex items-center gap-4">
-                              <Slider
-                                min={1}
-                                max={20}
-                                step={1}
-                                defaultValue={[field.value]}
-                                onValueChange={(value) => {
-                                  field.onChange(value[0]);
-                                }}
-                                className="flex-1"
-                              />
-                              <span className="w-12 text-center font-medium">
-                                {field.value === 20 ? "20+" : field.value}
-                              </span>
-                            </div>
-                            <FormDescription>
-                              Expected number of users
-                            </FormDescription>
-                          </FormItem>
-                        )}
-                      />
-                    </form>
-                  </Form>
-
-                  <div className="bg-slate-50 p-6 rounded-lg border border-slate-200 mt-6">
+                  <div className="bg-slate-50 p-6 rounded-lg border border-slate-200">
                     <h4 className="font-semibold text-slate-900 mb-4 text-lg">
-                      Everything You Need Included:
+                      Here's What You'll Get:
                     </h4>
 
                     <div className="space-y-4">
                       <div>
-                        <h5 className="font-semibold text-slate-800 mb-2 text-sm">Design & Development</h5>
+                        <h5 className="font-semibold text-slate-800 mb-2 text-sm">Your Design, Your Way</h5>
                         <ul className="space-y-2 text-sm text-slate-600 ml-2">
                           <li className="flex items-start">
                             <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
-                            <span>Custom design tailored to your brand</span>
+                            <span>A custom design that matches your brand perfectly</span>
                           </li>
                           <li className="flex items-start">
                             <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
-                            <span>Mobile-responsive across all devices</span>
+                            <span>Looks great on phones, tablets, and desktops</span>
                           </li>
                           <li className="flex items-start">
                             <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
-                            <span>Fast loading & optimized performance</span>
+                            <span>Lightning-fast loading so you don't lose customers</span>
                           </li>
                         </ul>
                       </div>
 
                       <div>
-                        <h5 className="font-semibold text-slate-800 mb-2 text-sm">Lead Generation</h5>
+                        <h5 className="font-semibold text-slate-800 mb-2 text-sm">Built to Generate Leads</h5>
                         <ul className="space-y-2 text-sm text-slate-600 ml-2">
                           <li className="flex items-start">
                             <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
-                            <span>Contact forms & lead capture</span>
+                            <span>Contact forms that actually get responses</span>
                           </li>
                           <li className="flex items-start">
                             <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
-                            <span>SEO optimization for search engines</span>
+                            <span>SEO setup so people can find you on Google</span>
                           </li>
                           <li className="flex items-start">
                             <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
-                            <span>Analytics integration</span>
+                            <span>Analytics to track what's working</span>
                           </li>
                         </ul>
                       </div>
 
                       <div>
-                        <h5 className="font-semibold text-slate-800 mb-2 text-sm">Hosting & Security</h5>
+                        <h5 className="font-semibold text-slate-800 mb-2 text-sm">Secure & Reliable</h5>
                         <ul className="space-y-2 text-sm text-slate-600 ml-2">
                           <li className="flex items-start">
                             <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
-                            <span>Reliable hosting (99.9% uptime)</span>
+                            <span>Rock-solid hosting (99.9% uptime guaranteed)</span>
                           </li>
                           <li className="flex items-start">
                             <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
-                            <span>SSL security certificate</span>
+                            <span>SSL security to protect your visitors</span>
                           </li>
                         </ul>
                       </div>
 
                       <div>
-                        <h5 className="font-semibold text-slate-800 mb-2 text-sm">Ongoing Support</h5>
+                        <h5 className="font-semibold text-slate-800 mb-2 text-sm">We've Got Your Back</h5>
                         <ul className="space-y-2 text-sm text-slate-600 ml-2">
                           <li className="flex items-start">
                             <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
-                            <span>Continuous updates & improvements</span>
+                            <span>Regular updates to keep things fresh</span>
                           </li>
                           <li className="flex items-start">
                             <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
-                            <span>Technical support & bug fixes</span>
+                            <span>Fast support when you need help</span>
                           </li>
                         </ul>
                       </div>
@@ -288,121 +223,158 @@ export default function PricingCalculator() {
                   </div>
                 </div>
 
-                <div className="flex flex-col justify-center">
+                {/* Right Column - Calculator */}
+                <div className="flex flex-col">
                   <div className="space-y-6">
-                    <div>
-                      <h3 className="text-lg font-semibold text-slate-700 mb-2">
-                        Traditional SaaS Cost (3 Years)
-                      </h3>
-                      <div className="text-4xl font-bold text-slate-600">
-                        ${Math.round(traditionalSaasCost * 36).toLocaleString()}
-                      </div>
-                      <p className="text-sm text-slate-500 mt-1">
-                        ${Math.round(traditionalSaasCost).toLocaleString()}/month
-                      </p>
-                    </div>
-
-                    <div>
-                      <h3 className="text-lg font-semibold text-slate-700 mb-2">
-                        Appturnity Costs (3 Years)
-                      </h3>
-                      <div className="text-3xl font-bold text-primary">
-                        ${(calculatedOnetime + (calculatedMonthly * 36)).toLocaleString()}
-                      </div>
-                      <p className="text-sm text-slate-500 mt-1">
-                        ${calculatedOnetime.toLocaleString()} one-time fee + ${MONTHLY_MAINTENANCE}/month maintenance
-                      </p>
-                    </div>
-
-                    <motion.div
-                      layout
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.3 }}
-                      className="mt-4"
-                    >
-                      <Button
-                        onClick={calculateSavings}
-                        className="w-full relative overflow-hidden group"
-                        disabled={isCalculating}
+                    {/* Sliders at the top */}
+                    <Form {...form}>
+                      <form
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          calculateSavings();
+                        }}
+                        className="space-y-6"
                       >
-                        {isCalculating ? (
-                          <div className="flex items-center gap-2 justify-center">
-                            Calculating...
-                          </div>
-                        ) : (
-                          <>
-                            <span className="relative z-10">Calculate Savings</span>
-                            <span className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></span>
-                          </>
-                        )}
-                      </Button>
-                    </motion.div>
+                        <FormField
+                          control={form.control}
+                          name="screens"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Number of Pages</FormLabel>
+                              <div className="flex items-center gap-4">
+                                <Slider
+                                  min={1}
+                                  max={10}
+                                  step={1}
+                                  defaultValue={[field.value]}
+                                  onValueChange={(value) => {
+                                    field.onChange(value[0]);
+                                  }}
+                                  className="flex-1"
+                                />
+                                <span className="w-12 text-center font-medium">
+                                  {field.value === 10 ? "10+" : field.value}
+                                </span>
+                              </div>
+                              <FormDescription>
+                                Each unique page in your app
+                              </FormDescription>
+                            </FormItem>
+                          )}
+                        />
 
-                    {estimatedSavings > 0 && (
-                      <>
-                        <motion.div
-                          initial={{ opacity: 0, y: 30 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{
-                            duration: 0.8,
-                            delay: 0,
-                            ease: [0.25, 0.46, 0.45, 0.94]
-                          }}
-                          className="bg-green-50 p-4 rounded-lg border border-green-200"
-                        >
-                          <h3 className="text-lg font-semibold text-green-700 mb-2">
-                            Total Estimated Savings
-                          </h3>
-                          <motion.div
-                            key={formValues.screens}
-                            initial={{ scale: 0.95, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{
-                              duration: 0.6,
-                              delay: 0.3,
-                              ease: [0.25, 0.46, 0.45, 0.94]
-                            }}
-                            className="text-3xl font-bold text-green-600"
-                          >
-                            ${Math.round(estimatedSavings).toLocaleString()}
-                          </motion.div>
-                          <p className="text-sm text-green-600 mt-1">
-                            Over 3 years compared to traditional SaaS
-                          </p>
-                        </motion.div>
+                        <FormField
+                          control={form.control}
+                          name="users"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Number of Users</FormLabel>
+                              <div className="flex items-center gap-4">
+                                <Slider
+                                  min={1}
+                                  max={20}
+                                  step={1}
+                                  defaultValue={[field.value]}
+                                  onValueChange={(value) => {
+                                    field.onChange(value[0]);
+                                  }}
+                                  className="flex-1"
+                                />
+                                <span className="w-12 text-center font-medium">
+                                  {field.value === 20 ? "20+" : field.value}
+                                </span>
+                              </div>
+                              <FormDescription>
+                                Expected number of users
+                              </FormDescription>
+                            </FormItem>
+                          )}
+                        />
+                      </form>
+                    </Form>
 
-                        <motion.div
-                          initial={{ opacity: 0, y: 30 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{
-                            duration: 0.8,
-                            delay: 0.15,
-                            ease: [0.25, 0.46, 0.45, 0.94]
-                          }}
-                          className="bg-blue-50 p-4 rounded-lg border border-blue-200"
+                    <div className="border-t pt-6">
+                      <div>
+                        <h3 className="text-lg font-semibold text-slate-700 mb-2">
+                          Traditional SaaS Cost (3 Years)
+                        </h3>
+                        <div className="text-4xl font-bold text-slate-600">
+                          ${Math.round(traditionalSaasCost * 36).toLocaleString()}
+                        </div>
+                        <p className="text-sm text-slate-500 mt-1">
+                          ${Math.round(traditionalSaasCost).toLocaleString()}/month
+                        </p>
+                      </div>
+
+                      <div className="mt-6">
+                        <h3 className="text-lg font-semibold text-slate-700 mb-2">
+                          Appturnity Costs (3 Years)
+                        </h3>
+                        <div className="text-3xl font-bold text-primary">
+                          ${(calculatedOnetime + (calculatedMonthly * 36)).toLocaleString()}
+                        </div>
+                        <p className="text-sm text-slate-500 mt-1">
+                          ${calculatedOnetime.toLocaleString()} one-time fee + ${MONTHLY_MAINTENANCE}/month maintenance
+                        </p>
+                      </div>
+
+                      <div className="mt-6">
+                        <Button
+                          onClick={calculateSavings}
+                          className="w-full relative overflow-hidden group"
+                          disabled={isCalculating}
                         >
-                          <h3 className="text-lg font-semibold text-blue-700 mb-2">
-                            Monthly Savings
-                          </h3>
+                          {isCalculating ? (
+                            <div className="flex items-center gap-2 justify-center">
+                              Calculating...
+                            </div>
+                          ) : (
+                            <>
+                              <span className="relative z-10">Calculate Savings</span>
+                              <span className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></span>
+                            </>
+                          )}
+                        </Button>
+                      </div>
+
+                      {estimatedSavings > 0 && (
+                        <>
                           <motion.div
-                            initial={{ scale: 0.95, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{
-                              duration: 0.6,
-                              delay: 0.45,
-                              ease: [0.25, 0.46, 0.45, 0.94]
-                            }}
-                            className="text-3xl font-bold text-blue-600"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.5 }}
+                            className="bg-green-50 p-4 rounded-lg border border-green-200 mt-6"
                           >
-                            ${Math.round(traditionalSaasCost - calculatedMonthly).toLocaleString()}/month
+                            <h3 className="text-lg font-semibold text-green-700 mb-2">
+                              Total Estimated Savings
+                            </h3>
+                            <div className="text-3xl font-bold text-green-600">
+                              ${Math.round(estimatedSavings).toLocaleString()}
+                            </div>
+                            <p className="text-sm text-green-600 mt-1">
+                              Over 3 years compared to traditional SaaS
+                            </p>
                           </motion.div>
-                          <p className="text-sm text-blue-600 mt-1">
-                            Save ${Math.round((traditionalSaasCost - calculatedMonthly) * 12).toLocaleString()} per year
-                          </p>
-                        </motion.div>
-                      </>
-                    )}
+
+                          <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.5, delay: 0.1 }}
+                            className="bg-blue-50 p-4 rounded-lg border border-blue-200 mt-4"
+                          >
+                            <h3 className="text-lg font-semibold text-blue-700 mb-2">
+                              Monthly Savings
+                            </h3>
+                            <div className="text-3xl font-bold text-blue-600">
+                              ${Math.round(traditionalSaasCost - calculatedMonthly).toLocaleString()}/month
+                            </div>
+                            <p className="text-sm text-blue-600 mt-1">
+                              Save ${Math.round((traditionalSaasCost - calculatedMonthly) * 12).toLocaleString()} per year
+                            </p>
+                          </motion.div>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
