@@ -437,83 +437,8 @@ export default function PricingCalculator() {
                   </div>
                 </div>
 
-                {/* RIGHT COLUMN - Project Scope & Calculator */}
+                {/* RIGHT COLUMN - Calculator */}
                 <div className="md:sticky md:top-4 md:self-start space-y-6">
-                  {/* Project Scope */}
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900 mb-4 pb-2 border-b-2 border-slate-200">
-                      PROJECT SCOPE
-                    </h3>
-
-                    {/* Number of Pages */}
-                    <div className="mb-6">
-                      <div className="flex justify-between items-center mb-2">
-                        <label className="text-base font-medium text-slate-700">
-                          Number of Pages
-                        </label>
-                        <span className="text-lg font-bold text-primary">
-                          {pages}
-                        </span>
-                      </div>
-
-                      <Slider
-                        value={[pages]}
-                        onValueChange={(value) => setPages(value[0])}
-                        min={1}
-                        max={20}
-                        step={1}
-                        className="my-4"
-                      />
-
-                      <div className="flex justify-between text-sm text-slate-500">
-                        <span>1 page</span>
-                        <span>20+ pages</span>
-                      </div>
-
-                      <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                        <p className="text-sm font-medium text-blue-900">{pageTier}</p>
-                        <p className="text-xl font-bold text-blue-600 mt-1">
-                          ${basePrice.toLocaleString()} base
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Number of Users */}
-                    <div className="mb-6">
-                      <div className="flex justify-between items-center mb-2">
-                        <label className="text-base font-medium text-slate-700">
-                          Number of Users
-                        </label>
-                        <span className="text-lg font-bold text-green-600">
-                          {users}
-                        </span>
-                      </div>
-
-                      <Slider
-                        value={[users]}
-                        onValueChange={(value) => setUsers(value[0])}
-                        min={1}
-                        max={50}
-                        step={1}
-                        className="my-4"
-                      />
-
-                      <div className="flex justify-between text-sm text-slate-500">
-                        <span>1 user</span>
-                        <span>50+ users</span>
-                      </div>
-
-                      <div className="mt-4 p-3 bg-green-50 rounded-lg border border-green-200">
-                        <p className="text-sm font-medium text-green-900 flex items-center gap-2">
-                          <Check className="h-4 w-4" />
-                          Unlimited users - no extra charge
-                        </p>
-                        <p className="text-xs text-green-700 mt-1">
-                          Competitors charge ${(23 * users).toLocaleString()}/mo just for platform access ({users} × $23/user)
-                        </p>
-                      </div>
-                    </div>
-                  </div>
 
                   {/* Traditional SaaS Costs - Always Visible */}
                   <motion.div
@@ -582,17 +507,73 @@ export default function PricingCalculator() {
                     animate={{ scale: 1 }}
                     className="bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border-2 border-green-300"
                   >
-                    <h4 className="text-base font-bold text-green-900 mb-3 flex items-center gap-2">
+                    <h4 className="text-base font-bold text-green-900 mb-4 flex items-center gap-2">
                       <Check className="h-5 w-5 text-green-600" />
                       Your Custom Solution
                     </h4>
 
-                    <div className="space-y-3">
-                      <div className="text-sm text-green-900">
-                        {pages} pages + {features.filter(f => f.enabled).length} advanced features
+                    <div className="space-y-4">
+                      {/* Number of Pages Slider */}
+                      <div>
+                        <div className="flex justify-between items-center mb-2">
+                          <label className="text-sm font-medium text-green-900">
+                            Number of Pages
+                          </label>
+                          <span className="text-base font-bold text-green-800">
+                            {pages}
+                          </span>
+                        </div>
+                        <Slider
+                          value={[pages]}
+                          onValueChange={(value) => setPages(value[0])}
+                          min={1}
+                          max={20}
+                          step={1}
+                          className="my-2"
+                        />
+                        <div className="flex justify-between text-xs text-green-700">
+                          <span>1 page</span>
+                          <span>20+ pages</span>
+                        </div>
                       </div>
 
-                      <div className="border-t-2 border-green-300 pt-3">
+                      {/* Number of Users Slider */}
+                      <div>
+                        <div className="flex justify-between items-center mb-2">
+                          <label className="text-sm font-medium text-green-900">
+                            Number of Users
+                          </label>
+                          <span className="text-base font-bold text-green-800">
+                            {users}
+                          </span>
+                        </div>
+                        <Slider
+                          value={[users]}
+                          onValueChange={(value) => setUsers(value[0])}
+                          min={1}
+                          max={50}
+                          step={1}
+                          className="my-2"
+                        />
+                        <div className="flex justify-between text-xs text-green-700">
+                          <span>1 user</span>
+                          <span>50+ users</span>
+                        </div>
+                        <p className="text-xs text-green-700 mt-2 flex items-center gap-1">
+                          <Check className="h-3 w-3" />
+                          Unlimited users - no extra charge
+                        </p>
+                      </div>
+
+                      {/* Solution Summary */}
+                      <div className="pt-3 border-t-2 border-green-300">
+                        <div className="text-sm text-green-900 mb-3">
+                          {pageTier}
+                        </div>
+                        <div className="text-xs text-green-800 mb-3">
+                          {pages} pages + {features.filter(f => f.enabled).length} advanced features
+                        </div>
+
                         <div className="flex justify-between items-center mb-2">
                           <span className="text-base font-semibold text-green-900">
                             One-Time Investment:
