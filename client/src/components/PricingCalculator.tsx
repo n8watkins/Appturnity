@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Calculator, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -167,45 +167,53 @@ export default function PricingCalculator() {
   const [prefilledFromQuiz, setPrefilledFromQuiz] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
 
-  // Calculate base price based on page tier
-  const getBasePriceAndTier = (pageCount: number) => {
-    if (pageCount <= 4) return { price: 750, tier: "Simple Landing Page (1-4 pages)" };
-    if (pageCount <= 8) return { price: 1500, tier: "Multi-Page Site (5-8 pages)" };
-    if (pageCount <= 15) return { price: 2500, tier: "Complex Site (9-15 pages)" };
-    return { price: 2500 + ((pageCount - 15) * 150), tier: `Large Site (${pageCount} pages)` };
-  };
+  // Memoize calculations to prevent unnecessary re-renders
+  const { basePrice, pageTier } = useMemo(() => {
+    const getBasePriceAndTier = (pageCount: number) => {
+      if (pageCount <= 4) return { price: 750, tier: "Simple Landing Page (1-4 pages)" };
+      if (pageCount <= 8) return { price: 1500, tier: "Multi-Page Site (5-8 pages)" };
+      if (pageCount <= 15) return { price: 2500, tier: "Complex Site (9-15 pages)" };
+      return { price: 2500 + ((pageCount - 15) * 150), tier: `Large Site (${pageCount} pages)` };
+    };
+    const { price, tier } = getBasePriceAndTier(pages);
+    return { basePrice: price, pageTier: tier };
+  }, [pages]);
 
-  const { price: basePrice, tier: pageTier } = getBasePriceAndTier(pages);
+  const featuresTotal = useMemo(() =>
+    features
+      .filter(f => f.enabled)
+      .reduce((sum, f) => sum + f.price, 0),
+    [features]
+  );
 
-  const featuresTotal = features
-    .filter(f => f.enabled)
-    .reduce((sum, f) => sum + f.price, 0);
+  const totalPrice = useMemo(() => basePrice + featuresTotal, [basePrice, featuresTotal]);
 
-  const totalPrice = basePrice + featuresTotal;
+  // Calculate SaaS costs with per-user scaling (memoized)
+  const saasPageCost = useMemo(() => pages * 15, [pages]); // $15/page/month for SaaS platforms
+  const saasBasePlatformCost = useMemo(() => 23 * users, [users]); // $23/user/month minimum
 
-  // Calculate SaaS costs with per-user scaling
-  // Base platform cost (Wix/Squarespace style): $23/user/month minimum
-  const saasBasePlatformCost = 23 * users;
+  const saasFeatureCosts = useMemo(() =>
+    features
+      .filter(f => f.enabled && f.saasMonthly > 0)
+      .reduce((sum, f) => {
+        // Features that scale per-user (CMS, Auth, Booking, Chat)
+        const scalingFeatures = ['cms', 'auth', 'booking', 'chat'];
+        if (scalingFeatures.includes(f.id)) {
+          // These cost per-user (after first 3 users included)
+          const additionalUsers = Math.max(0, users - 3);
+          return sum + f.saasMonthly + (additionalUsers * (f.saasMonthly * 0.5)); // 50% of base per extra user
+        }
+        return sum + f.saasMonthly;
+      }, 0),
+    [features, users]
+  );
 
-  // Page-based cost for SaaS (they charge per page)
-  const saasPageCost = pages * 15; // $15/page/month for SaaS platforms
+  const saasMonthlyTotal = useMemo(
+    () => saasBasePlatformCost + saasPageCost + saasFeatureCosts,
+    [saasBasePlatformCost, saasPageCost, saasFeatureCosts]
+  );
 
-  // Feature costs scale with users for certain features
-  const saasFeatureCosts = features
-    .filter(f => f.enabled && f.saasMonthly > 0)
-    .reduce((sum, f) => {
-      // Features that scale per-user (CMS, Auth, Booking, Chat)
-      const scalingFeatures = ['cms', 'auth', 'booking', 'chat'];
-      if (scalingFeatures.includes(f.id)) {
-        // These cost per-user (after first 3 users included)
-        const additionalUsers = Math.max(0, users - 3);
-        return sum + f.saasMonthly + (additionalUsers * (f.saasMonthly * 0.5)); // 50% of base per extra user
-      }
-      return sum + f.saasMonthly;
-    }, 0);
-
-  const saasMonthlyTotal = saasBasePlatformCost + saasPageCost + saasFeatureCosts;
-  const saasThreeYearTotal = saasMonthlyTotal * 36;
+  const saasThreeYearTotal = useMemo(() => saasMonthlyTotal * 36, [saasMonthlyTotal]);
 
   const toggleFeature = (id: string) => {
     setFeatures(prev => prev.map(f =>
@@ -214,15 +222,18 @@ export default function PricingCalculator() {
     ));
   };
 
-  // Group features by category
-  const featuresByCategory = features.reduce((acc, feature) => {
-    const category = feature.category;
-    if (!acc[category]) {
-      acc[category] = [];
-    }
-    acc[category].push(feature);
-    return acc;
-  }, {} as Record<string, Feature[]>);
+  // Group features by category (memoized)
+  const featuresByCategory = useMemo(() =>
+    features.reduce((acc, feature) => {
+      const category = feature.category;
+      if (!acc[category]) {
+        acc[category] = [];
+      }
+      acc[category].push(feature);
+      return acc;
+    }, {} as Record<string, Feature[]>),
+    [features]
+  );
 
   const calculateTimeline = () => {
     const baseWeeks = Math.ceil(pages / 3);
