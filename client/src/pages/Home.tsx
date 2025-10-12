@@ -4,6 +4,7 @@ import Hero from "@/components/Hero";
 import HowWeWork from "@/components/HowWeWork";
 import WhyNotDIY from "@/components/WhyNotDIY";
 import About from "@/components/About";
+import WhatYouGet from "@/components/WhatYouGet";
 import Footer from "@/components/Footer";
 import QuizCTA from "@/components/QuizCTA";
 
@@ -34,6 +35,7 @@ export default function Home() {
         <Hero />
         <WhyNotDIY />
         <About />
+        <WhatYouGet />
         <QuizCTA variant="banner" />
 
         <Suspense fallback={<SectionLoader />}>
