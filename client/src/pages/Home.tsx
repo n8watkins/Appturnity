@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import HowWeWork from "@/components/HowWeWork";
+import WhyNotDIY from "@/components/WhyNotDIY";
 import About from "@/components/About";
 import Footer from "@/components/Footer";
 import QuizCTA from "@/components/QuizCTA";
@@ -32,6 +33,7 @@ export default function Home() {
       <div className="flex-1">
         <Hero />
         <HowWeWork />
+        <WhyNotDIY />
         <About />
         <QuizCTA variant="banner" />
 
