@@ -170,10 +170,14 @@ export default function PricingCalculator() {
   // Memoize calculations to prevent unnecessary re-renders
   const { basePrice, pageTier } = useMemo(() => {
     const getBasePriceAndTier = (pageCount: number) => {
-      if (pageCount <= 4) return { price: 750, tier: "Simple Landing Page (1-4 pages)" };
-      if (pageCount <= 8) return { price: 1500, tier: "Multi-Page Site (5-8 pages)" };
-      if (pageCount <= 15) return { price: 2500, tier: "Complex Site (9-15 pages)" };
-      return { price: 2500 + ((pageCount - 15) * 150), tier: `Large Site (${pageCount} pages)` };
+      // More uniform pricing: $150 per page
+      const price = 750 + ((pageCount - 1) * 150);
+      let tier;
+      if (pageCount <= 4) tier = "Simple Landing Page (1-4 pages)";
+      else if (pageCount <= 8) tier = "Multi-Page Site (5-8 pages)";
+      else if (pageCount <= 15) tier = "Complex Site (9-15 pages)";
+      else tier = `Large Site (${pageCount} pages)`;
+      return { price, tier };
     };
     const { price, tier } = getBasePriceAndTier(pages);
     return { basePrice: price, pageTier: tier };
@@ -498,13 +502,13 @@ export default function PricingCalculator() {
                         value={[users]}
                         onValueChange={(value) => setUsers(value[0])}
                         min={1}
-                        max={50}
+                        max={20}
                         step={1}
                         className="my-2"
                       />
                       <div className="flex justify-between text-xs text-slate-600">
                         <span>1 user</span>
-                        <span>50+ users</span>
+                        <span>20+ users</span>
                       </div>
                     </div>
                   </div>
