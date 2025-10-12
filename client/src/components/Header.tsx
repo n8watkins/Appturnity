@@ -47,9 +47,16 @@ export default function Header() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-2">
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="flex items-center space-x-2 cursor-pointer"
+            >
               <img src="/appturnity.webp" alt="Appturnity" width={200} height={200} />
-            </Link>
+            </a>
           </div>
           
           <nav className="hidden md:flex items-center space-x-6">
