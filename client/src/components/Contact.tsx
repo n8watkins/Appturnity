@@ -10,6 +10,8 @@ import { useToast } from '@/hooks/use-toast';
 import { Calendar, Mail, Phone } from 'lucide-react';
 import { CalendlyButton } from '@/components/ui/calendly-embed';
 import ServiceQuiz from '@/components/ServiceQuiz';
+import RecommendationCard from '@/components/RecommendationCard';
+import { getRecommendation, getPriorityLabel, type Recommendation } from '@/lib/quizRecommendations';
 
 import {
   Form,
@@ -35,6 +37,7 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [textareaHeight, setTextareaHeight] = useState('120px');
+  const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
   const { toast } = useToast();
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [, setLocation] = useLocation();
@@ -80,13 +83,30 @@ export default function Contact() {
       // Execute reCAPTCHA to get token
       const recaptchaToken = await executeRecaptcha('contact_form');
 
-      // Send form data with reCAPTCHA token
-      await apiRequest('POST', '/api/contact', {
+      // Prepare request data with recommendation if available
+      const requestData: any = {
         ...data,
         recaptchaToken,
-      });
+      };
+
+      // Add recommendation data if quiz was completed
+      if (recommendation) {
+        requestData.recommendation = {
+          solutionName: recommendation.solutionName,
+          solutionType: recommendation.solutionType,
+          timeline: recommendation.timeline,
+          investmentRange: recommendation.investmentRange,
+          priorityScore: recommendation.priorityScore,
+          priorityLabel: getPriorityLabel(recommendation.priorityScore),
+          scores: recommendation.scores,
+        };
+      }
+
+      // Send form data with reCAPTCHA token and recommendation
+      await apiRequest('POST', '/api/contact', requestData);
 
       form.reset();
+      setRecommendation(null);
 
       // Redirect to success page
       setLocation('/success');
@@ -103,6 +123,10 @@ export default function Contact() {
 
   // Handle quiz completion
   const handleQuizComplete = (results: Record<string, string | string[]>) => {
+    // Generate recommendation
+    const rec = getRecommendation(results);
+    setRecommendation(rec);
+
     // Format quiz results into a message
     const labelMap: Record<string, string> = {
       currentSituation: "Current Situation",
@@ -244,6 +268,26 @@ export default function Contact() {
         >
           <ServiceQuiz onComplete={handleQuizComplete} />
         </motion.div>
+
+        {/* Recommendation Card */}
+        {recommendation && (
+          <motion.div
+            className="max-w-3xl mx-auto mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <RecommendationCard
+              recommendation={recommendation}
+              onContinue={() => {
+                formButtonRef.current?.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'center'
+                });
+              }}
+            />
+          </motion.div>
+        )}
 
         {/* Two columns side by side - contact form */}
         <motion.div

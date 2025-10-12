@@ -9,6 +9,19 @@ interface ContactFormData {
   email: string;
   company?: string;
   message: string;
+  recommendation?: {
+    solutionName: string;
+    solutionType: string;
+    timeline: string;
+    investmentRange: string;
+    priorityScore: number;
+    priorityLabel: string;
+    scores: {
+      budget: number;
+      urgency: number;
+      complexity: number;
+    };
+  };
 }
 
 interface ChatWidgetData {
@@ -19,7 +32,7 @@ interface ChatWidgetData {
 }
 
 export async function sendContactEmail(data: ContactFormData) {
-  const { name, email, company, message } = data;
+  const { name, email, company, message, recommendation } = data;
 
   // Development mode: log to console instead of sending email
   if (!resend) {
@@ -28,6 +41,13 @@ export async function sendContactEmail(data: ContactFormData) {
     console.log("=".repeat(60));
     console.log(`From: ${name} <${email}>`);
     if (company) console.log(`Company: ${company}`);
+    if (recommendation) {
+      console.log(`\n${recommendation.priorityLabel}`);
+      console.log(`Solution: ${recommendation.solutionName}`);
+      console.log(`Timeline: ${recommendation.timeline}`);
+      console.log(`Budget: ${recommendation.investmentRange}`);
+      console.log(`Score: ${recommendation.priorityScore}/64 (Budget: ${recommendation.scores.budget}/4, Urgency: ${recommendation.scores.urgency}/4, Complexity: ${recommendation.scores.complexity}/4)`);
+    }
     console.log(`Message:\n${message}`);
     console.log("=".repeat(60) + "\n");
     return { success: true, mode: 'development' };
@@ -104,13 +124,104 @@ export async function sendContactEmail(data: ContactFormData) {
             margin-top: 10px;
             font-weight: 600;
           }
+          .priority-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            margin: 10px 0;
+          }
+          .priority-high {
+            background: #fef3c7;
+            color: #92400e;
+            border: 2px solid #f59e0b;
+          }
+          .priority-medium {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 2px solid #3b82f6;
+          }
+          .priority-standard {
+            background: #f3f4f6;
+            color: #374151;
+            border: 2px solid #9ca3af;
+          }
+          .recommendation-box {
+            background: #f0f9ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+          }
+          .score-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+          }
+          .score-item {
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+          }
+          .score-label {
+            font-size: 11px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+          .score-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #667eea;
+            margin-top: 5px;
+          }
         </style>
       </head>
       <body>
         <div class="header">
           <h1>🚀 New Contact Form Submission</h1>
+          ${recommendation ? `
+            <div class="priority-badge priority-${recommendation.priorityScore >= 24 ? 'high' : recommendation.priorityScore >= 12 ? 'medium' : 'standard'}">
+              ${recommendation.priorityLabel}
+            </div>
+          ` : ''}
         </div>
         <div class="content">
+          ${recommendation ? `
+          <div class="recommendation-box">
+            <h3 style="margin: 0 0 10px 0; color: #667eea;">📊 Quiz Recommendation</h3>
+            <div style="margin-bottom: 10px;">
+              <strong>Recommended Solution:</strong> ${recommendation.solutionName}
+            </div>
+            <div style="margin-bottom: 10px;">
+              <strong>Timeline:</strong> ${recommendation.timeline}
+            </div>
+            <div style="margin-bottom: 10px;">
+              <strong>Budget Range:</strong> ${recommendation.investmentRange}
+            </div>
+            <div class="score-grid">
+              <div class="score-item">
+                <div class="score-label">Budget</div>
+                <div class="score-value">${recommendation.scores.budget}/4</div>
+              </div>
+              <div class="score-item">
+                <div class="score-label">Urgency</div>
+                <div class="score-value">${recommendation.scores.urgency}/4</div>
+              </div>
+              <div class="score-item">
+                <div class="score-label">Complexity</div>
+                <div class="score-value">${recommendation.scores.complexity}/4</div>
+              </div>
+            </div>
+            <div style="margin-top: 10px; font-size: 13px; color: #6b7280;">
+              Total Score: <strong>${recommendation.priorityScore}/64</strong>
+            </div>
+          </div>
+          ` : ''}
           <div class="field">
             <span class="label">Name</span>
             <div class="value">${name}</div>
@@ -145,7 +256,18 @@ export async function sendContactEmail(data: ContactFormData) {
   const textContent = `
 New Contact Form Submission
 ============================
+${recommendation ? `\n${recommendation.priorityLabel}\n` + '='.repeat(60) + `
 
+QUIZ RECOMMENDATION:
+- Recommended Solution: ${recommendation.solutionName}
+- Timeline: ${recommendation.timeline}
+- Budget Range: ${recommendation.investmentRange}
+- Priority Score: ${recommendation.priorityScore}/64
+  - Budget Score: ${recommendation.scores.budget}/4
+  - Urgency Score: ${recommendation.scores.urgency}/4
+  - Complexity Score: ${recommendation.scores.complexity}/4
+
+` + '='.repeat(60) + '\n' : ''}
 Name: ${name}
 Email: ${email}
 ${company ? `Company: ${company}` : ''}
@@ -158,11 +280,17 @@ Reply to: ${email}
   `.trim();
 
   try {
+    const priorityPrefix = recommendation && recommendation.priorityScore >= 24
+      ? '🔥 HIGH PRIORITY - '
+      : recommendation && recommendation.priorityScore >= 12
+      ? '⚡ '
+      : '';
+
     const result = await resend.emails.send({
       from: 'Appturnity Contact Form <onboarding@resend.dev>', // Change this to your verified domain
       to: process.env.CONTACT_EMAIL || 'nathancwatkins23@gmail.com',
       replyTo: email,
-      subject: `New Contact: ${name}${company ? ` from ${company}` : ''}`,
+      subject: `${priorityPrefix}New Contact: ${name}${company ? ` from ${company}` : ''}`,
       html: htmlContent,
       text: textContent,
     });
