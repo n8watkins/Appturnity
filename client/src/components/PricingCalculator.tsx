@@ -130,29 +130,29 @@ export default function PricingCalculator() {
               <div className="grid md:grid-cols-2 gap-8">
                 {/* Left Column - What's Included */}
                 <div>
-                  <div className="bg-slate-50 p-6 rounded-lg border border-slate-200 h-full flex flex-col">
-                    <h4 className="font-semibold text-slate-900 mb-6 text-lg">
+                  <div className="bg-slate-50 p-8 rounded-lg border border-slate-200 h-full flex flex-col">
+                    <h4 className="font-bold text-slate-900 mb-8 text-2xl">
                       Here's What You'll Get:
                     </h4>
 
-                    <div className="space-y-6 flex-grow">
+                    <div className="space-y-8 flex-grow">
                       <div>
-                        <h5 className="font-semibold text-slate-800 mb-2 text-sm">Your Design, Your Way</h5>
-                        <ul className="space-y-2 text-sm text-slate-600 ml-2">
+                        <h5 className="font-semibold text-slate-800 mb-3 text-base">🎨 Your Design, Your Way</h5>
+                        <ul className="space-y-3 text-base text-slate-600 ml-2">
                           <li className="flex items-start">
-                            <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="h-5 w-5 text-primary flex-shrink-0 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                             <span>A custom design that matches your brand perfectly</span>
                           </li>
                           <li className="flex items-start">
-                            <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="h-5 w-5 text-primary flex-shrink-0 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                             <span>Looks great on phones, tablets, and desktops</span>
                           </li>
                           <li className="flex items-start">
-                            <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="h-5 w-5 text-primary flex-shrink-0 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                             <span>Lightning-fast loading so you don't lose customers</span>
@@ -161,22 +161,22 @@ export default function PricingCalculator() {
                       </div>
 
                       <div>
-                        <h5 className="font-semibold text-slate-800 mb-2 text-sm">Built to Generate Leads</h5>
-                        <ul className="space-y-2 text-sm text-slate-600 ml-2">
+                        <h5 className="font-semibold text-slate-800 mb-3 text-base">📈 Built to Generate Leads</h5>
+                        <ul className="space-y-3 text-base text-slate-600 ml-2">
                           <li className="flex items-start">
-                            <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="h-5 w-5 text-primary flex-shrink-0 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                             <span>Contact forms that actually get responses</span>
                           </li>
                           <li className="flex items-start">
-                            <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="h-5 w-5 text-primary flex-shrink-0 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                             <span>SEO setup so people can find you on Google</span>
                           </li>
                           <li className="flex items-start">
-                            <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="h-5 w-5 text-primary flex-shrink-0 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                             <span>Analytics to track what's working</span>
@@ -185,16 +185,16 @@ export default function PricingCalculator() {
                       </div>
 
                       <div>
-                        <h5 className="font-semibold text-slate-800 mb-2 text-sm">Secure & Reliable</h5>
-                        <ul className="space-y-2 text-sm text-slate-600 ml-2">
+                        <h5 className="font-semibold text-slate-800 mb-3 text-base">🔒 Secure & Reliable</h5>
+                        <ul className="space-y-3 text-base text-slate-600 ml-2">
                           <li className="flex items-start">
-                            <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="h-5 w-5 text-primary flex-shrink-0 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                             <span>Rock-solid hosting (99.9% uptime guaranteed)</span>
                           </li>
                           <li className="flex items-start">
-                            <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="h-5 w-5 text-primary flex-shrink-0 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                             <span>SSL security to protect your visitors</span>
@@ -203,16 +203,16 @@ export default function PricingCalculator() {
                       </div>
 
                       <div>
-                        <h5 className="font-semibold text-slate-800 mb-2 text-sm">We've Got Your Back</h5>
-                        <ul className="space-y-2 text-sm text-slate-600 ml-2">
+                        <h5 className="font-semibold text-slate-800 mb-3 text-base">🤝 We've Got Your Back</h5>
+                        <ul className="space-y-3 text-base text-slate-600 ml-2">
                           <li className="flex items-start">
-                            <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="h-5 w-5 text-primary flex-shrink-0 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                             <span>Regular updates to keep things fresh</span>
                           </li>
                           <li className="flex items-start">
-                            <svg className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="h-5 w-5 text-primary flex-shrink-0 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                             <span>Fast support when you need help</span>
@@ -291,47 +291,38 @@ export default function PricingCalculator() {
                       </form>
                     </Form>
 
-                    <div className="border-t pt-6">
+                    <div className="border-t pt-4">
                       <div>
-                        <h3 className="text-lg font-semibold text-slate-700 mb-2">
+                        <h3 className="text-base font-semibold text-slate-700 mb-1">
                           Traditional SaaS Cost (3 Years)
                         </h3>
-                        <div className="text-4xl font-bold text-slate-600">
+                        <div className="text-3xl font-bold text-slate-600">
                           ${Math.round(traditionalSaasCost * 36).toLocaleString()}
                         </div>
-                        <p className="text-sm text-slate-500 mt-1">
+                        <p className="text-xs text-slate-500 mt-0.5">
                           ${Math.round(traditionalSaasCost).toLocaleString()}/month
                         </p>
                       </div>
 
-                      <div className="mt-6">
-                        <h3 className="text-lg font-semibold text-slate-700 mb-2">
+                      <div className="mt-4">
+                        <h3 className="text-base font-semibold text-slate-700 mb-1">
                           Appturnity Costs (3 Years)
                         </h3>
-                        <div className="text-3xl font-bold text-primary">
+                        <div className="text-2xl font-bold text-primary">
                           ${(calculatedOnetime + (calculatedMonthly * 36)).toLocaleString()}
                         </div>
-                        <p className="text-sm text-slate-500 mt-1">
-                          ${calculatedOnetime.toLocaleString()} one-time fee + ${MONTHLY_MAINTENANCE}/month maintenance
+                        <p className="text-xs text-slate-500 mt-0.5">
+                          ${calculatedOnetime.toLocaleString()} one-time + ${MONTHLY_MAINTENANCE}/mo
                         </p>
                       </div>
 
-                      <div className="mt-6">
+                      <div className="mt-4">
                         <Button
                           onClick={calculateSavings}
-                          className="w-full relative overflow-hidden group"
+                          className="w-full"
                           disabled={isCalculating}
                         >
-                          {isCalculating ? (
-                            <div className="flex items-center gap-2 justify-center">
-                              Calculating...
-                            </div>
-                          ) : (
-                            <>
-                              <span className="relative z-10">Calculate Savings</span>
-                              <span className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></span>
-                            </>
-                          )}
+                          {isCalculating ? "Calculating..." : "Calculate Savings"}
                         </Button>
                       </div>
 
@@ -341,16 +332,16 @@ export default function PricingCalculator() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 0.5 }}
-                            className="bg-green-50 p-4 rounded-lg border border-green-200 mt-6"
+                            className="bg-green-50 p-3 rounded-lg border border-green-200 mt-4"
                           >
-                            <h3 className="text-lg font-semibold text-green-700 mb-2">
+                            <h3 className="text-sm font-semibold text-green-700 mb-1">
                               Total Estimated Savings
                             </h3>
-                            <div className="text-3xl font-bold text-green-600">
+                            <div className="text-2xl font-bold text-green-600">
                               ${Math.round(estimatedSavings).toLocaleString()}
                             </div>
-                            <p className="text-sm text-green-600 mt-1">
-                              Over 3 years compared to traditional SaaS
+                            <p className="text-xs text-green-600 mt-0.5">
+                              Over 3 years vs traditional SaaS
                             </p>
                           </motion.div>
 
@@ -358,16 +349,16 @@ export default function PricingCalculator() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 0.5, delay: 0.1 }}
-                            className="bg-blue-50 p-4 rounded-lg border border-blue-200 mt-4"
+                            className="bg-blue-50 p-3 rounded-lg border border-blue-200 mt-3"
                           >
-                            <h3 className="text-lg font-semibold text-blue-700 mb-2">
+                            <h3 className="text-sm font-semibold text-blue-700 mb-1">
                               Monthly Savings
                             </h3>
-                            <div className="text-3xl font-bold text-blue-600">
+                            <div className="text-2xl font-bold text-blue-600">
                               ${Math.round(traditionalSaasCost - calculatedMonthly).toLocaleString()}/month
                             </div>
-                            <p className="text-sm text-blue-600 mt-1">
-                              Save ${Math.round((traditionalSaasCost - calculatedMonthly) * 12).toLocaleString()} per year
+                            <p className="text-xs text-blue-600 mt-0.5">
+                              ${Math.round((traditionalSaasCost - calculatedMonthly) * 12).toLocaleString()} saved per year
                             </p>
                           </motion.div>
                         </>
