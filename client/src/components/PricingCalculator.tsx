@@ -378,7 +378,6 @@ export default function PricingCalculator() {
               </div>
               <div className="flex justify-center mt-8 border-t pt-8">
                 <Button
-                  variant="outline"
                   size="lg"
                   asChild
                 >
