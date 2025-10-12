@@ -129,20 +129,20 @@ export default function WhyNotDIY() {
                   </h4>
 
                   <div className="space-y-4">
-                    <div>
-                      <p className="text-xs font-semibold text-red-400 uppercase tracking-wider mb-1">
+                    <div className="bg-red-500/10 border-l-4 border-red-500 p-4 rounded-r-lg">
+                      <p className="text-xs font-bold text-red-400 uppercase tracking-wider mb-2">
                         The Problem
                       </p>
-                      <p className="text-sm text-slate-400 line-through">
+                      <p className="text-base text-slate-100 font-medium leading-relaxed">
                         {feature.problem}
                       </p>
                     </div>
 
-                    <div>
-                      <p className="text-xs font-semibold text-green-400 uppercase tracking-wider mb-2">
+                    <div className="bg-green-500/10 border-l-4 border-green-500 p-4 rounded-r-lg">
+                      <p className="text-xs font-bold text-green-400 uppercase tracking-wider mb-2">
                         With Us
                       </p>
-                      <p className="text-slate-200 leading-relaxed">
+                      <p className="text-base text-white font-medium leading-relaxed">
                         {feature.solution}
                       </p>
                     </div>
