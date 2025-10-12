@@ -122,7 +122,7 @@ export default function PricingTiers() {
             >
               {/* Popular Badge */}
               {tier.popular && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
                   <div className="bg-gradient-to-r from-primary to-blue-600 text-white px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-lg whitespace-nowrap">
                     <Star className="h-3.5 w-3.5 fill-current" />
                     MOST POPULAR
@@ -207,9 +207,8 @@ export default function PricingTiers() {
             Not sure which plan is right for you?
           </p>
           <Button
-            variant="outline"
             size="lg"
-            className="border-slate-300 text-white hover:bg-white hover:text-slate-900"
+            className="bg-white text-slate-900 hover:bg-slate-100 font-semibold"
             onClick={(e) => {
               e.preventDefault();
               handleSmoothScroll(e as any, "quiz", undefined, true);
