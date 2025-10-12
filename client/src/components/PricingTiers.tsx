@@ -5,19 +5,20 @@ import { handleSmoothScroll } from "@/lib/utils";
 
 const pricingTiers = [
   {
-    name: "Starter",
+    name: "Essential",
     price: "$750",
-    description: "Perfect for simple landing pages",
+    pageRange: "1-4 pages",
+    description: "Perfect for landing pages & small sites",
     popular: false,
     features: [
       "1-4 pages",
+      "Everything always included:",
       "Mobile responsive design",
       "SSL & premium hosting",
       "Basic SEO setup",
       "Contact forms",
       "Analytics & tracking",
-      "Social media integration",
-      "99.9% uptime guarantee",
+      "+ Your choice of advanced features",
       "Full source code ownership",
       "2-3 week delivery"
     ],
@@ -25,38 +26,40 @@ const pricingTiers = [
   },
   {
     name: "Professional",
-    price: "$1,500",
+    price: "$1,700",
+    pageRange: "5-8 pages",
     description: "Most popular for growing businesses",
     popular: true,
     features: [
       "5-8 pages",
-      "Everything in Starter, plus:",
-      "Advanced SEO optimization",
-      "Custom lead forms",
-      "Blog system",
-      "Email notifications",
-      "Performance optimization",
-      "CDN & daily backups",
-      "Priority support",
+      "Everything always included:",
+      "Mobile responsive design",
+      "SSL & premium hosting",
+      "Basic SEO setup",
+      "Contact forms",
+      "Analytics & tracking",
+      "+ Your choice of advanced features",
+      "Full source code ownership",
       "3-4 week delivery"
     ],
     highlight: true
   },
   {
-    name: "Business",
-    price: "$2,500",
-    description: "For complex sites with custom features",
+    name: "Growth",
+    price: "$2,450",
+    pageRange: "9-15 pages",
+    description: "For established businesses",
     popular: false,
     features: [
       "9-15 pages",
-      "Everything in Professional, plus:",
-      "Content management system",
-      "User authentication",
-      "Database integration",
-      "Custom API integrations",
-      "Advanced animations",
-      "Multi-language support",
-      "Dedicated support",
+      "Everything always included:",
+      "Mobile responsive design",
+      "SSL & premium hosting",
+      "Basic SEO setup",
+      "Contact forms",
+      "Analytics & tracking",
+      "+ Your choice of advanced features",
+      "Full source code ownership",
       "1-2 month delivery"
     ],
     highlight: false
@@ -64,18 +67,19 @@ const pricingTiers = [
   {
     name: "Enterprise",
     price: "Custom",
-    description: "Large-scale solutions tailored to you",
+    pageRange: "16+ pages",
+    description: "Large-scale custom solutions",
     popular: false,
     features: [
       "16+ pages",
-      "Everything in Business, plus:",
-      "E-commerce functionality",
-      "Payment processing",
-      "Booking system",
-      "Live chat integration",
-      "Custom features & integrations",
-      "Scalable architecture",
-      "White-glove support",
+      "Everything always included:",
+      "Mobile responsive design",
+      "SSL & premium hosting",
+      "Basic SEO setup",
+      "Contact forms",
+      "Analytics & tracking",
+      "+ Your choice of advanced features",
+      "Full source code ownership",
       "Custom timeline"
     ],
     highlight: false
@@ -118,7 +122,7 @@ export default function PricingTiers() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`relative ${tier.highlight ? "pt-8" : "pt-4"}`}
+              className={`relative ${tier.highlight ? "pt-10 lg:scale-110" : "pt-4"}`}
             >
               {/* Popular Badge */}
               {tier.popular && (
@@ -133,7 +137,7 @@ export default function PricingTiers() {
               <div
                 className={`relative h-full bg-white rounded-2xl p-6 shadow-lg border-2 transition-all duration-300 hover:shadow-xl ${
                   tier.highlight
-                    ? "border-primary lg:scale-105"
+                    ? "border-primary shadow-2xl"
                     : "border-slate-200 hover:border-primary/50"
                 }`}
               >
@@ -156,12 +160,12 @@ export default function PricingTiers() {
                 {/* Features List */}
                 <ul className="space-y-3 mb-6">
                   {tier.features.map((feature, featureIndex) => {
-                    const isSectionHeader = feature.includes("Everything in") || feature.includes("plus:");
+                    const isSectionHeader = feature.includes("Everything always included:") || feature.includes("+ Your choice");
                     return (
                       <li
                         key={featureIndex}
                         className={`flex items-start gap-2 ${
-                          isSectionHeader ? "mt-4 pt-3 border-t border-slate-200 font-semibold text-slate-700" : ""
+                          isSectionHeader ? "mt-4 pt-3 border-t border-slate-200 font-semibold text-slate-700 text-xs uppercase tracking-wide" : ""
                         }`}
                       >
                         {!isSectionHeader && (
