@@ -39,6 +39,10 @@ export default function Home() {
         <QuizCTA variant="banner" />
 
         <Suspense fallback={<SectionLoader />}>
+          <PricingCalculator />
+        </Suspense>
+
+        <Suspense fallback={<SectionLoader />}>
           <Portfolio />
         </Suspense>
 
@@ -46,10 +50,6 @@ export default function Home() {
 
         <Suspense fallback={<SectionLoader />}>
           <Testimonials />
-        </Suspense>
-
-        <Suspense fallback={<SectionLoader />}>
-          <PricingCalculator />
         </Suspense>
 
         <Suspense fallback={<SectionLoader />}>

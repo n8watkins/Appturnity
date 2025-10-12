@@ -13,134 +13,166 @@ interface Feature {
   price: number;
   saasMonthly: number;
   enabled: boolean;
+  category: string;
+  alwaysIncluded?: boolean;
+}
+
+interface FeatureCategory {
+  name: string;
+  features: Feature[];
 }
 
 const FEATURES: Feature[] = [
+  // Always Included (Free)
+  {
+    id: "analytics",
+    name: "Analytics",
+    description: "Track visitors and conversions",
+    price: 0,
+    saasMonthly: 49,
+    enabled: true,
+    category: "Always Included",
+    alwaysIncluded: true
+  },
+  // Marketing & Growth
   {
     id: "seo",
     name: "SEO Optimization",
     description: "Foundation for Google rankings",
     price: 400,
-    saasMonthly: 50,
-    enabled: false
-  },
-  {
-    id: "analytics",
-    name: "Google Analytics",
-    description: "Track visitors and conversions",
-    price: 300,
-    saasMonthly: 0,
-    enabled: false
+    saasMonthly: 99,
+    enabled: false,
+    category: "Marketing & Growth"
   },
   {
     id: "forms",
     name: "Custom Lead Forms",
     description: "Advanced multi-step forms",
     price: 500,
-    saasMonthly: 20,
-    enabled: false
+    saasMonthly: 50,
+    enabled: false,
+    category: "Marketing & Growth"
   },
+  // Content Management
   {
     id: "cms",
     name: "Content Management",
-    description: "Easy content updates",
+    description: "Easy content updates (5 users)",
     price: 800,
-    saasMonthly: 50,
-    enabled: false
+    saasMonthly: 149,
+    enabled: false,
+    category: "Content Management"
   },
   {
     id: "blog",
     name: "Blog System",
     description: "Built-in blogging platform",
     price: 600,
-    saasMonthly: 15,
-    enabled: false
-  },
-  {
-    id: "auth",
-    name: "User Authentication",
-    description: "Login, signup, password reset",
-    price: 1500,
     saasMonthly: 29,
-    enabled: false
-  },
-  {
-    id: "database",
-    name: "Database Integration",
-    description: "Secure data storage",
-    price: 1200,
-    saasMonthly: 25,
-    enabled: false
-  },
-  {
-    id: "ecommerce",
-    name: "E-commerce",
-    description: "Shopping cart and checkout",
-    price: 2500,
-    saasMonthly: 79,
-    enabled: false
-  },
-  {
-    id: "booking",
-    name: "Booking System",
-    description: "Appointment scheduling",
-    price: 800,
-    saasMonthly: 10,
-    enabled: false
-  },
-  {
-    id: "payment",
-    name: "Payment Processing",
-    description: "Accept credit cards",
-    price: 1000,
-    saasMonthly: 35,
-    enabled: false
-  },
-  {
-    id: "api",
-    name: "API Integration",
-    description: "Connect third-party tools",
-    price: 600,
-    saasMonthly: 20,
-    enabled: false
+    enabled: false,
+    category: "Content Management"
   },
   {
     id: "multilang",
     name: "Multi-language",
     description: "Multiple language support",
     price: 700,
-    saasMonthly: 30,
-    enabled: false
+    saasMonthly: 79,
+    enabled: false,
+    category: "Content Management"
   },
+  // User Features
+  {
+    id: "auth",
+    name: "User Authentication",
+    description: "Login, signup, password reset (up to 1000 users)",
+    price: 1500,
+    saasMonthly: 99,
+    enabled: false,
+    category: "User Features"
+  },
+  {
+    id: "database",
+    name: "Database Integration",
+    description: "Secure data storage",
+    price: 1200,
+    saasMonthly: 79,
+    enabled: false,
+    category: "User Features"
+  },
+  // E-commerce & Payments
+  {
+    id: "ecommerce",
+    name: "E-commerce",
+    description: "Shopping cart and checkout",
+    price: 2500,
+    saasMonthly: 299,
+    enabled: false,
+    category: "E-commerce & Payments"
+  },
+  {
+    id: "payment",
+    name: "Payment Processing",
+    description: "Accept credit cards",
+    price: 1000,
+    saasMonthly: 89,
+    enabled: false,
+    category: "E-commerce & Payments"
+  },
+  // Booking & Scheduling
+  {
+    id: "booking",
+    name: "Booking System",
+    description: "Appointment scheduling (3 users)",
+    price: 800,
+    saasMonthly: 49,
+    enabled: false,
+    category: "Booking & Scheduling"
+  },
+  // Integrations & Support
+  {
+    id: "api",
+    name: "API Integration",
+    description: "Connect third-party tools",
+    price: 600,
+    saasMonthly: 59,
+    enabled: false,
+    category: "Integrations & Support"
+  },
+  {
+    id: "chat",
+    name: "Live Chat",
+    description: "Real-time customer support (5 users)",
+    price: 300,
+    saasMonthly: 69,
+    enabled: false,
+    category: "Integrations & Support"
+  },
+  // Design & UX
   {
     id: "animations",
     name: "Advanced Animations",
     description: "Premium interactions",
     price: 400,
     saasMonthly: 0,
-    enabled: false
-  },
-  {
-    id: "chat",
-    name: "Live Chat",
-    description: "Real-time customer support",
-    price: 300,
-    saasMonthly: 15,
-    enabled: false
+    enabled: false,
+    category: "Design & UX"
   }
 ];
 
 export default function PricingCalculator() {
   const [pages, setPages] = useState(5);
+  const [users, setUsers] = useState(3);
   const [features, setFeatures] = useState<Feature[]>(FEATURES);
   const [prefilledFromQuiz, setPrefilledFromQuiz] = useState(false);
+  const [showComparison, setShowComparison] = useState(false);
 
   // Calculate base price based on page tier
   const getBasePriceAndTier = (pageCount: number) => {
-    if (pageCount <= 4) return { price: 1200, tier: "Simple Landing Page (1-4 pages)" };
-    if (pageCount <= 8) return { price: 2500, tier: "Multi-Page Site (5-8 pages)" };
-    if (pageCount <= 15) return { price: 4000, tier: "Complex Site (9-15 pages)" };
-    return { price: 4000 + ((pageCount - 15) * 250), tier: `Large Site (${pageCount} pages)` };
+    if (pageCount <= 4) return { price: 750, tier: "Simple Landing Page (1-4 pages)" };
+    if (pageCount <= 8) return { price: 1500, tier: "Multi-Page Site (5-8 pages)" };
+    if (pageCount <= 15) return { price: 2500, tier: "Complex Site (9-15 pages)" };
+    return { price: 2500 + ((pageCount - 15) * 150), tier: `Large Site (${pageCount} pages)` };
   };
 
   const { price: basePrice, tier: pageTier } = getBasePriceAndTier(pages);
@@ -151,17 +183,43 @@ export default function PricingCalculator() {
 
   const totalPrice = basePrice + featuresTotal;
 
-  const saasMonthlyTotal = features
-    .filter(f => f.enabled)
-    .reduce((sum, f) => sum + f.saasMonthly, 0);
+  // Calculate SaaS costs with per-user scaling
+  // Base platform cost (Wix/Squarespace style): $23/user/month minimum
+  const saasBasePlatformCost = 23 * users;
 
+  // Feature costs scale with users for certain features
+  const saasFeatureCosts = features
+    .filter(f => f.enabled && f.saasMonthly > 0)
+    .reduce((sum, f) => {
+      // Features that scale per-user (CMS, Auth, Booking, Chat)
+      const scalingFeatures = ['cms', 'auth', 'booking', 'chat'];
+      if (scalingFeatures.includes(f.id)) {
+        // These cost per-user (after first 3 users included)
+        const additionalUsers = Math.max(0, users - 3);
+        return sum + f.saasMonthly + (additionalUsers * (f.saasMonthly * 0.5)); // 50% of base per extra user
+      }
+      return sum + f.saasMonthly;
+    }, 0);
+
+  const saasMonthlyTotal = saasBasePlatformCost + saasFeatureCosts;
   const saasThreeYearTotal = saasMonthlyTotal * 36;
 
   const toggleFeature = (id: string) => {
     setFeatures(prev => prev.map(f =>
-      f.id === id ? { ...f, enabled: !f.enabled } : f
+      // Don't toggle if it's always included
+      f.id === id && !f.alwaysIncluded ? { ...f, enabled: !f.enabled } : f
     ));
   };
+
+  // Group features by category
+  const featuresByCategory = features.reduce((acc, feature) => {
+    const category = feature.category;
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(feature);
+    return acc;
+  }, {} as Record<string, Feature[]>);
 
   const calculateTimeline = () => {
     const baseWeeks = Math.ceil(pages / 3);
@@ -180,8 +238,16 @@ export default function PricingCalculator() {
     if (quizResults) {
       try {
         const data = JSON.parse(quizResults);
+
+        // Prefill pages
         if (data.estimatedPages) {
           setPages(data.estimatedPages);
+          setPrefilledFromQuiz(true);
+        }
+
+        // Prefill users/team size
+        if (data.teamSize || data.users) {
+          setUsers(data.teamSize || data.users);
           setPrefilledFromQuiz(true);
         }
 
@@ -191,6 +257,7 @@ export default function PricingCalculator() {
             ...feature,
             enabled: data.desiredFeatures.includes(feature.id)
           })));
+          setPrefilledFromQuiz(true);
         }
       } catch (error) {
         console.error('Error parsing quiz results:', error);
@@ -201,10 +268,14 @@ export default function PricingCalculator() {
   const handleGetQuote = () => {
     const calculatorData = {
       pages,
+      users,
       selectedFeatures: features.filter(f => f.enabled).map(f => f.id),
       basePrice,
       featuresTotal,
       totalPrice,
+      saasMonthlyTotal: Math.round(saasMonthlyTotal),
+      saasThreeYearTotal: Math.round(saasThreeYearTotal),
+      savings: Math.round(saasThreeYearTotal - totalPrice),
       timeline: calculateTimeline(),
       timestamp: new Date().toISOString()
     };
@@ -252,7 +323,7 @@ export default function PricingCalculator() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="max-w-4xl mx-auto"
+          className="max-w-6xl mx-auto"
         >
           <Card className="shadow-xl border-2 border-slate-200">
             <CardHeader className="bg-white border-b border-slate-100">
@@ -262,22 +333,126 @@ export default function PricingCalculator() {
               </CardTitle>
             </CardHeader>
             <CardContent className="p-6 md:p-8">
-              <div className="grid md:grid-cols-2 gap-8">
-                {/* LEFT COLUMN - Configuration */}
+              <div className="grid md:grid-cols-[1fr_400px] gap-8">
+                {/* LEFT COLUMN - Advanced Features */}
                 <div>
+                  <div className="space-y-6">
+                    {Object.entries(featuresByCategory).map(([category, categoryFeatures]) => {
+                      const isAlwaysIncluded = category === "Always Included";
+
+                      return (
+                        <div key={category}>
+                          {/* Section Header */}
+                          {isAlwaysIncluded ? (
+                            <div className="mb-4">
+                              <h3 className="text-lg font-bold text-green-900 mb-2 pb-2 border-b-2 border-green-300">
+                                ✓ WHAT'S ALWAYS INCLUDED
+                              </h3>
+                              <p className="text-sm text-green-700">
+                                Free with every project • Competitors charge extra
+                              </p>
+                            </div>
+                          ) : category === "Marketing & Growth" ? (
+                            <div className="mb-4 mt-8">
+                              <h3 className="text-lg font-bold text-slate-900 mb-2 pb-2 border-b-2 border-slate-200">
+                                ADVANCED FEATURES
+                              </h3>
+                              <p className="text-sm text-slate-600">
+                                Select features to add to your project
+                              </p>
+                            </div>
+                          ) : null}
+
+                          {/* Category Header (for advanced features only) */}
+                          {!isAlwaysIncluded && (
+                            <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2">
+                              <div className="h-px flex-grow bg-slate-300"></div>
+                              <span>{category}</span>
+                              <div className="h-px flex-grow bg-slate-300"></div>
+                            </h4>
+                          )}
+
+                          {/* Features Grid */}
+                          <div className={`grid ${isAlwaysIncluded ? 'grid-cols-1' : 'grid-cols-2'} gap-3 ${isAlwaysIncluded ? 'mb-6' : ''}`}>
+                            {categoryFeatures.map((feature) => (
+                              <motion.div
+                                key={feature.id}
+                                whileHover={!feature.alwaysIncluded ? { scale: 1.02 } : {}}
+                                whileTap={!feature.alwaysIncluded ? { scale: 0.98 } : {}}
+                              >
+                                <button
+                                  onClick={() => toggleFeature(feature.id)}
+                                  disabled={feature.alwaysIncluded}
+                                  className={`w-full text-left p-3 rounded-lg border-2 transition-all h-full ${
+                                    feature.alwaysIncluded
+                                      ? 'border-green-300 bg-green-50 cursor-default'
+                                      : feature.enabled
+                                      ? 'border-primary bg-primary/5 shadow-md'
+                                      : 'border-slate-300 bg-white hover:border-slate-400 hover:shadow-sm'
+                                  }`}
+                                >
+                                  <div className="flex items-start gap-2">
+                                    <div className={`mt-0.5 w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
+                                      feature.alwaysIncluded
+                                        ? 'bg-green-600 border-green-600'
+                                        : feature.enabled
+                                        ? 'bg-primary border-primary'
+                                        : 'border-slate-300'
+                                    }`}>
+                                      {(feature.enabled || feature.alwaysIncluded) && <Check className="h-3 w-3 text-white" />}
+                                    </div>
+
+                                    <div className="flex-grow min-w-0">
+                                      <div className="flex items-center justify-between gap-2 mb-1">
+                                        <h4 className={`font-semibold text-sm leading-tight ${
+                                          feature.alwaysIncluded ? 'text-green-900' : 'text-slate-900'
+                                        }`}>
+                                          {feature.name}
+                                        </h4>
+                                        {feature.alwaysIncluded && (
+                                          <span className="text-xs font-bold text-green-700 bg-green-200 px-2 py-0.5 rounded-full whitespace-nowrap">
+                                            FREE
+                                          </span>
+                                        )}
+                                      </div>
+                                      <p className={`text-xs leading-snug ${
+                                        feature.alwaysIncluded ? 'text-green-700' : 'text-slate-600'
+                                      }`}>
+                                        {feature.description}
+                                      </p>
+                                      {feature.alwaysIncluded && feature.saasMonthly > 0 && (
+                                        <p className="text-xs text-red-700 mt-2 font-medium">
+                                          Competitors charge: ${feature.saasMonthly}/mo
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+                                </button>
+                              </motion.div>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* RIGHT COLUMN - Project Scope & Calculator */}
+                <div className="md:sticky md:top-4 md:self-start space-y-6">
                   {/* Project Scope */}
-                  <div className="mb-8">
+                  <div>
                     <h3 className="text-lg font-bold text-slate-900 mb-4 pb-2 border-b-2 border-slate-200">
                       PROJECT SCOPE
                     </h3>
 
+                    {/* Number of Pages */}
                     <div className="mb-6">
                       <div className="flex justify-between items-center mb-2">
                         <label className="text-base font-medium text-slate-700">
                           Number of Pages
                         </label>
                         <span className="text-lg font-bold text-primary">
-                          {pages} {pages >= 20 ? "+" : ""}
+                          {pages}
                         </span>
                       </div>
 
@@ -302,195 +477,199 @@ export default function PricingCalculator() {
                         </p>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Advanced Features */}
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900 mb-2 pb-2 border-b-2 border-slate-200">
-                      ADVANCED FEATURES
-                    </h3>
-                    <p className="text-sm text-slate-600 mb-4">
-                      Select features to see costs update →
-                    </p>
+                    {/* Number of Users */}
+                    <div className="mb-6">
+                      <div className="flex justify-between items-center mb-2">
+                        <label className="text-base font-medium text-slate-700">
+                          Number of Users
+                        </label>
+                        <span className="text-lg font-bold text-green-600">
+                          {users}
+                        </span>
+                      </div>
 
-                    <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
-                      {features.map((feature) => (
-                        <motion.div
-                          key={feature.id}
-                          whileHover={{ scale: 1.01 }}
-                          whileTap={{ scale: 0.99 }}
-                        >
-                          <button
-                            onClick={() => toggleFeature(feature.id)}
-                            className={`w-full text-left p-3 rounded-lg border-2 transition-all ${
-                              feature.enabled
-                                ? 'border-primary bg-primary/5 shadow-md'
-                                : 'border-slate-300 bg-white hover:border-slate-400 hover:shadow-sm'
-                            }`}
-                          >
-                            <div className="flex items-start gap-3">
-                              <div className={`mt-0.5 w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
-                                feature.enabled ? 'bg-primary border-primary' : 'border-slate-300'
-                              }`}>
-                                {feature.enabled && <Check className="h-3 w-3 text-white" />}
-                              </div>
+                      <Slider
+                        value={[users]}
+                        onValueChange={(value) => setUsers(value[0])}
+                        min={1}
+                        max={50}
+                        step={1}
+                        className="my-4"
+                      />
 
-                              <div className="flex-grow">
-                                <h4 className="font-semibold text-slate-900 text-sm mb-1">
-                                  {feature.name}
-                                </h4>
-                                <p className="text-xs text-slate-600 mb-2">{feature.description}</p>
+                      <div className="flex justify-between text-sm text-slate-500">
+                        <span>1 user</span>
+                        <span>50+ users</span>
+                      </div>
 
-                                {feature.saasMonthly > 0 && (
-                                  <div className="bg-red-50 border border-red-200 rounded px-2 py-1">
-                                    <p className="text-xs text-red-900">
-                                      <span className="font-semibold">SaaS:</span> ${feature.saasMonthly}/mo = ${(feature.saasMonthly * 36).toLocaleString()}/3yrs
-                                    </p>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          </button>
-                        </motion.div>
-                      ))}
+                      <div className="mt-4 p-3 bg-green-50 rounded-lg border border-green-200">
+                        <p className="text-sm font-medium text-green-900 flex items-center gap-2">
+                          <Check className="h-4 w-4" />
+                          Unlimited users - no extra charge
+                        </p>
+                        <p className="text-xs text-green-700 mt-1">
+                          Competitors charge ${(23 * users).toLocaleString()}/mo just for platform access ({users} × $23/user)
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* RIGHT COLUMN - Live Calculator */}
-                <div className="md:sticky md:top-4 md:self-start space-y-4">
-                  <h3 className="text-lg font-bold text-slate-900 mb-4 pb-2 border-b-2 border-slate-200">
-                    COST COMPARISON
-                  </h3>
-
-                  {/* Traditional SaaS Costs */}
-                {saasMonthlyTotal > 0 ? (
+                  {/* Traditional SaaS Costs - Always Visible */}
                   <motion.div
+                    key={`${saasMonthlyTotal}-${users}`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-gradient-to-br from-red-50 to-red-100 p-5 rounded-xl border-2 border-red-300 mb-4"
+                    className="bg-gradient-to-br from-red-50 to-red-100 p-5 rounded-xl border-2 border-red-300"
                   >
                     <h4 className="text-base font-bold text-red-900 mb-3 flex items-center gap-2">
                       <X className="h-5 w-5 text-red-600" />
-                      Traditional SaaS (Monthly Subscriptions)
+                      Traditional SaaS (Wix, Squarespace, etc.)
                     </h4>
                     <div className="space-y-2 text-sm text-red-900">
-                      {features.filter(f => f.enabled && f.saasMonthly > 0).map(f => (
-                        <div key={f.id} className="flex justify-between items-center">
-                          <span>{f.name}</span>
-                          <span className="font-medium">${f.saasMonthly}/mo</span>
+                      {/* Base Platform Cost */}
+                      <div className="bg-red-100 rounded p-2 mb-2">
+                        <div className="flex justify-between items-center">
+                          <span className="text-xs font-semibold">Platform Access ({users} users)</span>
+                          <span className="font-bold">${saasBasePlatformCost}/mo</span>
                         </div>
-                      ))}
+                        <p className="text-xs text-red-700 mt-1">
+                          ${users} × $23 per user
+                        </p>
+                      </div>
+
+                      {/* Feature Costs */}
+                      {features.filter(f => f.enabled && f.saasMonthly > 0).map(f => {
+                        const scalingFeatures = ['cms', 'auth', 'booking', 'chat'];
+                        const isScaling = scalingFeatures.includes(f.id);
+                        const additionalUsers = Math.max(0, users - 3);
+                        const featureCost = isScaling
+                          ? f.saasMonthly + (additionalUsers * (f.saasMonthly * 0.5))
+                          : f.saasMonthly;
+
+                        return (
+                          <div key={f.id} className="flex justify-between items-start">
+                            <span className="text-xs flex-grow">
+                              {f.name}
+                              {isScaling && additionalUsers > 0 && (
+                                <span className="text-red-700 block text-xs">+${(additionalUsers * (f.saasMonthly * 0.5)).toFixed(0)} for {additionalUsers} extra users</span>
+                              )}
+                            </span>
+                            <span className="font-medium ml-2 whitespace-nowrap">${featureCost.toFixed(0)}/mo</span>
+                          </div>
+                        );
+                      })}
+
                       <div className="border-t-2 border-red-300 pt-2 mt-2">
                         <div className="flex justify-between items-center font-semibold">
                           <span>Total Per Month:</span>
-                          <span className="text-lg">${saasMonthlyTotal}/mo</span>
+                          <span className="text-lg">${Math.round(saasMonthlyTotal)}/mo</span>
                         </div>
                         <div className="flex justify-between items-center mt-2 text-base">
                           <span className="font-bold">3-Year Total:</span>
                           <span className="text-xl font-bold text-red-600">
-                            ${saasThreeYearTotal.toLocaleString()}
+                            ${Math.round(saasThreeYearTotal).toLocaleString()}
                           </span>
                         </div>
                       </div>
-                      <div className="mt-3 pt-3 border-t border-red-300 space-y-1 text-xs">
-                        <p className="flex items-center gap-2 text-red-700">
-                          <X className="h-3 w-3" /> No ownership - monthly forever
-                        </p>
-                        <p className="flex items-center gap-2 text-red-700">
-                          <X className="h-3 w-3" /> Feature locked and limited
-                        </p>
-                        <p className="flex items-center gap-2 text-red-700">
-                          <X className="h-3 w-3" /> Price increases over time
-                        </p>
-                      </div>
                     </div>
                   </motion.div>
-                ) : (
-                  <div className="bg-blue-50 p-4 rounded-lg border border-blue-200 mb-4">
-                    <p className="text-sm text-blue-900">
-                      👈 Select features above to see SaaS cost comparison
-                    </p>
-                  </div>
-                )}
 
-                {/* Your Investment */}
-                <motion.div
-                  key={totalPrice}
-                  initial={{ scale: 0.95 }}
-                  animate={{ scale: 1 }}
-                  className="bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border-2 border-green-300"
-                >
-                  <h4 className="text-base font-bold text-green-900 mb-3 flex items-center gap-2">
-                    <Check className="h-5 w-5 text-green-600" />
-                    Your Custom Solution
-                  </h4>
+                  {/* Your Investment Summary */}
+                  <motion.div
+                    key={totalPrice}
+                    initial={{ scale: 0.95 }}
+                    animate={{ scale: 1 }}
+                    className="bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border-2 border-green-300"
+                  >
+                    <h4 className="text-base font-bold text-green-900 mb-3 flex items-center gap-2">
+                      <Check className="h-5 w-5 text-green-600" />
+                      Your Custom Solution
+                    </h4>
 
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-green-900">
+                    <div className="space-y-3">
+                      <div className="text-sm text-green-900">
                         {pages} pages + {features.filter(f => f.enabled).length} advanced features
-                      </span>
-                    </div>
-
-                    <div className="border-t-2 border-green-300 pt-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-lg font-bold text-green-900">
-                          One-Time Investment:
-                        </span>
-                        <motion.span
-                          key={totalPrice}
-                          initial={{ scale: 1.2, color: "#15803d" }}
-                          animate={{ scale: 1, color: "#14532d" }}
-                          className="text-3xl font-bold"
-                        >
-                          ${totalPrice.toLocaleString()}
-                        </motion.span>
                       </div>
-                      <p className="text-xs text-green-700 text-right mt-1">
-                        Timeline: {calculateTimeline()} • You own everything
-                      </p>
-                    </div>
 
-                    {saasMonthlyTotal > 0 && (
-                      <div className="mt-4 pt-4 border-t border-green-300 space-y-1 text-xs">
-                        <p className="flex items-center gap-2 text-green-800">
+                      <div className="border-t-2 border-green-300 pt-3">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="text-base font-semibold text-green-900">
+                            One-Time Investment:
+                          </span>
+                          <motion.span
+                            key={totalPrice}
+                            initial={{ scale: 1.2 }}
+                            animate={{ scale: 1 }}
+                            className="text-3xl font-bold text-green-800"
+                          >
+                            ${totalPrice.toLocaleString()}
+                          </motion.span>
+                        </div>
+                        <p className="text-xs text-green-700 text-right">
+                          Timeline: {calculateTimeline()}
+                        </p>
+                      </div>
+
+                      <div className="pt-3 border-t border-green-300 space-y-2 text-xs text-green-800">
+                        <p className="flex items-center gap-2">
                           <Check className="h-3 w-3" /> Full source code ownership
                         </p>
-                        <p className="flex items-center gap-2 text-green-800">
+                        <p className="flex items-center gap-2">
                           <Check className="h-3 w-3" /> No monthly payments
                         </p>
-                        <p className="flex items-center gap-2 text-green-800">
+                        <p className="flex items-center gap-2">
                           <Check className="h-3 w-3" /> Unlimited customization
                         </p>
                       </div>
-                    )}
-                  </div>
-                </motion.div>
-
-                {/* Savings Highlight */}
-                {saasMonthlyTotal > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.2 }}
-                    className="mt-4 bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-xl text-white text-center"
-                  >
-                    <p className="text-sm font-medium mb-1">3-Year Savings</p>
-                    <p className="text-4xl font-bold">
-                      ${(saasThreeYearTotal - totalPrice).toLocaleString()}
-                    </p>
-                    <p className="text-xs mt-2 opacity-90">
-                      Plus you own it forever • No monthly ransom
-                    </p>
+                    </div>
                   </motion.div>
-                )}
 
-                  <div className="mt-6">
+                  {/* Calculate Savings Button & Result */}
+                  {saasMonthlyTotal > 0 && (
+                    <>
+                      <Button
+                        onClick={() => setShowComparison(!showComparison)}
+                        variant={showComparison ? "secondary" : "default"}
+                        size="lg"
+                        className="w-full text-base font-semibold"
+                      >
+                        {showComparison ? "Hide Savings" : "Calculate Savings →"}
+                      </Button>
+
+                      {/* Savings Highlight (shown on demand) */}
+                      <AnimatePresence>
+                        {showComparison && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, height: "auto", scale: 1 }}
+                            exit={{ opacity: 0, height: 0, scale: 0.9 }}
+                            transition={{ duration: 0.3 }}
+                            className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-xl text-white text-center shadow-2xl"
+                          >
+                            <p className="text-sm font-medium mb-1 uppercase tracking-wide">3-Year Savings</p>
+                            <p className="text-5xl font-bold mb-2">
+                              ${(saasThreeYearTotal - totalPrice).toLocaleString()}
+                            </p>
+                            <div className="h-px bg-white/30 my-3"></div>
+                            <p className="text-sm opacity-90 leading-relaxed">
+                              Plus you own it forever • No monthly ransom
+                            </p>
+                            <p className="text-xs opacity-75 mt-2">
+                              That's <strong>${Math.round((saasThreeYearTotal - totalPrice) / 36).toLocaleString()}/month</strong> saved over 3 years
+                            </p>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </>
+                  )}
+
+                  {/* Get Quote Button */}
+                  <div className="pt-4 border-t-2 border-slate-200">
                     <Button
                       onClick={handleGetQuote}
                       size="lg"
-                      className="w-full text-lg py-6"
+                      className="w-full text-lg py-6 font-semibold"
                     >
                       Get Your Detailed Quote →
                     </Button>
