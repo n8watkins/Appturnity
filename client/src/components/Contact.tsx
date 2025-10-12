@@ -39,10 +39,21 @@ export default function Contact() {
   const [textareaHeight, setTextareaHeight] = useState('120px');
   const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
   const [quizKey, setQuizKey] = useState(0); // Key to force quiz remount
+  const [autoStartQuiz, setAutoStartQuiz] = useState(false);
   const { toast } = useToast();
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [, setLocation] = useLocation();
   const formButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Check URL for quiz auto-start parameter
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('startQuiz') === 'true') {
+      setAutoStartQuiz(true);
+      // Clean up URL without page reload
+      window.history.replaceState({}, '', window.location.pathname + window.location.hash);
+    }
+  }, []);
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -292,7 +303,7 @@ export default function Contact() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <ServiceQuiz key={quizKey} onComplete={handleQuizComplete} />
+          <ServiceQuiz key={quizKey} onComplete={handleQuizComplete} autoStart={autoStartQuiz} />
         </motion.div>
 
         {/* Recommendation Card */}

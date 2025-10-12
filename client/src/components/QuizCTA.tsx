@@ -28,7 +28,7 @@ export default function QuizCTA({ variant = "banner", className = "" }: QuizCTAP
             asChild
           >
             <a
-              href="#contact"
+              href="#contact?startQuiz=true"
               onClick={(e) => handleSmoothScroll(e, "contact")}
             >
               Start Quiz
@@ -91,7 +91,7 @@ export default function QuizCTA({ variant = "banner", className = "" }: QuizCTAP
             asChild
           >
             <a
-              href="#contact"
+              href="#contact?startQuiz=true"
               onClick={(e) => handleSmoothScroll(e, "contact")}
             >
               Take the Quiz

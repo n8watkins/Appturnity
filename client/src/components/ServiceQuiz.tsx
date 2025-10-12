@@ -141,10 +141,11 @@ const quizQuestions: QuizQuestion[] = [
 
 interface ServiceQuizProps {
   onComplete: (results: Record<string, string | string[]>) => void;
+  autoStart?: boolean;
 }
 
-export default function ServiceQuiz({ onComplete }: ServiceQuizProps) {
-  const [hasStarted, setHasStarted] = useState(false);
+export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQuizProps) {
+  const [hasStarted, setHasStarted] = useState(autoStart);
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string | string[]>>({});
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);

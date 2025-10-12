@@ -31,13 +31,24 @@ export function scrollToElement(elementId: string, offset: number = 80) {
  * @param callback - Optional callback to execute after click (e.g., closing a mobile menu)
  */
 export function handleSmoothScroll(
-  event: React.MouseEvent<HTMLAnchorElement>, 
-  targetId: string, 
+  event: React.MouseEvent<HTMLAnchorElement>,
+  targetId: string,
   callback?: () => void
 ) {
   event.preventDefault();
+
+  // Extract query params from the href if present
+  const href = event.currentTarget.getAttribute('href') || '';
+  const queryStart = href.indexOf('?');
+  const queryParams = queryStart !== -1 ? href.substring(queryStart) : '';
+
+  // Update URL with query params if present
+  if (queryParams) {
+    window.history.pushState({}, '', `#${targetId}${queryParams}`);
+  }
+
   scrollToElement(targetId);
-  
+
   if (callback) {
     callback();
   }
