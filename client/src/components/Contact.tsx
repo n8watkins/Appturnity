@@ -138,6 +138,8 @@ export default function Contact() {
       existingAssets: "Brand Materials",
       timeline: "Launch Timeline",
       investment: "Investment Budget",
+      companySize: "Company Size",
+      decisionMaker: "Decision Authority",
     };
 
     const valueMap: Record<string, Record<string, string>> = {
@@ -194,17 +196,31 @@ export default function Contact() {
         "no-brand": "No, Need Help",
       },
       timeline: {
-        "urgent": "Within 2-4 Weeks",
-        "normal": "1-2 Months",
-        "planning": "2-3 Months",
-        "flexible": "3+ Months",
+        "urgent": "Within 4-6 Weeks",
+        "normal": "6-10 Weeks",
+        "planning": "10-16 Weeks",
+        "flexible": "16+ Weeks",
       },
       investment: {
         "budget-conscious": "Under $3,000",
         "standard": "$3,000 - $7,000",
         "premium": "$7,000 - $15,000",
         "enterprise": "$15,000+",
-        "flexible": "Flexible Budget",
+        "premium-budget": "Premium/No Limit",
+        "need-guidance": "Need Guidance",
+      },
+      companySize: {
+        "solo": "Just Me",
+        "2-10": "2-10 Employees",
+        "11-50": "11-50 Employees",
+        "51-200": "51-200 Employees",
+        "200+": "200+ Employees",
+      },
+      decisionMaker: {
+        "owner": "Owner/Founder",
+        "executive": "Executive/C-Level",
+        "manager": "Manager",
+        "team-member": "Team Member",
       },
     };
 

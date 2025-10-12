@@ -98,10 +98,10 @@ const quizQuestions: QuizQuestion[] = [
     id: "timeline",
     question: "When do you need this launched?",
     options: [
-      { value: "urgent", label: "Within 2-4 Weeks", description: "Urgent business need" },
-      { value: "normal", label: "1-2 Months", description: "Standard timeline" },
-      { value: "planning", label: "2-3 Months", description: "Still planning details" },
-      { value: "flexible", label: "3+ Months", description: "No immediate rush" },
+      { value: "urgent", label: "Within 4-6 Weeks", description: "Urgent business need" },
+      { value: "normal", label: "6-10 Weeks", description: "Standard timeline" },
+      { value: "planning", label: "10-16 Weeks", description: "Still planning details" },
+      { value: "flexible", label: "16+ Weeks", description: "No immediate rush" },
     ],
   },
   {
@@ -112,7 +112,29 @@ const quizQuestions: QuizQuestion[] = [
       { value: "standard", label: "$3,000 - $7,000", description: "Professional solution" },
       { value: "premium", label: "$7,000 - $15,000", description: "Advanced features & design" },
       { value: "enterprise", label: "$15,000+", description: "Custom enterprise solution" },
-      { value: "flexible", label: "Flexible Budget", description: "Show me what's possible" },
+      { value: "premium-budget", label: "Premium/No Limit", description: "Best quality, budget flexible" },
+      { value: "need-guidance", label: "Need Guidance", description: "Help me understand costs" },
+    ],
+  },
+  {
+    id: "companySize",
+    question: "How many people work at your company?",
+    options: [
+      { value: "solo", label: "Just Me", description: "Solopreneur" },
+      { value: "2-10", label: "2-10 Employees", description: "Small team" },
+      { value: "11-50", label: "11-50 Employees", description: "Mid-size company" },
+      { value: "51-200", label: "51-200 Employees", description: "Large company" },
+      { value: "200+", label: "200+ Employees", description: "Enterprise" },
+    ],
+  },
+  {
+    id: "decisionMaker",
+    question: "What's your role in this project?",
+    options: [
+      { value: "owner", label: "Owner/Founder", description: "I make the final decision" },
+      { value: "executive", label: "Executive/C-Level", description: "I have budget authority" },
+      { value: "manager", label: "Manager", description: "I'll need approval" },
+      { value: "team-member", label: "Team Member", description: "I'm gathering information" },
     ],
   },
 ];

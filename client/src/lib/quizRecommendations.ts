@@ -15,6 +15,8 @@ export interface QuizAnswers {
   existingAssets?: string | string[];
   timeline?: string | string[];
   investment?: string | string[];
+  companySize?: string | string[];
+  decisionMaker?: string | string[];
 }
 
 export interface Recommendation {
@@ -44,11 +46,13 @@ function getBudgetScore(investment?: string | string[]): number {
       return 1;
     case 'standard':
       return 2;
+    case 'need-guidance':
+      return 2; // Needs qualification, treat as standard for now
     case 'premium':
       return 3;
     case 'enterprise':
-    case 'flexible':
-      return 4;
+    case 'premium-budget':
+      return 4; // High budget / no limit
     default:
       return 2; // Default to standard
   }
@@ -75,7 +79,7 @@ function getUrgencyScore(timeline?: string | string[]): number {
 }
 
 /**
- * Calculate complexity score (1-4 points)
+ * Calculate complexity score (1-4 points) with weighted features and brand assets
  */
 function getComplexityScore(answers: QuizAnswers): number {
   const scope = Array.isArray(answers.projectScope)
@@ -86,45 +90,66 @@ function getComplexityScore(answers: QuizAnswers): number {
     ? answers.features
     : [];
 
-  let score = 1;
+  const assets = Array.isArray(answers.existingAssets)
+    ? answers.existingAssets[0]
+    : answers.existingAssets;
 
   // Base score from project scope
+  let baseScore = 1;
   switch (scope) {
     case 'simple-landing':
-      score = 1;
+      baseScore = 1;
       break;
     case 'full-website':
-      score = 2;
+      baseScore = 2;
       break;
     case 'ecommerce-store':
-      score = 3;
+      baseScore = 3;
       break;
     case 'custom-app':
-      score = 4;
+      baseScore = 4;
       break;
     case 'not-sure':
-      score = 2; // Default to website complexity
+      baseScore = 2; // Default to website complexity
       break;
   }
 
-  // Adjust for feature complexity
-  const complexFeatures = [
-    'payment-processing',
-    'user-accounts',
-    'booking-scheduling',
-    'integrations',
-    'analytics'
-  ];
+  // Weighted feature complexity (new approach)
+  let featurePoints = 0;
+  const featureWeights: Record<string, number> = {
+    'payment-processing': 2.5,
+    'user-accounts': 2.0,
+    'booking-scheduling': 2.0,
+    'integrations': 1.5,
+    'analytics': 1.5,
+    'cms': 1.0,
+    'contact-forms': 0.5,
+  };
 
-  const hasComplexFeatures = features.some(f =>
-    complexFeatures.includes(f as string)
-  );
+  features.forEach(feature => {
+    featurePoints += featureWeights[feature as string] || 0;
+  });
 
-  if (hasComplexFeatures && score < 4) {
-    score += 1;
+  // Scale feature points to 0-2 bonus range
+  let featureBonus = 0;
+  if (featurePoints >= 5.5) featureBonus = 2;
+  else if (featurePoints >= 3.5) featureBonus = 1.5;
+  else if (featurePoints >= 1.5) featureBonus = 1;
+  else if (featurePoints >= 0.5) featureBonus = 0.5;
+
+  // Brand assets complexity modifier
+  let brandModifier = 0;
+  if (assets === 'no-brand') {
+    brandModifier = 1; // Significant additional work
+  } else if (assets === 'partial-brand') {
+    brandModifier = 0.5;
   }
 
-  return Math.min(score, 4);
+  // Combine all factors
+  const totalScore = baseScore + featureBonus + brandModifier;
+
+  // Cap at 4, floor at 1
+  return Math.max(1, Math.min(4, Math.round(totalScore)));
 }
 
 /**
@@ -160,12 +185,14 @@ function getInvestmentRange(investment?: string | string[]): string {
       return 'Under $3,000';
     case 'standard':
       return '$3,000 - $7,000';
+    case 'need-guidance':
+      return '$3,000 - $10,000';
     case 'premium':
       return '$7,000 - $15,000';
     case 'enterprise':
       return '$15,000+';
-    case 'flexible':
-      return '$3,000 - $15,000+';
+    case 'premium-budget':
+      return '$10,000 - $30,000+';
     default:
       return '$3,000 - $7,000';
   }
@@ -173,24 +200,25 @@ function getInvestmentRange(investment?: string | string[]): string {
 
 /**
  * Get timeline estimate based on solution type and urgency
+ * Updated with realistic timelines
  */
 function getTimelineEstimate(solutionType: Recommendation['solutionType'], timeline?: string | string[]): string {
   const time = Array.isArray(timeline) ? timeline[0] : timeline;
 
   const estimates: Record<Recommendation['solutionType'], string> = {
-    'landing': '2-3 weeks',
-    'website': '4-6 weeks',
-    'app': '8-12 weeks',
-    'ecommerce': '6-10 weeks',
+    'landing': '3-4 weeks',
+    'website': '6-10 weeks',
+    'app': '12-20 weeks',
+    'ecommerce': '10-16 weeks',
   };
 
   let estimate = estimates[solutionType];
 
-  // Adjust for urgent timeline
+  // Adjust for urgent timeline (reduce by ~25%)
   if (time === 'urgent') {
     estimate = estimate.replace(/(\d+)-(\d+)/, (_, start, end) => {
-      const newStart = Math.max(1, parseInt(start) - 1);
-      const newEnd = Math.max(2, parseInt(end) - 1);
+      const newStart = Math.max(2, Math.round(parseInt(start) * 0.75));
+      const newEnd = Math.max(3, Math.round(parseInt(end) * 0.75));
       return `${newStart}-${newEnd}`;
     });
   }
@@ -320,15 +348,68 @@ function getSolutionDescription(solutionType: Recommendation['solutionType']): s
 }
 
 /**
+ * Get company size budget modifier
+ */
+function getCompanySizeModifier(companySize?: string | string[]): number {
+  const size = Array.isArray(companySize) ? companySize[0] : companySize;
+
+  switch (size) {
+    case 'solo':
+      return 0; // Solopreneur: Standard
+    case '2-10':
+      return 0.5; // Small team: slight boost
+    case '11-50':
+      return 1; // Mid-size: moderate boost
+    case '51-200':
+      return 1.5; // Large: significant boost
+    case '200+':
+      return 2; // Enterprise: maximum boost
+    default:
+      return 0;
+  }
+}
+
+/**
+ * Get decision maker priority modifier
+ */
+function getDecisionMakerModifier(decisionMaker?: string | string[]): number {
+  const role = Array.isArray(decisionMaker) ? decisionMaker[0] : decisionMaker;
+
+  switch (role) {
+    case 'owner':
+      return 2; // Owner/Founder: highest priority (fast decisions)
+    case 'executive':
+      return 1; // C-Level: high priority
+    case 'manager':
+      return 0; // Manager: standard priority
+    case 'team-member':
+      return -1; // Team member: lower priority (long sales cycle)
+    default:
+      return 0;
+  }
+}
+
+/**
  * Main function to generate recommendation from quiz answers
+ *
+ * NEW FORMULA: Weighted Sum Approach
+ * Score = (Budget × 5) + (Urgency × 3) + (Complexity × 2) + Modifiers
+ * Range: 10-40+ (with modifiers)
  */
 export function getRecommendation(answers: QuizAnswers): Recommendation {
   const budgetScore = getBudgetScore(answers.investment);
   const urgencyScore = getUrgencyScore(answers.timeline);
   const complexityScore = getComplexityScore(answers);
 
-  // Priority score: Budget × Urgency × Complexity (max 64)
-  const priorityScore = budgetScore * urgencyScore * complexityScore;
+  // Get modifiers
+  const companySizeModifier = getCompanySizeModifier(answers.companySize);
+  const decisionMakerModifier = getDecisionMakerModifier(answers.decisionMaker);
+
+  // Weighted sum formula (Budget weighted 50%, Urgency 30%, Complexity 20%)
+  const basePriorityScore = (budgetScore * 5) + (urgencyScore * 3) + (complexityScore * 2);
+
+  // Apply modifiers
+  const priorityScore = Math.round(basePriorityScore + companySizeModifier + decisionMakerModifier);
 
   const solutionType = determineSolutionType(answers);
 
@@ -351,9 +432,10 @@ export function getRecommendation(answers: QuizAnswers): Recommendation {
 
 /**
  * Get priority label based on score
+ * New range: 10-40+ (weighted sum approach)
  */
 export function getPriorityLabel(score: number): string {
-  if (score >= 24) return '🔥 HIGH PRIORITY';
-  if (score >= 12) return '⚡ MEDIUM PRIORITY';
+  if (score >= 32) return '🔥 HIGH PRIORITY';
+  if (score >= 24) return '⚡ MEDIUM PRIORITY';
   return '📋 STANDARD PRIORITY';
 }

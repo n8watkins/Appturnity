@@ -46,7 +46,7 @@ export async function sendContactEmail(data: ContactFormData) {
       console.log(`Solution: ${recommendation.solutionName}`);
       console.log(`Timeline: ${recommendation.timeline}`);
       console.log(`Budget: ${recommendation.investmentRange}`);
-      console.log(`Score: ${recommendation.priorityScore}/64 (Budget: ${recommendation.scores.budget}/4, Urgency: ${recommendation.scores.urgency}/4, Complexity: ${recommendation.scores.complexity}/4)`);
+      console.log(`Score: ${recommendation.priorityScore}/40+ (Budget: ${recommendation.scores.budget}/4, Urgency: ${recommendation.scores.urgency}/4, Complexity: ${recommendation.scores.complexity}/4)`);
     }
     console.log(`Message:\n${message}`);
     console.log("=".repeat(60) + "\n");
@@ -185,7 +185,7 @@ export async function sendContactEmail(data: ContactFormData) {
         <div class="header">
           <h1>🚀 New Contact Form Submission</h1>
           ${recommendation ? `
-            <div class="priority-badge priority-${recommendation.priorityScore >= 24 ? 'high' : recommendation.priorityScore >= 12 ? 'medium' : 'standard'}">
+            <div class="priority-badge priority-${recommendation.priorityScore >= 32 ? 'high' : recommendation.priorityScore >= 24 ? 'medium' : 'standard'}">
               ${recommendation.priorityLabel}
             </div>
           ` : ''}
@@ -218,7 +218,7 @@ export async function sendContactEmail(data: ContactFormData) {
               </div>
             </div>
             <div style="margin-top: 10px; font-size: 13px; color: #6b7280;">
-              Total Score: <strong>${recommendation.priorityScore}/64</strong>
+              Total Score: <strong>${recommendation.priorityScore}/40+</strong>
             </div>
           </div>
           ` : ''}
@@ -262,7 +262,7 @@ QUIZ RECOMMENDATION:
 - Recommended Solution: ${recommendation.solutionName}
 - Timeline: ${recommendation.timeline}
 - Budget Range: ${recommendation.investmentRange}
-- Priority Score: ${recommendation.priorityScore}/64
+- Priority Score: ${recommendation.priorityScore}/40+
   - Budget Score: ${recommendation.scores.budget}/4
   - Urgency Score: ${recommendation.scores.urgency}/4
   - Complexity Score: ${recommendation.scores.complexity}/4
@@ -280,9 +280,9 @@ Reply to: ${email}
   `.trim();
 
   try {
-    const priorityPrefix = recommendation && recommendation.priorityScore >= 24
+    const priorityPrefix = recommendation && recommendation.priorityScore >= 32
       ? '🔥 HIGH PRIORITY - '
-      : recommendation && recommendation.priorityScore >= 12
+      : recommendation && recommendation.priorityScore >= 24
       ? '⚡ '
       : '';
 
