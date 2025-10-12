@@ -42,66 +42,107 @@ const portfolioItems: PortfolioItem[] = [
 
 export default function Portfolio() {
   return (
-    <section id="portfolio" className="py-20 bg-white scroll-mt-16">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="portfolio" className="relative py-24 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 scroll-mt-16">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-24 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 -left-24 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+      </div>
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
-          className="max-w-3xl mx-auto text-center mb-16"
+          className="max-w-3xl mx-auto text-center mb-20"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">
-            Our Work
+          <motion.div
+            className="inline-block mb-6"
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <div className="px-4 py-2 bg-gradient-to-r from-primary to-purple-600 rounded-full">
+              <p className="text-white font-semibold text-sm">Real Projects, Real Results</p>
+            </div>
+          </motion.div>
+
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            Work That <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-purple-500">Speaks for Itself</span>
           </h2>
-          <p className="text-lg text-slate-600">
-            Check out the quality we deliver to our clients.
+          <p className="text-xl text-slate-300">
+            Enterprise-grade solutions. Custom-built. Owned by our clients.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {portfolioItems.map((item, index) => (
             <motion.div
               key={item.id}
-              initial={{ opacity: 0, y: 20 }}
+              className="group relative"
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
             >
-              <Card className="overflow-hidden h-full flex flex-col hover:shadow-md transition-shadow">
+              {/* Glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-purple-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300 opacity-50 group-hover:opacity-100"></div>
+
+              <Card className="relative overflow-hidden h-full flex flex-col bg-slate-800/90 backdrop-blur-sm border border-slate-700 group-hover:border-primary/50 transition-all duration-300">
                 <div className="relative aspect-video overflow-hidden">
+                  {/* Image glow overlay on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                 </div>
+
                 <CardHeader>
-                  <CardTitle>{item.title}</CardTitle>
-                  <CardDescription className="flex flex-wrap gap-2 mt-2">
-                      {item.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary"
-                        >
-                          {tag}
-                        </span>
-                      ))}
+                  <CardTitle className="text-white text-2xl group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-purple-500 transition-all duration-300">
+                    {item.title}
+                  </CardTitle>
+                  <CardDescription className="flex flex-wrap gap-2 mt-3">
+                      {item.tags.map((tag, tagIndex) => {
+                        const gradients = [
+                          "from-blue-500 to-cyan-500",
+                          "from-purple-500 to-pink-500",
+                          "from-green-500 to-emerald-500",
+                          "from-orange-500 to-red-500"
+                        ];
+                        const gradient = gradients[tagIndex % gradients.length];
+
+                        return (
+                          <span
+                            key={tag}
+                            className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${gradient} text-white shadow-lg`}
+                          >
+                            {tag}
+                          </span>
+                        );
+                      })}
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-slate-700">{item.description}</p>
+
+                <CardContent className="flex-grow">
+                  <p className="text-slate-300 leading-relaxed">{item.description}</p>
                 </CardContent>
+
                 <CardFooter className="mt-auto">
-                  <Button asChild variant="outline" size="sm">
+                  <Button asChild size="sm" className="group/btn relative overflow-hidden">
                     <a
                       href={item.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1"
+                      className="inline-flex items-center gap-2"
                     >
-                      <span>Visit Site</span>
-                      <ExternalLink size={16} />
+                      <span className="relative z-10">Visit Live Site</span>
+                      <ExternalLink size={16} className="relative z-10 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                      <span className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover/btn:scale-x-100 transition-transform origin-left duration-500"></span>
                     </a>
                   </Button>
                 </CardFooter>

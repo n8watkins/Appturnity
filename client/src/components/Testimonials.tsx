@@ -112,17 +112,37 @@ export default function Testimonials() {
   };
 
   return (
-    <section id="testimonials" className="py-20 bg-slate-50 scroll-mt-16">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="testimonials" className="relative py-24 overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900/50 to-slate-900 scroll-mt-16">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+      </div>
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
-          className="max-w-3xl mx-auto text-center mb-16"
+          className="max-w-3xl mx-auto text-center mb-20"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">What Our Clients Say</h2>
-          <p className="text-lg text-slate-600">Don't just take our word for it. Here's what others have to say about working with us.</p>
+          <motion.div
+            className="inline-block mb-6"
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <div className="px-4 py-2 bg-gradient-to-r from-primary to-purple-600 rounded-full">
+              <p className="text-white font-semibold text-sm">Trusted by Businesses</p>
+            </div>
+          </motion.div>
+
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            They Took the <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-purple-500">Leap</span>
+          </h2>
+          <p className="text-xl text-slate-300">Real clients. Real results. Real ownership.</p>
         </motion.div>
 
         <div
@@ -133,18 +153,18 @@ export default function Testimonials() {
           {/* Navigation Buttons */}
           <button
             onClick={goToPrevious}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-slate-100 transition-colors"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 z-10 bg-slate-800/90 backdrop-blur-sm border border-slate-700 rounded-full p-3 shadow-lg hover:bg-primary hover:border-primary transition-all hover:scale-110"
             aria-label="Previous testimonials"
           >
-            <ChevronLeft className="h-6 w-6 text-slate-700" />
+            <ChevronLeft className="h-6 w-6 text-white" />
           </button>
 
           <button
             onClick={goToNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-slate-100 transition-colors"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 z-10 bg-slate-800/90 backdrop-blur-sm border border-slate-700 rounded-full p-3 shadow-lg hover:bg-primary hover:border-primary transition-all hover:scale-110"
             aria-label="Next testimonials"
           >
-            <ChevronRight className="h-6 w-6 text-slate-700" />
+            <ChevronRight className="h-6 w-6 text-white" />
           </button>
 
           {/* Carousel Container */}
@@ -163,21 +183,26 @@ export default function Testimonials() {
                 }}
                 className="grid md:grid-cols-3 gap-8"
               >
-                {visibleTestimonials.map((testimonial) => (
-                  <Card key={testimonial.id} className="h-full shadow border border-slate-200 transition-transform duration-300 hover:scale-105 cursor-pointer select-none">
-                    <CardContent className="p-6">
-                      <div className="mb-4">
-                        <h4 className="font-semibold text-slate-900">{testimonial.name}</h4>
-                        <p className="text-sm text-slate-500 mb-2">{testimonial.role}</p>
-                        <div className="flex text-yellow-400">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="h-4 w-4 fill-current" />
-                          ))}
+                {visibleTestimonials.map((testimonial, idx) => (
+                  <div key={testimonial.id} className="group relative">
+                    {/* Glow effect */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-purple-600/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300 opacity-0 group-hover:opacity-100"></div>
+
+                    <Card className="relative h-full bg-slate-800/90 backdrop-blur-sm border border-slate-700 transition-all duration-300 hover:scale-105 hover:border-primary/50 cursor-pointer select-none group-hover:shadow-2xl">
+                      <CardContent className="p-6">
+                        <div className="mb-4">
+                          <h4 className="font-semibold text-white text-lg">{testimonial.name}</h4>
+                          <p className="text-sm text-slate-400 mb-3">{testimonial.role}</p>
+                          <div className="flex gap-1">
+                            {[...Array(5)].map((_, i) => (
+                              <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                      <p className="text-slate-600">{testimonial.content}</p>
-                    </CardContent>
-                  </Card>
+                        <p className="text-slate-300 leading-relaxed">{testimonial.content}</p>
+                      </CardContent>
+                    </Card>
+                  </div>
                 ))}
               </motion.div>
             </AnimatePresence>
@@ -191,8 +216,8 @@ export default function Testimonials() {
                 onClick={() => goToSlide(index)}
                 className={`h-2 rounded-full transition-all ${
                   index === currentIndex
-                    ? 'w-8 bg-blue-600'
-                    : 'w-2 bg-slate-300 hover:bg-slate-400'
+                    ? 'w-8 bg-gradient-to-r from-primary to-purple-500'
+                    : 'w-2 bg-slate-600 hover:bg-slate-500'
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
