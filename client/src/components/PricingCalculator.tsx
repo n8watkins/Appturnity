@@ -416,7 +416,7 @@ export default function PricingCalculator() {
                     href="#contact?startQuiz=true"
                     onClick={(e) => {
                       e.preventDefault();
-                      window.history.pushState({}, '', '#contact?startQuiz=true');
+                      window.dispatchEvent(new Event('startQuiz'));
                       import('@/lib/utils').then(({ scrollToElement }) => {
                         scrollToElement('contact');
                       });

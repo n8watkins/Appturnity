@@ -37,14 +37,13 @@ export function handleSmoothScroll(
 ) {
   event.preventDefault();
 
-  // Extract query params from the href if present
+  // Check if this link should auto-start the quiz
   const href = event.currentTarget.getAttribute('href') || '';
-  const queryStart = href.indexOf('?');
-  const queryParams = queryStart !== -1 ? href.substring(queryStart) : '';
+  const shouldStartQuiz = href.includes('?startQuiz=true');
 
-  // Update URL with query params if present
-  if (queryParams) {
-    window.history.pushState({}, '', `#${targetId}${queryParams}`);
+  // Dispatch quiz start event BEFORE scrolling
+  if (shouldStartQuiz && targetId === 'contact') {
+    window.dispatchEvent(new Event('startQuiz'));
   }
 
   scrollToElement(targetId);

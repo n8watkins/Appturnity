@@ -45,14 +45,18 @@ export default function Contact() {
   const [, setLocation] = useLocation();
   const formButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Check URL for quiz auto-start parameter
+  // Listen for custom quiz start event
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('startQuiz') === 'true') {
+    const handleStartQuiz = () => {
       setAutoStartQuiz(true);
-      // Clean up URL without page reload
-      window.history.replaceState({}, '', window.location.pathname + window.location.hash);
-    }
+      setQuizKey(prev => prev + 1);
+    };
+
+    window.addEventListener('startQuiz', handleStartQuiz);
+
+    return () => {
+      window.removeEventListener('startQuiz', handleStartQuiz);
+    };
   }, []);
 
   const form = useForm<ContactFormValues>({

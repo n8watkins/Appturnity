@@ -17,12 +17,11 @@ export default function Header() {
     const queryIndex = href.indexOf('?');
 
     let targetId = '';
-    let queryParams = '';
+    const shouldStartQuiz = href.includes('?startQuiz=true');
 
     if (hashIndex !== -1) {
       if (queryIndex !== -1) {
         targetId = href.substring(hashIndex + 1, queryIndex);
-        queryParams = href.substring(queryIndex);
       } else {
         targetId = href.substring(hashIndex + 1);
       }
@@ -31,9 +30,9 @@ export default function Header() {
     e.preventDefault();
     setIsOpen(false);
 
-    // Update URL with query params if present
-    if (queryParams) {
-      window.history.pushState({}, '', `#${targetId}${queryParams}`);
+    // Dispatch quiz start event if needed
+    if (shouldStartQuiz && targetId === 'contact') {
+      window.dispatchEvent(new Event('startQuiz'));
     }
 
     // Small delay to allow the mobile menu to close before scrolling
