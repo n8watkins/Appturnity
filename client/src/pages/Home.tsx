@@ -8,6 +8,7 @@ import WhatYouGet from "@/components/WhatYouGet";
 import Footer from "@/components/Footer";
 import QuizCTA from "@/components/QuizCTA";
 import Quiz from "@/components/Quiz";
+import PricingTiers from "@/components/PricingTiers";
 
 // Lazy load heavy components that are below the fold
 const Portfolio = lazy(() => import("@/components/Portfolio"));
@@ -50,6 +51,8 @@ export default function Home() {
         </Suspense>
 
         <Quiz />
+
+        <PricingTiers />
 
         <Suspense fallback={<SectionLoader />}>
           <PricingCalculator />
