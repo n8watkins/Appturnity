@@ -637,8 +637,8 @@ export default function PricingCalculator() {
                       {/* Users - Free */}
                       <div className="flex justify-between items-start">
                         <span className="text-xs flex-grow">
-                          Unlimited Users
-                          <span className="text-green-700 block text-xs">No per-user fees ever</span>
+                          {users} {users === 1 ? 'User' : 'Users'}
+                          <span className="text-green-700 block text-xs">Unlimited users - no per-user fees</span>
                         </span>
                         <span className="font-bold ml-2 whitespace-nowrap text-green-700">
                           FREE
