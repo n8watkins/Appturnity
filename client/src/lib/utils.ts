@@ -29,20 +29,18 @@ export function scrollToElement(elementId: string, offset: number = 80) {
  * @param event - The click event
  * @param targetId - The ID of the target element (without the # prefix)
  * @param callback - Optional callback to execute after click (e.g., closing a mobile menu)
+ * @param startQuiz - Optional flag to auto-start the quiz when navigating to contact section
  */
 export function handleSmoothScroll(
   event: React.MouseEvent<HTMLAnchorElement>,
   targetId: string,
-  callback?: () => void
+  callback?: () => void,
+  startQuiz?: boolean
 ) {
   event.preventDefault();
 
-  // Check if this link should auto-start the quiz
-  const href = event.currentTarget.getAttribute('href') || '';
-  const shouldStartQuiz = href.includes('?startQuiz=true');
-
-  // Dispatch quiz start event BEFORE scrolling
-  if (shouldStartQuiz && targetId === 'contact') {
+  // Dispatch quiz start event BEFORE scrolling if requested
+  if (startQuiz && targetId === 'contact') {
     window.dispatchEvent(new Event('startQuiz'));
   }
 

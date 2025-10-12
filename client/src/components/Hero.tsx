@@ -69,9 +69,9 @@ export default function Hero() {
                 asChild
               >
                 <a
-                  href="#contact?startQuiz=true"
+                  href="#contact"
                   className="flex items-center gap-2"
-                  onClick={(e) => handleSmoothScroll(e, "contact")}
+                  onClick={(e) => handleSmoothScroll(e, "contact", undefined, true)}
                 >
                   Get Started
                   <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />

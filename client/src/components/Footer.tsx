@@ -84,8 +84,8 @@ export default function Footer() {
                 </li>
                 <li>
                   <a
-                    href="#contact?startQuiz=true"
-                    onClick={(e) => handleSmoothScroll(e, "contact")}
+                    href="#contact"
+                    onClick={(e) => handleSmoothScroll(e, "contact", undefined, true)}
                     className="hover:text-white transition-colors cursor-pointer"
                   >
                     Service Quiz

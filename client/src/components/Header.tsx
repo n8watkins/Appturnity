@@ -10,28 +10,21 @@ import { Helmet } from "react-helmet";
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const navigateAndClose = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const navigateAndClose = (e: React.MouseEvent<HTMLAnchorElement>, startQuiz?: boolean) => {
     // Get the target ID from the href attribute
     const href = e.currentTarget.getAttribute('href') || '';
     const hashIndex = href.indexOf('#');
-    const queryIndex = href.indexOf('?');
 
     let targetId = '';
-    const shouldStartQuiz = href.includes('?startQuiz=true');
-
     if (hashIndex !== -1) {
-      if (queryIndex !== -1) {
-        targetId = href.substring(hashIndex + 1, queryIndex);
-      } else {
-        targetId = href.substring(hashIndex + 1);
-      }
+      targetId = href.substring(hashIndex + 1);
     }
 
     e.preventDefault();
     setIsOpen(false);
 
     // Dispatch quiz start event if needed
-    if (shouldStartQuiz && targetId === 'contact') {
+    if (startQuiz && targetId === 'contact') {
       window.dispatchEvent(new Event('startQuiz'));
     }
 
@@ -96,16 +89,16 @@ export default function Header() {
               Pricing
             </a>
             <a
-              href="#contact?startQuiz=true"
+              href="#contact"
               className="px-4 py-2 rounded-md bg-white border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-200 shadow-sm"
-              onClick={(e) => handleSmoothScroll(e, "contact")}
+              onClick={(e) => handleSmoothScroll(e, "contact", undefined, true)}
             >
               Contact
             </a>
             <a
-              href="#contact?startQuiz=true"
+              href="#contact"
               className="flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 transition-colors shadow-sm"
-              onClick={(e) => handleSmoothScroll(e, "contact")}
+              onClick={(e) => handleSmoothScroll(e, "contact", undefined, true)}
             >
               <Sparkles className="h-4 w-4" />
               Take Quiz
@@ -157,16 +150,16 @@ export default function Header() {
                     Pricing
                   </a>
                   <a
-                    href="#contact?startQuiz=true"
+                    href="#contact"
                     className="px-4 py-2 rounded-md bg-white border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-200 text-center"
-                    onClick={navigateAndClose}
+                    onClick={(e) => navigateAndClose(e, true)}
                   >
                     Contact
                   </a>
                   <a
-                    href="#contact?startQuiz=true"
+                    href="#contact"
                     className="flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 transition-colors shadow-sm"
-                    onClick={navigateAndClose}
+                    onClick={(e) => navigateAndClose(e, true)}
                   >
                     <Sparkles className="h-4 w-4" />
                     Take Quiz

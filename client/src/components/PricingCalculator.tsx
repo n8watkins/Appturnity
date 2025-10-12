@@ -413,7 +413,7 @@ export default function PricingCalculator() {
                   asChild
                 >
                   <a
-                    href="#contact?startQuiz=true"
+                    href="#contact"
                     onClick={(e) => {
                       e.preventDefault();
                       window.dispatchEvent(new Event('startQuiz'));

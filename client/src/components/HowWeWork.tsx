@@ -66,14 +66,14 @@ export default function HowWeWork() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <Button 
-            size="lg" 
+          <Button
+            size="lg"
             className="font-medium"
             asChild
           >
             <a
-              href="#contact?startQuiz=true"
-              onClick={(e) => handleSmoothScroll(e, "contact")}
+              href="#contact"
+              onClick={(e) => handleSmoothScroll(e, "contact", undefined, true)}
             >
               Start Your Project
             </a>

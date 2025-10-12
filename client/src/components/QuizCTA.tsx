@@ -28,8 +28,8 @@ export default function QuizCTA({ variant = "banner", className = "" }: QuizCTAP
             asChild
           >
             <a
-              href="#contact?startQuiz=true"
-              onClick={(e) => handleSmoothScroll(e, "contact")}
+              href="#contact"
+              onClick={(e) => handleSmoothScroll(e, "contact", undefined, true)}
             >
               Start Quiz
               <ArrowRight className="h-4 w-4 md:h-5 md:w-5 group-hover:translate-x-1 transition-transform" />
@@ -91,8 +91,8 @@ export default function QuizCTA({ variant = "banner", className = "" }: QuizCTAP
             asChild
           >
             <a
-              href="#contact?startQuiz=true"
-              onClick={(e) => handleSmoothScroll(e, "contact")}
+              href="#contact"
+              onClick={(e) => handleSmoothScroll(e, "contact", undefined, true)}
             >
               Take the Quiz
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
