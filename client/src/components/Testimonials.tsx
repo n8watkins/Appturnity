@@ -162,8 +162,14 @@ export default function Testimonials() {
                 animate="center"
                 exit="exit"
                 transition={{
-                  x: { type: "spring", stiffness: 300, damping: 30 },
-                  opacity: { duration: 0.2 }
+                  enter: {
+                    x: { type: "spring", stiffness: 400, damping: 35 },
+                    opacity: { duration: 0.15 }
+                  },
+                  exit: {
+                    x: { type: "spring", stiffness: 250, damping: 28 },
+                    opacity: { duration: 0.25 }
+                  }
                 }}
                 className="grid md:grid-cols-3 gap-8"
               >

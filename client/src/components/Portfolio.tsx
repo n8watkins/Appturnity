@@ -36,7 +36,7 @@ const portfolioItems: PortfolioItem[] = [
       "A streamlined web application that automated business processes, saving the client 20+ hours per week.",
     image: "/riverwood.webp",
     tags: ["Web App", "Business Solutions", "Automation"],
-    link: "https://riverwood-c3409.web.app/",
+    link: "https://riverwoodranch.web.app/",
   },
 ];
 

@@ -63,50 +63,26 @@ export default function WhyNotDIY() {
             </p>
           </motion.div>
 
-          {/* Feature Cards - More Emotional */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+          {/* Feature Cards - Clean & Poignant */}
+          <div className="grid md:grid-cols-3 gap-8 mb-20 max-w-5xl mx-auto">
             {[
               {
                 icon: Crown,
-                title: "You Actually Own It",
-                problem: "Renting software forever",
-                solution: "This is YOURS. The code. The design. The future. No platform holding you hostage. Export it, modify it, move it—you're in control.",
+                title: "You'll Own Every Line of Code",
+                description: "No monthly hostage fees. No platform lock-in. Export it, modify it, sell it—this is YOURS. The code, the design, the future. True ownership, not a rental agreement that bleeds your business dry.",
                 gradient: "from-yellow-500 to-orange-600"
               },
               {
                 icon: Zap,
-                title: "Built on Modern Tech",
-                problem: "Outdated, bloated platforms",
-                solution: "React. TypeScript. Lightning-fast performance. We use the same tech that powers Netflix and Airbnb—not decade-old drag-and-drop tools.",
+                title: "Built With Tech That Actually Matters",
+                description: "React. TypeScript. The same stack that powers Netflix and Airbnb. Not some dying drag-and-drop relic from 2010. Lightning-fast, modern, and built to last a decade—not break after the next update.",
                 gradient: "from-blue-500 to-cyan-500"
               },
               {
                 icon: Code2,
-                title: "No Plugin Hell",
-                problem: "Dozens of plugins that break",
-                solution: "Everything built custom into ONE cohesive system. No compatibility nightmares. No surprise fees. Just clean, professional code that works.",
+                title: "Zero Plugin Nightmares",
+                description: "Everything custom-built into ONE system. No juggling 47 plugins that conflict. No surprise $29/month fees that stack up. No compatibility breakdowns at 3am. Just clean, professional code that works.",
                 gradient: "from-purple-500 to-pink-600"
-              },
-              {
-                icon: Shield,
-                title: "Your Vision, Realized",
-                problem: "Fighting with templates",
-                solution: "That idea you had at 2am? We can build it. No 'this template doesn't support that' limitations. If you can dream it, we can code it.",
-                gradient: "from-green-500 to-emerald-600"
-              },
-              {
-                icon: Rocket,
-                title: "Ship Updates in Hours",
-                problem: "Weeks to make simple changes",
-                solution: "Need to update your pricing? Add a new service? We push updates while you sleep. No relearning the platform. Just text us.",
-                gradient: "from-red-500 to-rose-600"
-              },
-              {
-                icon: Sparkles,
-                title: "Built for Scale",
-                problem: "Outgrowing your platform",
-                solution: "From startup to 10,000 visitors a day, your site grows with you. No migration nightmares. No 'upgrade to enterprise' traps.",
-                gradient: "from-indigo-500 to-purple-600"
               }
             ].map((feature, index) => (
               <motion.div
@@ -119,34 +95,18 @@ export default function WhyNotDIY() {
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-purple-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300 opacity-50 group-hover:opacity-100"></div>
 
-                <div className="relative bg-slate-800/90 backdrop-blur-sm border border-slate-700 rounded-2xl p-8 h-full hover:border-primary/50 transition-all duration-300">
-                  <div className={`w-14 h-14 bg-gradient-to-br ${feature.gradient} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                <div className="relative bg-slate-800/90 backdrop-blur-sm border border-slate-700 rounded-2xl p-8 h-full hover:border-primary/50 transition-all duration-300 flex flex-col">
+                  <div className={`w-14 h-14 bg-gradient-to-br ${feature.gradient} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
                     <feature.icon className="h-7 w-7 text-white" />
                   </div>
 
-                  <h4 className="text-xl font-bold text-white mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-primary transition-all duration-300">
+                  <h4 className="text-xl font-bold text-white mb-4 leading-snug">
                     {feature.title}
                   </h4>
 
-                  <div className="space-y-4">
-                    <div className="bg-red-500/10 border-l-4 border-red-500 p-4 rounded-r-lg">
-                      <p className="text-xs font-bold text-red-400 uppercase tracking-wider mb-2">
-                        The Problem
-                      </p>
-                      <p className="text-base text-slate-100 font-medium leading-relaxed">
-                        {feature.problem}
-                      </p>
-                    </div>
-
-                    <div className="bg-green-500/10 border-l-4 border-green-500 p-4 rounded-r-lg">
-                      <p className="text-xs font-bold text-green-400 uppercase tracking-wider mb-2">
-                        With Us
-                      </p>
-                      <p className="text-base text-white font-medium leading-relaxed">
-                        {feature.solution}
-                      </p>
-                    </div>
-                  </div>
+                  <p className="text-slate-300 leading-relaxed text-base">
+                    {feature.description}
+                  </p>
                 </div>
               </motion.div>
             ))}
