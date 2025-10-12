@@ -440,6 +440,61 @@ export default function PricingCalculator() {
                 {/* RIGHT COLUMN - Calculator */}
                 <div className="md:sticky md:top-4 md:self-start space-y-6">
 
+                  {/* Project Configuration Sliders */}
+                  <div className="bg-slate-100 p-5 rounded-xl border-2 border-slate-300 space-y-4">
+                    <h4 className="text-base font-bold text-slate-900 mb-4">
+                      Project Configuration
+                    </h4>
+
+                    {/* Number of Pages Slider */}
+                    <div>
+                      <div className="flex justify-between items-center mb-2">
+                        <label className="text-sm font-medium text-slate-900">
+                          Number of Pages
+                        </label>
+                        <span className="text-base font-bold text-slate-800">
+                          {pages}
+                        </span>
+                      </div>
+                      <Slider
+                        value={[pages]}
+                        onValueChange={(value) => setPages(value[0])}
+                        min={1}
+                        max={20}
+                        step={1}
+                        className="my-2"
+                      />
+                      <div className="flex justify-between text-xs text-slate-600">
+                        <span>1 page</span>
+                        <span>20+ pages</span>
+                      </div>
+                    </div>
+
+                    {/* Number of Users Slider */}
+                    <div>
+                      <div className="flex justify-between items-center mb-2">
+                        <label className="text-sm font-medium text-slate-900">
+                          Number of Users
+                        </label>
+                        <span className="text-base font-bold text-slate-800">
+                          {users}
+                        </span>
+                      </div>
+                      <Slider
+                        value={[users]}
+                        onValueChange={(value) => setUsers(value[0])}
+                        min={1}
+                        max={50}
+                        step={1}
+                        className="my-2"
+                      />
+                      <div className="flex justify-between text-xs text-slate-600">
+                        <span>1 user</span>
+                        <span>50+ users</span>
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Traditional SaaS Costs - Always Visible */}
                   <motion.div
                     key={`${saasMonthlyTotal}-${users}`}
@@ -513,60 +568,8 @@ export default function PricingCalculator() {
                     </h4>
 
                     <div className="space-y-4">
-                      {/* Number of Pages Slider */}
-                      <div>
-                        <div className="flex justify-between items-center mb-2">
-                          <label className="text-sm font-medium text-green-900">
-                            Number of Pages
-                          </label>
-                          <span className="text-base font-bold text-green-800">
-                            {pages}
-                          </span>
-                        </div>
-                        <Slider
-                          value={[pages]}
-                          onValueChange={(value) => setPages(value[0])}
-                          min={1}
-                          max={20}
-                          step={1}
-                          className="my-2"
-                        />
-                        <div className="flex justify-between text-xs text-green-700">
-                          <span>1 page</span>
-                          <span>20+ pages</span>
-                        </div>
-                      </div>
-
-                      {/* Number of Users Slider */}
-                      <div>
-                        <div className="flex justify-between items-center mb-2">
-                          <label className="text-sm font-medium text-green-900">
-                            Number of Users
-                          </label>
-                          <span className="text-base font-bold text-green-800">
-                            {users}
-                          </span>
-                        </div>
-                        <Slider
-                          value={[users]}
-                          onValueChange={(value) => setUsers(value[0])}
-                          min={1}
-                          max={50}
-                          step={1}
-                          className="my-2"
-                        />
-                        <div className="flex justify-between text-xs text-green-700">
-                          <span>1 user</span>
-                          <span>50+ users</span>
-                        </div>
-                        <p className="text-xs text-green-700 mt-2 flex items-center gap-1">
-                          <Check className="h-3 w-3" />
-                          Unlimited users - no extra charge
-                        </p>
-                      </div>
-
                       {/* Solution Summary */}
-                      <div className="pt-3 border-t-2 border-green-300">
+                      <div>
                         <div className="text-sm text-green-900 mb-3">
                           {pageTier}
                         </div>
@@ -593,6 +596,9 @@ export default function PricingCalculator() {
                       </div>
 
                       <div className="pt-3 border-t border-green-300 space-y-2 text-xs text-green-800">
+                        <p className="flex items-center gap-2">
+                          <Check className="h-3 w-3" /> Unlimited users - no extra charge
+                        </p>
                         <p className="flex items-center gap-2">
                           <Check className="h-3 w-3" /> Full source code ownership
                         </p>
