@@ -187,6 +187,9 @@ export default function PricingCalculator() {
   // Base platform cost (Wix/Squarespace style): $23/user/month minimum
   const saasBasePlatformCost = 23 * users;
 
+  // Page-based cost for SaaS (they charge per page)
+  const saasPageCost = pages * 15; // $15/page/month for SaaS platforms
+
   // Feature costs scale with users for certain features
   const saasFeatureCosts = features
     .filter(f => f.enabled && f.saasMonthly > 0)
@@ -201,7 +204,7 @@ export default function PricingCalculator() {
       return sum + f.saasMonthly;
     }, 0);
 
-  const saasMonthlyTotal = saasBasePlatformCost + saasFeatureCosts;
+  const saasMonthlyTotal = saasBasePlatformCost + saasPageCost + saasFeatureCosts;
   const saasThreeYearTotal = saasMonthlyTotal * 36;
 
   const toggleFeature = (id: string) => {
@@ -496,26 +499,44 @@ export default function PricingCalculator() {
                   </div>
 
                   {/* Traditional SaaS Costs - Always Visible */}
-                  <motion.div
-                    key={`${saasMonthlyTotal}-${users}`}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="bg-gradient-to-br from-red-50 to-red-100 p-5 rounded-xl border-2 border-red-300"
-                  >
+                  <div className="bg-gradient-to-br from-red-50 to-red-100 p-5 rounded-xl border-2 border-red-300">
                     <h4 className="text-base font-bold text-red-900 mb-3 flex items-center gap-2">
                       <X className="h-5 w-5 text-red-600" />
                       Traditional SaaS (Wix, Squarespace, etc.)
                     </h4>
                     <div className="space-y-2 text-sm text-red-900">
-                      {/* Base Platform Cost */}
-                      <div className="bg-red-100 rounded p-2 mb-2">
-                        <div className="flex justify-between items-center">
-                          <span className="text-xs font-semibold">Platform Access ({users} users)</span>
-                          <span className="font-bold">${saasBasePlatformCost}/mo</span>
-                        </div>
-                        <p className="text-xs text-red-700 mt-1">
-                          ${users} × $23 per user
-                        </p>
+                      {/* Pages Cost */}
+                      <div className="flex justify-between items-start">
+                        <span className="text-xs flex-grow">
+                          {pages} {pages === 1 ? 'Page' : 'Pages'}
+                          <span className="text-red-700 block text-xs">${pages} × $15 per page</span>
+                        </span>
+                        <motion.span
+                          key={`pages-${saasPageCost}`}
+                          initial={{ scale: 1.2, color: '#dc2626' }}
+                          animate={{ scale: 1, color: '#7f1d1d' }}
+                          transition={{ duration: 0.3 }}
+                          className="font-medium ml-2 whitespace-nowrap"
+                        >
+                          ${saasPageCost}/mo
+                        </motion.span>
+                      </div>
+
+                      {/* Users Cost */}
+                      <div className="flex justify-between items-start">
+                        <span className="text-xs flex-grow">
+                          Platform Access ({users} {users === 1 ? 'user' : 'users'})
+                          <span className="text-red-700 block text-xs">${users} × $23 per user</span>
+                        </span>
+                        <motion.span
+                          key={`users-${saasBasePlatformCost}`}
+                          initial={{ scale: 1.2, color: '#dc2626' }}
+                          animate={{ scale: 1, color: '#7f1d1d' }}
+                          transition={{ duration: 0.3 }}
+                          className="font-medium ml-2 whitespace-nowrap"
+                        >
+                          ${saasBasePlatformCost}/mo
+                        </motion.span>
                       </div>
 
                       {/* Feature Costs */}
@@ -535,7 +556,15 @@ export default function PricingCalculator() {
                                 <span className="text-red-700 block text-xs">+${(additionalUsers * (f.saasMonthly * 0.5)).toFixed(0)} for {additionalUsers} extra users</span>
                               )}
                             </span>
-                            <span className="font-medium ml-2 whitespace-nowrap">${featureCost.toFixed(0)}/mo</span>
+                            <motion.span
+                              key={`${f.id}-${featureCost}`}
+                              initial={{ scale: 1.2, color: '#dc2626' }}
+                              animate={{ scale: 1, color: '#7f1d1d' }}
+                              transition={{ duration: 0.3 }}
+                              className="font-medium ml-2 whitespace-nowrap"
+                            >
+                              ${featureCost.toFixed(0)}/mo
+                            </motion.span>
                           </div>
                         );
                       })}
@@ -543,48 +572,88 @@ export default function PricingCalculator() {
                       <div className="border-t-2 border-red-300 pt-2 mt-2">
                         <div className="flex justify-between items-center font-semibold">
                           <span>Total Per Month:</span>
-                          <span className="text-lg">${Math.round(saasMonthlyTotal)}/mo</span>
+                          <motion.span
+                            key={`total-monthly-${saasMonthlyTotal}`}
+                            initial={{ scale: 1.2, color: '#dc2626' }}
+                            animate={{ scale: 1, color: '#7f1d1d' }}
+                            transition={{ duration: 0.3 }}
+                            className="text-lg"
+                          >
+                            ${Math.round(saasMonthlyTotal)}/mo
+                          </motion.span>
                         </div>
                         <div className="flex justify-between items-center mt-2 text-base">
                           <span className="font-bold">3-Year Total:</span>
-                          <span className="text-xl font-bold text-red-600">
+                          <motion.span
+                            key={`total-3year-${saasThreeYearTotal}`}
+                            initial={{ scale: 1.2, color: '#dc2626' }}
+                            animate={{ scale: 1, color: '#991b1b' }}
+                            transition={{ duration: 0.3 }}
+                            className="text-xl font-bold text-red-600"
+                          >
                             ${Math.round(saasThreeYearTotal).toLocaleString()}
-                          </span>
+                          </motion.span>
                         </div>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
 
                   {/* Your Investment Summary */}
-                  <motion.div
-                    key={totalPrice}
-                    initial={{ scale: 0.95 }}
-                    animate={{ scale: 1 }}
-                    className="bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border-2 border-green-300"
-                  >
+                  <div className="bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border-2 border-green-300">
                     <h4 className="text-base font-bold text-green-900 mb-4 flex items-center gap-2">
                       <Check className="h-5 w-5 text-green-600" />
                       Your Custom Solution
                     </h4>
 
-                    <div className="space-y-4">
-                      {/* Solution Summary */}
-                      <div>
-                        <div className="text-sm text-green-900 mb-3">
+                    <div className="space-y-2 text-sm text-green-900">
+                      {/* Pages Cost */}
+                      <div className="flex justify-between items-start">
+                        <span className="text-xs flex-grow">
                           {pageTier}
-                        </div>
-                        <div className="text-xs text-green-800 mb-3">
-                          {pages} pages + {features.filter(f => f.enabled).length} advanced features
-                        </div>
+                          <span className="text-green-700 block text-xs">{pages} {pages === 1 ? 'page' : 'pages'} included</span>
+                        </span>
+                        <motion.span
+                          key={`our-pages-${basePrice}`}
+                          initial={{ scale: 1.2, color: '#15803d' }}
+                          animate={{ scale: 1, color: '#14532d' }}
+                          transition={{ duration: 0.3 }}
+                          className="font-medium ml-2 whitespace-nowrap"
+                        >
+                          ${basePrice.toLocaleString()}
+                        </motion.span>
+                      </div>
 
+                      {/* Users - Free */}
+                      <div className="flex justify-between items-start">
+                        <span className="text-xs flex-grow">
+                          Unlimited Users
+                          <span className="text-green-700 block text-xs">No per-user fees ever</span>
+                        </span>
+                        <span className="font-bold ml-2 whitespace-nowrap text-green-700">
+                          FREE
+                        </span>
+                      </div>
+
+                      {/* Feature Costs */}
+                      {features.filter(f => f.enabled && f.price > 0).map(f => (
+                        <div key={f.id} className="flex justify-between items-start">
+                          <span className="text-xs flex-grow">{f.name}</span>
+                          <span className="font-medium ml-2 whitespace-nowrap">
+                            ${f.price.toLocaleString()}
+                          </span>
+                        </div>
+                      ))}
+
+                      <div className="border-t-2 border-green-300 pt-2 mt-2">
                         <div className="flex justify-between items-center mb-2">
                           <span className="text-base font-semibold text-green-900">
                             One-Time Investment:
                           </span>
                           <motion.span
-                            key={totalPrice}
-                            initial={{ scale: 1.2 }}
-                            animate={{ scale: 1 }}
+                            key={`total-${totalPrice}`}
+                            initial={{ scale: 1.2, color: '#15803d' }}
+                            animate={{ scale: 1, color: '#14532d' }}
+                            transition={{ duration: 0.3 }}
                             className="text-3xl font-bold text-green-800"
                           >
                             ${totalPrice.toLocaleString()}
@@ -610,7 +679,7 @@ export default function PricingCalculator() {
                         </p>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
 
                   {/* Calculate Savings Button & Result */}
                   {saasMonthlyTotal > 0 && (
