@@ -84,7 +84,7 @@ const pricingTiers = [
 
 export default function PricingTiers() {
   return (
-    <section id="pricing-tiers" className="py-20 bg-gradient-to-br from-slate-50 to-blue-50">
+    <section id="pricing-tiers" className="py-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -94,16 +94,16 @@ export default function PricingTiers() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">
             Simple, Transparent Pricing
           </h2>
-          <p className="text-lg text-slate-600">
+          <p className="text-lg text-slate-300">
             One-time payment. No monthly fees. You own everything.
           </p>
         </motion.div>
 
         {/* Pricing Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-7xl mx-auto">
           {pricingTiers.map((tier, index) => (
             <motion.div
               key={tier.name}
@@ -111,14 +111,14 @@ export default function PricingTiers() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="relative"
+              className={`relative ${tier.highlight ? "pt-8" : "pt-4"}`}
             >
               {/* Popular Badge */}
               {tier.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-                  <div className="bg-gradient-to-r from-primary to-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold flex items-center gap-1 shadow-lg">
-                    <Star className="h-4 w-4 fill-current" />
-                    Most Popular
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10">
+                  <div className="bg-gradient-to-r from-primary to-blue-600 text-white px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-lg whitespace-nowrap">
+                    <Star className="h-3.5 w-3.5 fill-current" />
+                    MOST POPULAR
                   </div>
                 </div>
               )}
@@ -126,7 +126,7 @@ export default function PricingTiers() {
               <div
                 className={`relative h-full bg-white rounded-2xl p-6 shadow-lg border-2 transition-all duration-300 hover:shadow-xl ${
                   tier.highlight
-                    ? "border-primary scale-105 md:scale-110"
+                    ? "border-primary lg:scale-105"
                     : "border-slate-200 hover:border-primary/50"
                 }`}
               >
@@ -196,12 +196,13 @@ export default function PricingTiers() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <p className="text-slate-600 mb-4">
+          <p className="text-slate-300 mb-4 text-lg">
             Not sure which plan is right for you?
           </p>
           <Button
             variant="outline"
             size="lg"
+            className="border-slate-300 text-white hover:bg-white hover:text-slate-900"
             onClick={(e) => {
               e.preventDefault();
               handleSmoothScroll(e as any, "quiz", undefined, true);
