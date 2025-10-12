@@ -26,10 +26,50 @@ const FEATURES: Feature[] = [
   // Always Included (Free)
   {
     id: "analytics",
-    name: "Analytics",
-    description: "Track visitors and conversions",
+    name: "Analytics & Tracking",
+    description: "Google Analytics, conversion tracking, visitor insights",
     price: 0,
     saasMonthly: 49,
+    enabled: true,
+    category: "Always Included",
+    alwaysIncluded: true
+  },
+  {
+    id: "ssl-hosting",
+    name: "SSL & Premium Hosting",
+    description: "Secure HTTPS, 99.9% uptime, CDN, daily backups",
+    price: 0,
+    saasMonthly: 25,
+    enabled: true,
+    category: "Always Included",
+    alwaysIncluded: true
+  },
+  {
+    id: "responsive",
+    name: "Mobile Responsive Design",
+    description: "Perfect on phones, tablets, and desktops",
+    price: 0,
+    saasMonthly: 0,
+    enabled: true,
+    category: "Always Included",
+    alwaysIncluded: true
+  },
+  {
+    id: "basic-seo",
+    name: "Basic SEO Setup",
+    description: "Meta tags, sitemap, search console integration",
+    price: 0,
+    saasMonthly: 79,
+    enabled: true,
+    category: "Always Included",
+    alwaysIncluded: true
+  },
+  {
+    id: "contact-forms",
+    name: "Contact Forms",
+    description: "Basic contact forms with email notifications",
+    price: 0,
+    saasMonthly: 15,
     enabled: true,
     category: "Always Included",
     alwaysIncluded: true
@@ -352,7 +392,7 @@ export default function PricingCalculator() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="max-w-6xl mx-auto"
+          className="max-w-7xl mx-auto"
         >
           <Card className="shadow-xl border-2 border-slate-200">
             <CardHeader className="bg-white border-b border-slate-100">
@@ -374,21 +414,25 @@ export default function PricingCalculator() {
                           {/* Section Header */}
                           {isAlwaysIncluded ? (
                             <div className="mb-4">
-                              <h3 className="text-lg font-bold text-green-900 mb-2 pb-2 border-b-2 border-green-300">
-                                ✓ WHAT'S ALWAYS INCLUDED
-                              </h3>
-                              <p className="text-sm text-green-700">
-                                Free with every project • Competitors charge extra
-                              </p>
+                              <div className="flex items-baseline justify-between gap-4 pb-2 border-b-2 border-green-300">
+                                <h3 className="text-lg font-bold text-green-900">
+                                  ✓ WHAT'S ALWAYS INCLUDED
+                                </h3>
+                                <p className="text-sm font-semibold text-green-700">
+                                  Free with every project • Competitors charge $168+/mo
+                                </p>
+                              </div>
                             </div>
                           ) : category === "Marketing & Growth" ? (
                             <div className="mb-4 mt-8">
-                              <h3 className="text-lg font-bold text-slate-900 mb-2 pb-2 border-b-2 border-slate-200">
-                                ADVANCED FEATURES
-                              </h3>
-                              <p className="text-sm text-slate-600">
-                                Select features to add to your project
-                              </p>
+                              <div className="flex items-baseline justify-between gap-4 pb-2 border-b-2 border-slate-200">
+                                <h3 className="text-lg font-bold text-slate-900">
+                                  ADVANCED FEATURES
+                                </h3>
+                                <p className="text-sm font-semibold text-slate-600">
+                                  Select additional features to customize your solution
+                                </p>
+                              </div>
                             </div>
                           ) : null}
 
@@ -402,7 +446,7 @@ export default function PricingCalculator() {
                           )}
 
                           {/* Features Grid */}
-                          <div className={`grid ${isAlwaysIncluded ? 'grid-cols-1' : 'grid-cols-2'} gap-3 ${isAlwaysIncluded ? 'mb-6' : ''}`}>
+                          <div className={`grid grid-cols-2 gap-3 ${isAlwaysIncluded ? 'mb-6' : ''}`}>
                             {categoryFeatures.map((feature) => (
                               <motion.div
                                 key={feature.id}
