@@ -77,11 +77,11 @@ export default function QuizCTA({ variant = "banner", className = "" }: QuizCTAP
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-5 w-5 text-green-600" />
-              <span className="text-slate-700">No email required</span>
+              <span className="text-slate-700">Get detailed quotes faster</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-5 w-5 text-green-600" />
-              <span className="text-slate-700">Instant results</span>
+              <span className="text-slate-700">Quick recommendations</span>
             </div>
           </div>
 
