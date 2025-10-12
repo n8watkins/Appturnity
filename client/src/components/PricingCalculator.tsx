@@ -117,7 +117,7 @@ export default function PricingCalculator() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="max-w-4xl mx-auto"
+          className="max-w-6xl mx-auto"
         >
           <Card className="shadow-lg border border-slate-200">
             <CardHeader className="bg-slate-50 border-b border-slate-100">
@@ -130,12 +130,12 @@ export default function PricingCalculator() {
               <div className="grid md:grid-cols-2 gap-8">
                 {/* Left Column - What's Included */}
                 <div>
-                  <div className="bg-slate-50 p-6 rounded-lg border border-slate-200">
-                    <h4 className="font-semibold text-slate-900 mb-4 text-lg">
+                  <div className="bg-slate-50 p-6 rounded-lg border border-slate-200 h-full flex flex-col">
+                    <h4 className="font-semibold text-slate-900 mb-6 text-lg">
                       Here's What You'll Get:
                     </h4>
 
-                    <div className="space-y-4">
+                    <div className="space-y-6 flex-grow">
                       <div>
                         <h5 className="font-semibold text-slate-800 mb-2 text-sm">Your Design, Your Way</h5>
                         <ul className="space-y-2 text-sm text-slate-600 ml-2">
@@ -240,8 +240,10 @@ export default function PricingCalculator() {
                           name="screens"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Number of Pages</FormLabel>
-                              <div className="flex items-center gap-4">
+                              <FormLabel className="text-base">
+                                Number of Pages <span className="text-slate-500 font-normal text-sm">(unique pages in your app)</span>
+                              </FormLabel>
+                              <div className="flex items-center gap-4 mt-2">
                                 <Slider
                                   min={1}
                                   max={10}
@@ -256,9 +258,6 @@ export default function PricingCalculator() {
                                   {field.value === 10 ? "10+" : field.value}
                                 </span>
                               </div>
-                              <FormDescription>
-                                Each unique page in your app
-                              </FormDescription>
                             </FormItem>
                           )}
                         />
@@ -268,8 +267,10 @@ export default function PricingCalculator() {
                           name="users"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Number of Users</FormLabel>
-                              <div className="flex items-center gap-4">
+                              <FormLabel className="text-base">
+                                Number of Users <span className="text-slate-500 font-normal text-sm">(expected users)</span>
+                              </FormLabel>
+                              <div className="flex items-center gap-4 mt-2">
                                 <Slider
                                   min={1}
                                   max={20}
@@ -284,9 +285,6 @@ export default function PricingCalculator() {
                                   {field.value === 20 ? "20+" : field.value}
                                 </span>
                               </div>
-                              <FormDescription>
-                                Expected number of users
-                              </FormDescription>
                             </FormItem>
                           )}
                         />
