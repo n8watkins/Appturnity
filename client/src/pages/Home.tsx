@@ -32,7 +32,6 @@ export default function Home() {
       <Header />
       <div className="flex-1">
         <Hero />
-        <HowWeWork />
         <WhyNotDIY />
         <About />
         <QuizCTA variant="banner" />
@@ -40,6 +39,8 @@ export default function Home() {
         <Suspense fallback={<SectionLoader />}>
           <Portfolio />
         </Suspense>
+
+        <HowWeWork />
 
         <Suspense fallback={<SectionLoader />}>
           <Testimonials />

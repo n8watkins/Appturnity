@@ -112,37 +112,21 @@ export default function Testimonials() {
   };
 
   return (
-    <section id="testimonials" className="relative py-24 overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900/50 to-slate-900 scroll-mt-16">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
-      </div>
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="testimonials" className="py-20 bg-slate-900 scroll-mt-16">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="max-w-3xl mx-auto text-center mb-20"
+          className="max-w-3xl mx-auto text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <motion.div
-            className="inline-block mb-6"
-            initial={{ scale: 0 }}
-            whileInView={{ scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <div className="px-4 py-2 bg-gradient-to-r from-primary to-purple-600 rounded-full">
-              <p className="text-white font-semibold text-sm">Trusted by Businesses</p>
-            </div>
-          </motion.div>
-
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            They Took the <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-purple-500">Leap</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            What Our Clients Say
           </h2>
-          <p className="text-xl text-slate-300">Real clients. Real results. Real ownership.</p>
+          <p className="text-lg text-slate-400">
+            Real feedback from real businesses who made the switch.
+          </p>
         </motion.div>
 
         <div
