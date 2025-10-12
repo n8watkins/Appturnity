@@ -170,13 +170,24 @@ export default function PricingCalculator() {
   // Memoize calculations to prevent unnecessary re-renders
   const { basePrice, pageTier } = useMemo(() => {
     const getBasePriceAndTier = (pageCount: number) => {
-      // More uniform pricing: $150 per page
-      const price = 750 + ((pageCount - 1) * 150);
+      // Uniform per-page pricing with volume discounts
+      let price;
       let tier;
-      if (pageCount <= 4) tier = "Simple Landing Page (1-4 pages)";
-      else if (pageCount <= 8) tier = "Multi-Page Site (5-8 pages)";
-      else if (pageCount <= 15) tier = "Complex Site (9-15 pages)";
-      else tier = `Large Site (${pageCount} pages)`;
+
+      if (pageCount <= 4) {
+        price = pageCount * 200; // $200 per page for small sites
+        tier = "Simple Landing Page (1-4 pages)";
+      } else if (pageCount <= 8) {
+        price = 800 + ((pageCount - 4) * 150); // $150 per page after first 4
+        tier = "Multi-Page Site (5-8 pages)";
+      } else if (pageCount <= 15) {
+        price = 1400 + ((pageCount - 8) * 125); // $125 per page after first 8
+        tier = "Complex Site (9-15 pages)";
+      } else {
+        price = 2275 + ((pageCount - 15) * 100); // $100 per page after first 15
+        tier = `Large Site (${pageCount} pages)`;
+      }
+
       return { price, tier };
     };
     const { price, tier } = getBasePriceAndTier(pages);
