@@ -12,12 +12,30 @@ export default function Header() {
 
   const navigateAndClose = (e: React.MouseEvent<HTMLAnchorElement>) => {
     // Get the target ID from the href attribute
-    const href = e.currentTarget.getAttribute('href');
-    const targetId = href?.replace('#', '');
-    
+    const href = e.currentTarget.getAttribute('href') || '';
+    const hashIndex = href.indexOf('#');
+    const queryIndex = href.indexOf('?');
+
+    let targetId = '';
+    let queryParams = '';
+
+    if (hashIndex !== -1) {
+      if (queryIndex !== -1) {
+        targetId = href.substring(hashIndex + 1, queryIndex);
+        queryParams = href.substring(queryIndex);
+      } else {
+        targetId = href.substring(hashIndex + 1);
+      }
+    }
+
     e.preventDefault();
     setIsOpen(false);
-    
+
+    // Update URL with query params if present
+    if (queryParams) {
+      window.history.pushState({}, '', `#${targetId}${queryParams}`);
+    }
+
     // Small delay to allow the mobile menu to close before scrolling
     if (targetId) {
       setTimeout(() => {
@@ -79,14 +97,14 @@ export default function Header() {
               Pricing
             </a>
             <a
-              href="#contact"
+              href="#contact?startQuiz=true"
               className="px-4 py-2 rounded-md bg-white border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-200 shadow-sm"
               onClick={(e) => handleSmoothScroll(e, "contact")}
             >
               Contact
             </a>
             <a
-              href="#contact"
+              href="#contact?startQuiz=true"
               className="flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 transition-colors shadow-sm"
               onClick={(e) => handleSmoothScroll(e, "contact")}
             >
@@ -140,14 +158,14 @@ export default function Header() {
                     Pricing
                   </a>
                   <a
-                    href="#contact"
+                    href="#contact?startQuiz=true"
                     className="px-4 py-2 rounded-md bg-white border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-200 text-center"
                     onClick={navigateAndClose}
                   >
                     Contact
                   </a>
                   <a
-                    href="#contact"
+                    href="#contact?startQuiz=true"
                     className="flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 transition-colors shadow-sm"
                     onClick={navigateAndClose}
                   >

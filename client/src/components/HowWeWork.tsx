@@ -71,9 +71,9 @@ export default function HowWeWork() {
             className="font-medium"
             asChild
           >
-            <a 
-              href="#contact" 
-              onClick={(e) => handleSmoothScroll(e, "contact")} // 👈 Smooth scroll added here
+            <a
+              href="#contact?startQuiz=true"
+              onClick={(e) => handleSmoothScroll(e, "contact")}
             >
               Start Your Project
             </a>

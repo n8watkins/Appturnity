@@ -63,17 +63,17 @@ export default function Hero() {
 
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="font-medium group"
                 asChild
               >
-                <a 
-                  href="#contact" 
+                <a
+                  href="#contact?startQuiz=true"
                   className="flex items-center gap-2"
                   onClick={(e) => handleSmoothScroll(e, "contact")}
                 >
-                  Get Started 
+                  Get Started
                   <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </a>
               </Button>

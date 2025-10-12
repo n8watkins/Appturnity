@@ -84,7 +84,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <a
-                    href="#contact"
+                    href="#contact?startQuiz=true"
                     onClick={(e) => handleSmoothScroll(e, "contact")}
                     className="hover:text-white transition-colors cursor-pointer"
                   >
