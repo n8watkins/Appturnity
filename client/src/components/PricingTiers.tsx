@@ -1,26 +1,26 @@
 import { motion } from "framer-motion";
-import { Check, Star } from "lucide-react";
+import { Check, Star, ArrowRight, Sparkles, FileText, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { handleSmoothScroll } from "@/lib/utils";
+import { Link } from "wouter";
 
 const pricingTiers = [
   {
     name: "Essential",
     price: "$750",
     pageRange: "1-4 pages",
+    delivery: "2-3 week delivery",
+    advancedCount: "+ 1 advanced feature",
     description: "Perfect for landing pages & small sites",
     popular: false,
     features: [
-      "1-4 pages",
-      "Everything always included:",
-      "Mobile responsive design",
-      "SSL & premium hosting",
-      "Basic SEO setup",
+      "Essential features:",
+      "Custom design",
+      "Mobile responsive",
       "Contact forms",
-      "Analytics & tracking",
-      "+ Your choice of advanced features",
-      "Full source code ownership",
-      "2-3 week delivery"
+      "SEO optimization",
+      "SSL certificate",
+      "Cloud hosting"
     ],
     highlight: false
   },
@@ -28,19 +28,18 @@ const pricingTiers = [
     name: "Professional",
     price: "$1,700",
     pageRange: "5-8 pages",
+    delivery: "3-4 week delivery",
+    advancedCount: "+ 3 advanced features",
     description: "Most popular for growing businesses",
     popular: true,
     features: [
-      "5-8 pages",
-      "Everything always included:",
-      "Mobile responsive design",
-      "SSL & premium hosting",
-      "Basic SEO setup",
-      "Contact forms",
-      "Analytics & tracking",
-      "+ Your choice of advanced features",
-      "Full source code ownership",
-      "3-4 week delivery"
+      "Popular advanced features:",
+      "Advanced SEO & analytics",
+      "Email marketing integration",
+      "Multi-step forms",
+      "Blog integration",
+      "CRM integration",
+      "Dark mode"
     ],
     highlight: true
   },
@@ -48,41 +47,41 @@ const pricingTiers = [
     name: "Growth",
     price: "$2,450",
     pageRange: "9-15 pages",
+    delivery: "1-2 month delivery",
+    advancedCount: "+ 7 advanced features",
     description: "For established businesses",
     popular: false,
     features: [
-      "9-15 pages",
-      "Everything always included:",
-      "Mobile responsive design",
-      "SSL & premium hosting",
-      "Basic SEO setup",
-      "Contact forms",
-      "Analytics & tracking",
-      "+ Your choice of advanced features",
-      "Full source code ownership",
-      "1-2 month delivery"
+      "Popular advanced features:",
+      "User authentication",
+      "Payment processing",
+      "File uploads",
+      "API integrations",
+      "Conversion tracking",
+      "Advanced animations",
+      "Custom illustrations"
     ],
     highlight: false
   },
   {
-    name: "Enterprise",
+    name: "Premium",
     price: "Custom",
     pageRange: "16+ pages",
+    delivery: "Custom timeline",
+    advancedCount: "Unlimited advanced features",
     description: "Large-scale custom solutions",
     popular: false,
     features: [
-      "16+ pages",
-      "Everything always included:",
-      "Mobile responsive design",
-      "SSL & premium hosting",
-      "Basic SEO setup",
-      "Contact forms",
-      "Analytics & tracking",
-      "+ Your choice of advanced features",
-      "Full source code ownership",
-      "Custom timeline"
+      "Everything you need:",
+      "E-commerce platform",
+      "Multi-language support",
+      "Custom integrations",
+      "Dedicated support",
+      "Priority delivery",
+      "White-glove service"
     ],
-    highlight: false
+    highlight: false,
+    isUnlimited: true
   }
 ];
 
@@ -122,7 +121,7 @@ export default function PricingTiers() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`relative ${tier.highlight ? "pt-10 lg:scale-110" : "pt-4"}`}
+              className={`relative ${tier.highlight ? "lg:-translate-y-4" : ""}`}
             >
               {/* Popular Badge */}
               {tier.popular && (
@@ -135,7 +134,7 @@ export default function PricingTiers() {
               )}
 
               <div
-                className={`relative h-full bg-white rounded-2xl p-6 shadow-lg border-2 transition-all duration-300 hover:shadow-xl ${
+                className={`relative h-full bg-white rounded-2xl p-6 shadow-lg border-2 transition-all duration-300 hover:shadow-xl flex flex-col ${
                   tier.highlight
                     ? "border-primary shadow-2xl"
                     : "border-slate-200 hover:border-primary/50"
@@ -157,15 +156,35 @@ export default function PricingTiers() {
                   <p className="text-sm text-slate-600">{tier.description}</p>
                 </div>
 
+                {/* Quick Stats */}
+                <div className="space-y-2 mb-6 pb-6 border-b border-slate-200">
+                  <div className="flex items-center gap-2 text-sm text-slate-700">
+                    <Sparkles className={`h-4 w-4 flex-shrink-0 ${tier.isUnlimited ? "text-purple-600" : "text-blue-600"}`} />
+                    <span className={tier.isUnlimited ? "text-purple-700 font-bold" : "text-blue-700 font-bold"}>{tier.advancedCount}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-slate-700">
+                    <Clock className="h-4 w-4 text-slate-500 flex-shrink-0" />
+                    <span>{tier.delivery}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-slate-700">
+                    <FileText className="h-4 w-4 text-slate-500 flex-shrink-0" />
+                    <span>{tier.pageRange}</span>
+                  </div>
+                </div>
+
                 {/* Features List */}
-                <ul className="space-y-3 mb-6">
+                <ul className="space-y-3 mb-6 flex-grow">
                   {tier.features.map((feature, featureIndex) => {
-                    const isSectionHeader = feature.includes("Everything always included:") || feature.includes("+ Your choice");
+                    const isSectionHeader =
+                      feature.includes("Essential features:") ||
+                      feature.includes("Popular advanced features:") ||
+                      feature.includes("Everything you need:");
+
                     return (
                       <li
                         key={featureIndex}
                         className={`flex items-start gap-2 ${
-                          isSectionHeader ? "mt-4 pt-3 border-t border-slate-200 font-semibold text-slate-700 text-xs uppercase tracking-wide" : ""
+                          isSectionHeader ? "font-semibold text-slate-700 text-xs uppercase tracking-wide" : ""
                         }`}
                       >
                         {!isSectionHeader && (
@@ -181,7 +200,7 @@ export default function PricingTiers() {
 
                 {/* CTA Button */}
                 <Button
-                  className={`w-full ${
+                  className={`w-full mt-auto ${
                     tier.highlight
                       ? "bg-primary hover:bg-primary/90"
                       : "bg-slate-900 hover:bg-slate-800"
@@ -199,27 +218,23 @@ export default function PricingTiers() {
           ))}
         </div>
 
-        {/* Bottom CTA */}
+        {/* Features Link and Caveat */}
         <motion.div
-          className="text-center mt-12"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          className="text-center mt-12 max-w-2xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <p className="text-slate-300 mb-4 text-lg">
-            Not sure which plan is right for you?
+          <p className="text-slate-300 text-sm mb-4">
+            * Popular choices shown. Not all features listed.
           </p>
-          <Button
-            size="lg"
-            className="bg-white text-slate-900 hover:bg-slate-100 font-semibold"
-            onClick={(e) => {
-              e.preventDefault();
-              handleSmoothScroll(e as any, "quiz", undefined, true);
-            }}
-          >
-            Take Our Quick Quiz →
-          </Button>
+          <Link href="/features">
+            <a className="inline-flex items-center gap-2 text-lg text-white hover:text-primary transition-colors duration-200 group">
+              <span>View Full Feature List & Details</span>
+              <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            </a>
+          </Link>
         </motion.div>
       </div>
     </section>

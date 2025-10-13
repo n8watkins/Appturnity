@@ -1,7 +1,5 @@
 import { motion } from "framer-motion";
-import { Palette, TrendingUp, Shield, Settings, FileText, Target } from "lucide-react";
-import { handleSmoothScroll } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { Palette, TrendingUp, Shield, Target, ArrowRight } from "lucide-react";
 
 const categories = [
   {
@@ -10,12 +8,10 @@ const categories = [
     tagline: "Your unique style, professionally crafted",
     gradient: "from-pink-500 to-purple-600",
     features: [
-      "Custom design matched to your brand colors and style",
-      "Fully responsive across phones, tablets, and desktops",
-      "Lightning-fast loading (under 2 seconds)",
-      "Modern animations and micro-interactions",
-      "Professional typography and spacing",
-      "Accessibility standards (WCAG compliant)"
+      "Custom design matched to your brand",
+      "Fully responsive across all devices",
+      "Lightning-fast performance optimized",
+      "Modern animations and interactions"
     ]
   },
   {
@@ -25,67 +21,33 @@ const categories = [
     gradient: "from-blue-500 to-cyan-500",
     features: [
       "Custom contact and lead capture forms",
-      "SEO optimization (meta tags, sitemaps, structured data)",
-      "Google Analytics and conversion tracking",
+      "SEO optimization and Google Analytics",
       "Social media integration",
-      "Strategic call-to-action placement",
-      "Form submission notifications"
+      "Strategic call-to-action placement"
     ]
   },
   {
     icon: Shield,
-    title: "Security & Performance",
+    title: "Security & Hosting",
     tagline: "Fast, secure, and always online",
     gradient: "from-green-500 to-emerald-600",
     features: [
       "SSL certificate included",
-      "99.9% uptime guarantee",
-      "Daily automated backups",
-      "CDN for global fast loading",
-      "DDoS protection",
-      "Performance optimization"
-    ]
-  },
-  {
-    icon: Settings,
-    title: "Technical Foundation",
-    tagline: "Modern tech that scales with you",
-    gradient: "from-orange-500 to-red-600",
-    features: [
-      "Modern tech stack (React, TypeScript)",
-      "Clean, maintainable code",
-      "Database integration (if needed)",
-      "API integrations with third-party tools",
-      "Custom CMS for easy content updates",
-      "User authentication systems (if needed)"
-    ]
-  },
-  {
-    icon: FileText,
-    title: "Content & SEO",
-    tagline: "Get found on Google",
-    gradient: "from-indigo-500 to-purple-600",
-    features: [
-      "SEO-friendly URL structure",
-      "OpenGraph tags for social sharing",
-      "Google Search Console setup",
-      "Sitemap generation",
-      "Blog system (optional)",
-      "Multi-language support (optional)"
+      "Cloud hosting with 99.9% uptime",
+      "Regular security updates",
+      "Performance monitoring"
     ]
   },
   {
     icon: Target,
-    title: "Support & Growth",
+    title: "Support & Ownership",
     tagline: "We're here for the long haul",
-    gradient: "from-yellow-500 to-orange-600",
+    gradient: "from-orange-500 to-red-600",
     features: [
-      "Regular security and performance updates",
-      "Content and copy updates",
-      "Fast support response (under 24 hours)",
-      "Training and documentation",
-      "Scalable architecture for future growth",
-      "Source code ownership (you own everything)"
+      "Full source code ownership",
+      "Regular updates and maintenance",
+      "Fast support (under 24 hours)",
+      "Documentation and training"
     ]
   }
 ];
@@ -123,7 +85,7 @@ export default function WhatYouGet() {
 
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
             What You'll{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-purple-500">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500">
               Get
             </span>
           </h2>
@@ -133,99 +95,70 @@ export default function WhatYouGet() {
           </p>
         </motion.div>
 
-        {/* Category Cards - Zigzag Layout */}
-        <div className="max-w-5xl mx-auto">
-          {categories.map((category, index) => {
-            const isEven = index % 2 === 0;
+        {/* Category Cards - Grid Layout */}
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {categories.map((category, index) => (
+            <motion.div
+              key={index}
+              className="relative"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+            >
+              {/* Glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-purple-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
 
-            return (
-              <motion.div
-                key={index}
-                className="relative mb-16 last:mb-0"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                {/* Glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-purple-600/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
-
-                <div
-                  className={`relative bg-slate-800/90 backdrop-blur-sm border border-slate-700 rounded-2xl p-8 md:p-10 hover:border-primary/50 transition-all duration-300 group ${
-                    isEven ? "" : ""
-                  }`}
-                >
+              <div className="relative bg-slate-800/90 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-primary/50 transition-all duration-300 group h-full">
+                {/* Icon and Title Section */}
+                <div className="flex items-start gap-4 mb-4">
                   <div
-                    className={`flex flex-col md:flex-row gap-8 items-start ${
-                      isEven ? "" : "md:flex-row-reverse"
-                    }`}
+                    className={`w-12 h-12 bg-gradient-to-br ${category.gradient} rounded-lg flex items-center justify-center shadow-lg flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}
                   >
-                    {/* Icon Section */}
-                    <div className="flex-shrink-0">
-                      <div
-                        className={`w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br ${category.gradient} rounded-2xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-300`}
-                      >
-                        <category.icon className="h-10 w-10 md:h-12 md:w-12 text-white" />
-                      </div>
-                    </div>
+                    <category.icon className="h-6 w-6 text-white" />
+                  </div>
 
-                    {/* Content Section */}
-                    <div className="flex-grow">
-                      <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                        {category.title}
-                      </h3>
-                      <p className="text-lg text-slate-400 mb-6">{category.tagline}</p>
-
-                      <ul className="space-y-3">
-                        {category.features.map((feature, featureIndex) => (
-                          <li key={featureIndex} className="flex items-start gap-3">
-                            <div
-                              className={`mt-1.5 w-2 h-2 rounded-full bg-gradient-to-r ${category.gradient} flex-shrink-0`}
-                            ></div>
-                            <span className="text-base md:text-lg text-slate-300 leading-relaxed">
-                              {feature}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-white mb-1">
+                      {category.title}
+                    </h3>
+                    <p className="text-sm text-slate-400">{category.tagline}</p>
                   </div>
                 </div>
-              </motion.div>
-            );
-          })}
+
+                {/* Features List */}
+                <ul className="space-y-2.5">
+                  {category.features.map((feature, featureIndex) => (
+                    <li key={featureIndex} className="flex items-start gap-2.5">
+                      <div
+                        className={`mt-1.5 w-1.5 h-1.5 rounded-full bg-gradient-to-r ${category.gradient} flex-shrink-0`}
+                      ></div>
+                      <span className="text-sm text-slate-300 leading-relaxed">
+                        {feature}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+          ))}
         </div>
 
-        {/* CTA Footer */}
+        {/* View Full Features Link */}
         <motion.div
-          className="relative mt-20"
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          className="text-center mt-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-primary via-purple-600 to-pink-600 rounded-3xl blur-2xl opacity-30"></div>
-
-          <div className="relative bg-gradient-to-br from-slate-800/95 to-slate-900/95 backdrop-blur-sm border-2 border-primary/30 rounded-3xl p-10 md:p-14 text-center">
-            <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
-              Not Sure Where to Start?
-            </h3>
-
-            <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-8">
-              Take our 2-minute quiz and we'll recommend the perfect features for your business.
-            </p>
-
-            <Button
-              size="lg"
-              className="font-medium text-lg px-8 py-6"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll(e as any, "pricing", undefined, true);
-              }}
-            >
-              Take the Quiz →
-            </Button>
-          </div>
+          <a
+            href="/features"
+            className="inline-flex items-center gap-2 text-lg text-slate-300 hover:text-white transition-colors duration-200 group"
+          >
+            <span>See Full Feature List & Details</span>
+            <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+          </a>
         </motion.div>
       </div>
     </section>

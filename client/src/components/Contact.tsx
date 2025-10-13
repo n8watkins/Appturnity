@@ -293,21 +293,10 @@ export default function Contact() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">Ready for a Simpler Solution?</h2>
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">Let's Build Something Great Together</h2>
           <p className="text-slate-600 max-w-2xl mx-auto">
-            Take our quick 60-second quiz to get instant pricing and a custom solution roadmap, or fill out the form directly
+            Ready to get started? Fill out the form below or schedule a free consultation call.
           </p>
-        </motion.div>
-
-        {/* Service Quiz */}
-        <motion.div
-          className="max-w-3xl mx-auto mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <ServiceQuiz key={quizKey} onComplete={handleQuizComplete} autoStart={autoStartQuiz} />
         </motion.div>
 
         {/* Recommendation Card */}

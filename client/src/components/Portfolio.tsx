@@ -1,5 +1,6 @@
 import { ExternalLink, Code } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -15,7 +16,7 @@ interface PortfolioItem {
   title: string;
   description: string;
   image: string;
-  tags: string[];
+  features: string[];
   link: string;
 }
 
@@ -26,7 +27,7 @@ const portfolioItems: PortfolioItem[] = [
     description:
       "An AI-powered security automation service designed to monitor, detect, and respond to threats in real time. Built with modern UI and seamless backend integrations.",
     image: "/guardcast.webp",
-    tags: ["AI", "Automation", "Security", "Real-Time"],
+    features: ["Contact Forms", "SEO", "Mobile Responsive", "User Authentication", "Advanced Animations"],
     link: "https://guardcast-a4457.web.app/",
   },
   {
@@ -35,12 +36,29 @@ const portfolioItems: PortfolioItem[] = [
     description:
       "A streamlined web application that automated business processes, saving the client 20+ hours per week.",
     image: "/riverwood.webp",
-    tags: ["Web App", "Business Solutions", "Automation"],
+    features: ["Contact Forms", "SEO", "Mobile Responsive", "Analytics", "Blog Integration", "CRM"],
     link: "https://riverwoodranch.web.app/",
   },
 ];
 
+const allFeatures = [
+  "Contact Forms",
+  "SEO",
+  "Mobile Responsive",
+  "User Authentication",
+  "Advanced Animations",
+  "Analytics",
+  "Blog Integration",
+  "CRM",
+];
+
 export default function Portfolio() {
+  const [selectedFeature, setSelectedFeature] = useState<string>("All");
+
+  const filteredItems = selectedFeature === "All"
+    ? portfolioItems
+    : portfolioItems.filter(item => item.features.includes(selectedFeature));
+
   return (
     <section id="portfolio" className="relative py-24 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 scroll-mt-16">
       {/* Animated background elements */}
@@ -51,7 +69,7 @@ export default function Portfolio() {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
-          className="max-w-3xl mx-auto text-center mb-20"
+          className="max-w-3xl mx-auto text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -77,8 +95,41 @@ export default function Portfolio() {
           </p>
         </motion.div>
 
+        {/* Feature Filters */}
+        <motion.div
+          className="flex flex-wrap gap-2 justify-center mb-12 max-w-4xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <Button
+            variant={selectedFeature === "All" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setSelectedFeature("All")}
+            className={selectedFeature === "All"
+              ? "bg-primary hover:bg-primary/90"
+              : "bg-slate-800/50 text-slate-300 hover:text-white hover:bg-slate-700 border-slate-600"}
+          >
+            All Projects
+          </Button>
+          {allFeatures.map((feature) => (
+            <Button
+              key={feature}
+              variant={selectedFeature === feature ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedFeature(feature)}
+              className={selectedFeature === feature
+                ? "bg-primary hover:bg-primary/90"
+                : "bg-slate-800/50 text-slate-300 hover:text-white hover:bg-slate-700 border-slate-600"}
+            >
+              {feature}
+            </Button>
+          ))}
+        </motion.div>
+
         <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          {portfolioItems.map((item, index) => (
+          {filteredItems.map((item, index) => (
             <motion.div
               key={item.id}
               className="group relative"
@@ -98,37 +149,37 @@ export default function Portfolio() {
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover scale-110 transition-transform duration-700 group-hover:scale-125"
                   />
                 </div>
 
                 <CardHeader>
-                  <CardTitle className="text-white text-2xl group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-purple-500 transition-all duration-300">
+                  <CardTitle className="text-white text-2xl">
                     {item.title}
                   </CardTitle>
                   <CardDescription className="flex flex-wrap gap-2 mt-3">
-                      {item.tags.map((tag, tagIndex) => {
+                      {item.features.map((feature, featureIndex) => {
                         const gradients = [
                           "from-blue-500 to-cyan-500",
                           "from-purple-500 to-pink-500",
                           "from-green-500 to-emerald-500",
                           "from-orange-500 to-red-500"
                         ];
-                        const gradient = gradients[tagIndex % gradients.length];
+                        const gradient = gradients[featureIndex % gradients.length];
 
                         return (
                           <span
-                            key={tag}
+                            key={feature}
                             className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${gradient} text-white shadow-lg`}
                           >
-                            {tag}
+                            {feature}
                           </span>
                         );
                       })}
                   </CardDescription>
                 </CardHeader>
 
-                <CardContent className="flex-grow">
+                <CardContent className="flex-grow space-y-4">
                   <p className="text-slate-300 leading-relaxed">{item.description}</p>
                 </CardContent>
 

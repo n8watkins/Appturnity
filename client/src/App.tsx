@@ -9,6 +9,7 @@ import Home from "@/pages/Home";
 import Success from "@/pages/Success";
 import Terms from "@/pages/Terms";
 import Privacy from "@/pages/Privacy";
+import Features from "@/pages/Features";
 
 function Router() {
   return (
@@ -17,6 +18,7 @@ function Router() {
       <Route path="/success" component={Success} />
       <Route path="/terms" component={Terms} />
       <Route path="/privacy" component={Privacy} />
+      <Route path="/features" component={Features} />
       <Route component={NotFound} />
     </Switch>
   );

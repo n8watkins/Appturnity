@@ -48,7 +48,7 @@ export default function QuizCTA({ variant = "banner", className = "" }: QuizCTAP
 
   // Banner variant for between sections
   return (
-    <section className={`py-12 bg-gradient-to-r from-primary/5 via-purple-50 to-primary/5 ${className}`}>
+    <section className={`py-16 bg-white ${className}`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
