@@ -6,7 +6,7 @@ import { Calendar, Clock, Tag, ArrowLeft, Share2, Twitter, Linkedin, Facebook } 
 import { getMetadataBySlug, blogMetadata } from '@/data/blogMetadata';
 import { loadBlogPost, BlogPost as BlogPostType } from '@/data/blogLoader';
 import { Button } from '@/components/ui/button';
-import ReactMarkdown from 'react-markdown';
+import BlogContent from '@/components/BlogContent';
 import { formatBlogDate } from '@/lib/dateUtils';
 import LazyImage from '@/components/LazyImage';
 import ReadingProgress from '@/components/ReadingProgress';
@@ -173,7 +173,7 @@ export default function BlogPost() {
       </div>
 
       {/* Article Header */}
-      <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <article className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.header
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -227,33 +227,157 @@ export default function BlogPost() {
           />
         </motion.div>
 
-        {/* Article Content */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="prose prose-lg md:prose-xl max-w-none
-            prose-headings:font-bold prose-headings:text-slate-900 prose-headings:tracking-tight
-            prose-h1:text-4xl prose-h1:mt-12 prose-h1:mb-6
-            prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-4
-            prose-h3:text-2xl prose-h3:mt-10 prose-h3:mb-3
-            prose-p:text-slate-700 prose-p:leading-relaxed prose-p:mb-6
-            prose-a:text-primary prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-a:decoration-2 prose-a:underline-offset-2
-            prose-strong:text-slate-900 prose-strong:font-semibold
-            prose-ul:my-8 prose-ul:space-y-2
-            prose-ol:my-8 prose-ol:space-y-2
-            prose-li:text-slate-700 prose-li:leading-relaxed
-            prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-6 prose-blockquote:py-2 prose-blockquote:not-italic prose-blockquote:text-slate-700 prose-blockquote:bg-slate-50 prose-blockquote:rounded-r-lg
-            prose-code:text-primary prose-code:bg-slate-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:font-mono prose-code:before:content-[''] prose-code:after:content-['']
-            prose-pre:bg-slate-900 prose-pre:text-slate-100 prose-pre:rounded-xl prose-pre:p-6 prose-pre:shadow-lg
-            prose-img:rounded-xl prose-img:shadow-lg prose-img:my-8
-            prose-hr:border-slate-300 prose-hr:my-12
-            prose-table:border-collapse prose-table:w-full prose-table:my-8
-            prose-th:bg-slate-100 prose-th:p-4 prose-th:text-left prose-th:font-semibold prose-th:border prose-th:border-slate-300
-            prose-td:p-4 prose-td:border prose-td:border-slate-200"
-        >
-          <ReactMarkdown>{post.content}</ReactMarkdown>
-        </motion.div>
+        {/* Main Content Grid with Sidebars */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-12">
+          {/* Left Sidebar - Sticky */}
+          <aside className="lg:col-span-2 space-y-6">
+            <div className="sticky top-24">
+              {/* Quick Stats */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="bg-gradient-to-br from-primary/5 to-blue-50 rounded-xl p-4 mb-6"
+              >
+                <h3 className="font-bold text-sm text-slate-900 mb-3 flex items-center gap-2">
+                  <span className="text-2xl">📊</span> Quick Stats
+                </h3>
+                <div className="space-y-2">
+                  <div className="text-sm">
+                    <span className="text-slate-500">Read Time:</span>
+                    <span className="block text-lg font-bold text-primary">{post.readTime}</span>
+                  </div>
+                  <div className="text-sm">
+                    <span className="text-slate-500">Words:</span>
+                    <span className="block text-lg font-bold text-primary">
+                      {post.content.split(/\s+/).length.toLocaleString()}
+                    </span>
+                  </div>
+                  <div className="text-sm">
+                    <span className="text-slate-500">Category:</span>
+                    <span className="block text-lg font-bold text-primary">{post.category}</span>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Table of Contents */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="bg-white rounded-xl shadow-sm border border-slate-200 p-4"
+              >
+                <h3 className="font-bold text-sm text-slate-900 mb-3 flex items-center gap-2">
+                  <span className="text-2xl">📝</span> Contents
+                </h3>
+                <nav className="space-y-1">
+                  {post.content.match(/^## .+$/gm)?.slice(0, 5).map((heading, idx) => (
+                    <a
+                      key={idx}
+                      href={`#${heading.slice(3).toLowerCase().replace(/\s+/g, '-')}`}
+                      className="block text-sm text-slate-600 hover:text-primary hover:pl-2 transition-all py-1"
+                    >
+                      {heading.slice(3)}
+                    </a>
+                  ))}
+                </nav>
+              </motion.div>
+            </div>
+          </aside>
+
+          {/* Main Article Content */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="lg:col-span-8"
+          >
+            <BlogContent content={post.content} />
+          </motion.div>
+
+          {/* Right Sidebar - Sticky */}
+          <aside className="lg:col-span-2 space-y-6">
+            <div className="sticky top-24">
+              {/* Key Takeaways */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl p-4 mb-6"
+              >
+                <h3 className="font-bold text-sm text-slate-900 mb-3 flex items-center gap-2">
+                  <span className="text-2xl">💡</span> Key Points
+                </h3>
+                <ul className="space-y-2">
+                  <li className="text-sm text-slate-700 flex items-start gap-2">
+                    <span className="text-green-500 mt-0.5">✓</span>
+                    <span>Save thousands yearly</span>
+                  </li>
+                  <li className="text-sm text-slate-700 flex items-start gap-2">
+                    <span className="text-green-500 mt-0.5">✓</span>
+                    <span>Own your assets</span>
+                  </li>
+                  <li className="text-sm text-slate-700 flex items-start gap-2">
+                    <span className="text-green-500 mt-0.5">✓</span>
+                    <span>No platform limits</span>
+                  </li>
+                </ul>
+              </motion.div>
+
+              {/* Social Share Floating */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="bg-white rounded-xl shadow-sm border border-slate-200 p-4"
+              >
+                <h3 className="font-bold text-sm text-slate-900 mb-3 flex items-center gap-2">
+                  <span className="text-2xl">🚀</span> Share
+                </h3>
+                <div className="flex flex-col gap-2">
+                  <a
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 p-2 bg-[#1DA1F2]/10 hover:bg-[#1DA1F2]/20 text-[#1DA1F2] rounded-lg transition-colors text-sm font-medium"
+                  >
+                    <Twitter className="h-4 w-4" />
+                    Tweet
+                  </a>
+                  <a
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 p-2 bg-[#0077B5]/10 hover:bg-[#0077B5]/20 text-[#0077B5] rounded-lg transition-colors text-sm font-medium"
+                  >
+                    <Linkedin className="h-4 w-4" />
+                    Share
+                  </a>
+                </div>
+              </motion.div>
+
+              {/* Quick Action */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                className="bg-gradient-to-br from-primary to-blue-600 rounded-xl p-4 text-white"
+              >
+                <h3 className="font-bold text-sm mb-2">Ready to save?</h3>
+                <p className="text-xs mb-3 text-white/90">
+                  Calculate your savings vs website builders
+                </p>
+                <Link href="/#pricing">
+                  <a>
+                    <Button size="sm" variant="secondary" className="w-full bg-white text-primary hover:bg-white/90">
+                      Calculate →
+                    </Button>
+                  </a>
+                </Link>
+              </motion.div>
+            </div>
+          </aside>
+        </div>
 
         {/* Tags Section */}
         <motion.div
