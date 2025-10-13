@@ -91,6 +91,10 @@ export default function BlogPost() {
   const shareUrl = `${window.location.origin}/blog/${post.slug}`;
   const shareText = post.title;
 
+  // Helper to check if content is string (markdown) or component (MDX)
+  const contentIsString = typeof post.content === 'string';
+  const contentString = contentIsString ? post.content : '';
+
   // Schema.org structured data for article
   const articleSchema = {
     "@context": "https://schema.org",
@@ -120,7 +124,7 @@ export default function BlogPost() {
     },
     "keywords": post.seoKeywords.join(", "),
     "articleSection": post.category,
-    "wordCount": post.content.split(/\s+/).length
+    "wordCount": contentIsString ? contentString.split(/\s+/).length : 0
   };
 
   return (
@@ -257,12 +261,14 @@ export default function BlogPost() {
                     <span className="text-slate-500">Read Time:</span>
                     <span className="block text-lg font-bold text-primary">{post.readTime}</span>
                   </div>
-                  <div className="text-sm">
-                    <span className="text-slate-500">Words:</span>
-                    <span className="block text-lg font-bold text-primary">
-                      {post.content.split(/\s+/).length.toLocaleString()}
-                    </span>
-                  </div>
+                  {contentIsString && (
+                    <div className="text-sm">
+                      <span className="text-slate-500">Words:</span>
+                      <span className="block text-lg font-bold text-primary">
+                        {contentString.split(/\s+/).length.toLocaleString()}
+                      </span>
+                    </div>
+                  )}
                   <div className="text-sm">
                     <span className="text-slate-500">Category:</span>
                     <span className="block text-lg font-bold text-primary">{post.category}</span>
@@ -270,28 +276,30 @@ export default function BlogPost() {
                 </div>
               </motion.div>
 
-              {/* Table of Contents */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                className="bg-white rounded-xl shadow-sm border border-slate-200 p-4"
-              >
-                <h3 className="font-bold text-sm text-slate-900 mb-3 flex items-center gap-2">
-                  <span className="text-2xl">📝</span> Contents
-                </h3>
-                <nav className="space-y-1">
-                  {post.content.match(/^## .+$/gm)?.slice(0, 5).map((heading, idx) => (
-                    <a
-                      key={idx}
-                      href={`#${heading.slice(3).toLowerCase().replace(/\s+/g, '-')}`}
-                      className="block text-sm text-slate-600 hover:text-primary hover:pl-2 transition-all py-1"
-                    >
-                      {heading.slice(3)}
-                    </a>
-                  ))}
-                </nav>
-              </motion.div>
+              {/* Table of Contents - Only for markdown posts */}
+              {contentIsString && contentString.match(/^## .+$/gm) && (
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                  className="bg-white rounded-xl shadow-sm border border-slate-200 p-4"
+                >
+                  <h3 className="font-bold text-sm text-slate-900 mb-3 flex items-center gap-2">
+                    <span className="text-2xl">📝</span> Contents
+                  </h3>
+                  <nav className="space-y-1">
+                    {contentString.match(/^## .+$/gm)?.slice(0, 5).map((heading, idx) => (
+                      <a
+                        key={idx}
+                        href={`#${heading.slice(3).toLowerCase().replace(/\s+/g, '-')}`}
+                        className="block text-sm text-slate-600 hover:text-primary hover:pl-2 transition-all py-1"
+                      >
+                        {heading.slice(3)}
+                      </a>
+                    ))}
+                  </nav>
+                </motion.div>
+              )}
             </div>
           </aside>
 
