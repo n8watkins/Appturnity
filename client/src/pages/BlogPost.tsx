@@ -160,15 +160,25 @@ export default function BlogPost() {
         </script>
       </Helmet>
 
-      {/* Simple Header with Breadcrumb */}
+      {/* Simple Header with Appturnity Branding */}
       <div className="bg-white border-b border-slate-200">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <Link href="/blog">
-            <a className="inline-flex items-center text-slate-600 hover:text-primary transition-colors text-sm font-medium">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Blog
-            </a>
-          </Link>
+          <div className="flex items-center justify-between">
+            <Link href="/blog">
+              <a className="inline-flex items-center gap-3 text-slate-600 hover:text-primary transition-colors text-sm font-medium">
+                <ArrowLeft className="h-4 w-4" />
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-primary">Appturnity</span>
+                  <span>Blog</span>
+                </div>
+              </a>
+            </Link>
+            <Link href="/">
+              <a className="text-sm text-slate-600 hover:text-primary transition-colors">
+                Visit Appturnity.com
+              </a>
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -448,7 +458,7 @@ export default function BlogPost() {
           <NewsletterSignup />
         </motion.div>
 
-        {/* CTA Section */}
+        {/* Appturnity CTA Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -456,9 +466,14 @@ export default function BlogPost() {
           className="mt-8 p-8 bg-gradient-to-br from-primary to-blue-600 rounded-2xl shadow-lg"
         >
           <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 mb-4 px-3 py-1.5 bg-white/20 rounded-full">
+              <span className="text-white font-bold">Appturnity</span>
+              <span className="text-white/80">Custom Development</span>
+            </div>
             <h3 className="text-2xl font-bold text-white mb-3">Ready to Build Your Custom Website?</h3>
             <p className="text-white/90 mb-6 text-lg">
-              Calculate how much you can save with a custom website versus monthly SaaS subscriptions.
+              Join hundreds of businesses who chose Appturnity over expensive monthly subscriptions.
+              Calculate how much you can save with a custom website.
             </p>
             <Link href="/#pricing">
               <a>
@@ -467,7 +482,7 @@ export default function BlogPost() {
                   variant="secondary"
                   className="bg-white text-primary hover:bg-white/90 font-semibold"
                 >
-                  Calculate Your Savings →
+                  Calculate Your Savings with Appturnity →
                 </Button>
               </a>
             </Link>
@@ -485,9 +500,12 @@ export default function BlogPost() {
               transition={{ duration: 0.6, delay: 0.7 }}
               className="max-w-7xl mx-auto"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-10 text-center">
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3 text-center">
                 Continue Reading
               </h2>
+              <p className="text-center text-slate-600 mb-10">
+                More insights from the <span className="font-semibold text-primary">Appturnity</span> blog
+              </p>
               <div className="grid md:grid-cols-3 gap-8">
                 {relatedPosts.map(relatedPost => (
                   <Link key={relatedPost.id} href={`/blog/${relatedPost.slug}`}>

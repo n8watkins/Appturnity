@@ -64,11 +64,17 @@ export default function Blog() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
+            {/* Appturnity Blog Branding */}
+            <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-primary/10 rounded-full">
+              <span className="text-2xl font-bold text-primary">Appturnity</span>
+              <span className="text-slate-600">Blog</span>
+            </div>
+
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 mb-6">
-              Web Development Insights
+              Web Development Insights & Resources
             </h1>
             <p className="text-xl text-slate-600 mb-8">
-              Expert guides, tutorials, and strategies to help you build better websites and grow your business online.
+              From <span className="font-semibold text-primary">Appturnity</span> — Expert guides, tutorials, and strategies to help you build better websites and grow your business online. Learn how to save money and own your digital presence.
             </p>
 
             {/* Search Bar */}
