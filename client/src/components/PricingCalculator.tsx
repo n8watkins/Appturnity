@@ -27,7 +27,7 @@ const FEATURES: Feature[] = [
   {
     id: "analytics",
     name: "Analytics & Tracking",
-    description: "Google Analytics, conversion tracking, visitor insights",
+    description: "Google Analytics & tracking",
     price: 0,
     saasMonthly: 49,
     enabled: true,
@@ -37,7 +37,7 @@ const FEATURES: Feature[] = [
   {
     id: "ssl-hosting",
     name: "SSL & Premium Hosting",
-    description: "Secure HTTPS, 99.9% uptime, CDN, daily backups",
+    description: "HTTPS, 99.9% uptime, CDN",
     price: 0,
     saasMonthly: 25,
     enabled: true,
@@ -47,7 +47,7 @@ const FEATURES: Feature[] = [
   {
     id: "responsive",
     name: "Mobile Responsive Design",
-    description: "Perfect on phones, tablets, and desktops",
+    description: "Works on all devices",
     price: 0,
     saasMonthly: 0,
     enabled: true,
@@ -57,7 +57,7 @@ const FEATURES: Feature[] = [
   {
     id: "basic-seo",
     name: "Basic SEO Setup",
-    description: "Meta tags, sitemap, search console integration",
+    description: "Meta tags & sitemaps",
     price: 0,
     saasMonthly: 79,
     enabled: true,
@@ -67,7 +67,7 @@ const FEATURES: Feature[] = [
   {
     id: "contact-forms",
     name: "Contact Forms",
-    description: "Basic contact forms with email notifications",
+    description: "Forms with notifications",
     price: 0,
     saasMonthly: 15,
     enabled: true,
@@ -77,126 +77,144 @@ const FEATURES: Feature[] = [
   // Marketing & Growth
   {
     id: "seo",
-    name: "SEO Optimization",
-    description: "Foundation for Google rankings",
+    name: "SEO",
+    description: "Search optimization",
     price: 400,
     saasMonthly: 99,
     enabled: false,
-    category: "Marketing & Growth"
+    category: "Advanced Features"
   },
   {
     id: "forms",
-    name: "Custom Lead Forms",
-    description: "Advanced multi-step forms",
+    name: "Custom Forms",
+    description: "Multi-step forms",
     price: 500,
     saasMonthly: 50,
     enabled: false,
-    category: "Marketing & Growth"
+    category: "Advanced Features"
   },
   // Content Management
   {
     id: "cms",
-    name: "Content Management",
-    description: "Easy content updates (5 users)",
+    name: "CMS",
+    description: "Content management",
     price: 800,
     saasMonthly: 149,
     enabled: false,
-    category: "Content Management"
+    category: "Advanced Features"
   },
   {
     id: "blog",
-    name: "Blog System",
-    description: "Built-in blogging platform",
+    name: "Blog",
+    description: "Blogging platform",
     price: 600,
     saasMonthly: 29,
     enabled: false,
-    category: "Content Management"
+    category: "Advanced Features"
   },
   {
     id: "multilang",
     name: "Multi-language",
-    description: "Multiple language support",
+    description: "Language support",
     price: 700,
     saasMonthly: 79,
     enabled: false,
-    category: "Content Management"
+    category: "Advanced Features"
   },
   // User Features
   {
     id: "auth",
     name: "User Authentication",
-    description: "Login, signup, password reset (up to 1000 users)",
+    description: "Login & signup",
     price: 1500,
     saasMonthly: 99,
     enabled: false,
-    category: "User Features"
-  },
-  {
-    id: "database",
-    name: "Database Integration",
-    description: "Secure data storage",
-    price: 1200,
-    saasMonthly: 79,
-    enabled: false,
-    category: "User Features"
+    category: "Advanced Features"
   },
   // E-commerce & Payments
   {
     id: "ecommerce",
     name: "E-commerce",
-    description: "Shopping cart and checkout",
+    description: "Cart & checkout",
     price: 2500,
     saasMonthly: 299,
     enabled: false,
-    category: "E-commerce & Payments"
+    category: "Advanced Features"
   },
   {
     id: "payment",
-    name: "Payment Processing",
-    description: "Accept credit cards",
+    name: "Payments",
+    description: "Card processing",
     price: 1000,
     saasMonthly: 89,
     enabled: false,
-    category: "E-commerce & Payments"
+    category: "Advanced Features"
   },
   // Booking & Scheduling
   {
     id: "booking",
-    name: "Booking System",
-    description: "Appointment scheduling (3 users)",
+    name: "Booking",
+    description: "Scheduling system",
     price: 800,
     saasMonthly: 49,
     enabled: false,
-    category: "Booking & Scheduling"
+    category: "Advanced Features"
   },
   // Integrations & Support
   {
     id: "api",
     name: "API Integration",
-    description: "Connect third-party tools",
+    description: "Third-party tools",
     price: 600,
     saasMonthly: 59,
     enabled: false,
-    category: "Integrations & Support"
+    category: "Advanced Features"
   },
   {
     id: "chat",
     name: "Live Chat",
-    description: "Real-time customer support (5 users)",
+    description: "Customer support",
     price: 300,
     saasMonthly: 69,
     enabled: false,
-    category: "Integrations & Support"
+    category: "Advanced Features"
+  },
+  {
+    id: "crm",
+    name: "CRM",
+    description: "Customer management",
+    price: 900,
+    saasMonthly: 120,
+    enabled: false,
+    category: "Advanced Features"
+  },
+  {
+    id: "cdn",
+    name: "CDN",
+    description: "Content delivery",
+    price: 300,
+    saasMonthly: 45,
+    enabled: false,
+    category: "Advanced Features"
+  },
+  {
+    id: "ai",
+    name: "Generative AI",
+    description: "AI features",
+    price: 1200,
+    saasMonthly: 150,
+    enabled: false,
+    category: "Advanced Features"
   },
   // Design & UX
   {
     id: "animations",
-    name: "Advanced Animations",
-    description: "Premium interactions",
+    name: "Animations",
+    description: "Premium effects",
     price: 400,
     saasMonthly: 0,
     enabled: false,
-    category: "Design & UX"
+    category: "Advanced Features"
   }
 ];
 
@@ -210,25 +228,22 @@ export default function PricingCalculator() {
   // Memoize calculations to prevent unnecessary re-renders
   const { basePrice, pageTier } = useMemo(() => {
     const getBasePriceAndTier = (pageCount: number) => {
-      // Pricing with volume discounts, starting at $750 for 1 page
+      // Pricing aligned with pricing tiers structure
       let price;
       let tier;
 
-      if (pageCount === 1) {
-        price = 750;
-        tier = "Simple Landing Page (1 page)";
-      } else if (pageCount <= 4) {
-        price = 750 + ((pageCount - 1) * 250); // ~$250 per additional page
-        tier = "Simple Landing Page (1-4 pages)";
-      } else if (pageCount <= 8) {
-        price = 1500 + ((pageCount - 4) * 200); // $200 per page after 4
-        tier = "Multi-Page Site (5-8 pages)";
-      } else if (pageCount <= 15) {
-        price = 2300 + ((pageCount - 8) * 150); // $150 per page after 8
-        tier = "Complex Site (9-15 pages)";
+      if (pageCount <= 5) {
+        price = 750; // Base price for Essential tier
+        tier = "Essential (1-5 pages)";
+      } else if (pageCount <= 12) {
+        price = 1700; // Base price for Professional tier
+        tier = "Professional (6-12 pages)";
+      } else if (pageCount <= 20) {
+        price = 2450; // Base price for Growth tier
+        tier = "Growth (13-20 pages)";
       } else {
-        price = 3350 + ((pageCount - 15) * 100); // $100 per page after 15
-        tier = `Large Site (${pageCount} pages)`;
+        price = 3500 + ((pageCount - 20) * 100); // Premium tier with custom pricing
+        tier = `Premium (${pageCount} pages)`;
       }
 
       return { price, tier };
@@ -362,8 +377,15 @@ export default function PricingCalculator() {
   };
 
   return (
-    <section id="pricing" className="py-20 bg-slate-50 scroll-mt-16">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="pricing" className="relative py-24 overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 scroll-mt-16">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/2 -right-24 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute -bottom-24 left-1/3 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+      </div>
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           className="max-w-3xl mx-auto text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
@@ -371,10 +393,10 @@ export default function PricingCalculator() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">
             Calculate Your Investment
           </h2>
-          <p className="text-lg text-slate-600">
+          <p className="text-lg text-slate-300">
             See exactly what you'll pay upfront. No hidden fees. No monthly ransom.
           </p>
 
@@ -397,15 +419,15 @@ export default function PricingCalculator() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="max-w-7xl mx-auto"
         >
-          <Card className="shadow-xl border-2 border-slate-200">
-            <CardHeader className="bg-white border-b border-slate-100">
-              <CardTitle className="flex items-center text-2xl">
-                <Calculator className="mr-2 h-6 w-6 text-primary" />
+          <Card className="shadow-lg border border-slate-600/50 bg-slate-700/60 backdrop-blur-sm">
+            <CardHeader className="border-b border-slate-700/30 pb-4">
+              <CardTitle className="flex items-center text-xl text-white font-semibold">
+                <Calculator className="mr-2 h-5 w-5 text-primary" />
                 Your Custom Solution
               </CardTitle>
             </CardHeader>
             <CardContent className="p-6 md:p-8">
-              <div className="grid md:grid-cols-[1fr_400px] gap-8">
+              <div className="grid md:grid-cols-[1fr_450px] gap-8">
                 {/* LEFT COLUMN - Advanced Features */}
                 <div>
                   <div className="space-y-6">
@@ -417,36 +439,21 @@ export default function PricingCalculator() {
                           {/* Section Header */}
                           {isAlwaysIncluded ? (
                             <div className="mb-4">
-                              <div className="flex items-baseline justify-between gap-4 pb-2 border-b-2 border-green-300">
-                                <h3 className="text-lg font-bold text-green-900">
-                                  ✓ WHAT'S ALWAYS INCLUDED
+                              <div className="pb-2 border-b border-emerald-500/30">
+                                <h3 className="text-lg font-bold text-emerald-400">
+                                  ✓ ALWAYS INCLUDED
                                 </h3>
-                                <p className="text-sm font-semibold text-green-700">
-                                  Free with every project • Competitors charge $168+/mo
-                                </p>
                               </div>
                             </div>
-                          ) : category === "Marketing & Growth" ? (
+                          ) : category === "Advanced Features" ? (
                             <div className="mb-4 mt-8">
-                              <div className="flex items-baseline justify-between gap-4 pb-2 border-b-2 border-slate-200">
-                                <h3 className="text-lg font-bold text-slate-900">
+                              <div className="pb-2 border-b border-slate-600/30">
+                                <h3 className="text-lg font-bold text-white">
                                   ADVANCED FEATURES
                                 </h3>
-                                <p className="text-sm font-semibold text-slate-600">
-                                  Select additional features to customize your solution
-                                </p>
                               </div>
                             </div>
                           ) : null}
-
-                          {/* Category Header (for advanced features only) */}
-                          {!isAlwaysIncluded && (
-                            <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2">
-                              <div className="h-px flex-grow bg-slate-300"></div>
-                              <span>{category}</span>
-                              <div className="h-px flex-grow bg-slate-300"></div>
-                            </h4>
-                          )}
 
                           {/* Features Grid */}
                           <div className={`grid grid-cols-2 gap-3 ${isAlwaysIncluded ? 'mb-6' : ''}`}>
@@ -459,48 +466,36 @@ export default function PricingCalculator() {
                                 <button
                                   onClick={() => toggleFeature(feature.id)}
                                   disabled={feature.alwaysIncluded}
-                                  className={`w-full text-left p-3 rounded-lg border-2 transition-all h-full ${
+                                  className={`w-full text-left p-3 rounded-lg border transition-all h-full ${
                                     feature.alwaysIncluded
-                                      ? 'border-green-300 bg-green-50 cursor-default'
+                                      ? 'border-emerald-500/40 bg-emerald-950/30 cursor-default'
                                       : feature.enabled
-                                      ? 'border-primary bg-primary/5 shadow-md'
-                                      : 'border-slate-300 bg-white hover:border-slate-400 hover:shadow-sm'
+                                      ? 'border-primary/60 bg-primary/10'
+                                      : 'border-slate-600/50 bg-slate-700/30 hover:border-slate-500 hover:bg-slate-700/50'
                                   }`}
                                 >
                                   <div className="flex items-start gap-2">
-                                    <div className={`mt-0.5 w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
+                                    <div className={`mt-0.5 w-4 h-4 rounded border flex items-center justify-center flex-shrink-0 ${
                                       feature.alwaysIncluded
-                                        ? 'bg-green-600 border-green-600'
+                                        ? 'bg-emerald-600 border-emerald-600'
                                         : feature.enabled
                                         ? 'bg-primary border-primary'
-                                        : 'border-slate-300'
+                                        : 'border-slate-500'
                                     }`}>
                                       {(feature.enabled || feature.alwaysIncluded) && <Check className="h-3 w-3 text-white" />}
                                     </div>
 
                                     <div className="flex-grow min-w-0">
-                                      <div className="flex items-center justify-between gap-2 mb-1">
-                                        <h4 className={`font-semibold text-sm leading-tight ${
-                                          feature.alwaysIncluded ? 'text-green-900' : 'text-slate-900'
-                                        }`}>
-                                          {feature.name}
-                                        </h4>
-                                        {feature.alwaysIncluded && (
-                                          <span className="text-xs font-bold text-green-700 bg-green-200 px-2 py-0.5 rounded-full whitespace-nowrap">
-                                            FREE
-                                          </span>
-                                        )}
-                                      </div>
+                                      <h4 className={`font-medium text-sm leading-tight mb-0.5 ${
+                                        feature.alwaysIncluded ? 'text-emerald-300' : 'text-white'
+                                      }`}>
+                                        {feature.name}
+                                      </h4>
                                       <p className={`text-xs leading-snug ${
-                                        feature.alwaysIncluded ? 'text-green-700' : 'text-slate-600'
+                                        feature.alwaysIncluded ? 'text-emerald-200/70' : 'text-slate-400'
                                       }`}>
                                         {feature.description}
                                       </p>
-                                      {feature.alwaysIncluded && feature.saasMonthly > 0 && (
-                                        <p className="text-xs text-red-700 mt-2 font-medium">
-                                          Competitors charge: ${feature.saasMonthly}/mo
-                                        </p>
-                                      )}
                                     </div>
                                   </div>
                                 </button>
@@ -517,18 +512,18 @@ export default function PricingCalculator() {
                 <div className="md:sticky md:top-4 md:self-start space-y-6">
 
                   {/* Project Configuration Sliders */}
-                  <div className="bg-slate-100 p-5 rounded-xl border-2 border-slate-300 space-y-4">
-                    <h4 className="text-base font-bold text-slate-900 mb-4">
+                  <div className="bg-slate-700/50 p-5 rounded-xl space-y-4">
+                    <h4 className="text-lg font-bold text-white mb-4">
                       Project Configuration
                     </h4>
 
                     {/* Number of Pages Slider */}
                     <div>
                       <div className="flex justify-between items-center mb-2">
-                        <label className="text-sm font-medium text-slate-900">
+                        <label className="text-sm font-medium text-slate-200">
                           Number of Pages
                         </label>
-                        <span className="text-base font-bold text-slate-800">
+                        <span className="text-base font-bold text-white">
                           {pages}
                         </span>
                       </div>
@@ -540,7 +535,7 @@ export default function PricingCalculator() {
                         step={1}
                         className="my-2"
                       />
-                      <div className="flex justify-between text-xs text-slate-600">
+                      <div className="flex justify-between text-xs text-slate-400">
                         <span>1 page</span>
                         <span>20+ pages</span>
                       </div>
@@ -549,10 +544,10 @@ export default function PricingCalculator() {
                     {/* Number of Users Slider */}
                     <div>
                       <div className="flex justify-between items-center mb-2">
-                        <label className="text-sm font-medium text-slate-900">
+                        <label className="text-sm font-medium text-slate-200">
                           Number of Users
                         </label>
-                        <span className="text-base font-bold text-slate-800">
+                        <span className="text-base font-bold text-white">
                           {users}
                         </span>
                       </div>
@@ -564,7 +559,7 @@ export default function PricingCalculator() {
                         step={1}
                         className="my-2"
                       />
-                      <div className="flex justify-between text-xs text-slate-600">
+                      <div className="flex justify-between text-xs text-slate-400">
                         <span>1 user</span>
                         <span>20+ users</span>
                       </div>
@@ -573,10 +568,13 @@ export default function PricingCalculator() {
 
                   {/* Traditional SaaS Costs - Always Visible */}
                   <div className="bg-gradient-to-br from-red-50 to-red-100 p-5 rounded-xl border-2 border-red-300">
-                    <h4 className="text-base font-bold text-red-900 mb-3 flex items-center gap-2">
+                    <h4 className="text-lg font-bold text-red-900 mb-3 flex items-center gap-2">
                       <X className="h-5 w-5 text-red-600" />
-                      Traditional SaaS (Wix, Squarespace, etc.)
+                      Traditional SaaS
                     </h4>
+                    <p className="text-xs text-red-800 mb-3 italic">
+                      * These are estimates for what these additional features can cost
+                    </p>
                     <div className="space-y-2 text-sm text-red-900">
                       {/* Pages Cost */}
                       <div className="flex justify-between items-start">
@@ -673,9 +671,9 @@ export default function PricingCalculator() {
 
                   {/* Your Investment Summary */}
                   <div className="bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border-2 border-green-300">
-                    <h4 className="text-base font-bold text-green-900 mb-4 flex items-center gap-2">
+                    <h4 className="text-lg font-bold text-green-900 mb-4 flex items-center gap-2">
                       <Check className="h-5 w-5 text-green-600" />
-                      Your Custom Solution
+                      Your Solution
                     </h4>
 
                     <div className="space-y-2 text-sm text-green-900">
@@ -794,7 +792,7 @@ export default function PricingCalculator() {
                   )}
 
                   {/* Get Quote Button */}
-                  <div className="pt-4 border-t-2 border-slate-200">
+                  <div className="pt-4 border-t-2 border-slate-600">
                     <Button
                       onClick={handleGetQuote}
                       size="lg"
@@ -802,7 +800,7 @@ export default function PricingCalculator() {
                     >
                       Get Your Detailed Quote →
                     </Button>
-                    <p className="text-center text-sm text-slate-500 mt-2">
+                    <p className="text-center text-sm text-slate-400 mt-2">
                       Free consultation, no pressure
                     </p>
                   </div>

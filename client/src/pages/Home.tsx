@@ -52,11 +52,11 @@ export default function Home() {
 
         <Quiz />
 
-        <PricingTiers />
-
         <Suspense fallback={<SectionLoader />}>
           <PricingCalculator />
         </Suspense>
+
+        <PricingTiers />
 
         <Suspense fallback={<SectionLoader />}>
           <Contact />

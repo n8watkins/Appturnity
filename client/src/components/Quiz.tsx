@@ -47,7 +47,7 @@ export default function Quiz() {
   return (
     <section
       id="quiz"
-      className="py-20 bg-gradient-to-br from-slate-50 to-blue-50 scroll-mt-16"
+      className="py-20 bg-white scroll-mt-16"
       aria-label="Service quiz section"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
