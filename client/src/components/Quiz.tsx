@@ -63,7 +63,7 @@ export default function Quiz() {
             Find Your Perfect Solution
           </h2>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Answer 11 quick questions to get a personalized recommendation with instant pricing and timeline estimates.
+            Answer 12 quick questions to get a personalized recommendation with instant pricing and timeline estimates.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-6 text-sm text-slate-600">
             <div className="flex items-center gap-2">

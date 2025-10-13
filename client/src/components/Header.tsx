@@ -107,6 +107,11 @@ export default function Header() {
             >
               Pricing
             </a>
+            <Link href="/blog">
+              <a className="text-slate-600 hover:text-primary transition-colors">
+                Blog
+              </a>
+            </Link>
             <a
               href="#contact"
               className="px-4 py-2 rounded-md bg-white border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-200 shadow-sm"
@@ -168,6 +173,11 @@ export default function Header() {
                   >
                     Pricing
                   </a>
+                  <Link href="/blog">
+                    <a className="text-slate-700 hover:text-primary transition-colors" onClick={() => setIsOpen(false)}>
+                      Blog
+                    </a>
+                  </Link>
                   <a
                     href="#contact"
                     className="px-4 py-2 rounded-md bg-white border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-200 text-center"

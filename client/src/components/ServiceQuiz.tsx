@@ -13,6 +13,27 @@ interface QuizQuestion {
 
 const quizQuestions: QuizQuestion[] = [
   {
+    id: "pageCount",
+    question: "How many pages will your website need?",
+    options: [
+      { value: "1-5", label: "1-5 Pages", description: "Simple site or landing page" },
+      { value: "6-12", label: "6-12 Pages", description: "Professional business site" },
+      { value: "13-20", label: "13-20 Pages", description: "Comprehensive website" },
+      { value: "20+", label: "20+ Pages", description: "Large-scale solution" },
+      { value: "not-sure", label: "Not Sure", description: "Help me decide" },
+    ],
+  },
+  {
+    id: "teamSize",
+    question: "How many users will need access to manage or use the system?",
+    options: [
+      { value: "1-3", label: "1-3 Users", description: "Just me or small team" },
+      { value: "4-7", label: "4-7 Users", description: "Small to medium team" },
+      { value: "8-15", label: "8-15 Users", description: "Medium team" },
+      { value: "15+", label: "15+ Users", description: "Large team or organization" },
+    ],
+  },
+  {
     id: "currentSituation",
     question: "What's your current situation?",
     options: [
@@ -60,18 +81,24 @@ const quizQuestions: QuizQuestion[] = [
     ],
   },
   {
-    id: "features",
-    question: "What features do you need? (Select all that apply)",
+    id: "desiredFeatures",
+    question: "What advanced features do you need? (Select all that apply)",
     multiSelect: true,
     options: [
-      { value: "contact-forms", label: "Contact Forms", description: "Lead capture and inquiries" },
-      { value: "booking-scheduling", label: "Booking/Scheduling", description: "Appointment management" },
-      { value: "payment-processing", label: "Payment Processing", description: "Accept online payments" },
-      { value: "user-accounts", label: "User Accounts/Login", description: "User authentication system" },
-      { value: "cms", label: "Content Management", description: "Easy content updates" },
-      { value: "analytics", label: "Analytics Dashboard", description: "Track performance metrics" },
-      { value: "integrations", label: "Third-party Integrations", description: "Connect with other tools" },
-      { value: "none", label: "None / Basic Website", description: "Just need information pages" },
+      { value: "seo", label: "Advanced SEO", description: "Search engine optimization" },
+      { value: "email-automation", label: "Email Automation", description: "Automated email sequences" },
+      { value: "newsletter", label: "Newsletter Management", description: "Email list building" },
+      { value: "forms", label: "Custom Forms", description: "Multi-step forms" },
+      { value: "cms", label: "CMS", description: "Content management system" },
+      { value: "blog", label: "Blog", description: "Blogging platform" },
+      { value: "auth", label: "User Authentication", description: "Login & signup" },
+      { value: "ecommerce", label: "E-commerce", description: "Cart & checkout" },
+      { value: "payment", label: "Payment Processing", description: "Card processing" },
+      { value: "booking", label: "Booking System", description: "Appointment scheduling" },
+      { value: "api", label: "API Integration", description: "Third-party tools" },
+      { value: "chat", label: "Live Chat", description: "Customer support" },
+      { value: "crm", label: "CRM", description: "Customer management" },
+      { value: "ai", label: "Generative AI", description: "AI-powered features" },
     ],
   },
   {
@@ -288,7 +315,7 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
               transition={{ delay: 0.4, duration: 0.5 }}
               className="text-slate-600 mb-6 max-w-lg mx-auto"
             >
-              Answer 11 quick questions to get a personalized recommendation with instant pricing and timeline estimates.
+              Answer 12 quick questions to get a personalized recommendation with instant pricing and timeline estimates.
             </motion.p>
 
             <motion.div

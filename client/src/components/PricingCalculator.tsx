@@ -29,7 +29,7 @@ const FEATURES: Feature[] = [
     name: "Analytics & Tracking",
     description: "Google Analytics & tracking",
     price: 0,
-    saasMonthly: 49,
+    saasMonthly: 19,
     enabled: true,
     category: "Always Included",
     alwaysIncluded: true
@@ -39,7 +39,7 @@ const FEATURES: Feature[] = [
     name: "SSL & Premium Hosting",
     description: "HTTPS, 99.9% uptime, CDN",
     price: 0,
-    saasMonthly: 25,
+    saasMonthly: 0,
     enabled: true,
     category: "Always Included",
     alwaysIncluded: true
@@ -59,7 +59,7 @@ const FEATURES: Feature[] = [
     name: "Basic SEO Setup",
     description: "Meta tags & sitemaps",
     price: 0,
-    saasMonthly: 79,
+    saasMonthly: 0,
     enabled: true,
     category: "Always Included",
     alwaysIncluded: true
@@ -69,7 +69,17 @@ const FEATURES: Feature[] = [
     name: "Contact Forms",
     description: "Forms with notifications",
     price: 0,
-    saasMonthly: 15,
+    saasMonthly: 0,
+    enabled: true,
+    category: "Always Included",
+    alwaysIncluded: true
+  },
+  {
+    id: "domain-setup",
+    name: "Custom Domain Setup",
+    description: "Connect your domain",
+    price: 0,
+    saasMonthly: 0,
     enabled: true,
     category: "Always Included",
     alwaysIncluded: true
@@ -79,8 +89,35 @@ const FEATURES: Feature[] = [
     id: "seo",
     name: "SEO",
     description: "Search optimization",
-    price: 400,
-    saasMonthly: 99,
+    price: 500,
+    saasMonthly: 49,
+    enabled: false,
+    category: "Advanced Features"
+  },
+  {
+    id: "email-templates",
+    name: "Email Templates",
+    description: "Custom branded emails",
+    price: 500,
+    saasMonthly: 15,
+    enabled: false,
+    category: "Advanced Features"
+  },
+  {
+    id: "email-automation",
+    name: "Email Automation",
+    description: "Automated sequences",
+    price: 500,
+    saasMonthly: 39,
+    enabled: false,
+    category: "Advanced Features"
+  },
+  {
+    id: "newsletter",
+    name: "Newsletter Management",
+    description: "Email list building",
+    price: 500,
+    saasMonthly: 29,
     enabled: false,
     category: "Advanced Features"
   },
@@ -89,7 +126,7 @@ const FEATURES: Feature[] = [
     name: "Custom Forms",
     description: "Multi-step forms",
     price: 500,
-    saasMonthly: 50,
+    saasMonthly: 25,
     enabled: false,
     category: "Advanced Features"
   },
@@ -98,8 +135,8 @@ const FEATURES: Feature[] = [
     id: "cms",
     name: "CMS",
     description: "Content management",
-    price: 800,
-    saasMonthly: 149,
+    price: 500,
+    saasMonthly: 79,
     enabled: false,
     category: "Advanced Features"
   },
@@ -107,8 +144,8 @@ const FEATURES: Feature[] = [
     id: "blog",
     name: "Blog",
     description: "Blogging platform",
-    price: 600,
-    saasMonthly: 29,
+    price: 500,
+    saasMonthly: 15,
     enabled: false,
     category: "Advanced Features"
   },
@@ -116,8 +153,8 @@ const FEATURES: Feature[] = [
     id: "multilang",
     name: "Multi-language",
     description: "Language support",
-    price: 700,
-    saasMonthly: 79,
+    price: 500,
+    saasMonthly: 39,
     enabled: false,
     category: "Advanced Features"
   },
@@ -126,8 +163,8 @@ const FEATURES: Feature[] = [
     id: "auth",
     name: "User Authentication",
     description: "Login & signup",
-    price: 1500,
-    saasMonthly: 99,
+    price: 500,
+    saasMonthly: 49,
     enabled: false,
     category: "Advanced Features"
   },
@@ -136,8 +173,8 @@ const FEATURES: Feature[] = [
     id: "ecommerce",
     name: "E-commerce",
     description: "Cart & checkout",
-    price: 2500,
-    saasMonthly: 299,
+    price: 500,
+    saasMonthly: 149,
     enabled: false,
     category: "Advanced Features"
   },
@@ -145,8 +182,8 @@ const FEATURES: Feature[] = [
     id: "payment",
     name: "Payments",
     description: "Card processing",
-    price: 1000,
-    saasMonthly: 89,
+    price: 500,
+    saasMonthly: 39,
     enabled: false,
     category: "Advanced Features"
   },
@@ -155,8 +192,8 @@ const FEATURES: Feature[] = [
     id: "booking",
     name: "Booking",
     description: "Scheduling system",
-    price: 800,
-    saasMonthly: 49,
+    price: 500,
+    saasMonthly: 29,
     enabled: false,
     category: "Advanced Features"
   },
@@ -165,8 +202,8 @@ const FEATURES: Feature[] = [
     id: "api",
     name: "API Integration",
     description: "Third-party tools",
-    price: 600,
-    saasMonthly: 59,
+    price: 500,
+    saasMonthly: 29,
     enabled: false,
     category: "Advanced Features"
   },
@@ -174,8 +211,8 @@ const FEATURES: Feature[] = [
     id: "chat",
     name: "Live Chat",
     description: "Customer support",
-    price: 300,
-    saasMonthly: 69,
+    price: 500,
+    saasMonthly: 39,
     enabled: false,
     category: "Advanced Features"
   },
@@ -183,8 +220,8 @@ const FEATURES: Feature[] = [
     id: "crm",
     name: "CRM",
     description: "Customer management",
-    price: 900,
-    saasMonthly: 120,
+    price: 500,
+    saasMonthly: 59,
     enabled: false,
     category: "Advanced Features"
   },
@@ -192,8 +229,8 @@ const FEATURES: Feature[] = [
     id: "cdn",
     name: "CDN",
     description: "Content delivery",
-    price: 300,
-    saasMonthly: 45,
+    price: 500,
+    saasMonthly: 20,
     enabled: false,
     category: "Advanced Features"
   },
@@ -201,8 +238,8 @@ const FEATURES: Feature[] = [
     id: "ai",
     name: "Generative AI",
     description: "AI features",
-    price: 1200,
-    saasMonthly: 150,
+    price: 500,
+    saasMonthly: 79,
     enabled: false,
     category: "Advanced Features"
   },
@@ -211,7 +248,7 @@ const FEATURES: Feature[] = [
     id: "animations",
     name: "Animations",
     description: "Premium effects",
-    price: 400,
+    price: 500,
     saasMonthly: 0,
     enabled: false,
     category: "Advanced Features"
@@ -224,33 +261,76 @@ export default function PricingCalculator() {
   const [features, setFeatures] = useState<Feature[]>(FEATURES);
   const [prefilledFromQuiz, setPrefilledFromQuiz] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
+  const [isCalculating, setIsCalculating] = useState(false);
 
   // Memoize calculations to prevent unnecessary re-renders
-  const { basePrice, pageTier } = useMemo(() => {
+  const { basePrice, pageTier, includedAdvancedFeatures, actualTier, originalBasePrice } = useMemo(() => {
+    const advancedCount = features.filter(f => f.enabled && !f.alwaysIncluded).length;
+
     const getBasePriceAndTier = (pageCount: number) => {
       // Pricing aligned with pricing tiers structure
       let price;
       let tier;
+      let includedFeatures;
 
       if (pageCount <= 5) {
         price = 750; // Base price for Essential tier
-        tier = "Essential (1-5 pages)";
+        tier = "Essential";
+        includedFeatures = 1; // +1 advanced feature
       } else if (pageCount <= 12) {
         price = 1700; // Base price for Professional tier
-        tier = "Professional (6-12 pages)";
+        tier = "Professional";
+        includedFeatures = 3; // +3 advanced features
       } else if (pageCount <= 20) {
-        price = 2450; // Base price for Growth tier
-        tier = "Growth (13-20 pages)";
+        price = 3200; // Base price for Enterprise tier
+        tier = "Enterprise";
+        includedFeatures = 7; // +7 advanced features
       } else {
-        price = 3500 + ((pageCount - 20) * 100); // Premium tier with custom pricing
-        tier = `Premium (${pageCount} pages)`;
+        price = 5500; // Premium tier
+        tier = "Premium";
+        includedFeatures = 15; // +15 advanced features
       }
 
-      return { price, tier };
+      return { price, tier, includedFeatures };
     };
-    const { price, tier } = getBasePriceAndTier(pages);
-    return { basePrice: price, pageTier: tier };
-  }, [pages]);
+
+    // Calculate what price would be with different tiers
+    const calculateTierPrice = (tierBase: number, tierIncluded: number) => {
+      const paidFeatures = Math.max(0, advancedCount - tierIncluded);
+      return tierBase + (paidFeatures * 500);
+    };
+
+    const currentTier = getBasePriceAndTier(pages);
+    let bestPrice = calculateTierPrice(currentTier.price, currentTier.includedFeatures);
+    let bestTier = currentTier.tier;
+    let bestIncluded = currentTier.includedFeatures;
+
+    // Always check all tiers to find the cheapest option based on add-on count
+    const allTierOptions = [
+      { name: "Essential", base: 750, included: 1 },
+      { name: "Professional", base: 1700, included: 3 },
+      { name: "Enterprise", base: 3200, included: 7 },
+      { name: "Premium", base: 5500, included: 15 }
+    ];
+
+    // Find the tier with the lowest total price
+    allTierOptions.forEach(tier => {
+      const tierPrice = calculateTierPrice(tier.base, tier.included);
+      if (tierPrice < bestPrice) {
+        bestPrice = tierPrice;
+        bestTier = tier.name;
+        bestIncluded = tier.included;
+      }
+    });
+
+    return {
+      basePrice: bestPrice,
+      pageTier: bestTier,
+      includedAdvancedFeatures: bestIncluded,
+      actualTier: bestTier,
+      originalBasePrice: currentTier.price
+    };
+  }, [pages, features]);
 
   const featuresTotal = useMemo(() =>
     features
@@ -259,11 +339,32 @@ export default function PricingCalculator() {
     [features]
   );
 
-  const totalPrice = useMemo(() => basePrice + featuresTotal, [basePrice, featuresTotal]);
+  // Calculate enabled advanced features count and apply tier discount
+  const { adjustedFeaturesTotal, enabledAdvancedCount } = useMemo(() => {
+    const advancedFeatures = features.filter(f => f.enabled && !f.alwaysIncluded);
+    const count = advancedFeatures.length;
+
+    // Apply tier-based included features discount
+    let adjustedTotal = featuresTotal;
+    if (count > 0 && includedAdvancedFeatures > 0 && includedAdvancedFeatures !== Infinity) {
+      // Get cheapest features up to included count
+      const sortedFeatures = [...advancedFeatures].sort((a, b) => a.price - b.price);
+      const discountedFeatures = sortedFeatures.slice(0, Math.min(count, includedAdvancedFeatures));
+      const discount = discountedFeatures.reduce((sum, f) => sum + f.price, 0);
+      adjustedTotal = Math.max(0, featuresTotal - discount);
+    } else if (includedAdvancedFeatures === Infinity) {
+      // Premium tier - all advanced features free
+      adjustedTotal = 0;
+    }
+
+    return { adjustedFeaturesTotal: adjustedTotal, enabledAdvancedCount: count };
+  }, [features, featuresTotal, includedAdvancedFeatures]);
+
+  const totalPrice = useMemo(() => basePrice, [basePrice]);
 
   // Calculate SaaS costs with per-user scaling (memoized)
-  const saasPageCost = useMemo(() => pages * 15, [pages]); // $15/page/month for SaaS platforms
-  const saasBasePlatformCost = useMemo(() => 23 * users, [users]); // $23/user/month minimum
+  const saasPageCost = useMemo(() => pages * 8, [pages]); // $8/page/month for SaaS platforms
+  const saasBasePlatformCost = useMemo(() => 12 * users, [users]); // $12/user/month minimum
 
   const saasFeatureCosts = useMemo(() =>
     features
@@ -326,15 +427,32 @@ export default function PricingCalculator() {
       try {
         const data = JSON.parse(quizResults);
 
-        // Prefill pages
-        if (data.estimatedPages) {
-          setPages(data.estimatedPages);
+        // Prefill pages from pageCount question
+        if (data.pageCount) {
+          const pageRange = data.pageCount;
+          let pageValue = 5; // default
+
+          if (pageRange === '1-5') pageValue = 3;
+          else if (pageRange === '6-12') pageValue = 9;
+          else if (pageRange === '13-20') pageValue = 16;
+          else if (pageRange === '20+') pageValue = 20;
+          else if (pageRange === 'not-sure') pageValue = 8; // default to Professional tier
+
+          setPages(pageValue);
           setPrefilledFromQuiz(true);
         }
 
-        // Prefill users/team size
-        if (data.teamSize || data.users) {
-          setUsers(data.teamSize || data.users);
+        // Prefill users from teamSize question
+        if (data.teamSize) {
+          const teamRange = data.teamSize;
+          let userValue = 3; // default
+
+          if (teamRange === '1-3') userValue = 2;
+          else if (teamRange === '4-7') userValue = 5;
+          else if (teamRange === '8-15') userValue = 10;
+          else if (teamRange === '15+') userValue = 15;
+
+          setUsers(userValue);
           setPrefilledFromQuiz(true);
         }
 
@@ -342,7 +460,7 @@ export default function PricingCalculator() {
         if (data.desiredFeatures && Array.isArray(data.desiredFeatures)) {
           setFeatures(prev => prev.map(feature => ({
             ...feature,
-            enabled: data.desiredFeatures.includes(feature.id)
+            enabled: data.desiredFeatures.includes(feature.id) || feature.alwaysIncluded
           })));
           setPrefilledFromQuiz(true);
         }
@@ -351,6 +469,28 @@ export default function PricingCalculator() {
       }
     }
   }, []);
+
+  const handleShowComparison = () => {
+    setIsCalculating(true);
+    // Simulate loading for dramatic effect
+    setTimeout(() => {
+      setIsCalculating(false);
+      setShowComparison(true);
+      // Scroll to comparison
+      setTimeout(() => {
+        document.getElementById('savings-comparison')?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }, 100);
+    }, 2000); // 2 second loading animation
+  };
+
+  const handleRedesign = () => {
+    setShowComparison(false);
+    // Scroll back to calculator
+    document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const handleGetQuote = () => {
     const calculatorData = {
@@ -394,10 +534,10 @@ export default function PricingCalculator() {
           transition={{ duration: 0.5 }}
         >
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">
-            Calculate Your Investment
+            Build Your Perfect Solution
           </h2>
           <p className="text-lg text-slate-300">
-            See exactly what you'll pay upfront. No hidden fees. No monthly ransom.
+            Configure your project, select features, and see your investment instantly. Pay once, own forever.
           </p>
 
           {prefilledFromQuiz && (
@@ -419,17 +559,385 @@ export default function PricingCalculator() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="max-w-7xl mx-auto"
         >
-          <Card className="shadow-lg border border-slate-600/50 bg-slate-700/60 backdrop-blur-sm">
-            <CardHeader className="border-b border-slate-700/30 pb-4">
-              <CardTitle className="flex items-center text-xl text-white font-semibold">
+          <Card className="shadow-lg border border-slate-300 bg-white">
+            <CardHeader className="border-b border-slate-200 pb-4">
+              <CardTitle className="flex items-center text-xl text-slate-900 font-semibold">
                 <Calculator className="mr-2 h-5 w-5 text-primary" />
-                Your Custom Solution
+                {showComparison ? "Your Savings Report" : "Design Your Solution"}
               </CardTitle>
             </CardHeader>
             <CardContent className="p-6 md:p-8">
+              {/* Loading Animation */}
+              <AnimatePresence mode="wait">
+                {isCalculating && (
+                  <motion.div
+                    key="loading"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="text-center py-12"
+                  >
+                    <div className="flex justify-center mb-4">
+                      <div className="relative w-16 h-16">
+                        <motion.div
+                          className="absolute inset-0 border-4 border-primary/30 rounded-full"
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        />
+                        <motion.div
+                          className="absolute inset-0 border-4 border-transparent border-t-primary rounded-full"
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+                        />
+                      </div>
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">
+                      Calculating Your Savings...
+                    </h3>
+                    <p className="text-sm text-slate-600">
+                      Comparing your investment to monthly subscription costs
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Comparison Report - Replaces Calculator Content */}
+              <AnimatePresence mode="wait">
+                {showComparison && !isCalculating && (
+                  <motion.div
+                    key="comparison"
+                    id="savings-comparison"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <p className="text-center text-sm text-slate-600 mb-6">
+                      Here's your customized quote vs monthly subscriptions
+                    </p>
+
+                    {/* Compact Side by Side Comparison */}
+                    <div className="grid md:grid-cols-2 gap-4 mb-6">
+                      {/* Our Solution */}
+                      <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border-2 border-green-300 flex flex-col"
+                      >
+                        <div className="flex items-center gap-2 mb-3">
+                          <Check className="h-5 w-5 text-green-600" />
+                          <h4 className="text-lg font-bold text-green-900">Appturnity Solution</h4>
+                        </div>
+
+                        {/* Itemized Costs */}
+                        <div className="space-y-2 mb-4 text-sm flex-grow">
+                          <div className="flex justify-between">
+                            <span className="text-green-800">{pageTier} Plan ({pages} {pages === 1 ? 'page' : 'pages'}):</span>
+                            <span className="font-semibold text-green-900">
+                              ${(() => {
+                                const tierBases = { Essential: 750, Professional: 1700, Enterprise: 3200, Premium: 5500 };
+                                return tierBases[pageTier as keyof typeof tierBases].toLocaleString();
+                              })()}
+                            </span>
+                          </div>
+
+                          {/* Show advanced features broken down */}
+                          {(() => {
+                            const advancedFeatures = features.filter(f => f.enabled && f.price > 0);
+                            const sortedByPrice = [...advancedFeatures].sort((a, b) => a.price - b.price);
+
+                            const includedFeatures = sortedByPrice.filter((f, index) => {
+                              const isIncluded = includedAdvancedFeatures !== Infinity && index < includedAdvancedFeatures;
+                              const allIncluded = includedAdvancedFeatures === Infinity;
+                              return isIncluded || allIncluded;
+                            });
+
+                            const paidFeatures = sortedByPrice.filter((f, index) => {
+                              const isIncluded = includedAdvancedFeatures !== Infinity && index < includedAdvancedFeatures;
+                              const allIncluded = includedAdvancedFeatures === Infinity;
+                              return !isIncluded && !allIncluded;
+                            });
+
+                            return (
+                              <>
+                                {includedFeatures.length > 0 && includedFeatures.map((f) => (
+                                  <div key={f.id} className="flex justify-between text-xs">
+                                    <span className="text-green-700">• {f.name} (included)</span>
+                                    <span className="text-green-600 line-through">${f.price}</span>
+                                  </div>
+                                ))}
+                                {paidFeatures.length > 0 && paidFeatures.map((f) => (
+                                  <div key={f.id} className="flex justify-between text-xs">
+                                    <span className="text-green-700">• {f.name}</span>
+                                    <span className="text-green-900 font-semibold">+${f.price}</span>
+                                  </div>
+                                ))}
+                              </>
+                            );
+                          })()}
+
+                          <div className="border-t border-green-300 pt-2 mt-2">
+                            <div className="flex justify-between font-bold">
+                              <span className="text-green-900">Total (one-time):</span>
+                              <span className="text-green-900 text-lg">${totalPrice.toLocaleString()}</span>
+                            </div>
+                            <div className="flex justify-between mt-1">
+                              <span className="text-green-800">Monthly cost:</span>
+                              <span className="font-bold text-green-900">$0</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="border-t border-green-300 pt-3 flex flex-wrap gap-2">
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-200 text-green-800 rounded-full text-xs font-medium">
+                            <Check className="h-3.5 w-3.5" /> You own the code
+                          </span>
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-200 text-green-800 rounded-full text-xs font-medium">
+                            <Check className="h-3.5 w-3.5" /> Unlimited users
+                          </span>
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-200 text-green-800 rounded-full text-xs font-medium">
+                            <Check className="h-3.5 w-3.5" /> No monthly fees
+                          </span>
+                        </div>
+                      </motion.div>
+
+                      {/* Monthly Subscription */}
+                      <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.3 }}
+                        className="bg-gradient-to-br from-red-50 to-red-100 p-5 rounded-xl border-2 border-red-300 flex flex-col"
+                      >
+                        <div className="flex items-center gap-2 mb-3">
+                          <X className="h-5 w-5 text-red-600" />
+                          <h4 className="text-lg font-bold text-red-900">Monthly SaaS Platforms</h4>
+                        </div>
+
+                        {/* Itemized Monthly Costs */}
+                        <div className="space-y-2 mb-4 text-sm flex-grow">
+                          <div className="flex justify-between">
+                            <span className="text-red-800">{pages} {pages === 1 ? 'page' : 'pages'} × $8/page:</span>
+                            <span className="font-semibold text-red-900">${saasPageCost}/mo</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-red-800">{users} {users === 1 ? 'user' : 'users'} × $12/user:</span>
+                            <span className="font-semibold text-red-900">${saasBasePlatformCost}/mo</span>
+                          </div>
+
+                          {/* Feature Costs */}
+                          {features.filter(f => f.enabled && f.saasMonthly > 0).map(f => {
+                            const scalingFeatures = ['cms', 'auth', 'booking', 'chat'];
+                            const isScaling = scalingFeatures.includes(f.id);
+                            const additionalUsers = Math.max(0, users - 3);
+                            const featureCost = isScaling
+                              ? f.saasMonthly + (additionalUsers * (f.saasMonthly * 0.5))
+                              : f.saasMonthly;
+
+                            return (
+                              <div key={f.id} className="flex justify-between text-xs">
+                                <span className="text-red-700">• {f.name}</span>
+                                <span className="text-red-900 font-medium">${Math.round(featureCost)}/mo</span>
+                              </div>
+                            );
+                          })}
+
+                          <div className="border-t border-red-300 pt-2 mt-2">
+                            <div className="flex justify-between font-bold">
+                              <span className="text-red-900">Monthly total:</span>
+                              <span className="text-red-900 text-lg">${Math.round(saasMonthlyTotal)}/mo</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="border-t border-red-300 pt-3 flex flex-wrap gap-2">
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-200 text-red-800 rounded-full text-xs font-medium">
+                            <X className="h-3.5 w-3.5" /> Platform lock-in
+                          </span>
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-200 text-red-800 rounded-full text-xs font-medium">
+                            <X className="h-3.5 w-3.5" /> Per-user fees
+                          </span>
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-200 text-red-800 rounded-full text-xs font-medium">
+                            <X className="h-3.5 w-3.5" /> Price increases
+                          </span>
+                        </div>
+                      </motion.div>
+                    </div>
+
+                    {/* Savings Highlight - More Compact */}
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.5 }}
+                      className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-xl text-white text-center shadow-xl mb-6"
+                    >
+                      <p className="text-xs font-medium mb-1 uppercase tracking-wide opacity-90">Your 3-Year Savings</p>
+                      <p className="text-5xl font-bold mb-2">
+                        ${(saasThreeYearTotal - totalPrice).toLocaleString()}
+                      </p>
+                      <div className="space-y-1 opacity-90">
+                        <p className="text-sm">
+                          That's <strong>${Math.round((saasThreeYearTotal - totalPrice) / 36).toLocaleString()}/month</strong> saved over 3 years
+                        </p>
+                        <p className="text-xs opacity-75">
+                          (vs ${Math.round(saasThreeYearTotal).toLocaleString()} total SaaS cost)
+                        </p>
+                      </div>
+                    </motion.div>
+
+                    {/* Disclaimers */}
+                    <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-6 text-xs text-slate-600 space-y-2">
+                      <p className="font-semibold text-slate-700 flex items-center gap-1.5">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Important Notes:
+                      </p>
+                      <ul className="space-y-1 ml-5 list-disc">
+                        <li>
+                          <strong>SaaS pricing sources:</strong> Based on published pricing from leading platforms:
+                          <ul className="ml-4 mt-1 space-y-0.5 list-circle">
+                            <li>
+                              <a href="https://webflow.com/pricing" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                                Webflow
+                              </a> ($29-212/mo base + $29-49/mo CMS + feature add-ons)
+                            </li>
+                            <li>
+                              <a href="https://www.wix.com/upgrade/website" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                                Wix
+                              </a> ($27-159/mo for business plans + e-commerce fees)
+                            </li>
+                            <li>
+                              <a href="https://www.squarespace.com/pricing" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                                Squarespace
+                              </a> ($25-65/mo + commerce transaction fees)
+                            </li>
+                            <li>
+                              <a href="https://www.shopify.com/pricing" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                                Shopify
+                              </a> ($39-399/mo + 2-3% transaction fees)
+                            </li>
+                            <li>
+                              <a href="https://www.hubspot.com/pricing/cms" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                                HubSpot CMS
+                              </a> ($23-1,200/mo depending on features)
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                          <strong>Additional research:</strong>
+                          <ul className="ml-4 mt-1 space-y-0.5 list-circle">
+                            <li>
+                              <a href="https://www.forbes.com/advisor/business/software/website-builder-cost/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                                Forbes: Website Builder Cost Guide 2024
+                              </a>
+                            </li>
+                            <li>
+                              <a href="https://www.g2.com/articles/website-builder-cost" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                                G2: How Much Does a Website Builder Cost?
+                              </a>
+                            </li>
+                            <li>
+                              <a href="https://www.techradar.com/web-hosting/website-builder-cost" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                                TechRadar: The True Cost of Website Builders
+                              </a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>Your quote is fixed for 30 days from today</li>
+                        <li>Includes {calculateTimeline()} delivery timeline</li>
+                        <li>Hosting and SSL certificates included for first year ($200/year thereafter)</li>
+                        <li>Optional maintenance plans available starting at $99/month</li>
+                      </ul>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.6 }}
+                      className="flex flex-col sm:flex-row gap-3"
+                    >
+                      <Button
+                        onClick={handleGetQuote}
+                        size="lg"
+                        className="flex-1 text-base py-5 font-semibold"
+                      >
+                        Get Your Free Quote →
+                      </Button>
+                      <Button
+                        onClick={handleRedesign}
+                        variant="outline"
+                        size="lg"
+                        className="flex-1 text-base py-5 font-semibold border-2"
+                      >
+                        ← Adjust My Solution
+                      </Button>
+                    </motion.div>
+
+                    <p className="text-center text-xs text-slate-500 mt-3">
+                      No commitment required • Response within 24 hours
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Calculator Content - Show when not in comparison mode */}
+              <AnimatePresence mode="wait">
+                {!showComparison && !isCalculating && (
+                  <motion.div
+                    key="calculator"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
               <div className="grid md:grid-cols-[1fr_450px] gap-8">
-                {/* LEFT COLUMN - Advanced Features */}
+                {/* LEFT COLUMN - Sliders & Advanced Features */}
                 <div>
+                  {/* Project Configuration Sliders */}
+                  <div className="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-4 mb-6">
+                    {/* Number of Pages Slider */}
+                    <div>
+                      <div className="flex justify-between items-center mb-2">
+                        <label className="text-base font-semibold text-slate-700">
+                          Number of Pages
+                        </label>
+                        <span className="text-2xl font-bold text-slate-900">
+                          {pages}
+                        </span>
+                      </div>
+                      <Slider
+                        value={[pages]}
+                        onValueChange={(value) => setPages(value[0])}
+                        min={1}
+                        max={20}
+                        step={1}
+                        className="my-2"
+                      />
+                    </div>
+
+                    {/* Number of Users Slider */}
+                    <div>
+                      <div className="flex justify-between items-center mb-2">
+                        <label className="text-base font-semibold text-slate-700">
+                          Number of Users
+                        </label>
+                        <span className="text-2xl font-bold text-slate-900">
+                          {users}
+                        </span>
+                      </div>
+                      <Slider
+                        value={[users]}
+                        onValueChange={(value) => setUsers(value[0])}
+                        min={1}
+                        max={20}
+                        step={1}
+                        className="my-2"
+                      />
+                    </div>
+                  </div>
+
                   <div className="space-y-6">
                     {Object.entries(featuresByCategory).map(([category, categoryFeatures]) => {
                       const isAlwaysIncluded = category === "Always Included";
@@ -440,23 +948,25 @@ export default function PricingCalculator() {
                           {isAlwaysIncluded ? (
                             <div className="mb-4">
                               <div className="pb-2 border-b border-emerald-500/30">
-                                <h3 className="text-lg font-bold text-emerald-400">
-                                  ✓ ALWAYS INCLUDED
+                                <h3 className="text-lg font-bold text-emerald-700">
+                                  ✓ INCLUDED FREE
                                 </h3>
+                                <p className="text-xs text-emerald-600 mt-1">Essential features competitors charge $19+/month for</p>
                               </div>
                             </div>
                           ) : category === "Advanced Features" ? (
                             <div className="mb-4 mt-8">
-                              <div className="pb-2 border-b border-slate-600/30">
-                                <h3 className="text-lg font-bold text-white">
-                                  ADVANCED FEATURES
+                              <div className="pb-2 border-b border-slate-300">
+                                <h3 className="text-lg font-bold text-slate-900">
+                                  ADD MORE POWER
                                 </h3>
+                                <p className="text-xs text-slate-600 mt-1">Click to add features that take your site further</p>
                               </div>
                             </div>
                           ) : null}
 
                           {/* Features Grid */}
-                          <div className={`grid grid-cols-2 gap-3 ${isAlwaysIncluded ? 'mb-6' : ''}`}>
+                          <div className={`grid grid-cols-3 gap-2.5 ${isAlwaysIncluded ? 'mb-6' : ''}`}>
                             {categoryFeatures.map((feature) => (
                               <motion.div
                                 key={feature.id}
@@ -468,35 +978,35 @@ export default function PricingCalculator() {
                                   disabled={feature.alwaysIncluded}
                                   className={`w-full text-left p-3 rounded-lg border transition-all h-full ${
                                     feature.alwaysIncluded
-                                      ? 'border-emerald-500/40 bg-emerald-950/30 cursor-default'
+                                      ? 'border-emerald-300 bg-emerald-50 cursor-default'
                                       : feature.enabled
-                                      ? 'border-primary/60 bg-primary/10'
-                                      : 'border-slate-600/50 bg-slate-700/30 hover:border-slate-500 hover:bg-slate-700/50'
+                                      ? 'border-primary bg-primary/5'
+                                      : 'border-slate-300 bg-slate-50 hover:border-slate-400 hover:bg-slate-100'
                                   }`}
                                 >
-                                  <div className="flex items-start gap-2">
-                                    <div className={`mt-0.5 w-4 h-4 rounded border flex items-center justify-center flex-shrink-0 ${
-                                      feature.alwaysIncluded
-                                        ? 'bg-emerald-600 border-emerald-600'
-                                        : feature.enabled
-                                        ? 'bg-primary border-primary'
-                                        : 'border-slate-500'
-                                    }`}>
-                                      {(feature.enabled || feature.alwaysIncluded) && <Check className="h-3 w-3 text-white" />}
-                                    </div>
+                                  <div className="flex flex-col gap-2">
+                                    <div className="flex items-start gap-2.5">
+                                      <div className={`mt-0.5 w-5 h-5 rounded border flex items-center justify-center flex-shrink-0 ${
+                                        feature.alwaysIncluded
+                                          ? 'bg-emerald-600 border-emerald-600'
+                                          : feature.enabled
+                                          ? 'bg-primary border-primary'
+                                          : 'border-slate-400'
+                                      }`}>
+                                        {(feature.enabled || feature.alwaysIncluded) && <Check className="h-3.5 w-3.5 text-white" />}
+                                      </div>
 
-                                    <div className="flex-grow min-w-0">
-                                      <h4 className={`font-medium text-sm leading-tight mb-0.5 ${
-                                        feature.alwaysIncluded ? 'text-emerald-300' : 'text-white'
+                                      <h4 className={`font-semibold text-base leading-tight flex-grow ${
+                                        feature.alwaysIncluded ? 'text-emerald-800' : 'text-slate-900'
                                       }`}>
                                         {feature.name}
                                       </h4>
-                                      <p className={`text-xs leading-snug ${
-                                        feature.alwaysIncluded ? 'text-emerald-200/70' : 'text-slate-400'
-                                      }`}>
-                                        {feature.description}
-                                      </p>
                                     </div>
+                                    <p className={`text-sm leading-snug pl-7 ${
+                                      feature.alwaysIncluded ? 'text-emerald-700' : 'text-slate-600'
+                                    }`}>
+                                      {feature.description}
+                                    </p>
                                   </div>
                                 </button>
                               </motion.div>
@@ -510,214 +1020,126 @@ export default function PricingCalculator() {
 
                 {/* RIGHT COLUMN - Calculator */}
                 <div className="md:sticky md:top-4 md:self-start space-y-6">
-
-                  {/* Project Configuration Sliders */}
-                  <div className="bg-slate-700/50 p-5 rounded-xl space-y-4">
-                    <h4 className="text-lg font-bold text-white mb-4">
-                      Project Configuration
-                    </h4>
-
-                    {/* Number of Pages Slider */}
-                    <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <label className="text-sm font-medium text-slate-200">
-                          Number of Pages
-                        </label>
-                        <span className="text-base font-bold text-white">
-                          {pages}
-                        </span>
-                      </div>
-                      <Slider
-                        value={[pages]}
-                        onValueChange={(value) => setPages(value[0])}
-                        min={1}
-                        max={20}
-                        step={1}
-                        className="my-2"
-                      />
-                      <div className="flex justify-between text-xs text-slate-400">
-                        <span>1 page</span>
-                        <span>20+ pages</span>
+                  {/* Our Recommendation */}
+                  <div className="bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border-2 border-green-300">
+                    <div className="flex items-center justify-between mb-4">
+                      <h4 className="text-2xl font-bold text-green-900 flex items-center gap-2">
+                        <Check className="h-6 w-6 text-green-600" />
+                        Our Recommendation
+                      </h4>
+                      <div className="bg-green-600 text-white px-3 py-1 rounded-full text-xs font-bold">
+                        {pageTier} Plan
                       </div>
                     </div>
-
-                    {/* Number of Users Slider */}
-                    <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <label className="text-sm font-medium text-slate-200">
-                          Number of Users
-                        </label>
-                        <span className="text-base font-bold text-white">
-                          {users}
-                        </span>
-                      </div>
-                      <Slider
-                        value={[users]}
-                        onValueChange={(value) => setUsers(value[0])}
-                        min={1}
-                        max={20}
-                        step={1}
-                        className="my-2"
-                      />
-                      <div className="flex justify-between text-xs text-slate-400">
-                        <span>1 user</span>
-                        <span>20+ users</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Traditional SaaS Costs - Always Visible */}
-                  <div className="bg-gradient-to-br from-red-50 to-red-100 p-5 rounded-xl border-2 border-red-300">
-                    <h4 className="text-lg font-bold text-red-900 mb-3 flex items-center gap-2">
-                      <X className="h-5 w-5 text-red-600" />
-                      Traditional SaaS
-                    </h4>
-                    <p className="text-xs text-red-800 mb-3 italic">
-                      * These are estimates for what these additional features can cost
+                    <p className="text-sm text-green-700 mb-4 font-medium">
+                      Best value for your needs • Pay once, own forever
                     </p>
-                    <div className="space-y-2 text-sm text-red-900">
-                      {/* Pages Cost */}
-                      <div className="flex justify-between items-start">
-                        <span className="text-xs flex-grow">
-                          {pages} {pages === 1 ? 'Page' : 'Pages'}
-                          <span className="text-red-700 block text-xs">${pages} × $15 per page</span>
-                        </span>
-                        <motion.span
-                          key={`pages-${saasPageCost}`}
-                          initial={{ scale: 1.2, color: '#dc2626' }}
-                          animate={{ scale: 1, color: '#7f1d1d' }}
-                          transition={{ duration: 0.3 }}
-                          className="font-medium ml-2 whitespace-nowrap"
-                        >
-                          ${saasPageCost}/mo
-                        </motion.span>
+
+                    <div className="space-y-1.5 text-base text-green-900">
+                      {/* Plan Tier with Details */}
+                      <div className="bg-green-100/50 rounded-lg p-2.5 border border-green-200">
+                        <div className="flex justify-between items-start mb-1.5">
+                          <span className="text-base font-semibold text-green-900">
+                            {pageTier} Plan
+                          </span>
+                          <motion.span
+                            key={`our-pages-${basePrice}`}
+                            initial={{ scale: 1.2, color: '#15803d' }}
+                            animate={{ scale: 1, color: '#14532d' }}
+                            transition={{ duration: 0.3 }}
+                            className="text-lg font-bold ml-2 whitespace-nowrap"
+                          >
+                            ${basePrice.toLocaleString()}
+                          </motion.span>
+                        </div>
+                        <div className="space-y-0.5 text-xs text-green-700 ml-2.5">
+                          <div className="flex items-center gap-1.5">
+                            <div className="w-1 h-1 rounded-full bg-green-600"></div>
+                            <span>
+                              {pageTier === "Essential" && "1-5 pages"}
+                              {pageTier === "Professional" && "6-12 pages"}
+                              {pageTier === "Enterprise" && "13-20 pages"}
+                              {pageTier === "Premium" && "20+ pages"}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <div className="w-1 h-1 rounded-full bg-green-600"></div>
+                            <span>{includedAdvancedFeatures === Infinity ? 'Unlimited' : includedAdvancedFeatures} advanced {includedAdvancedFeatures === 1 ? 'feature' : 'features'} included</span>
+                          </div>
+                        </div>
                       </div>
 
-                      {/* Users Cost */}
-                      <div className="flex justify-between items-start">
-                        <span className="text-xs flex-grow">
-                          Platform Access ({users} {users === 1 ? 'user' : 'users'})
-                          <span className="text-red-700 block text-xs">${users} × $23 per user</span>
+                      {/* Users - Unlimited */}
+                      <div className="flex justify-between items-start py-0.5">
+                        <span className="text-sm flex-grow">
+                          {users} {users === 1 ? 'User' : 'Users'} <span className="text-green-700 text-xs">(no per-user fees)</span>
                         </span>
-                        <motion.span
-                          key={`users-${saasBasePlatformCost}`}
-                          initial={{ scale: 1.2, color: '#dc2626' }}
-                          animate={{ scale: 1, color: '#7f1d1d' }}
-                          transition={{ duration: 0.3 }}
-                          className="font-medium ml-2 whitespace-nowrap"
-                        >
-                          ${saasBasePlatformCost}/mo
-                        </motion.span>
+                        <span className="text-base font-bold ml-2 whitespace-nowrap text-green-700">
+                          Unlimited
+                        </span>
                       </div>
 
-                      {/* Feature Costs */}
-                      {features.filter(f => f.enabled && f.saasMonthly > 0).map(f => {
-                        const scalingFeatures = ['cms', 'auth', 'booking', 'chat'];
-                        const isScaling = scalingFeatures.includes(f.id);
-                        const additionalUsers = Math.max(0, users - 3);
-                        const featureCost = isScaling
-                          ? f.saasMonthly + (additionalUsers * (f.saasMonthly * 0.5))
-                          : f.saasMonthly;
+                      {/* Separation between included and additional features */}
+                      {(() => {
+                        const advancedFeatures = features.filter(f => f.enabled && f.price > 0);
+                        const sortedByPrice = [...advancedFeatures].sort((a, b) => a.price - b.price);
+
+                        const includedFeatures = sortedByPrice.filter((f, index) => {
+                          const isIncluded = includedAdvancedFeatures !== Infinity && index < includedAdvancedFeatures;
+                          const allIncluded = includedAdvancedFeatures === Infinity;
+                          return isIncluded || allIncluded;
+                        });
+
+                        const paidFeatures = sortedByPrice.filter((f, index) => {
+                          const isIncluded = includedAdvancedFeatures !== Infinity && index < includedAdvancedFeatures;
+                          const allIncluded = includedAdvancedFeatures === Infinity;
+                          return !isIncluded && !allIncluded;
+                        });
 
                         return (
-                          <div key={f.id} className="flex justify-between items-start">
-                            <span className="text-xs flex-grow">
-                              {f.name}
-                              {isScaling && additionalUsers > 0 && (
-                                <span className="text-red-700 block text-xs">+${(additionalUsers * (f.saasMonthly * 0.5)).toFixed(0)} for {additionalUsers} extra users</span>
-                              )}
-                            </span>
-                            <motion.span
-                              key={`${f.id}-${featureCost}`}
-                              initial={{ scale: 1.2, color: '#dc2626' }}
-                              animate={{ scale: 1, color: '#7f1d1d' }}
-                              transition={{ duration: 0.3 }}
-                              className="font-medium ml-2 whitespace-nowrap"
-                            >
-                              ${featureCost.toFixed(0)}/mo
-                            </motion.span>
-                          </div>
+                          <>
+                            {/* Included Add-ons */}
+                            {includedFeatures.length > 0 && (
+                              <div className="space-y-1">
+                                {includedFeatures.map((f) => (
+                                  <div key={f.id} className="flex justify-between items-start py-0.5">
+                                    <span className="text-sm flex-grow">
+                                      {f.name}
+                                      <span className="text-green-700 text-xs ml-1">(included)</span>
+                                    </span>
+                                    <span className="text-base font-semibold ml-2 whitespace-nowrap line-through text-green-600">
+                                      ${f.price.toLocaleString()}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+
+                            {/* Separator for Additional Costs */}
+                            {paidFeatures.length > 0 && (
+                              <>
+                                <div className="border-t border-green-300 my-2 pt-2">
+                                  <p className="text-xs font-semibold text-green-800 mb-1">Additional Add-ons:</p>
+                                </div>
+                                <div className="space-y-1">
+                                  {paidFeatures.map((f) => (
+                                    <div key={f.id} className="flex justify-between items-start py-0.5">
+                                      <span className="text-sm flex-grow">{f.name}</span>
+                                      <span className="text-base font-semibold ml-2 whitespace-nowrap">
+                                        +${f.price.toLocaleString()}
+                                      </span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </>
+                            )}
+                          </>
                         );
-                      })}
+                      })()}
 
-                      <div className="border-t-2 border-red-300 pt-2 mt-2">
-                        <div className="flex justify-between items-center font-semibold">
-                          <span>Total Per Month:</span>
-                          <motion.span
-                            key={`total-monthly-${saasMonthlyTotal}`}
-                            initial={{ scale: 1.2, color: '#dc2626' }}
-                            animate={{ scale: 1, color: '#7f1d1d' }}
-                            transition={{ duration: 0.3 }}
-                            className="text-lg"
-                          >
-                            ${Math.round(saasMonthlyTotal)}/mo
-                          </motion.span>
-                        </div>
-                        <div className="flex justify-between items-center mt-2 text-base">
-                          <span className="font-bold">3-Year Total:</span>
-                          <motion.span
-                            key={`total-3year-${saasThreeYearTotal}`}
-                            initial={{ scale: 1.2, color: '#dc2626' }}
-                            animate={{ scale: 1, color: '#991b1b' }}
-                            transition={{ duration: 0.3 }}
-                            className="text-xl font-bold text-red-600"
-                          >
-                            ${Math.round(saasThreeYearTotal).toLocaleString()}
-                          </motion.span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Your Investment Summary */}
-                  <div className="bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border-2 border-green-300">
-                    <h4 className="text-lg font-bold text-green-900 mb-4 flex items-center gap-2">
-                      <Check className="h-5 w-5 text-green-600" />
-                      Your Solution
-                    </h4>
-
-                    <div className="space-y-2 text-sm text-green-900">
-                      {/* Pages Cost */}
-                      <div className="flex justify-between items-start">
-                        <span className="text-xs flex-grow">
-                          {pageTier}
-                          <span className="text-green-700 block text-xs">{pages} {pages === 1 ? 'page' : 'pages'} included</span>
-                        </span>
-                        <motion.span
-                          key={`our-pages-${basePrice}`}
-                          initial={{ scale: 1.2, color: '#15803d' }}
-                          animate={{ scale: 1, color: '#14532d' }}
-                          transition={{ duration: 0.3 }}
-                          className="font-medium ml-2 whitespace-nowrap"
-                        >
-                          ${basePrice.toLocaleString()}
-                        </motion.span>
-                      </div>
-
-                      {/* Users - Free */}
-                      <div className="flex justify-between items-start">
-                        <span className="text-xs flex-grow">
-                          {users} {users === 1 ? 'User' : 'Users'}
-                          <span className="text-green-700 block text-xs">Unlimited users - no per-user fees</span>
-                        </span>
-                        <span className="font-bold ml-2 whitespace-nowrap text-green-700">
-                          FREE
-                        </span>
-                      </div>
-
-                      {/* Feature Costs */}
-                      {features.filter(f => f.enabled && f.price > 0).map(f => (
-                        <div key={f.id} className="flex justify-between items-start">
-                          <span className="text-xs flex-grow">{f.name}</span>
-                          <span className="font-medium ml-2 whitespace-nowrap">
-                            ${f.price.toLocaleString()}
-                          </span>
-                        </div>
-                      ))}
-
-                      <div className="border-t-2 border-green-300 pt-2 mt-2">
+                      <div className="border-t-2 border-green-300 pt-3 mt-3">
                         <div className="flex justify-between items-center mb-2">
-                          <span className="text-base font-semibold text-green-900">
+                          <span className="text-lg font-bold text-green-900">
                             One-Time Investment:
                           </span>
                           <motion.span
@@ -725,89 +1147,67 @@ export default function PricingCalculator() {
                             initial={{ scale: 1.2, color: '#15803d' }}
                             animate={{ scale: 1, color: '#14532d' }}
                             transition={{ duration: 0.3 }}
-                            className="text-3xl font-bold text-green-800"
+                            className="text-4xl font-bold text-green-800"
                           >
                             ${totalPrice.toLocaleString()}
                           </motion.span>
                         </div>
-                        <p className="text-xs text-green-700 text-right">
+                        <p className="text-sm text-green-700 text-right">
                           Timeline: {calculateTimeline()}
                         </p>
                       </div>
 
-                      <div className="pt-3 border-t border-green-300 space-y-2 text-xs text-green-800">
+                      <div className="pt-3 border-t border-green-300 space-y-2 text-sm text-green-800">
                         <p className="flex items-center gap-2">
-                          <Check className="h-3 w-3" /> Unlimited users - no extra charge
+                          <Check className="h-4 w-4" /> Unlimited users - no extra charge
                         </p>
                         <p className="flex items-center gap-2">
-                          <Check className="h-3 w-3" /> Full source code ownership
+                          <Check className="h-4 w-4" /> Full source code ownership
                         </p>
                         <p className="flex items-center gap-2">
-                          <Check className="h-3 w-3" /> No monthly payments
+                          <Check className="h-4 w-4" /> No monthly payments
                         </p>
                         <p className="flex items-center gap-2">
-                          <Check className="h-3 w-3" /> Unlimited customization
+                          <Check className="h-4 w-4" /> Unlimited customization
                         </p>
                       </div>
                     </div>
                   </div>
 
-                  {/* Calculate Savings Button & Result */}
-                  {saasMonthlyTotal > 0 && (
-                    <>
-                      <Button
-                        onClick={() => setShowComparison(!showComparison)}
-                        variant={showComparison ? "secondary" : "default"}
-                        size="lg"
-                        className="w-full text-base font-semibold"
-                      >
-                        {showComparison ? "Hide Savings" : "Calculate Savings →"}
-                      </Button>
-
-                      {/* Savings Highlight (shown on demand) */}
-                      <AnimatePresence>
-                        {showComparison && (
-                          <motion.div
-                            initial={{ opacity: 0, height: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, height: "auto", scale: 1 }}
-                            exit={{ opacity: 0, height: 0, scale: 0.9 }}
-                            transition={{ duration: 0.3 }}
-                            className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-xl text-white text-center shadow-2xl"
-                          >
-                            <p className="text-sm font-medium mb-1 uppercase tracking-wide">3-Year Savings</p>
-                            <p className="text-5xl font-bold mb-2">
-                              ${(saasThreeYearTotal - totalPrice).toLocaleString()}
-                            </p>
-                            <div className="h-px bg-white/30 my-3"></div>
-                            <p className="text-sm opacity-90 leading-relaxed">
-                              Plus you own it forever • No monthly ransom
-                            </p>
-                            <p className="text-xs opacity-75 mt-2">
-                              That's <strong>${Math.round((saasThreeYearTotal - totalPrice) / 36).toLocaleString()}/month</strong> saved over 3 years
-                            </p>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </>
+                  {/* Calculate Savings Button */}
+                  {!showComparison && (
+                    <Button
+                      onClick={handleShowComparison}
+                      disabled={isCalculating}
+                      size="lg"
+                      className="w-full text-base font-semibold"
+                    >
+                      {isCalculating ? "Calculating..." : "💰 See How Much You Save"}
+                    </Button>
                   )}
 
-                  {/* Get Quote Button */}
-                  <div className="pt-4 border-t-2 border-slate-600">
-                    <Button
-                      onClick={handleGetQuote}
-                      size="lg"
-                      className="w-full text-lg py-6 font-semibold"
-                    >
-                      Get Your Detailed Quote →
-                    </Button>
-                    <p className="text-center text-sm text-slate-400 mt-2">
-                      Free consultation, no pressure
-                    </p>
-                  </div>
+                  {/* Get Quote Button - shown when not in comparison mode */}
+                  {!showComparison && (
+                    <div className="pt-4 border-t-2 border-slate-200">
+                      <Button
+                        onClick={handleGetQuote}
+                        size="lg"
+                        className="w-full text-lg py-6 font-semibold"
+                      >
+                        Get Your Free Quote →
+                      </Button>
+                      <p className="text-center text-sm text-slate-600 mt-2">
+                        No commitment required • Response within 24 hours
+                      </p>
+                    </div>
+                  )}
                 </div>
                 {/* End RIGHT COLUMN */}
               </div>
               {/* End 2-column grid */}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </CardContent>
           </Card>
         </motion.div>

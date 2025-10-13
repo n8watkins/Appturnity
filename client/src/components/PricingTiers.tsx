@@ -8,7 +8,7 @@ const pricingTiers = [
   {
     name: "Essential",
     price: "$750",
-    pageRange: "1-4 pages",
+    pageRange: "1-5 pages",
     delivery: "2-3 week delivery",
     advancedCount: "+ 1 advanced feature",
     description: "Perfect for landing pages & small sites",
@@ -27,7 +27,7 @@ const pricingTiers = [
   {
     name: "Professional",
     price: "$1,700",
-    pageRange: "5-8 pages",
+    pageRange: "6-12 pages",
     delivery: "3-4 week delivery",
     advancedCount: "+ 3 advanced features",
     description: "Most popular for growing businesses",
@@ -44,9 +44,9 @@ const pricingTiers = [
     highlight: true
   },
   {
-    name: "Growth",
-    price: "$2,450",
-    pageRange: "9-15 pages",
+    name: "Enterprise",
+    price: "$3,200",
+    pageRange: "13-20 pages",
     delivery: "1-2 month delivery",
     advancedCount: "+ 7 advanced features",
     description: "For established businesses",
@@ -65,10 +65,10 @@ const pricingTiers = [
   },
   {
     name: "Premium",
-    price: "Custom",
-    pageRange: "16+ pages",
-    delivery: "Custom timeline",
-    advancedCount: "Unlimited advanced features",
+    price: "$5,500",
+    pageRange: "20+ pages",
+    delivery: "2-3 month delivery",
+    advancedCount: "+ 15 advanced features",
     description: "Large-scale custom solutions",
     popular: false,
     features: [
@@ -81,21 +81,14 @@ const pricingTiers = [
       "White-glove service"
     ],
     highlight: false,
-    isUnlimited: true
+    isUnlimited: false
   }
 ];
 
 export default function PricingTiers() {
   return (
-    <section id="pricing-tiers" className="relative py-20 overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-1/2 -right-24 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute -bottom-24 left-1/3 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-      </div>
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="pricing-tiers" className="py-20 bg-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           className="max-w-3xl mx-auto text-center mb-16"
@@ -104,10 +97,10 @@ export default function PricingTiers() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 mb-4">
             Simple, Transparent Pricing
           </h2>
-          <p className="text-lg text-slate-300">
+          <p className="text-lg text-slate-600">
             One-time payment. No monthly fees. You own everything.
           </p>
         </motion.div>
@@ -159,8 +152,8 @@ export default function PricingTiers() {
                 {/* Quick Stats */}
                 <div className="space-y-2 mb-6 pb-6 border-b border-slate-200">
                   <div className="flex items-center gap-2 text-sm text-slate-700">
-                    <Sparkles className={`h-4 w-4 flex-shrink-0 ${tier.isUnlimited ? "text-purple-600" : "text-blue-600"}`} />
-                    <span className={tier.isUnlimited ? "text-purple-700 font-bold" : "text-blue-700 font-bold"}>{tier.advancedCount}</span>
+                    <Sparkles className={`h-4 w-4 flex-shrink-0 ${tier.name === "Premium" ? "text-purple-600" : "text-blue-600"}`} />
+                    <span className={tier.name === "Premium" ? "text-purple-700 font-bold" : "text-blue-700 font-bold"}>{tier.advancedCount}</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-slate-700">
                     <Clock className="h-4 w-4 text-slate-500 flex-shrink-0" />
@@ -226,11 +219,11 @@ export default function PricingTiers() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <p className="text-slate-300 text-sm mb-4">
+          <p className="text-slate-600 text-sm mb-4">
             * Popular choices shown. Not all features listed.
           </p>
           <Link href="/features">
-            <a className="inline-flex items-center gap-2 text-lg text-white hover:text-primary transition-colors duration-200 group">
+            <a className="inline-flex items-center gap-2 text-lg text-slate-900 hover:text-primary transition-colors duration-200 group">
               <span>View Full Feature List & Details</span>
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </a>

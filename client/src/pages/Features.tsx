@@ -124,6 +124,34 @@ const allFeatures = [
     icon: Users
   },
   {
+    category: "security",
+    name: "Custom Domain Setup",
+    details: "Connect your own domain name with full DNS configuration",
+    type: "essential",
+    icon: Globe
+  },
+  {
+    category: "marketing",
+    name: "Email Templates",
+    details: "Custom branded email designs for notifications and campaigns",
+    type: "advanced",
+    icon: Mail
+  },
+  {
+    category: "marketing",
+    name: "Email Automation",
+    details: "Automated email sequences and drip campaigns",
+    type: "advanced",
+    icon: Send
+  },
+  {
+    category: "marketing",
+    name: "Newsletter Management",
+    details: "Email list building and subscriber management",
+    type: "advanced",
+    icon: Mail
+  },
+  {
     category: "marketing",
     name: "Blog Integration",
     details: "Built-in content management system for articles and updates",

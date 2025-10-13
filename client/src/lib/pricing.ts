@@ -28,43 +28,35 @@ export interface Feature {
 export const PRICING_TIERS: PricingTier[] = [
   {
     minPages: 1,
-    maxPages: 1,
-    tierName: "Simple Landing Page (1 page)",
+    maxPages: 5,
+    tierName: "Essential (1-5 pages)",
     basePrice: 750,
     pricePerPage: 0,
-    description: "Perfect for a single landing page or coming soon page"
+    description: "Perfect for landing pages & small sites"
   },
   {
-    minPages: 2,
-    maxPages: 4,
-    tierName: "Simple Landing Page (1-4 pages)",
-    basePrice: 750,
-    pricePerPage: 250,
-    description: "Great for small businesses with a few key pages"
+    minPages: 6,
+    maxPages: 12,
+    tierName: "Professional (6-12 pages)",
+    basePrice: 1700,
+    pricePerPage: 0,
+    description: "Most popular for growing businesses"
   },
   {
-    minPages: 5,
-    maxPages: 8,
-    tierName: "Multi-Page Site (5-8 pages)",
-    basePrice: 1500,
-    pricePerPage: 200,
-    description: "Ideal for growing businesses with more content"
+    minPages: 13,
+    maxPages: 20,
+    tierName: "Growth (13-20 pages)",
+    basePrice: 2450,
+    pricePerPage: 0,
+    description: "For established businesses"
   },
   {
-    minPages: 9,
-    maxPages: 15,
-    tierName: "Complex Site (9-15 pages)",
-    basePrice: 2300,
-    pricePerPage: 150,
-    description: "For established businesses with extensive content needs"
-  },
-  {
-    minPages: 16,
+    minPages: 21,
     maxPages: 999,
-    tierName: "Large Site",
-    basePrice: 3350,
+    tierName: "Premium",
+    basePrice: 3500,
     pricePerPage: 100,
-    description: "Enterprise-level websites with many pages"
+    description: "Large-scale custom solutions"
   }
 ];
 
@@ -75,21 +67,18 @@ export function calculatePagePrice(pageCount: number): { price: number; tier: st
   let price = 0;
   let tier = "";
 
-  if (pageCount === 1) {
+  if (pageCount <= 5) {
     price = 750;
-    tier = "Simple Landing Page (1 page)";
-  } else if (pageCount <= 4) {
-    price = 750 + ((pageCount - 1) * 250);
-    tier = "Simple Landing Page (1-4 pages)";
-  } else if (pageCount <= 8) {
-    price = 1500 + ((pageCount - 4) * 200);
-    tier = "Multi-Page Site (5-8 pages)";
-  } else if (pageCount <= 15) {
-    price = 2300 + ((pageCount - 8) * 150);
-    tier = "Complex Site (9-15 pages)";
+    tier = "Essential (1-5 pages)";
+  } else if (pageCount <= 12) {
+    price = 1700;
+    tier = "Professional (6-12 pages)";
+  } else if (pageCount <= 20) {
+    price = 2450;
+    tier = "Growth (13-20 pages)";
   } else {
-    price = 3350 + ((pageCount - 15) * 100);
-    tier = `Large Site (${pageCount} pages)`;
+    price = 3500 + ((pageCount - 20) * 100);
+    tier = `Premium (${pageCount} pages)`;
   }
 
   return { price, tier };
@@ -150,39 +139,37 @@ export const ALWAYS_INCLUDED_FEATURES: Feature[] = [
  * Optional add-on features
  */
 export const OPTIONAL_FEATURES: Feature[] = [
-  // Marketing & Growth
   {
     id: "seo",
-    name: "SEO Optimization",
-    description: "Foundation for Google rankings",
+    name: "SEO",
+    description: "Search engine optimization",
     price: 400,
     saasMonthly: 99,
-    category: "Marketing & Growth"
+    category: "Advanced Features"
   },
   {
     id: "forms",
-    name: "Custom Lead Forms",
-    description: "Advanced multi-step forms",
+    name: "Custom Forms",
+    description: "Multi-step lead forms",
     price: 500,
     saasMonthly: 50,
-    category: "Marketing & Growth"
+    category: "Advanced Features"
   },
-  // Content Management
   {
     id: "cms",
-    name: "Content Management",
-    description: "Easy content updates (5 users)",
+    name: "CMS",
+    description: "Content management system",
     price: 800,
     saasMonthly: 149,
-    category: "Content Management"
+    category: "Advanced Features"
   },
   {
     id: "blog",
-    name: "Blog System",
+    name: "Blog",
     description: "Built-in blogging platform",
     price: 600,
     saasMonthly: 29,
-    category: "Content Management"
+    category: "Advanced Features"
   },
   {
     id: "multilang",
@@ -190,76 +177,87 @@ export const OPTIONAL_FEATURES: Feature[] = [
     description: "Multiple language support",
     price: 700,
     saasMonthly: 79,
-    category: "Content Management"
+    category: "Advanced Features"
   },
-  // User Features
   {
     id: "auth",
     name: "User Authentication",
-    description: "Login, signup, password reset (up to 1000 users)",
+    description: "Login and signup system",
     price: 1500,
     saasMonthly: 99,
-    category: "User Features"
+    category: "Advanced Features"
   },
-  {
-    id: "database",
-    name: "Database Integration",
-    description: "Secure data storage",
-    price: 1200,
-    saasMonthly: 79,
-    category: "User Features"
-  },
-  // E-commerce & Payments
   {
     id: "ecommerce",
     name: "E-commerce",
     description: "Shopping cart and checkout",
     price: 2500,
     saasMonthly: 299,
-    category: "E-commerce & Payments"
+    category: "Advanced Features"
   },
   {
     id: "payment",
-    name: "Payment Processing",
-    description: "Accept credit cards",
+    name: "Payments",
+    description: "Credit card processing",
     price: 1000,
     saasMonthly: 89,
-    category: "E-commerce & Payments"
+    category: "Advanced Features"
   },
-  // Booking & Scheduling
   {
     id: "booking",
-    name: "Booking System",
-    description: "Appointment scheduling (3 users)",
+    name: "Booking",
+    description: "Appointment scheduling",
     price: 800,
     saasMonthly: 49,
-    category: "Booking & Scheduling"
+    category: "Advanced Features"
   },
-  // Integrations & Support
   {
     id: "api",
     name: "API Integration",
     description: "Connect third-party tools",
     price: 600,
     saasMonthly: 59,
-    category: "Integrations & Support"
+    category: "Advanced Features"
   },
   {
     id: "chat",
     name: "Live Chat",
-    description: "Real-time customer support (5 users)",
+    description: "Real-time customer support",
     price: 300,
     saasMonthly: 69,
-    category: "Integrations & Support"
+    category: "Advanced Features"
   },
-  // Design & UX
+  {
+    id: "crm",
+    name: "CRM",
+    description: "Customer relationship management",
+    price: 900,
+    saasMonthly: 120,
+    category: "Advanced Features"
+  },
+  {
+    id: "cdn",
+    name: "CDN",
+    description: "Content delivery network",
+    price: 300,
+    saasMonthly: 45,
+    category: "Advanced Features"
+  },
+  {
+    id: "ai",
+    name: "Generative AI",
+    description: "AI-powered features",
+    price: 1200,
+    saasMonthly: 150,
+    category: "Advanced Features"
+  },
   {
     id: "animations",
-    name: "Advanced Animations",
+    name: "Animations",
     description: "Premium interactions",
     price: 400,
     saasMonthly: 0,
-    category: "Design & UX"
+    category: "Advanced Features"
   }
 ];
 

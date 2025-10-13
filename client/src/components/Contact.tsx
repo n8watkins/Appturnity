@@ -281,20 +281,29 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="py-20 bg-white scroll-mt-16"
+      className="relative py-24 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 scroll-mt-16"
       aria-label="Contact form section"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+      </div>
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Centered heading across the entire screen */}
         <motion.div
-          className="text-center mb-12"
+          className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">Let's Build Something Great Together</h2>
-          <p className="text-slate-600 max-w-2xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6">
+            Let's Build Something Great Together
+          </h2>
+          <p className="text-xl text-slate-300 max-w-2xl mx-auto">
             Ready to get started? Fill out the form below or schedule a free consultation call.
           </p>
         </motion.div>
@@ -331,178 +340,261 @@ export default function Contact() {
           {/* Contact Form Column */}
           <motion.div
             className="flex-1"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <Card className="shadow-lg border border-slate-200 h-full">
-              <CardContent className="p-6 md:p-8">
-                <Form {...form}>
-                  <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-6"
-                    aria-label="Contact form"
-                  >
-                    <div>
-                      <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Name</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Your name" {...field} />
-                            </FormControl>
-                            <FormMessage className="text-red-500 text-sm" />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
+            <div className="relative">
+              {/* Glow effect behind card */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary to-blue-600 rounded-2xl blur-xl opacity-30"></div>
 
-                    <div>
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Email</FormLabel>
-                            <FormControl>
-                              <Input placeholder="you@company.com" {...field} />
-                            </FormControl>
-                            <FormMessage className="text-red-500 text-sm" />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
+              <Card className="relative shadow-2xl border border-slate-700/50 h-full bg-slate-800/90 backdrop-blur-xl">
+                <CardContent className="p-8 md:p-10">
+                  <div className="mb-8">
+                    <h3 className="text-2xl font-bold text-white mb-2">Get Started Today</h3>
+                    <p className="text-slate-400">Fill out the form and we'll get back to you within 24 hours</p>
+                  </div>
 
-                    <div>
-                      <FormField
-                        control={form.control}
-                        name="message"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Tell us about your app needs</FormLabel>
-                            <FormControl>
-                              <Textarea
-                                placeholder="What problem are you trying to solve?"
-                                style={{ minHeight: textareaHeight }}
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage className="text-red-500 text-sm" />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-
-                    <Button
-                      ref={formButtonRef}
-                      type="submit"
-                      className="w-full h-12 bg-blue-500 hover:bg-blue-600"
-                      disabled={isSubmitting}
+                  <Form {...form}>
+                    <form
+                      onSubmit={form.handleSubmit(onSubmit)}
+                      className="space-y-6"
+                      aria-label="Contact form"
                     >
-                      {isSubmitting ? "Sending..." : "Schedule Free Consultation"}
-                    </Button>
-                  </form>
-                </Form>
-                
-                <div className="mt-6 text-center">
-                  <div className="relative">
-                    <div className="absolute inset-0 flex items-center">
-                      <span className="w-full border-t border-slate-200" />
+                      <div>
+                        <FormField
+                          control={form.control}
+                          name="name"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-slate-200 font-semibold">Name</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Your name"
+                                  className="bg-slate-900/50 border-slate-600 text-white placeholder:text-slate-500 focus:border-primary focus:ring-primary/50 h-12"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage className="text-red-400 text-sm" />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      <div>
+                        <FormField
+                          control={form.control}
+                          name="email"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-slate-200 font-semibold">Email</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="you@company.com"
+                                  className="bg-slate-900/50 border-slate-600 text-white placeholder:text-slate-500 focus:border-primary focus:ring-primary/50 h-12"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage className="text-red-400 text-sm" />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      <div>
+                        <FormField
+                          control={form.control}
+                          name="message"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-slate-200 font-semibold">Tell us about your project</FormLabel>
+                              <FormControl>
+                                <Textarea
+                                  placeholder="What problem are you trying to solve? What are your goals?"
+                                  className="bg-slate-900/50 border-slate-600 text-white placeholder:text-slate-500 focus:border-primary focus:ring-primary/50 resize-none"
+                                  style={{ minHeight: textareaHeight }}
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage className="text-red-400 text-sm" />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      <Button
+                        ref={formButtonRef}
+                        type="submit"
+                        className="w-full h-14 bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-700 text-white font-semibold text-lg shadow-lg shadow-primary/25 transition-all duration-300"
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? (
+                          <span className="flex items-center gap-2">
+                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                            Sending...
+                          </span>
+                        ) : (
+                          "Send Message →"
+                        )}
+                      </Button>
+                    </form>
+                  </Form>
+
+                  <div className="mt-8 text-center">
+                    <div className="relative">
+                      <div className="absolute inset-0 flex items-center">
+                        <span className="w-full border-t border-slate-700" />
+                      </div>
+                      <div className="relative flex justify-center text-sm uppercase tracking-wider">
+                        <span className="bg-slate-800 px-4 text-slate-400 font-medium">or</span>
+                      </div>
                     </div>
-                    <div className="relative flex justify-center text-xs uppercase">
-                      <span className="bg-white px-2 text-slate-500">or</span>
+
+                    <div className="mt-8">
+                      <CalendlyButton
+                        url="https://calendly.com/nathancwatkins23/web-consulting"
+                        variant="outline"
+                        className="w-full h-14 border-2 border-slate-600 hover:border-primary bg-slate-900/50 hover:bg-slate-900 text-white font-semibold text-base transition-all duration-300"
+                        openInNewTab={true}
+                        prefill={{
+                          name: form.getValues().name || '',
+                          email: form.getValues().email || '',
+                          customAnswers: {
+                            "a1": form.getValues().message || ''
+                          }
+                        }}
+                      >
+                        <Calendar className="h-5 w-5 mr-2" />
+                        Schedule a Call Instead
+                      </CalendlyButton>
                     </div>
                   </div>
-                  
-                  <div className="mt-6">
-                    <CalendlyButton
-                      url="https://calendly.com/nathancwatkins23/web-consulting"
-                      variant="outline"
-                      className="w-full"
-                      openInNewTab={true}
-                      prefill={{
-                        name: form.getValues().name || '',
-                        email: form.getValues().email || '',
-                        customAnswers: {
-                          "a1": form.getValues().message || ''
-                        }
-                      }}
-                    >
-                      Schedule a call with Calendly
-                    </CalendlyButton>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
           </motion.div>
           
           {/* Why Choose Us Column */}
           <motion.div
-            className="flex-1 bg-slate-900 text-white p-8 rounded-lg"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            className="flex-1"
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <h3 className="text-2xl font-bold mb-8">Why Clients Choose Us</h3>
-            
-            <div className="space-y-6">
-              <div className="flex items-start gap-3">
-                <div className="text-orange-400 mt-1">✓</div>
-                <div>
-                  <h4 className="font-semibold text-white">Custom apps designed around your specific workflow</h4>
+            <div className="relative h-full">
+              {/* Glow effect */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur-xl opacity-20"></div>
+
+              <div className="relative h-full bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl border border-slate-700/50 text-white p-10 rounded-2xl shadow-2xl">
+                <div className="mb-10">
+                  <h3 className="text-3xl font-bold mb-3 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+                    Why Clients Choose Us
+                  </h3>
+                  <p className="text-slate-400">Here's what sets us apart from the competition</p>
                 </div>
-              </div>
-              
-              <div className="flex items-start gap-3">
-                <div className="text-orange-400 mt-1">✓</div>
-                <div>
-                  <h4 className="font-semibold text-white">Flat monthly fee with no per-user pricing</h4>
+
+                <div className="space-y-6 mb-12">
+                  <motion.div
+                    className="flex items-start gap-4 group"
+                    whileHover={{ x: 5 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center shadow-lg shadow-green-500/25">
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white text-lg mb-1">Pay Once, Own Forever</h4>
+                      <p className="text-slate-400 text-sm">No monthly subscriptions or per-user fees. Your code, your data, your freedom.</p>
+                    </div>
+                  </motion.div>
+
+                  <motion.div
+                    className="flex items-start gap-4 group"
+                    whileHover={{ x: 5 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/25">
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white text-lg mb-1">Built for Your Workflow</h4>
+                      <p className="text-slate-400 text-sm">Custom solutions designed around your specific needs, not generic templates.</p>
+                    </div>
+                  </motion.div>
+
+                  <motion.div
+                    className="flex items-start gap-4 group"
+                    whileHover={{ x: 5 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center shadow-lg shadow-purple-500/25">
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white text-lg mb-1">Rapid Development</h4>
+                      <p className="text-slate-400 text-sm">Most projects delivered in 2-8 weeks. Get to market faster than competitors.</p>
+                    </div>
+                  </motion.div>
+
+                  <motion.div
+                    className="flex items-start gap-4 group"
+                    whileHover={{ x: 5 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-red-600 flex items-center justify-center shadow-lg shadow-orange-500/25">
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white text-lg mb-1">Transparent Pricing</h4>
+                      <p className="text-slate-400 text-sm">Know exactly what you're paying upfront. No hidden fees or surprise charges.</p>
+                    </div>
+                  </motion.div>
                 </div>
-              </div>
-              
-              <div className="flex items-start gap-3">
-                <div className="text-orange-400 mt-1">✓</div>
-                <div>
-                  <h4 className="font-semibold text-white">No bloated features you'll never use</h4>
+
+                <div className="pt-8 border-t border-slate-700/50">
+                  <h4 className="text-xl font-semibold mb-6 text-white">Need to talk first?</h4>
+                  <div className="space-y-4">
+                    <motion.button
+                      onClick={() => window.open('https://calendly.com/nathancwatkins23/web-consulting', '_blank')}
+                      className="flex items-center gap-3 text-blue-300 hover:text-blue-200 bg-slate-900/50 hover:bg-slate-900 border border-slate-700 hover:border-blue-500/50 rounded-lg px-4 py-3 w-full transition-all duration-300"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Calendar className="h-5 w-5" />
+                      <span className="font-medium">Schedule a Free Call</span>
+                    </motion.button>
+
+                    <motion.a
+                      href="tel:+18182888082"
+                      className="flex items-center gap-3 text-emerald-300 hover:text-emerald-200 bg-slate-900/50 hover:bg-slate-900 border border-slate-700 hover:border-emerald-500/50 rounded-lg px-4 py-3 w-full transition-all duration-300"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Phone className="h-5 w-5" />
+                      <span className="font-medium">(818) 288-8082</span>
+                    </motion.a>
+
+                    <motion.a
+                      href="mailto:nathancwatkins23@gmail.com"
+                      className="flex items-center gap-3 text-purple-300 hover:text-purple-200 bg-slate-900/50 hover:bg-slate-900 border border-slate-700 hover:border-purple-500/50 rounded-lg px-4 py-3 w-full transition-all duration-300"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Mail className="h-5 w-5" />
+                      <span className="font-medium">Send an Email</span>
+                    </motion.a>
+                  </div>
                 </div>
-              </div>
-              
-              <div className="flex items-start gap-3">
-                <div className="text-orange-400 mt-1">✓</div>
-                <div>
-                  <h4 className="font-semibold text-white">Ongoing support and updates included</h4>
-                </div>
-              </div>
-            </div>
-            
-            <div className="mt-16 pt-6 border-t border-slate-700">
-              <h4 className="text-xl font-medium mb-4">Have questions?</h4>
-              <div className="space-y-3">
-                <button 
-                  onClick={() => window.open('https://calendly.com/nathancwatkins23/web-consulting', '_blank')}
-                  className="flex items-center gap-2 text-blue-300 hover:text-blue-200 bg-transparent border-0 cursor-pointer p-0"
-                >
-                  <Calendar className="h-4 w-4" />
-                  Schedule a call
-                </button>
-                <a
-                  href="tel:+18182888082"
-                  className="flex items-center gap-2 text-blue-300 hover:text-blue-200"
-                >
-                  <Phone className="h-4 w-4" />
-                  (818) 288-8082
-                </a>
-                <a 
-                  href="mailto:nathancwatkins23@gmail.com" 
-                  className="flex items-center gap-2 text-blue-300 hover:text-blue-200"
-                >
-                  <Mail className="h-4 w-4" />
-                  nathancwatkins23@gmail.com
-                </a>
               </div>
             </div>
           </motion.div>
