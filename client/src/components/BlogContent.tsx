@@ -172,38 +172,129 @@ export default function BlogContent({ content }: BlogContentProps) {
             />
           </div>
         ),
-        table: ({ children, ...props }) => (
-          <div className="my-12 overflow-x-auto rounded-2xl shadow-2xl border border-slate-200">
-            <table className="w-full border-collapse bg-white" {...props}>
+        table: ({ children, ...props }: any) => {
+          // Check if this is a VS comparison (2 columns with no header row)
+          const tableContent = String(children);
+          const isVSComparison = tableContent.includes('|  |') ||
+                                 (tableContent.split('|').length <= 10);
+
+          if (isVSComparison) {
+            return (
+              <div className="my-12 overflow-hidden">
+                <table className="w-full border-separate border-spacing-4" {...props}>
+                  {children}
+                </table>
+              </div>
+            );
+          }
+
+          return (
+            <div className="my-12 overflow-x-auto rounded-2xl shadow-2xl border border-slate-200">
+              <table className="w-full border-collapse bg-white" {...props}>
+                {children}
+              </table>
+            </div>
+          );
+        },
+        thead: ({ children, ...props }: any) => {
+          // Check if this is a VS comparison
+          const headContent = String(children);
+          const isVSComparison = headContent.trim().length < 50;
+
+          if (isVSComparison) {
+            return (
+              <thead {...props}>
+                {children}
+              </thead>
+            );
+          }
+
+          return (
+            <thead className="bg-gradient-to-r from-primary via-blue-600 to-blue-700" {...props}>
               {children}
-            </table>
-          </div>
-        ),
-        thead: ({ children, ...props }) => (
-          <thead className="bg-gradient-to-r from-primary via-blue-600 to-blue-700" {...props}>
-            {children}
-          </thead>
-        ),
+            </thead>
+          );
+        },
         tbody: ({ children, ...props }) => (
           <tbody className="divide-y divide-slate-200 bg-white" {...props}>
             {children}
           </tbody>
         ),
-        tr: ({ children, ...props }) => (
-          <tr className="hover:bg-blue-50/50 transition-all duration-200" {...props}>
-            {children}
-          </tr>
-        ),
-        th: ({ children, ...props }) => (
-          <th className="px-6 py-5 text-left font-bold text-white text-base md:text-lg tracking-wide" {...props}>
-            {children}
-          </th>
-        ),
-        td: ({ children, ...props }) => (
-          <td className="px-6 py-5 text-slate-800 text-base md:text-lg font-medium leading-relaxed" {...props}>
-            {children}
-          </td>
-        ),
+        tr: ({ children, ...props }: any) => {
+          // Check if this is in a thead for VS comparison
+          const rowContent = String(children);
+          const isHeaderRow = rowContent.includes('Website Builder') ||
+                             rowContent.includes('Custom Website') ||
+                             rowContent.includes('Squarespace');
+
+          if (isHeaderRow) {
+            return <tr {...props}>{children}</tr>;
+          }
+
+          return (
+            <tr className="hover:bg-blue-50/50 transition-all duration-200" {...props}>
+              {children}
+            </tr>
+          );
+        },
+        th: ({ children, ...props }: any) => {
+          const content = String(children);
+          const isVSHeader = content.includes('Website Builder') ||
+                            content.includes('Custom Website') ||
+                            content.includes('Squarespace');
+
+          if (isVSHeader) {
+            const isRecommended = content.includes('Custom');
+            return (
+              <th
+                className={`px-6 py-4 text-left font-bold text-lg ${
+                  isRecommended
+                    ? 'bg-gradient-to-br from-primary to-blue-600 text-white rounded-t-xl'
+                    : 'bg-slate-100 text-slate-700 rounded-t-xl'
+                }`}
+                {...props}
+              >
+                {children}
+                {isRecommended && (
+                  <span className="ml-2 text-xs bg-white/20 px-2 py-0.5 rounded-full">RECOMMENDED</span>
+                )}
+              </th>
+            );
+          }
+
+          return (
+            <th className="px-6 py-5 text-left font-bold text-white text-base md:text-lg tracking-wide" {...props}>
+              {children}
+            </th>
+          );
+        },
+        td: ({ children, ...props }: any) => {
+          const content = String(children);
+          const isLabel = content.includes('Cost') ||
+                         content.includes('What You Own') ||
+                         content.includes('Asset Value') ||
+                         content.includes('Break-even');
+          const isNegative = content.includes('Nothing') || content === '$0' || content === 'Never';
+          const isPositive = content.includes('Everything') || content.includes('$10,000');
+
+          if (isLabel) {
+            return (
+              <td className="px-6 py-4 text-slate-600 font-semibold text-base" {...props}>
+                {children}
+              </td>
+            );
+          }
+
+          let cellClass = 'px-6 py-4 text-slate-800 text-lg font-medium';
+          if (isNegative) cellClass += ' text-red-600 font-bold';
+          if (isPositive) cellClass += ' text-green-600 font-bold';
+
+          return (
+            <td className={cellClass} {...props}>
+              {children}
+            </td>
+          );
+        },
         a: ({ href, children, ...props }) => (
           <a
             href={href}
