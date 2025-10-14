@@ -302,31 +302,6 @@ export default function BlogPost() {
           {/* Left Sidebar - Sticky */}
           <aside className="lg:col-span-3 space-y-6">
             <div className="sticky top-40">
-              {/* Quick Stats */}
-              <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 mb-6">
-                <h3 className="font-bold text-lg text-slate-900 mb-5">
-                  Quick Stats
-                </h3>
-                <div className="space-y-3">
-                  <div className="text-sm">
-                    <span className="text-slate-500">Read Time:</span>
-                    <span className="block text-xl font-bold text-primary">{post.readTime}</span>
-                  </div>
-                  {contentIsString && (
-                    <div className="text-sm">
-                      <span className="text-slate-500">Words:</span>
-                      <span className="block text-xl font-bold text-primary">
-                        {contentString.split(/\s+/).length.toLocaleString()}
-                      </span>
-                    </div>
-                  )}
-                  <div className="text-sm">
-                    <span className="text-slate-500">Category:</span>
-                    <span className="block text-xl font-bold text-primary">{post.category}</span>
-                  </div>
-                </div>
-              </div>
-
               {/* Table of Contents - Only for markdown posts */}
               {contentIsString && contentString.match(/^## .+$/gm) && (
                 <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
