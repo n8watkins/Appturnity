@@ -27,11 +27,13 @@ Between platform fees, commerce, email, and scheduling, she was paying $84 month
 
 Here's what these platforms *actually* cost in 2025:
 
-- **Wix Business**: $59/month + email ($10) + bookings ($24.50) = **$93.50/month**
-- **Squarespace**: $23/month + commerce ($18) + email ($20) + scheduling ($14) = **$84/month**
-- **Webflow**: $29/month + ecommerce ($42) + forms ($24) = **$95/month**
+| Platform | Base | Add-ons | Total/Month | 5-Year Cost |
+|----------|------|---------|-------------|-------------|
+| **Wix Business** | $59 | Email ($10) + Bookings ($24.50) | **$93.50** | $5,610 |
+| **Squarespace** | $23 | Commerce ($18) + Email ($20) + Scheduling ($14) | **$84** | $5,040 |
+| **Webflow** | $29 | Ecommerce ($42) + Forms ($24) | **$95** | $5,700 |
 
-> **5-year total: $5,040–$5,700. What you own: NOTHING**
+> **After 5 years: $5,040–$5,700 spent. What you own: NOTHING**
 
 ## The Hidden Costs
 
@@ -75,18 +77,13 @@ These differences separate page one from page three rankings.
 
 Let's see actual numbers for a small business:
 
-**Squarespace (5 Years)**
-- Monthly payment: $77
-- Total cost: **$4,620**
-- What you own: **NOTHING**
-- Asset value: **$0**
-
-**Custom Website (5 Years)**
-- Development: $5,500 *(one-time)*
-- Hosting: $30/month ($1,800 total)
-- Total cost: **$7,300**
-- What you own: **EVERYTHING**
-- Asset value: **$8,000-12,000**
+|  | **Squarespace** | **Custom Website** |
+|---|---|---|
+| **Upfront Cost** | $0 | $5,500 |
+| **Monthly Cost** | $77/month | $30/month (hosting) |
+| **5-Year Total** | $4,620 | $7,300 |
+| **What You Own** | Nothing | Everything |
+| **Asset Value** | $0 | $8,000-12,000 |
 
 > **Break-even: 4.7 years** | **10-year savings: $5,640 + $10k asset**
 
@@ -110,20 +107,16 @@ Most importantly, ownership means freedom. No more hostage situations. No surpri
 
 ## The Bottom Line
 
-**Website Builder (5 Years)**
-- Monthly cost: $100
-- Total investment: **$6,600**
-- What you own: **NOTHING**
-- Asset value: **$0**
+|  | **Website Builder** | **Custom Website** |
+|---|---|---|
+| **Upfront Cost** | $0 | $6,000 |
+| **Monthly Cost** | $100/month | $30/month (hosting) |
+| **5-Year Total** | $6,600 | $7,800 |
+| **What You Own** | Nothing | Everything |
+| **Asset Value** | $0 | $10,000+ |
+| **Break-even** | Never | 3 years |
 
-**Custom Website (5 Years)**
-- Development: $6,000 *(one-time)*
-- Hosting: $1,800 total
-- Total investment: **$7,800**
-- What you own: **EVERYTHING**
-- Asset value: **$10,000+**
-
-> **Break-even: 3 years. Then save $70/month forever.**
+> **After 3 years, you save $70/month forever.**
 
 ---
 
