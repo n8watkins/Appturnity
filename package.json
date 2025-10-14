@@ -19,6 +19,8 @@
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "@jridgewell/trace-mapping": "^0.3.25",
+    "@mdx-js/react": "^3.1.1",
+    "@mdx-js/rollup": "^3.1.1",
     "@radix-ui/react-accordion": "^1.2.1",
     "@radix-ui/react-alert-dialog": "^1.1.2",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
@@ -75,6 +77,9 @@
     "react-markdown": "^10.1.0",
     "react-resizable-panels": "^2.1.4",
     "recharts": "^2.13.0",
+    "remark-frontmatter": "^5.0.0",
+    "remark-gfm": "^4.0.1",
+    "remark-mdx-frontmatter": "^5.2.0",
     "resend": "^6.1.2",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",

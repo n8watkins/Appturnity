@@ -3,9 +3,14 @@ import react from "@vitejs/plugin-react";
 import themePlugin from "@replit/vite-plugin-shadcn-theme-json";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
+import mdx from "@mdx-js/rollup";
+import remarkGfm from "remark-gfm";
+import remarkFrontmatter from "remark-frontmatter";
+import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 
 export default defineConfig({
   plugins: [
+    { enforce: "pre", ...mdx({ remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter, remarkGfm] }) },
     react(),
     runtimeErrorOverlay(),
     themePlugin(),

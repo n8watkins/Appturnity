@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { formatBlogDate, formatBlogDateShort } from '@/lib/dateUtils';
 import LazyImage from '@/components/LazyImage';
 import NewsletterSignup from '@/components/NewsletterSignup';
+import BlogNavbar from '@/components/BlogNavbar';
+import BlogFooter from '@/components/BlogFooter';
 
 export default function Blog() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -55,6 +57,9 @@ export default function Blog() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      {/* Blog Navbar */}
+      <BlogNavbar />
+
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-primary/10 via-purple-50 to-blue-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -399,6 +404,9 @@ export default function Blog() {
           </aside>
         </div>
       </div>
+
+      {/* Blog Footer */}
+      <BlogFooter />
     </div>
   );
 }

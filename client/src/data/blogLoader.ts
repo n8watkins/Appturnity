@@ -15,7 +15,7 @@ export async function loadBlogPost(slug: string): Promise<BlogPost | null> {
 
   try {
     // Dynamically import the full blog posts data
-    const { allBlogPosts } = await import('./blogPosts');
+    const { allBlogPosts } = await import('./blog-posts');
     const post = allBlogPosts.find(p => p.slug === slug);
 
     if (post) {

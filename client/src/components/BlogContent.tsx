@@ -1,59 +1,90 @@
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { MDXProvider } from '@mdx-js/react';
+import * as BlogComponents from '@/components/blog';
 
 interface BlogContentProps {
-  content: string;
+  content: string | React.ComponentType;
 }
 
 export default function BlogContent({ content }: BlogContentProps) {
+  // If content is a React component (MDX), render it with MDX provider
+  if (typeof content === 'function') {
+    const ContentComponent = content as React.ComponentType;
+    return (
+      <MDXProvider components={BlogComponents}>
+        <div className="prose prose-lg max-w-none">
+          <ContentComponent />
+        </div>
+      </MDXProvider>
+    );
+  }
+
+  // Otherwise, render as markdown string
   return (
     <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
       components={{
         h1: ({ children, ...props }) => (
-          <motion.h1
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+          <h1
             className="text-5xl md:text-6xl font-black text-slate-900 mt-16 mb-8 leading-tight bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent"
             {...props}
           >
             {children}
-          </motion.h1>
+          </h1>
         ),
-        h2: ({ children, ...props }) => (
-          <motion.h2
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-3xl md:text-4xl font-bold text-slate-900 mt-14 mb-6 flex items-center gap-3 group"
-            {...props}
-          >
-            <span className="text-primary text-4xl opacity-30 group-hover:opacity-100 transition-opacity">#</span>
-            {children}
-          </motion.h2>
-        ),
-        h3: ({ children, ...props }) => (
-          <motion.h3
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4 }}
-            className="text-2xl md:text-3xl font-bold text-slate-800 mt-10 mb-4 pl-4 border-l-4 border-primary"
-            {...props}
-          >
-            {children}
-          </motion.h3>
-        ),
+        h2: ({ children, ...props }) => {
+          const text = String(children);
+          const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+          return (
+            <h2
+              id={id}
+              className="text-3xl md:text-4xl font-bold text-slate-900 mt-14 mb-6 flex items-center gap-3 group scroll-mt-24"
+              {...props}
+            >
+              <span className="text-primary text-4xl opacity-30 group-hover:opacity-100 transition-opacity">#</span>
+              {children}
+            </h2>
+          );
+        },
+        h3: ({ children, ...props }) => {
+          const text = String(children);
+          const isBefore = text.includes('Before') || text.includes('Option A');
+          const isAfter = text.includes('After') || text.includes('Option B');
+          const isStep = text.includes('Step') || text.includes('Week');
+
+          let className = "text-2xl md:text-3xl font-bold text-slate-800 mt-10 mb-4 pl-4 border-l-4 ";
+          let borderColor = "border-primary";
+
+          if (isBefore) {
+            borderColor = "border-red-500";
+            className = "text-2xl md:text-3xl font-bold text-red-700 mt-10 mb-4 pl-4 border-l-4 bg-red-50 py-2 rounded-r-lg";
+          } else if (isAfter) {
+            borderColor = "border-green-500";
+            className = "text-2xl md:text-3xl font-bold text-green-700 mt-10 mb-4 pl-4 border-l-4 bg-green-50 py-2 rounded-r-lg";
+          } else if (isStep) {
+            borderColor = "border-blue-500";
+            className = "text-2xl md:text-3xl font-bold text-blue-700 mt-10 mb-4 pl-4 border-l-4 bg-blue-50 py-2 rounded-r-lg";
+          }
+
+          return (
+            <h3
+              className={cn(className, borderColor)}
+              {...props}
+            >
+              {children}
+            </h3>
+          );
+        },
         p: ({ children, ...props }) => (
           <p className="text-lg md:text-xl text-slate-700 leading-relaxed mb-6" {...props}>
             {children}
           </p>
         ),
         strong: ({ children, ...props }) => (
-          <strong className="font-bold text-slate-900 bg-yellow-100 px-1 rounded" {...props}>
+          <strong className="font-bold text-slate-900" {...props}>
             {children}
           </strong>
         ),
@@ -68,31 +99,23 @@ export default function BlogContent({ content }: BlogContentProps) {
           </ul>
         ),
         li: ({ children, ...props }) => (
-          <motion.li
-            initial={{ opacity: 0, x: -10 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3 }}
+          <li
             className="flex items-start gap-3 text-lg text-slate-700"
             {...props}
           >
-            <span className="text-primary text-2xl mt-0.5 flex-shrink-0">→</span>
+            <span className="text-primary text-xl mt-1 flex-shrink-0">•</span>
             <span className="leading-relaxed">{children}</span>
-          </motion.li>
+          </li>
         ),
         blockquote: ({ children, ...props }) => (
-          <motion.blockquote
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+          <blockquote
             className="my-10 p-6 bg-gradient-to-r from-primary/5 via-blue-50 to-purple-50 border-l-4 border-primary rounded-lg shadow-sm"
             {...props}
           >
             <div className="text-xl md:text-2xl text-slate-800 italic font-medium">
               {children}
             </div>
-          </motion.blockquote>
+          </blockquote>
         ),
         code: ({ inline, children, ...props }: any) => {
           if (inline) {
@@ -102,17 +125,30 @@ export default function BlogContent({ content }: BlogContentProps) {
               </code>
             );
           }
+          // Check if it's a pricing comparison block
+          const content = String(children);
+          const isPricing = content.includes('$') && (content.includes('Total:') || content.includes('Cost:'));
+
+          if (isPricing) {
+            return (
+              <pre
+                className="block my-8 p-8 bg-gradient-to-br from-slate-50 to-slate-100 border-2 border-slate-200 rounded-2xl shadow-lg"
+                {...props}
+              >
+                <code className="text-slate-800 font-mono text-base md:text-lg whitespace-pre leading-loose">
+                  {children}
+                </code>
+              </pre>
+            );
+          }
+
           return (
-            <motion.code
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4 }}
+            <code
               className="block my-8 p-6 bg-slate-900 text-green-400 rounded-xl shadow-xl font-mono text-sm md:text-base overflow-x-auto"
               {...props}
             >
               {children}
-            </motion.code>
+            </code>
           );
         },
         hr: () => (
@@ -127,38 +163,44 @@ export default function BlogContent({ content }: BlogContentProps) {
           </div>
         ),
         img: ({ src, alt, ...props }) => (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="my-10"
-          >
+          <div className="my-8 max-w-3xl mx-auto">
             <img
               src={src}
               alt={alt}
-              className="w-full rounded-xl shadow-2xl"
+              className="w-full rounded-lg shadow-lg max-h-[400px] object-cover"
               {...props}
             />
-            {alt && (
-              <p className="text-center text-sm text-slate-500 mt-3 italic">{alt}</p>
-            )}
-          </motion.div>
+          </div>
         ),
         table: ({ children, ...props }) => (
-          <div className="my-8 overflow-x-auto">
-            <table className="w-full border-collapse rounded-lg overflow-hidden shadow-lg" {...props}>
+          <div className="my-12 overflow-x-auto rounded-2xl shadow-2xl border border-slate-200">
+            <table className="w-full border-collapse bg-white" {...props}>
               {children}
             </table>
           </div>
         ),
+        thead: ({ children, ...props }) => (
+          <thead className="bg-gradient-to-r from-primary via-blue-600 to-blue-700" {...props}>
+            {children}
+          </thead>
+        ),
+        tbody: ({ children, ...props }) => (
+          <tbody className="divide-y divide-slate-200 bg-white" {...props}>
+            {children}
+          </tbody>
+        ),
+        tr: ({ children, ...props }) => (
+          <tr className="hover:bg-blue-50/50 transition-all duration-200" {...props}>
+            {children}
+          </tr>
+        ),
         th: ({ children, ...props }) => (
-          <th className="bg-gradient-to-r from-primary to-blue-600 text-white p-4 text-left font-semibold" {...props}>
+          <th className="px-6 py-5 text-left font-bold text-white text-base md:text-lg tracking-wide" {...props}>
             {children}
           </th>
         ),
         td: ({ children, ...props }) => (
-          <td className="p-4 border-b border-slate-200 text-slate-700" {...props}>
+          <td className="px-6 py-5 text-slate-800 text-base md:text-lg font-medium leading-relaxed" {...props}>
             {children}
           </td>
         ),

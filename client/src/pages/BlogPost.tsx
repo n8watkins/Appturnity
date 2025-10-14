@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { useRoute, Link } from 'wouter';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, Tag, ArrowLeft, Share2, Twitter, Linkedin, Facebook } from 'lucide-react';
+import { Calendar, Clock, Tag, ArrowLeft, Share2, Linkedin, Facebook, X } from 'lucide-react';
 import { getMetadataBySlug, blogMetadata } from '@/data/blogMetadata';
 import { loadBlogPost, BlogPost as BlogPostType } from '@/data/blogLoader';
 import { Button } from '@/components/ui/button';
@@ -11,11 +11,15 @@ import { formatBlogDate } from '@/lib/dateUtils';
 import LazyImage from '@/components/LazyImage';
 import ReadingProgress from '@/components/ReadingProgress';
 import NewsletterSignup from '@/components/NewsletterSignup';
+import BlogNavbar from '@/components/BlogNavbar';
+import BlogFooter from '@/components/BlogFooter';
 
 export default function BlogPost() {
   const [, params] = useRoute('/blog/:slug');
   const [post, setPost] = useState<BlogPostType | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showStickyTitle, setShowStickyTitle] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>('');
   const metadata = params?.slug ? getMetadataBySlug(params.slug) : null;
 
   // Load post content dynamically
@@ -28,6 +32,51 @@ export default function BlogPost() {
       });
     }
   }, [params?.slug]);
+
+  // Scroll listener for sticky title and active section tracking
+  useEffect(() => {
+    const handleScroll = () => {
+      // Handle sticky title
+      const articleHeader = document.getElementById('article-header');
+      if (articleHeader) {
+        const headerBottom = articleHeader.getBoundingClientRect().bottom;
+        setShowStickyTitle(headerBottom < 80); // Show when article header goes above navbar
+      }
+
+      // Handle active section tracking for table of contents
+      if (typeof post?.content === 'string') {
+        const headings = post.content.match(/^## .+$/gm);
+        if (headings) {
+          const headingElements = headings.map(heading => {
+            const text = heading.slice(3);
+            const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+            const element = document.getElementById(id);
+            if (element) {
+              const rect = element.getBoundingClientRect();
+              return { id, top: rect.top };
+            }
+            return null;
+          }).filter(Boolean);
+
+          // Find the section that's currently in view (closest to top of viewport)
+          const activeElement = headingElements.find(el => el && el.top > 0 && el.top < 300);
+          if (activeElement) {
+            setActiveSection(activeElement.id);
+          } else if (headingElements.length > 0) {
+            // If scrolled past all sections, highlight the last one
+            const lastVisible = headingElements.filter(el => el && el.top < 300).pop();
+            if (lastVisible) {
+              setActiveSection(lastVisible.id);
+            }
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check on mount
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [post]);
 
   // Optimized related posts algorithm with scoring and memoization
   const relatedPosts = useMemo(() => {
@@ -164,31 +213,38 @@ export default function BlogPost() {
         </script>
       </Helmet>
 
-      {/* Simple Header with Appturnity Branding */}
-      <div className="bg-white border-b border-slate-200">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
-            <Link href="/blog">
-              <a className="inline-flex items-center gap-3 text-slate-600 hover:text-primary transition-colors text-sm font-medium">
-                <ArrowLeft className="h-4 w-4" />
-                <div className="flex items-center gap-2">
-                  <span className="font-bold text-primary">Appturnity</span>
-                  <span>Blog</span>
-                </div>
-              </a>
-            </Link>
-            <Link href="/">
-              <a className="text-sm text-slate-600 hover:text-primary transition-colors">
-                Visit Appturnity.com
-              </a>
-            </Link>
+      {/* Blog Navbar */}
+      <BlogNavbar />
+
+      {/* Sticky Title Bar */}
+      <motion.div
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: showStickyTitle ? 0 : -100, opacity: showStickyTitle ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+        className="fixed top-16 left-0 right-0 z-40 bg-white/95 backdrop-blur-sm border-b border-slate-200 shadow-lg"
+      >
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-4 min-w-0 flex-1">
+              <span className="inline-flex items-center px-3 py-1.5 bg-primary/10 text-primary rounded-lg text-sm font-bold flex-shrink-0">
+                {post.category}
+              </span>
+              <h2 className="text-base md:text-lg font-bold text-slate-900 truncate">
+                {post.title}
+              </h2>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-slate-600 flex-shrink-0">
+              <Clock className="h-4 w-4" />
+              <span className="font-medium">{post.readTime}</span>
+            </div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Article Header */}
-      <article className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <article className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
         <motion.header
+          id="article-header"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -232,167 +288,167 @@ export default function BlogPost() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="my-12"
+          className="my-8 max-w-4xl mx-auto"
         >
           <LazyImage
             src={post.image}
             alt={post.title}
-            className="w-full aspect-video object-cover rounded-2xl shadow-lg"
+            className="w-full aspect-video object-cover rounded-xl shadow-lg max-h-[450px]"
           />
         </motion.div>
 
         {/* Main Content Grid with Sidebars */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-12">
           {/* Left Sidebar - Sticky */}
-          <aside className="lg:col-span-2 space-y-6">
-            <div className="sticky top-24">
+          <aside className="lg:col-span-3 space-y-6">
+            <div className="sticky top-40">
               {/* Quick Stats */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="bg-gradient-to-br from-primary/5 to-blue-50 rounded-xl p-4 mb-6"
-              >
-                <h3 className="font-bold text-sm text-slate-900 mb-3 flex items-center gap-2">
-                  <span className="text-2xl">📊</span> Quick Stats
+              <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 mb-6">
+                <h3 className="font-bold text-lg text-slate-900 mb-5">
+                  Quick Stats
                 </h3>
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <div className="text-sm">
                     <span className="text-slate-500">Read Time:</span>
-                    <span className="block text-lg font-bold text-primary">{post.readTime}</span>
+                    <span className="block text-xl font-bold text-primary">{post.readTime}</span>
                   </div>
                   {contentIsString && (
                     <div className="text-sm">
                       <span className="text-slate-500">Words:</span>
-                      <span className="block text-lg font-bold text-primary">
+                      <span className="block text-xl font-bold text-primary">
                         {contentString.split(/\s+/).length.toLocaleString()}
                       </span>
                     </div>
                   )}
                   <div className="text-sm">
                     <span className="text-slate-500">Category:</span>
-                    <span className="block text-lg font-bold text-primary">{post.category}</span>
+                    <span className="block text-xl font-bold text-primary">{post.category}</span>
                   </div>
                 </div>
-              </motion.div>
+              </div>
 
               {/* Table of Contents - Only for markdown posts */}
               {contentIsString && contentString.match(/^## .+$/gm) && (
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
-                  className="bg-white rounded-xl shadow-sm border border-slate-200 p-4"
-                >
-                  <h3 className="font-bold text-sm text-slate-900 mb-3 flex items-center gap-2">
-                    <span className="text-2xl">📝</span> Contents
+                <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                  <h3 className="font-bold text-xl text-slate-900 mb-5 flex items-center gap-2">
+                    <span className="text-primary text-2xl">≡</span>
+                    Table of Contents
                   </h3>
-                  <nav className="space-y-1">
-                    {contentString.match(/^## .+$/gm)?.slice(0, 5).map((heading, idx) => (
-                      <a
-                        key={idx}
-                        href={`#${heading.slice(3).toLowerCase().replace(/\s+/g, '-')}`}
-                        className="block text-sm text-slate-600 hover:text-primary hover:pl-2 transition-all py-1"
-                      >
-                        {heading.slice(3)}
-                      </a>
-                    ))}
+                  <nav className="space-y-2 max-h-[60vh] overflow-y-auto pr-2">
+                    {contentString.match(/^## .+$/gm)?.map((heading, idx) => {
+                      const text = heading.slice(3);
+                      const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+                      const isActive = activeSection === id;
+                      return (
+                        <a
+                          key={idx}
+                          href={`#${id}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            document.getElementById(id)?.scrollIntoView({
+                              behavior: 'smooth',
+                              block: 'start'
+                            });
+                          }}
+                          className={`block text-base transition-all py-2.5 px-3 rounded-lg border-l-3 leading-snug ${
+                            isActive
+                              ? 'text-primary bg-blue-50 pl-4 border-primary font-semibold'
+                              : 'text-slate-600 hover:text-primary hover:bg-blue-50/50 hover:pl-4 border-transparent hover:border-primary'
+                          }`}
+                        >
+                          {text}
+                        </a>
+                      );
+                    })}
                   </nav>
-                </motion.div>
+                </div>
               )}
             </div>
           </aside>
 
           {/* Main Article Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="lg:col-span-8"
-          >
+          <div className="lg:col-span-6">
             <BlogContent content={post.content} />
-          </motion.div>
+          </div>
 
           {/* Right Sidebar - Sticky */}
-          <aside className="lg:col-span-2 space-y-6">
-            <div className="sticky top-24">
-              {/* Key Takeaways */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl p-4 mb-6"
-              >
-                <h3 className="font-bold text-sm text-slate-900 mb-3 flex items-center gap-2">
-                  <span className="text-2xl">💡</span> Key Points
+          <aside className="lg:col-span-3 space-y-6">
+            <div className="sticky top-40 space-y-5">
+              {/* Social Share */}
+              <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <h3 className="font-bold text-lg text-slate-900 mb-4">
+                  Share Article
                 </h3>
-                <ul className="space-y-2">
-                  <li className="text-sm text-slate-700 flex items-start gap-2">
-                    <span className="text-green-500 mt-0.5">✓</span>
-                    <span>Save thousands yearly</span>
-                  </li>
-                  <li className="text-sm text-slate-700 flex items-start gap-2">
-                    <span className="text-green-500 mt-0.5">✓</span>
-                    <span>Own your assets</span>
-                  </li>
-                  <li className="text-sm text-slate-700 flex items-start gap-2">
-                    <span className="text-green-500 mt-0.5">✓</span>
-                    <span>No platform limits</span>
-                  </li>
-                </ul>
-              </motion.div>
-
-              {/* Social Share Floating */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                className="bg-white rounded-xl shadow-sm border border-slate-200 p-4"
-              >
-                <h3 className="font-bold text-sm text-slate-900 mb-3 flex items-center gap-2">
-                  <span className="text-2xl">🚀</span> Share
-                </h3>
-                <div className="flex flex-col gap-2">
+                <div className="flex gap-2">
                   <a
                     href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 p-2 bg-[#1DA1F2]/10 hover:bg-[#1DA1F2]/20 text-[#1DA1F2] rounded-lg transition-colors text-sm font-medium"
+                    className="flex-1 flex items-center justify-center p-3 bg-black hover:bg-black/90 text-white rounded-lg transition-all hover:scale-105"
+                    aria-label="Share on X"
                   >
-                    <Twitter className="h-4 w-4" />
-                    Tweet
+                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
                   </a>
                   <a
                     href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 p-2 bg-[#0077B5]/10 hover:bg-[#0077B5]/20 text-[#0077B5] rounded-lg transition-colors text-sm font-medium"
+                    className="flex-1 flex items-center justify-center p-3 bg-[#0A66C2] hover:bg-[#095196] text-white rounded-lg transition-all hover:scale-105"
+                    aria-label="Share on LinkedIn"
                   >
-                    <Linkedin className="h-4 w-4" />
-                    Share
+                    <Linkedin className="h-5 w-5" />
+                  </a>
+                  <a
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center p-3 bg-[#0866FF] hover:bg-[#0654CC] text-white rounded-lg transition-all hover:scale-105"
+                    aria-label="Share on Facebook"
+                  >
+                    <Facebook className="h-5 w-5" />
                   </a>
                 </div>
-              </motion.div>
+              </div>
+
+              {/* Newsletter Signup */}
+              <div className="bg-gradient-to-br from-primary/10 to-blue-50 rounded-xl shadow-sm border border-primary/20 p-6">
+                <h3 className="font-bold text-lg text-slate-900 mb-2">
+                  Get Updates
+                </h3>
+                <p className="text-sm text-slate-600 mb-4 leading-relaxed">
+                  Subscribe to our newsletter for the latest articles and insights
+                </p>
+                <form className="space-y-3">
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    className="w-full px-4 py-2.5 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                  />
+                  <button
+                    type="submit"
+                    className="w-full px-4 py-2.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors text-sm font-semibold"
+                  >
+                    Subscribe
+                  </button>
+                </form>
+              </div>
 
               {/* Quick Action */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                className="bg-gradient-to-br from-primary to-blue-600 rounded-xl p-4 text-white"
-              >
-                <h3 className="font-bold text-sm mb-2">Ready to save?</h3>
-                <p className="text-xs mb-3 text-white/90">
-                  Calculate your savings vs website builders
+              <div className="bg-gradient-to-br from-primary to-blue-600 rounded-xl p-6 text-white shadow-lg">
+                <h3 className="font-bold text-lg mb-2">Ready to Get Started?</h3>
+                <p className="text-sm mb-4 text-white/90 leading-relaxed">
+                  Calculate your savings with a custom website
                 </p>
                 <Link href="/#pricing">
                   <a>
-                    <Button size="sm" variant="secondary" className="w-full bg-white text-primary hover:bg-white/90">
-                      Calculate →
+                    <Button size="sm" variant="secondary" className="w-full bg-white text-primary hover:bg-white/90 font-semibold py-2.5">
+                      View Pricing
                     </Button>
                   </a>
                 </Link>
-              </motion.div>
+              </div>
             </div>
           </aside>
         </div>
@@ -425,35 +481,18 @@ export default function BlogPost() {
           className="mt-8 pt-8 border-t border-slate-200"
         >
           <h3 className="text-sm font-semibold text-slate-900 mb-4">Share this article</h3>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#1DA1F2] hover:bg-[#1a8cd8] text-white rounded-lg transition-colors text-sm font-medium"
-            >
-              <Twitter className="h-4 w-4" />
-              Twitter
-            </a>
-            <a
-              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#0077B5] hover:bg-[#006399] text-white rounded-lg transition-colors text-sm font-medium"
-            >
-              <Linkedin className="h-4 w-4" />
-              LinkedIn
-            </a>
-            <a
-              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#1877F2] hover:bg-[#166fe5] text-white rounded-lg transition-colors text-sm font-medium"
-            >
-              <Facebook className="h-4 w-4" />
-              Facebook
-            </a>
-          </div>
+          <a
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-black hover:bg-black/90 text-white rounded-lg transition-all hover:scale-105 text-sm font-medium"
+            aria-label="Share on X"
+          >
+            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+            Share on X
+          </a>
         </motion.div>
 
         {/* Newsletter Section */}
@@ -490,7 +529,7 @@ export default function BlogPost() {
                   variant="secondary"
                   className="bg-white text-primary hover:bg-white/90 font-semibold"
                 >
-                  Calculate Your Savings with Appturnity →
+                  Calculate Your Savings with Appturnity
                 </Button>
               </a>
             </Link>
@@ -542,6 +581,9 @@ export default function BlogPost() {
           </div>
         </section>
       )}
+
+      {/* Blog Footer */}
+      <BlogFooter />
     </div>
   );
 }
