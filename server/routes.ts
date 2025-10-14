@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { z } from "zod";
-import { sendContactEmail, sendChatWidgetEmail } from "./email";
+import { sendContactEmail, sendChatWidgetEmail, sendNewsletterSubscription } from "./email";
 
 const contactFormSchema = z.object({
   name: z.string().min(2),
@@ -16,6 +16,12 @@ const chatWidgetSchema = z.object({
   email: z.string().email(),
   message: z.string().min(1).max(500),
   suggestions: z.array(z.string()).optional(),
+  hp_field: z.string().optional(),
+  recaptchaToken: z.string().min(1),
+});
+
+const newsletterSchema = z.object({
+  email: z.string().email(),
   hp_field: z.string().optional(),
   recaptchaToken: z.string().min(1),
 });
@@ -141,6 +147,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
       return res.status(500).json({
         success: false,
         message: "An error occurred while sending your message"
+      });
+    }
+  });
+
+  // Newsletter subscription endpoint
+  app.post("/api/newsletter", async (req, res) => {
+    try {
+      // Validate the request body
+      const validatedData = newsletterSchema.parse(req.body);
+
+      // Check honeypot field
+      if (validatedData.hp_field) {
+        return res.status(400).json({
+          success: false,
+          message: "Spam detected"
+        });
+      }
+
+      // Verify reCAPTCHA token
+      const isHuman = await verifyRecaptcha(validatedData.recaptchaToken);
+
+      if (!isHuman) {
+        return res.status(400).json({
+          success: false,
+          message: "reCAPTCHA verification failed. Please try again."
+        });
+      }
+
+      // Remove hp_field and recaptchaToken before sending email
+      const { hp_field, recaptchaToken, ...emailData } = validatedData;
+
+      // Send email notification
+      await sendNewsletterSubscription(emailData);
+
+      console.log("Newsletter subscription received:", validatedData.email);
+
+      return res.status(200).json({ success: true, message: "Successfully subscribed to newsletter" });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({
+          success: false,
+          message: "Validation failed",
+          errors: error.errors
+        });
+      }
+
+      console.error("Error processing newsletter subscription:", error);
+
+      return res.status(500).json({
+        success: false,
+        message: "An error occurred while subscribing to the newsletter"
       });
     }
   });

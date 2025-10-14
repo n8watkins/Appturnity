@@ -4,6 +4,7 @@ import { Mail, CheckCircle, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 interface NewsletterSignupProps {
   variant?: 'default' | 'compact' | 'inline';
@@ -17,28 +18,49 @@ export default function NewsletterSignup({
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!email) return;
 
+    if (!executeRecaptcha) {
+      setStatus('error');
+      setMessage('reCAPTCHA not ready. Please wait a moment and try again.');
+      setTimeout(() => {
+        setStatus('idle');
+        setMessage('');
+      }, 5000);
+      return;
+    }
+
     setStatus('loading');
 
     try {
-      // Here you would integrate with your email service (ConvertKit, Mailchimp, etc.)
-      // For now, we'll simulate an API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Execute reCAPTCHA to get token
+      const recaptchaToken = await executeRecaptcha('newsletter_subscription');
 
-      // Store email in localStorage as a simple solution
-      const subscribers = JSON.parse(localStorage.getItem('newsletter_subscribers') || '[]');
-      if (!subscribers.includes(email)) {
-        subscribers.push(email);
-        localStorage.setItem('newsletter_subscribers', JSON.stringify(subscribers));
+      // Call the API endpoint
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          recaptchaToken,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to subscribe');
       }
 
       setStatus('success');
-      setMessage('🎉 Welcome aboard! Check your inbox for a confirmation email.');
+      setMessage('🎉 Welcome aboard! You\'ve successfully subscribed to our newsletter.');
       setEmail('');
 
       // Reset after 5 seconds
@@ -48,7 +70,7 @@ export default function NewsletterSignup({
       }, 5000);
     } catch (error) {
       setStatus('error');
-      setMessage('Something went wrong. Please try again.');
+      setMessage(error instanceof Error ? error.message : 'Something went wrong. Please try again.');
       setTimeout(() => {
         setStatus('idle');
         setMessage('');
