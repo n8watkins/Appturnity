@@ -127,7 +127,12 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/features">
-                  <a className="hover:text-white transition-colors cursor-pointer">All Features</a>
+                  <a
+                    className="hover:text-white transition-colors cursor-pointer"
+                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                  >
+                    All Features
+                  </a>
                 </Link>
               </li>
               <li>
@@ -148,17 +153,30 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/blog">
-                  <a className="hover:text-white transition-colors cursor-pointer">Blog</a>
+                  <a
+                    className="hover:text-white transition-colors cursor-pointer"
+                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                  >
+                    Blog
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/terms">
-                  <a className="hover:text-white transition-colors cursor-pointer">Terms of Use</a>
+                  <a
+                    className="hover:text-white transition-colors cursor-pointer"
+                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                  >
+                    Terms of Use
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/privacy">
-                  <a className="hover:text-white transition-colors cursor-pointer">
+                  <a
+                    className="hover:text-white transition-colors cursor-pointer"
+                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                  >
                     Privacy Policy
                   </a>
                 </Link>
