@@ -212,30 +212,30 @@ export async function sendContactEmail(data: ContactFormData) {
           <div class="recommendation-box">
             <h3 style="margin: 0 0 10px 0; color: #667eea;">📊 Quiz Recommendation</h3>
             <div style="margin-bottom: 10px;">
-              <strong>Recommended Solution:</strong> ${recommendation.solutionName}
+              <strong>Recommended Solution:</strong> ${escapeHtml(recommendation.solutionName)}
             </div>
             <div style="margin-bottom: 10px;">
-              <strong>Timeline:</strong> ${recommendation.timeline}
+              <strong>Timeline:</strong> ${escapeHtml(recommendation.timeline)}
             </div>
             <div style="margin-bottom: 10px;">
-              <strong>Budget Range:</strong> ${recommendation.investmentRange}
+              <strong>Budget Range:</strong> ${escapeHtml(recommendation.investmentRange)}
             </div>
             <div class="score-grid">
               <div class="score-item">
                 <div class="score-label">Budget</div>
-                <div class="score-value">${recommendation.scores.budget}/4</div>
+                <div class="score-value">${escapeHtml(String(recommendation.scores.budget))}/4</div>
               </div>
               <div class="score-item">
                 <div class="score-label">Urgency</div>
-                <div class="score-value">${recommendation.scores.urgency}/4</div>
+                <div class="score-value">${escapeHtml(String(recommendation.scores.urgency))}/4</div>
               </div>
               <div class="score-item">
                 <div class="score-label">Complexity</div>
-                <div class="score-value">${recommendation.scores.complexity}/4</div>
+                <div class="score-value">${escapeHtml(String(recommendation.scores.complexity))}/4</div>
               </div>
             </div>
             <div style="margin-top: 10px; font-size: 13px; color: #6b7280;">
-              Total Score: <strong>${recommendation.priorityScore}/40+</strong>
+              Total Score: <strong>${escapeHtml(String(recommendation.priorityScore))}/40+</strong>
             </div>
           </div>
           `

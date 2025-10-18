@@ -147,8 +147,8 @@ app.use("/api", apiLimiter);
 app.use("/api/contact", contactLimiter);
 app.use("/api/chat", chatLimiter);
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: "100kb" }));
+app.use(express.urlencoded({ extended: false, limit: "100kb" }));
 
 // Log API request durations
 app.use((req, res, next) => {

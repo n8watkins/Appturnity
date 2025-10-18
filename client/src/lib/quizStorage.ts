@@ -2,6 +2,8 @@
  * Utility functions for managing quiz results with expiration
  */
 
+import { z } from "zod";
+
 const QUIZ_RESULTS_KEY = "quizResults";
 const QUIZ_EXPIRATION_MS = 15 * 60 * 1000; // 15 minutes
 
@@ -10,6 +12,13 @@ interface QuizStorageData {
   timestamp: number;
   expiresAt: number;
 }
+
+// Zod schema for validating localStorage data
+const quizStorageSchema = z.object({
+  results: z.record(z.union([z.string(), z.array(z.string())])),
+  timestamp: z.number(),
+  expiresAt: z.number(),
+});
 
 /**
  * Get quiz results from localStorage, checking for expiration
@@ -20,7 +29,17 @@ export function getQuizResults(): Record<string, string | string[]> | null {
     const stored = localStorage.getItem(QUIZ_RESULTS_KEY);
     if (!stored) return null;
 
-    const data: QuizStorageData = JSON.parse(stored);
+    // Parse and validate the data structure
+    const parsed = JSON.parse(stored);
+    const validationResult = quizStorageSchema.safeParse(parsed);
+
+    if (!validationResult.success) {
+      console.warn("Invalid quiz data format, clearing...", validationResult.error);
+      localStorage.removeItem(QUIZ_RESULTS_KEY);
+      return null;
+    }
+
+    const data = validationResult.data;
 
     // Check if expired
     if (Date.now() > data.expiresAt) {
