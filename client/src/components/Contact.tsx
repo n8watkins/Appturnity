@@ -9,7 +9,6 @@ import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
 import { Calendar, Mail, Phone } from 'lucide-react';
 import { CalendlyButton } from '@/components/ui/calendly-embed';
-import { getPriorityLabel } from '@/lib/quizRecommendations';
 
 import {
   Form,
@@ -125,228 +124,65 @@ export default function Contact() {
   // Format and populate contact message from calculator data
   const formatAndPopulateMessage = (data: any, source: 'calculator') => {
     // Format calculator data into a message
-      const labelMap: Record<string, string> = {
-      currentSituation: "Current Situation",
-      industry: "Industry",
-      businessGoal: "Business Goals",
-      targetAudience: "Target Audience",
-      features: "Desired Features",
-      desiredFeatures: "Advanced Features",
-      projectScope: "Solution Type",
-      pageCount: "Number of Pages",
-      teamSize: "Team Size",
-      existingAssets: "Brand Materials",
-      timeline: "Launch Timeline",
-      investment: "Investment Budget",
-      companySize: "Company Size",
-      decisionMaker: "Decision Authority",
-    };
+    const sections = [];
 
-    const valueMap: Record<string, Record<string, string>> = {
-      currentSituation: {
-        "no-website": "No Website Yet",
-        "outdated-website": "Outdated Website",
-        "losing-leads": "Losing Leads",
-        "paying-too-much": "Paying Too Much for SaaS",
-        "manual-processes": "Too Many Manual Processes",
-      },
-      industry: {
-        "professional-services": "Professional Services",
-        "healthcare": "Healthcare",
-        "home-services": "Home Services",
-        "retail-ecommerce": "Retail/E-commerce",
-        "real-estate": "Real Estate",
-        "technology": "Technology/SaaS",
-        "hospitality": "Hospitality",
-        "other": "Other",
-      },
-      businessGoal: {
-        "more-customers": "Get More Customers",
-        "save-time": "Save Time",
-        "reduce-costs": "Reduce Costs",
-        "improve-credibility": "Look More Professional",
-        "scale-business": "Scale My Business",
-      },
-      targetAudience: {
-        "b2b": "Businesses (B2B)",
-        "b2c": "Consumers (B2C)",
-        "both": "Both B2B and B2C",
-        "internal": "Internal Team",
-      },
-      features: {
-        "contact-forms": "Contact Forms",
-        "booking-scheduling": "Booking/Scheduling",
-        "payment-processing": "Payment Processing",
-        "user-accounts": "User Accounts/Login",
-        "cms": "Content Management",
-        "analytics": "Analytics Dashboard",
-        "integrations": "Third-party Integrations",
-        "none": "None / Basic Website",
-      },
-      desiredFeatures: {
-        "seo": "Advanced SEO",
-        "email-automation": "Email Automation",
-        "newsletter": "Newsletter Management",
-        "forms": "Custom Forms",
-        "cms": "CMS",
-        "blog": "Blog",
-        "multilang": "Multi-language",
-        "auth": "User Authentication",
-        "ecommerce": "E-commerce",
-        "payment": "Payments",
-        "booking": "Booking",
-        "api": "API Integration",
-        "chat": "Live Chat",
-        "crm": "CRM",
-        "ai": "Generative AI",
-        "animations": "Animations"
-      },
-      pageCount: {
-        "1-5": "1-5 Pages",
-        "6-12": "6-12 Pages",
-        "13-20": "13-20 Pages",
-        "20+": "20+ Pages",
-        "not-sure": "Not Sure Yet"
-      },
-      teamSize: {
-        "1-3": "1-3 Users",
-        "4-7": "4-7 Users",
-        "8-15": "8-15 Users",
-        "15+": "15+ Users"
-      },
-      projectScope: {
-        "simple-landing": "Simple Landing Page",
-        "full-website": "Complete Website",
-        "custom-app": "Custom Web Application",
-        "ecommerce-store": "E-commerce Store",
-        "not-sure": "Not Sure Yet",
-      },
-      existingAssets: {
-        "full-brand": "Yes, Full Branding",
-        "partial-brand": "Some Materials",
-        "no-brand": "No, Need Help",
-      },
-      timeline: {
-        "urgent": "Within 4-6 Weeks",
-        "normal": "6-10 Weeks",
-        "planning": "10-16 Weeks",
-        "flexible": "16+ Weeks",
-      },
-      investment: {
-        "budget-conscious": "$750 - $1,500",
-        "standard": "$1,700 - $3,000",
-        "premium": "$3,200 - $5,500",
-        "enterprise": "$5,500+",
-        "premium-budget": "$8,000+",
-        "need-guidance": "Need Guidance",
-      },
-      companySize: {
-        "solo": "Just Me",
-        "2-10": "2-10 Employees",
-        "11-50": "11-50 Employees",
-        "51-200": "51-200 Employees",
-        "200+": "200+ Employees",
-      },
-      decisionMaker: {
-        "owner": "Owner/Founder",
-        "executive": "Executive/C-Level",
-        "manager": "Manager",
-        "team-member": "Team Member",
-      },
-    };
-
-      const formattedSections = Object.entries(data)
-        .map(([key, value]) => {
-          const label = labelMap[key] || key;
-          if (Array.isArray(value)) {
-            const displayValues = value
-              .map(v => `  • ${valueMap[key]?.[v] || v}`)
-              .join("\n");
-            return `${label}:\n${displayValues}`;
-          } else {
-            const displayValue = valueMap[key]?.[value] || value;
-            return `${label}:\n  • ${displayValue}`;
-          }
-        })
-        .join("\n\n");
-
-      // Add discount information
-      const discountNote = "\n\n🎉 Quiz Completed: I understand I qualify for a 10% discount on my project!";
-
-      finalMessage = `I'm interested in discussing a project with the following details:\n\n${formattedSections}${discountNote}\n\nLooking forward to hearing from you!`;
-    } else if (source === 'calculator') {
-      // Format calculator data into a message
-      const sections = [];
-
-      if (data.pages) {
-        sections.push(`Number of Pages: ${data.pages}`);
-      }
-
-      if (data.selectedFeatures && data.selectedFeatures.length > 0) {
-        const featureNames = data.selectedFeatures
-          .filter((id: string) => {
-            // Filter out always-included features for cleaner message
-            const alwaysIncluded = ['analytics', 'ssl-hosting', 'responsive', 'basic-seo', 'contact-forms', 'domain-setup'];
-            return !alwaysIncluded.includes(id);
-          })
-          .map((id: string) => {
-            // Convert feature IDs to readable names
-            const nameMap: Record<string, string> = {
-              'seo': 'Advanced SEO',
-              'email-templates': 'Email Templates',
-              'email-automation': 'Email Automation',
-              'newsletter': 'Newsletter Management',
-              'forms': 'Custom Forms',
-              'cms': 'CMS',
-              'blog': 'Blog',
-              'multilang': 'Multi-language',
-              'auth': 'User Authentication',
-              'ecommerce': 'E-commerce',
-              'payment': 'Payments',
-              'booking': 'Booking',
-              'api': 'API Integration',
-              'chat': 'Live Chat',
-              'crm': 'CRM',
-              'cdn': 'CDN',
-              'ai': 'Generative AI',
-              'animations': 'Animations'
-            };
-            return nameMap[id] || id;
-          });
-
-        if (featureNames.length > 0) {
-          sections.push(`Advanced Features:\n${featureNames.map(f => `  • ${f}`).join('\n')}`);
-        }
-      }
-
-      if (data.totalPrice) {
-        sections.push(`Estimated Investment: $${data.totalPrice.toLocaleString()}`);
-      }
-
-      if (data.timeline) {
-        sections.push(`Timeline: ${data.timeline}`);
-      }
-
-      // Check if calculator was prefilled from quiz (has quiz results stored)
-      const quizResults = localStorage.getItem('quizResults');
-      const discountNote = quizResults ? "\n\n🎉 Quiz Completed: I understand I qualify for a 10% discount on my project!" : "";
-
-      finalMessage = `I'm interested in discussing a project with the following details:\n\n${sections.join('\n\n')}${discountNote}\n\nLooking forward to hearing from you!`;
+    if (data.pages) {
+      sections.push(`Number of Pages: ${data.pages}`);
     }
+
+    if (data.selectedFeatures && data.selectedFeatures.length > 0) {
+      const featureNames = data.selectedFeatures
+        .filter((id: string) => {
+          // Filter out always-included features for cleaner message
+          const alwaysIncluded = ['analytics', 'ssl-hosting', 'responsive', 'basic-seo', 'contact-forms', 'domain-setup'];
+          return !alwaysIncluded.includes(id);
+        })
+        .map((id: string) => {
+          // Convert feature IDs to readable names
+          const nameMap: Record<string, string> = {
+            'seo': 'Advanced SEO',
+            'email-templates': 'Email Templates',
+            'email-automation': 'Email Automation',
+            'newsletter': 'Newsletter Management',
+            'forms': 'Custom Forms',
+            'cms': 'CMS',
+            'blog': 'Blog',
+            'multilang': 'Multi-language',
+            'auth': 'User Authentication',
+            'ecommerce': 'E-commerce',
+            'payment': 'Payments',
+            'booking': 'Booking',
+            'api': 'API Integration',
+            'chat': 'Live Chat',
+            'crm': 'CRM',
+            'cdn': 'CDN',
+            'ai': 'Generative AI',
+            'animations': 'Animations'
+          };
+          return nameMap[id] || id;
+        });
+
+      if (featureNames.length > 0) {
+        sections.push(`Advanced Features:\n${featureNames.map(f => `  • ${f}`).join('\n')}`);
+      }
+    }
+
+    if (data.totalPrice) {
+      sections.push(`Estimated Investment: $${data.totalPrice.toLocaleString()}`);
+    }
+
+    if (data.timeline) {
+      sections.push(`Timeline: ${data.timeline}`);
+    }
+
+    // Check if calculator was prefilled from quiz (has quiz results stored)
+    const quizResults = localStorage.getItem('quizResults');
+    const discountNote = quizResults ? "\n\n🎉 Quiz Completed: I understand I qualify for a 10% discount on my project!" : "";
+
+    const finalMessage = `I'm interested in discussing a project with the following details:\n\n${sections.join('\n\n')}${discountNote}\n\nLooking forward to hearing from you!`;
 
     // Set the message in the form
     form.setValue('message', finalMessage);
-  };
-
-  // Handle quiz retake
-  const handleRetakeQuiz = () => {
-    setRecommendation(null);
-    setProjectDetails(null);
-    form.setValue('message', '');
-    clearQuizResults();
-    setQuizKey(prev => prev + 1); // Force quiz to remount and reset
-    // Scroll to quiz
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
