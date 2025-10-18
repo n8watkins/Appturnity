@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Check, Star, ArrowRight, Sparkles, FileText, Clock, Target } from "lucide-react";
+import { Check, Star, ArrowRight, Sparkles, FileText, Clock, Target, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { handleSmoothScroll } from "@/lib/utils";
 import { Link } from "wouter";
@@ -219,19 +219,25 @@ export default function PricingTiers() {
           {pricingTiers.map((tier, index) => (
             <motion.div
               key={tier.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{
+                opacity: 0,
+                y: 0
+              }}
+              whileInView={{
+                opacity: 1,
+                y: (recommendedTier === tier.name || (!recommendedTier && tier.popular)) ? -32 : 0
+              }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`relative transition-transform duration-300 ${
-                recommendedTier === tier.name || tier.highlight ? "lg:-translate-y-8 lg:scale-105" : ""
+              className={`relative ${
+                recommendedTier === tier.name || (!recommendedTier && tier.popular) ? "lg:scale-105" : ""
               }`}
             >
               {/* Recommended Badge - takes priority when quiz is taken */}
               {recommendedTier === tier.name ? (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
                   <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-lg whitespace-nowrap">
-                    <Target className="h-3.5 w-3.5" />
+                    <CheckCircle2 className="h-3.5 w-3.5" />
                     RECOMMENDED FOR YOU
                   </div>
                 </div>

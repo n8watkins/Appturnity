@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Link, useLocation } from "wouter";
+import { useLocation } from "wouter";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Menu, Sparkles } from "lucide-react";
-import { handleSmoothScroll, scrollToElement } from "@/lib/utils";
+import { scrollToElement } from "@/lib/utils";
 import { Helmet } from "react-helmet";
 
 
@@ -82,14 +82,13 @@ export default function Header() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
-            <Link href="/">
-              <a
-                className="flex items-center space-x-2 cursor-pointer"
-                onClick={handleLogoClick}
-              >
-                <img src="/appturnity.webp" alt="Appturnity" width={200} height={200} />
-              </a>
-            </Link>
+            <a
+              href="/"
+              className="flex items-center space-x-2 cursor-pointer"
+              onClick={handleLogoClick}
+            >
+              <img src="/appturnity.webp" alt="Appturnity" width={200} height={200} />
+            </a>
           </div>
           
           <nav className="hidden md:flex items-center space-x-6">
@@ -136,14 +135,13 @@ export default function Header() {
             >
               Contact
             </a>
-            <Link href="/blog">
-              <a
-                className="px-4 py-2 rounded-md bg-white border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-200 shadow-sm"
-                onClick={handleBlogClick}
-              >
-                Check out our Blog
-              </a>
-            </Link>
+            <a
+              href="/blog"
+              className="px-4 py-2 rounded-md bg-white border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-200 shadow-sm"
+              onClick={handleBlogClick}
+            >
+              Check out our Blog
+            </a>
           </nav>
           
           <div className="md:hidden">
@@ -198,17 +196,16 @@ export default function Header() {
                   >
                     Contact
                   </a>
-                  <Link href="/blog">
-                    <a
-                      className="px-4 py-2 rounded-md bg-white border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-200 text-center shadow-sm"
-                      onClick={(e) => {
-                        setIsOpen(false);
-                        handleBlogClick(e);
-                      }}
-                    >
-                      Check out our Blog
-                    </a>
-                  </Link>
+                  <a
+                    href="/blog"
+                    className="px-4 py-2 rounded-md bg-white border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-200 text-center shadow-sm"
+                    onClick={(e) => {
+                      setIsOpen(false);
+                      handleBlogClick(e);
+                    }}
+                  >
+                    Check out our Blog
+                  </a>
                 </div>
               </SheetContent>
             </Sheet>

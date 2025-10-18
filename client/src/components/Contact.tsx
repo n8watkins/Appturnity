@@ -9,10 +9,7 @@ import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
 import { Calendar, Mail, Phone } from 'lucide-react';
 import { CalendlyButton } from '@/components/ui/calendly-embed';
-import ServiceQuiz from '@/components/ServiceQuiz';
-import RecommendationCard from '@/components/RecommendationCard';
-import { getRecommendation, getPriorityLabel, type Recommendation } from '@/lib/quizRecommendations';
-import { clearQuizResults } from '@/lib/quizStorage';
+import { getPriorityLabel } from '@/lib/quizRecommendations';
 
 import {
   Form,
@@ -38,28 +35,11 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [textareaHeight, setTextareaHeight] = useState('240px'); // Increased default height
-  const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
-  const [quizKey, setQuizKey] = useState(0); // Key to force quiz remount
-  const [autoStartQuiz, setAutoStartQuiz] = useState(false);
   const [projectDetails, setProjectDetails] = useState<any>(null); // Store quiz/calculator data
   const { toast } = useToast();
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [, setLocation] = useLocation();
   const formButtonRef = useRef<HTMLButtonElement>(null);
-
-  // Listen for custom quiz start event
-  useEffect(() => {
-    const handleStartQuiz = () => {
-      setAutoStartQuiz(true);
-      setQuizKey(prev => prev + 1);
-    };
-
-    window.addEventListener('startQuiz', handleStartQuiz);
-
-    return () => {
-      window.removeEventListener('startQuiz', handleStartQuiz);
-    };
-  }, []);
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -87,21 +67,6 @@ export default function Contact() {
       setTextareaHeight('240px'); // Default height
     }
   }, [messageValue]);
-
-  // Listen for quiz completion and populate contact form
-  useEffect(() => {
-    const handleQuizCompleted = (event: CustomEvent) => {
-      const quizData = event.detail;
-      setProjectDetails({ source: 'quiz', data: quizData });
-      formatAndPopulateMessage(quizData, 'quiz');
-    };
-
-    window.addEventListener('quizCompleted', handleQuizCompleted as EventListener);
-
-    return () => {
-      window.removeEventListener('quizCompleted', handleQuizCompleted as EventListener);
-    };
-  }, []);
 
   // Listen for calculator changes and update contact form
   useEffect(() => {
@@ -133,30 +98,16 @@ export default function Contact() {
       // Execute reCAPTCHA to get token
       const recaptchaToken = await executeRecaptcha('contact_form');
 
-      // Prepare request data with recommendation if available
+      // Prepare request data
       const requestData: any = {
         ...data,
         recaptchaToken,
       };
 
-      // Add recommendation data if quiz was completed
-      if (recommendation) {
-        requestData.recommendation = {
-          solutionName: recommendation.solutionName,
-          solutionType: recommendation.solutionType,
-          timeline: recommendation.timeline,
-          investmentRange: recommendation.investmentRange,
-          priorityScore: recommendation.priorityScore,
-          priorityLabel: getPriorityLabel(recommendation.priorityScore),
-          scores: recommendation.scores,
-        };
-      }
-
-      // Send form data with reCAPTCHA token and recommendation
+      // Send form data with reCAPTCHA token
       await apiRequest('POST', '/api/contact', requestData);
 
       form.reset();
-      setRecommendation(null);
 
       // Redirect to success page
       setLocation('/success');
@@ -171,16 +122,9 @@ export default function Contact() {
     }
   }
 
-  // Format and populate contact message from quiz or calculator data
-  const formatAndPopulateMessage = (data: any, source: 'quiz' | 'calculator') => {
-    let finalMessage = '';
-
-    if (source === 'quiz') {
-      // Generate recommendation
-      const rec = getRecommendation(data);
-      setRecommendation(rec);
-
-      // Format quiz results into a message
+  // Format and populate contact message from calculator data
+  const formatAndPopulateMessage = (data: any, source: 'calculator') => {
+    // Format calculator data into a message
       const labelMap: Record<string, string> = {
       currentSituation: "Current Situation",
       industry: "Industry",
@@ -434,27 +378,6 @@ export default function Contact() {
             Ready to get started? Fill out the form below or schedule a free consultation call.
           </p>
         </motion.div>
-
-        {/* Recommendation Card */}
-        {recommendation && (
-          <motion.div
-            className="max-w-3xl mx-auto mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <RecommendationCard
-              recommendation={recommendation}
-              onContinue={() => {
-                formButtonRef.current?.scrollIntoView({
-                  behavior: 'smooth',
-                  block: 'center'
-                });
-              }}
-              onRetake={handleRetakeQuiz}
-            />
-          </motion.div>
-        )}
 
         {/* Two columns side by side - contact form */}
         <motion.div
