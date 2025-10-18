@@ -5,6 +5,8 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { logger } from "./lib/logger";
+import { requestIdMiddleware } from "./lib/requestId";
 
 // Validate required environment variables
 function validateEnvVars() {
@@ -15,31 +17,30 @@ function validateEnvVars() {
   if (missing.length > 0) {
     if (isDevelopment) {
       // In development, just warn - allow server to start
-      console.warn("⚠️  Missing environment variables (development mode):");
-      missing.forEach((key) => console.warn(`   - ${key}`));
-      console.warn("\n🔧 Development Mode: Server will start anyway");
-      console.warn("📝 Note: Contact form submissions will fail without RESEND_API_KEY");
-      console.warn("💡 Copy .env.example to .env and add your keys when ready\n");
+      logger.warn("Missing environment variables (development mode)", { missing });
+      logger.warn("Development Mode: Server will start anyway");
+      logger.warn("Note: Contact form submissions will fail without RESEND_API_KEY");
+      logger.warn("Copy .env.example to .env and add your keys when ready");
     } else {
       // In production, fail hard
-      console.error("❌ Missing required environment variables:");
-      missing.forEach((key) => console.error(`   - ${key}`));
-      console.error("\nPlease create a .env file with these variables.");
-      console.error("See .env.example for reference.\n");
+      logger.error("Missing required environment variables", undefined, { missing });
+      logger.error(
+        "Please create a .env file with these variables. See .env.example for reference."
+      );
       process.exit(1);
     }
   }
 
   // Warn about optional but recommended variables
   if (!process.env.RECAPTCHA_SECRET_KEY) {
-    console.warn("⚠️  RECAPTCHA_SECRET_KEY not set - reCAPTCHA verification will be skipped");
+    logger.warn("RECAPTCHA_SECRET_KEY not set - reCAPTCHA verification will be skipped");
   }
   if (!process.env.VITE_RECAPTCHA_SITE_KEY) {
-    console.warn("⚠️  VITE_RECAPTCHA_SITE_KEY not set - reCAPTCHA won't load on frontend");
+    logger.warn("VITE_RECAPTCHA_SITE_KEY not set - reCAPTCHA won't load on frontend");
   }
 
   if (missing.length === 0) {
-    log("✓ Environment variables validated");
+    logger.info("Environment variables validated");
   }
 }
 
@@ -143,38 +144,25 @@ const chatLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+app.use(express.json({ limit: "100kb" }));
+app.use(express.urlencoded({ extended: false, limit: "100kb" }));
+
+// Add request ID to all requests
+app.use(requestIdMiddleware);
+
 app.use("/api", apiLimiter);
 app.use("/api/contact", contactLimiter);
 app.use("/api/chat", chatLimiter);
 
-app.use(express.json({ limit: "100kb" }));
-app.use(express.urlencoded({ extended: false, limit: "100kb" }));
-
-// Log API request durations
+// Log API request durations with structured logging
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
-  let capturedJsonResponse: Record<string, any> | undefined = undefined;
-
-  const originalResJson = res.json;
-  res.json = function (bodyJson, ...args) {
-    capturedJsonResponse = bodyJson;
-    return originalResJson.apply(res, [bodyJson, ...args]);
-  };
 
   res.on("finish", () => {
     const duration = Date.now() - start;
     if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
-      }
-
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
-      }
-
-      log(logLine);
+      logger.apiRequest(req.method, path, res.statusCode, duration, req.requestId);
     }
   });
 
@@ -186,11 +174,23 @@ app.use((req, res, next) => {
   const server = await registerRoutes(app);
 
   // Error handling middleware
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
+
+    // Log error with structured logging
+    logger.error(
+      "Request error",
+      err,
+      {
+        status,
+        url: req.url,
+        method: req.method,
+      },
+      req.requestId
+    );
+
     res.status(status).json({ message });
-    throw err;
   });
 
   // Setting up Vite only in development mode
@@ -207,22 +207,24 @@ app.use((req, res, next) => {
   function tryListen(port: number) {
     server
       .listen(port, "localhost", () => {
-        log(`http://localhost:${port} - Server is running`);
+        logger.info(`Server is running on http://localhost:${port}`);
       })
       .on("error", (err: any) => {
         if (err.code === "EADDRINUSE") {
           if (port < maxPort) {
-            console.warn(`⚠️  Port ${port} is in use, trying ${port + 1}...`);
+            logger.warn(`Port ${port} is in use, trying ${port + 1}...`);
             tryListen(port + 1);
           } else {
-            console.error(
-              `❌ Could not find an available port between ${preferredPort} and ${maxPort}`
+            logger.error(
+              `Could not find an available port between ${preferredPort} and ${maxPort}`,
+              err,
+              { preferredPort, maxPort }
             );
-            console.error(`   Please close other applications or specify a different port.`);
+            logger.error("Please close other applications or specify a different port.");
             process.exit(1);
           }
         } else {
-          console.error(`❌ Error starting server: ${err.message}`);
+          logger.error("Error starting server", err);
           process.exit(1);
         }
       });

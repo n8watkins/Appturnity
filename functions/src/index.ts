@@ -9,9 +9,58 @@ import { registerRoutes } from "./routes";
 // Create Express app
 const app = express();
 
+// CORS configuration - whitelist allowed origins
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  "https://appturnity.web.app",
+  "https://appturnity.firebaseapp.com",
+].filter(Boolean);
+
 // Security middleware
-app.use(helmet());
-app.use(cors({ origin: true })); // Firebase Functions handles CORS automatically
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: [
+          "'self'",
+          "https://www.google.com",
+          "https://www.gstatic.com",
+          "https://assets.calendly.com",
+        ],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'", // Required for styled-components and Tailwind
+          "https://assets.calendly.com",
+        ],
+        imgSrc: ["'self'", "data:", "https:", "blob:"],
+        connectSrc: ["'self'", "https://www.google.com"],
+        frameSrc: ["https://www.google.com", "https://calendly.com"],
+        fontSrc: ["'self'", "data:"],
+      },
+    },
+  })
+);
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (mobile apps, Postman, curl, etc.)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.warn(`Blocked CORS request from unauthorized origin: ${origin}`);
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 app.use(express.json({ limit: "100kb" }));
 app.use(express.urlencoded({ extended: false, limit: "100kb" }));
 
@@ -55,10 +104,19 @@ app.get("/api/health", (req: Request, res: Response) => {
 });
 
 // Error handling middleware
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error("Error:", err);
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   const status = err.status || err.statusCode || 500;
   const message = err.message || "Internal Server Error";
+
+  // Log error details
+  console.error("Error:", {
+    status,
+    message: err.message,
+    stack: process.env.NODE_ENV === "development" ? err.stack : undefined,
+    url: _req.url,
+    method: _req.method,
+  });
+
   res.status(status).json({ message });
 });
 

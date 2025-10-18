@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { z } from "zod";
 import { sendContactEmail, sendChatWidgetEmail, sendNewsletterSubscription } from "./email";
+import { logger } from "./lib/logger";
 
 const contactFormSchema = z.object({
   name: z.string().min(2),
@@ -34,7 +35,7 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
     if (process.env.NODE_ENV === "production") {
       throw new Error("RECAPTCHA_SECRET_KEY is required in production");
     }
-    console.warn("RECAPTCHA_SECRET_KEY not configured, skipping verification (DEV ONLY)");
+    logger.warn("RECAPTCHA_SECRET_KEY not configured, skipping verification (DEV ONLY)");
     return true;
   }
 
@@ -44,7 +45,7 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
     process.env.ALLOW_TEST_RECAPTCHA === "true" &&
     token === "test_token"
   ) {
-    console.log("Development mode: accepting test_token for email testing");
+    logger.debug("Development mode: accepting test_token for email testing");
     return true;
   }
 
@@ -64,7 +65,7 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
     // 0.5 is a reasonable threshold (higher = more likely human)
     return data.success && data.score >= 0.5;
   } catch (error) {
-    console.error("reCAPTCHA verification error:", error);
+    logger.error("reCAPTCHA verification error", error as Error);
     return false;
   }
 }
@@ -92,7 +93,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Send email notification
       await sendContactEmail(emailData);
 
-      console.log("Contact form submission sent via email:", validatedData.email);
+      logger.info("Contact form submission sent", { email: validatedData.email }, req.requestId);
 
       return res.status(200).json({ success: true, message: "Form submitted successfully" });
     } catch (error) {
@@ -104,7 +105,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      console.error("Error processing contact form:", error);
+      logger.error("Error processing contact form", error as Error, undefined, req.requestId);
 
       return res.status(500).json({
         success: false,
@@ -143,7 +144,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Send email notification
       await sendChatWidgetEmail(emailData);
 
-      console.log("Chat widget submission sent via email:", validatedData.email);
+      logger.info("Chat widget submission sent", { email: validatedData.email }, req.requestId);
 
       return res.status(200).json({ success: true, message: "Message sent successfully" });
     } catch (error) {
@@ -155,7 +156,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      console.error("Error processing chat widget:", error);
+      logger.error("Error processing chat widget", error as Error, undefined, req.requestId);
 
       return res.status(500).json({
         success: false,
@@ -194,7 +195,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Send email notification
       await sendNewsletterSubscription(emailData);
 
-      console.log("Newsletter subscription received:", validatedData.email);
+      logger.info(
+        "Newsletter subscription received",
+        { email: validatedData.email },
+        req.requestId
+      );
 
       return res
         .status(200)
@@ -208,7 +213,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      console.error("Error processing newsletter subscription:", error);
+      logger.error(
+        "Error processing newsletter subscription",
+        error as Error,
+        undefined,
+        req.requestId
+      );
 
       return res.status(500).json({
         success: false,

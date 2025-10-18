@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { logger } from "./lib/logger";
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
@@ -38,22 +39,12 @@ export async function sendContactEmail(data: ContactFormData) {
 
   // Development mode: log to console instead of sending email
   if (!resend) {
-    console.log("\n" + "=".repeat(60));
-    console.log("📧 DEVELOPMENT MODE: Email not sent (no RESEND_API_KEY)");
-    console.log("=".repeat(60));
-    console.log(`From: ${name} <${email}>`);
-    if (company) console.log(`Company: ${company}`);
-    if (recommendation) {
-      console.log(`\n${recommendation.priorityLabel}`);
-      console.log(`Solution: ${recommendation.solutionName}`);
-      console.log(`Timeline: ${recommendation.timeline}`);
-      console.log(`Budget: ${recommendation.investmentRange}`);
-      console.log(
-        `Score: ${recommendation.priorityScore}/40+ (Budget: ${recommendation.scores.budget}/4, Urgency: ${recommendation.scores.urgency}/4, Complexity: ${recommendation.scores.complexity}/4)`
-      );
-    }
-    console.log(`Message:\n${message}`);
-    console.log("=".repeat(60) + "\n");
+    logger.warn("DEVELOPMENT MODE: Email not sent (no RESEND_API_KEY)", {
+      from: `${name} <${email}>`,
+      company,
+      recommendation,
+      message: message.substring(0, 100),
+    });
     return { success: true, mode: "development" };
   }
 
@@ -322,7 +313,7 @@ Reply to: ${email}
 
     return result;
   } catch (error) {
-    console.error("Failed to send email:", error);
+    logger.error("Failed to send contact email", error as Error, { email, name });
     throw error;
   }
 }
@@ -332,11 +323,9 @@ export async function sendNewsletterSubscription(data: NewsletterData) {
 
   // Development mode: log to console instead of sending email
   if (!resend) {
-    console.log("\n" + "=".repeat(60));
-    console.log("📰 DEVELOPMENT MODE: Newsletter Subscription not sent (no RESEND_API_KEY)");
-    console.log("=".repeat(60));
-    console.log(`Subscriber Email: ${email}`);
-    console.log("=".repeat(60) + "\n");
+    logger.warn("DEVELOPMENT MODE: Newsletter subscription not sent (no RESEND_API_KEY)", {
+      email,
+    });
     return { success: true, mode: "development" };
   }
 
@@ -442,7 +431,7 @@ Subscribed: ${new Date().toLocaleString("en-US", { dateStyle: "full", timeStyle:
 
     return result;
   } catch (error) {
-    console.error("Failed to send newsletter subscription email:", error);
+    logger.error("Failed to send newsletter subscription email", error as Error, { email });
     throw error;
   }
 }
@@ -452,15 +441,11 @@ export async function sendChatWidgetEmail(data: ChatWidgetData) {
 
   // Development mode: log to console instead of sending email
   if (!resend) {
-    console.log("\n" + "=".repeat(60));
-    console.log("💬 DEVELOPMENT MODE: Chat Widget Email not sent (no RESEND_API_KEY)");
-    console.log("=".repeat(60));
-    console.log(`From: ${name} <${email}>`);
-    if (suggestions && suggestions.length > 0) {
-      console.log(`Topics: ${suggestions.join(", ")}`);
-    }
-    console.log(`Message:\n${message}`);
-    console.log("=".repeat(60) + "\n");
+    logger.warn("DEVELOPMENT MODE: Chat widget email not sent (no RESEND_API_KEY)", {
+      from: `${name} <${email}>`,
+      suggestions,
+      message: message.substring(0, 100),
+    });
     return { success: true, mode: "development" };
   }
 
@@ -616,7 +601,7 @@ Reply to: ${email}
 
     return result;
   } catch (error) {
-    console.error("Failed to send chat widget email:", error);
+    logger.error("Failed to send chat widget email", error as Error, { email, name });
     throw error;
   }
 }
