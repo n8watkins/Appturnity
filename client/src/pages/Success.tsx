@@ -1,12 +1,22 @@
 import { useEffect } from "react";
+
 import { Link } from "wouter";
+
 import { motion } from "framer-motion";
+
 import { CheckCircle2, Calendar, Home, Mail, Clock } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
+
 import { Card, CardContent } from "@/components/ui/card";
+
 import Header from "@/components/Header";
+
 import Footer from "@/components/Footer";
 
+
+
+const CALENDLY_URL = import.meta.env.VITE_CALENDLY_URL || 'https://calendly.com/nathancwatkins23/web-consulting';
 export default function Success() {
   useEffect(() => {
     // Scroll to top on mount
@@ -148,7 +158,7 @@ export default function Success() {
               className="gap-2"
             >
               <a
-                href="https://calendly.com/nathancwatkins23/web-consulting"
+                href={CALENDLY_URL}
                 target="_blank"
                 rel="noopener noreferrer"
               >

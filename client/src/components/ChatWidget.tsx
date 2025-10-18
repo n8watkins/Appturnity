@@ -5,6 +5,8 @@ import { z } from "zod"
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { useToast } from '@/hooks/use-toast'
 
+const CALENDLY_URL = import.meta.env.VITE_CALENDLY_URL || 'https://calendly.com/nathancwatkins23/web-consulting';
+
 type Msg = {
   sender: "user" | "bot"
   text: string
@@ -417,7 +419,7 @@ export default function ChatWidget() {
               <hr className="border-gray-300 my-2"/>
               <div className="flex gap-2 items-center">
                 <a
-                  href="https://calendly.com/nathancwatkins23/web-consulting?month=2025-04"
+                  href={CALENDLY_URL}
                   className="flex-1 flex items-center justify-center bg-primary text-white rounded-lg py-2.5 font-semibold hover:bg-primary/90 hover:shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-95"
                   target="_blank" rel="noopener"
                 >

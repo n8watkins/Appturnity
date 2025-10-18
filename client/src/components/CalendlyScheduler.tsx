@@ -1,8 +1,14 @@
 import { motion } from 'framer-motion';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
 import { Calendar } from 'lucide-react';
+
 import { CalendlyEmbed } from '@/components/ui/calendly-embed';
 
+
+
+const CALENDLY_URL = import.meta.env.VITE_CALENDLY_URL || 'https://calendly.com/nathancwatkins23/web-consulting';
 export default function CalendlyScheduler() {
   return (
     <section id="schedule" className="py-20 bg-slate-50 scroll-mt-16">
@@ -39,7 +45,7 @@ export default function CalendlyScheduler() {
             <CardContent className="p-0">
               {/* Directly embed Calendly scheduler */}
               <CalendlyEmbed
-                url="https://calendly.com/nathancwatkins23/web-consulting"
+                url={CALENDLY_URL}
                 utm={{
                   utmSource: "website",
                   utmMedium: "scheduler_page"

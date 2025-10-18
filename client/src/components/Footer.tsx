@@ -2,6 +2,8 @@ import { Phone, Mail, Calendar } from "lucide-react";
 import { Link } from "wouter";
 import { handleSmoothScroll } from "@/lib/utils";
 
+const CALENDLY_URL = import.meta.env.VITE_CALENDLY_URL || 'https://calendly.com/nathancwatkins23/web-consulting';
+
 export default function Footer() {
   return (
     <footer className="bg-slate-900 text-slate-400 py-12">
@@ -165,7 +167,7 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               <li>
                 <a
-                  href="https://calendly.com/nathancwatkins23/web-consulting"
+                  href={CALENDLY_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 hover:text-white transition-colors"

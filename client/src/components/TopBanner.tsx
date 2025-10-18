@@ -1,10 +1,18 @@
 import { useState, useEffect } from 'react';
+
 import { Phone, Sparkles } from 'lucide-react';
+
 import { motion } from 'framer-motion';
+
 import { useLocation } from 'wouter';
+
 import { CalendlyButton } from '@/components/ui/calendly-embed';
+
 import { Button } from '@/components/ui/button';
 
+
+
+const CALENDLY_URL = import.meta.env.VITE_CALENDLY_URL || 'https://calendly.com/nathancwatkins23/web-consulting';
 export default function TopBanner() {
   const [location, setLocation] = useLocation();
   const [timeLeft, setTimeLeft] = useState({
@@ -123,7 +131,7 @@ export default function TopBanner() {
             </a>
             <span className="text-white/60 mx-1">or</span>
             <CalendlyButton
-              url="https://calendly.com/nathancwatkins23/web-consulting"
+              url={CALENDLY_URL}
               className="bg-white text-primary hover:bg-yellow-300 hover:text-primary transition-colors shadow-lg font-bold border-2 border-white/20"
               size="sm"
             >

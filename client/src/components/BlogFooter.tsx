@@ -1,6 +1,8 @@
 import { Link, useLocation } from "wouter";
 import { Mail, Phone, Calendar } from "lucide-react";
 
+const CALENDLY_URL = import.meta.env.VITE_CALENDLY_URL || 'https://calendly.com/nathancwatkins23/web-consulting';
+
 export default function BlogFooter() {
   const [, setLocation] = useLocation();
 
@@ -179,7 +181,7 @@ export default function BlogFooter() {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="https://calendly.com/nathancwatkins23/web-consulting"
+                  href={CALENDLY_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm"

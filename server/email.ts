@@ -291,7 +291,7 @@ Reply to: ${email}
       : '';
 
     const result = await resend.emails.send({
-      from: 'Appturnity Contact Form <onboarding@resend.dev>', // Change this to your verified domain
+      from: process.env.RESEND_FROM_EMAIL || 'Appturnity Contact Form <onboarding@resend.dev>',
       to: process.env.CONTACT_EMAIL || 'nathancwatkins23@gmail.com',
       replyTo: email,
       subject: `${priorityPrefix}New Contact: ${name}${company ? ` from ${company}` : ''}`,
@@ -412,7 +412,7 @@ Subscribed: ${new Date().toLocaleString('en-US', { dateStyle: 'full', timeStyle:
   try {
     // Send notification to site owner
     const result = await resend.emails.send({
-      from: 'Appturnity Newsletter <onboarding@resend.dev>',
+      from: process.env.RESEND_FROM_EMAIL || 'Appturnity Newsletter <onboarding@resend.dev>',
       to: process.env.CONTACT_EMAIL || 'nathancwatkins23@gmail.com',
       subject: `📰 New Newsletter Subscriber: ${email}`,
       html: htmlContent,
@@ -581,7 +581,7 @@ Reply to: ${email}
 
   try {
     const result = await resend.emails.send({
-      from: 'Appturnity Chat Widget <onboarding@resend.dev>',
+      from: process.env.RESEND_FROM_EMAIL || 'Appturnity Chat Widget <onboarding@resend.dev>',
       to: process.env.CONTACT_EMAIL || 'nathancwatkins23@gmail.com',
       replyTo: email,
       subject: `💬 Chat: ${name}${suggestions && suggestions.length > 0 ? ` - ${suggestions.join(', ')}` : ''}`,

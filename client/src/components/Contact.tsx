@@ -23,6 +23,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
+const CALENDLY_URL = import.meta.env.VITE_CALENDLY_URL || 'https://calendly.com/nathancwatkins23/web-consulting';
+
 const contactFormSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email address'),
@@ -347,7 +349,7 @@ export default function Contact() {
 
                     <div className="mt-8">
                       <CalendlyButton
-                        url="https://calendly.com/nathancwatkins23/web-consulting"
+                        url={CALENDLY_URL}
                         variant="outline"
                         className="w-full h-14 border-2 border-slate-600 hover:border-primary bg-slate-900/50 hover:bg-slate-900 text-white hover:text-white font-semibold text-base transition-all duration-300"
                         openInNewTab={true}
@@ -458,7 +460,7 @@ export default function Contact() {
                   <h4 className="text-xl font-semibold mb-6 text-white">Need to talk first?</h4>
                   <div className="space-y-4">
                     <motion.button
-                      onClick={() => window.open('https://calendly.com/nathancwatkins23/web-consulting', '_blank')}
+                      onClick={() => window.open(CALENDLY_URL, '_blank')}
                       className="flex items-center gap-3 text-blue-300 hover:text-blue-200 bg-slate-900/50 hover:bg-slate-900 border border-slate-700 hover:border-blue-500/50 rounded-lg px-4 py-3 w-full transition-all duration-300"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
