@@ -2,10 +2,10 @@
  * Web Vitals Performance Monitoring
  *
  * Tracks Core Web Vitals and sends them to backend for analysis.
- * Metrics tracked: LCP, FID, CLS, TTFB, INP
+ * Metrics tracked: LCP, CLS, TTFB, INP
  */
 
-import { onCLS, onFID, onLCP, onTTFB, onINP, type Metric } from "web-vitals";
+import { onCLS, onLCP, onTTFB, onINP, type Metric } from "web-vitals";
 
 interface PerformanceMetric {
   name: string;
@@ -73,10 +73,9 @@ export function initPerformanceMonitoring() {
 
   // Track all Core Web Vitals
   onCLS(sendMetric); // Cumulative Layout Shift
-  onFID(sendMetric); // First Input Delay (deprecated, but still useful)
   onLCP(sendMetric); // Largest Contentful Paint
   onTTFB(sendMetric); // Time to First Byte
-  onINP(sendMetric); // Interaction to Next Paint (replaces FID)
+  onINP(sendMetric); // Interaction to Next Paint (measures responsiveness)
 
   console.debug("Performance monitoring initialized");
 }
