@@ -12,6 +12,7 @@ import { CalendlyButton } from '@/components/ui/calendly-embed';
 import ServiceQuiz from '@/components/ServiceQuiz';
 import RecommendationCard from '@/components/RecommendationCard';
 import { getRecommendation, getPriorityLabel, type Recommendation } from '@/lib/quizRecommendations';
+import { clearQuizResults } from '@/lib/quizStorage';
 
 import {
   Form,
@@ -36,10 +37,11 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [textareaHeight, setTextareaHeight] = useState('120px');
+  const [textareaHeight, setTextareaHeight] = useState('240px'); // Increased default height
   const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
   const [quizKey, setQuizKey] = useState(0); // Key to force quiz remount
   const [autoStartQuiz, setAutoStartQuiz] = useState(false);
+  const [projectDetails, setProjectDetails] = useState<any>(null); // Store quiz/calculator data
   const { toast } = useToast();
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [, setLocation] = useLocation();
@@ -74,15 +76,47 @@ export default function Contact() {
     if (messageValue) {
       const lineCount = messageValue.split('\n').length;
       // If more than 8 lines, make textarea taller
-      if (lineCount > 8) {
+      if (lineCount > 10) {
+        setTextareaHeight('360px');
+      } else if (lineCount > 6) {
         setTextareaHeight('300px');
-      } else if (lineCount > 5) {
-        setTextareaHeight('200px');
       } else {
-        setTextareaHeight('120px');
+        setTextareaHeight('240px'); // Minimum height to match right column
       }
+    } else {
+      setTextareaHeight('240px'); // Default height
     }
   }, [messageValue]);
+
+  // Listen for quiz completion and populate contact form
+  useEffect(() => {
+    const handleQuizCompleted = (event: CustomEvent) => {
+      const quizData = event.detail;
+      setProjectDetails({ source: 'quiz', data: quizData });
+      formatAndPopulateMessage(quizData, 'quiz');
+    };
+
+    window.addEventListener('quizCompleted', handleQuizCompleted as EventListener);
+
+    return () => {
+      window.removeEventListener('quizCompleted', handleQuizCompleted as EventListener);
+    };
+  }, []);
+
+  // Listen for calculator changes and update contact form
+  useEffect(() => {
+    const handleCalculatorUpdate = (event: CustomEvent) => {
+      const calculatorData = event.detail;
+      setProjectDetails({ source: 'calculator', data: calculatorData });
+      formatAndPopulateMessage(calculatorData, 'calculator');
+    };
+
+    window.addEventListener('calculatorUpdated', handleCalculatorUpdate as EventListener);
+
+    return () => {
+      window.removeEventListener('calculatorUpdated', handleCalculatorUpdate as EventListener);
+    };
+  }, []);
 
   async function onSubmit(data: ContactFormValues) {
     if (!executeRecaptcha) {
@@ -137,20 +171,26 @@ export default function Contact() {
     }
   }
 
-  // Handle quiz completion
-  const handleQuizComplete = (results: Record<string, string | string[]>) => {
-    // Generate recommendation
-    const rec = getRecommendation(results);
-    setRecommendation(rec);
+  // Format and populate contact message from quiz or calculator data
+  const formatAndPopulateMessage = (data: any, source: 'quiz' | 'calculator') => {
+    let finalMessage = '';
 
-    // Format quiz results into a message
-    const labelMap: Record<string, string> = {
+    if (source === 'quiz') {
+      // Generate recommendation
+      const rec = getRecommendation(data);
+      setRecommendation(rec);
+
+      // Format quiz results into a message
+      const labelMap: Record<string, string> = {
       currentSituation: "Current Situation",
       industry: "Industry",
       businessGoal: "Business Goals",
       targetAudience: "Target Audience",
       features: "Desired Features",
+      desiredFeatures: "Advanced Features",
       projectScope: "Solution Type",
+      pageCount: "Number of Pages",
+      teamSize: "Team Size",
       existingAssets: "Brand Materials",
       timeline: "Launch Timeline",
       investment: "Investment Budget",
@@ -199,6 +239,37 @@ export default function Contact() {
         "integrations": "Third-party Integrations",
         "none": "None / Basic Website",
       },
+      desiredFeatures: {
+        "seo": "Advanced SEO",
+        "email-automation": "Email Automation",
+        "newsletter": "Newsletter Management",
+        "forms": "Custom Forms",
+        "cms": "CMS",
+        "blog": "Blog",
+        "multilang": "Multi-language",
+        "auth": "User Authentication",
+        "ecommerce": "E-commerce",
+        "payment": "Payments",
+        "booking": "Booking",
+        "api": "API Integration",
+        "chat": "Live Chat",
+        "crm": "CRM",
+        "ai": "Generative AI",
+        "animations": "Animations"
+      },
+      pageCount: {
+        "1-5": "1-5 Pages",
+        "6-12": "6-12 Pages",
+        "13-20": "13-20 Pages",
+        "20+": "20+ Pages",
+        "not-sure": "Not Sure Yet"
+      },
+      teamSize: {
+        "1-3": "1-3 Users",
+        "4-7": "4-7 Users",
+        "8-15": "8-15 Users",
+        "15+": "15+ Users"
+      },
       projectScope: {
         "simple-landing": "Simple Landing Page",
         "full-website": "Complete Website",
@@ -218,11 +289,11 @@ export default function Contact() {
         "flexible": "16+ Weeks",
       },
       investment: {
-        "budget-conscious": "Under $3,000",
-        "standard": "$3,000 - $7,000",
-        "premium": "$7,000 - $15,000",
-        "enterprise": "$15,000+",
-        "premium-budget": "Premium/No Limit",
+        "budget-conscious": "$750 - $1,500",
+        "standard": "$1,700 - $3,000",
+        "premium": "$3,200 - $5,500",
+        "enterprise": "$5,500+",
+        "premium-budget": "$8,000+",
         "need-guidance": "Need Guidance",
       },
       companySize: {
@@ -240,39 +311,95 @@ export default function Contact() {
       },
     };
 
-    const formattedSections = Object.entries(results)
-      .map(([key, value]) => {
-        const label = labelMap[key] || key;
-        if (Array.isArray(value)) {
-          const displayValues = value
-            .map(v => `  • ${valueMap[key]?.[v] || v}`)
-            .join("\n");
-          return `${label}:\n${displayValues}`;
-        } else {
-          const displayValue = valueMap[key]?.[value] || value;
-          return `${label}:\n  • ${displayValue}`;
-        }
-      })
-      .join("\n\n");
+      const formattedSections = Object.entries(data)
+        .map(([key, value]) => {
+          const label = labelMap[key] || key;
+          if (Array.isArray(value)) {
+            const displayValues = value
+              .map(v => `  • ${valueMap[key]?.[v] || v}`)
+              .join("\n");
+            return `${label}:\n${displayValues}`;
+          } else {
+            const displayValue = valueMap[key]?.[value] || value;
+            return `${label}:\n  • ${displayValue}`;
+          }
+        })
+        .join("\n\n");
 
-    const finalMessage = `I'm interested in discussing a project with the following details:\n\n${formattedSections}\n\nLooking forward to hearing from you!`;
+      // Add discount information
+      const discountNote = "\n\n🎉 Quiz Completed: I understand I qualify for a 10% discount on my project!";
+
+      finalMessage = `I'm interested in discussing a project with the following details:\n\n${formattedSections}${discountNote}\n\nLooking forward to hearing from you!`;
+    } else if (source === 'calculator') {
+      // Format calculator data into a message
+      const sections = [];
+
+      if (data.pages) {
+        sections.push(`Number of Pages: ${data.pages}`);
+      }
+
+      if (data.selectedFeatures && data.selectedFeatures.length > 0) {
+        const featureNames = data.selectedFeatures
+          .filter((id: string) => {
+            // Filter out always-included features for cleaner message
+            const alwaysIncluded = ['analytics', 'ssl-hosting', 'responsive', 'basic-seo', 'contact-forms', 'domain-setup'];
+            return !alwaysIncluded.includes(id);
+          })
+          .map((id: string) => {
+            // Convert feature IDs to readable names
+            const nameMap: Record<string, string> = {
+              'seo': 'Advanced SEO',
+              'email-templates': 'Email Templates',
+              'email-automation': 'Email Automation',
+              'newsletter': 'Newsletter Management',
+              'forms': 'Custom Forms',
+              'cms': 'CMS',
+              'blog': 'Blog',
+              'multilang': 'Multi-language',
+              'auth': 'User Authentication',
+              'ecommerce': 'E-commerce',
+              'payment': 'Payments',
+              'booking': 'Booking',
+              'api': 'API Integration',
+              'chat': 'Live Chat',
+              'crm': 'CRM',
+              'cdn': 'CDN',
+              'ai': 'Generative AI',
+              'animations': 'Animations'
+            };
+            return nameMap[id] || id;
+          });
+
+        if (featureNames.length > 0) {
+          sections.push(`Advanced Features:\n${featureNames.map(f => `  • ${f}`).join('\n')}`);
+        }
+      }
+
+      if (data.totalPrice) {
+        sections.push(`Estimated Investment: $${data.totalPrice.toLocaleString()}`);
+      }
+
+      if (data.timeline) {
+        sections.push(`Timeline: ${data.timeline}`);
+      }
+
+      // Check if calculator was prefilled from quiz (has quiz results stored)
+      const quizResults = localStorage.getItem('quizResults');
+      const discountNote = quizResults ? "\n\n🎉 Quiz Completed: I understand I qualify for a 10% discount on my project!" : "";
+
+      finalMessage = `I'm interested in discussing a project with the following details:\n\n${sections.join('\n\n')}${discountNote}\n\nLooking forward to hearing from you!`;
+    }
 
     // Set the message in the form
     form.setValue('message', finalMessage);
-
-    // Smooth scroll to the form button with a delay
-    setTimeout(() => {
-      formButtonRef.current?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center'
-      });
-    }, 500);
   };
 
   // Handle quiz retake
   const handleRetakeQuiz = () => {
     setRecommendation(null);
+    setProjectDetails(null);
     form.setValue('message', '');
+    clearQuizResults();
     setQuizKey(prev => prev + 1); // Force quiz to remount and reset
     // Scroll to quiz
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
@@ -336,10 +463,10 @@ export default function Contact() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <div className="flex flex-col lg:flex-row gap-8 items-start max-w-6xl mx-auto">
+          <div className="flex flex-col lg:flex-row gap-8 items-stretch max-w-6xl mx-auto">
           {/* Contact Form Column */}
           <motion.div
-            className="flex-1"
+            className="flex-1 flex flex-col"
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -441,6 +568,14 @@ export default function Contact() {
                     </form>
                   </Form>
 
+                  {/* Custom reCAPTCHA v3 notification */}
+                  <div className="absolute bottom-4 right-4 opacity-70 hover:opacity-100 transition-opacity select-none">
+                    <div className="text-xs text-slate-400 flex items-center gap-1">
+                      <span>🛡️</span>
+                      <span>Protected by reCAPTCHA v3</span>
+                    </div>
+                  </div>
+
                   <div className="mt-8 text-center">
                     <div className="relative">
                       <div className="absolute inset-0 flex items-center">
@@ -455,7 +590,7 @@ export default function Contact() {
                       <CalendlyButton
                         url="https://calendly.com/nathancwatkins23/web-consulting"
                         variant="outline"
-                        className="w-full h-14 border-2 border-slate-600 hover:border-primary bg-slate-900/50 hover:bg-slate-900 text-white font-semibold text-base transition-all duration-300"
+                        className="w-full h-14 border-2 border-slate-600 hover:border-primary bg-slate-900/50 hover:bg-slate-900 text-white hover:text-white font-semibold text-base transition-all duration-300"
                         openInNewTab={true}
                         prefill={{
                           name: form.getValues().name || '',
@@ -465,7 +600,6 @@ export default function Contact() {
                           }
                         }}
                       >
-                        <Calendar className="h-5 w-5 mr-2" />
                         Schedule a Call Instead
                       </CalendlyButton>
                     </div>

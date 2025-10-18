@@ -26,9 +26,9 @@ export default function Success() {
         >
           {/* Success Icon */}
           <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
             className="flex justify-center mb-8"
           >
             <div className="relative">

@@ -5,6 +5,9 @@
  * and calculate lead priority scores for backend processing.
  */
 
+// Quiz discount percentage
+const QUIZ_DISCOUNT_PERCENT = 10;
+
 export interface QuizAnswers {
   currentSituation?: string | string[];
   industry?: string | string[];
@@ -32,6 +35,10 @@ export interface Recommendation {
     budget: number;
     urgency: number;
     complexity: number;
+  };
+  quizDiscount: {
+    percent: number;
+    applied: boolean;
   };
 }
 
@@ -175,26 +182,30 @@ function determineSolutionType(answers: QuizAnswers): Recommendation['solutionTy
 }
 
 /**
- * Get investment range text
+ * Get investment range text based on actual pricing structure
+ * With quiz discount applied
  */
 function getInvestmentRange(investment?: string | string[]): string {
   const budget = Array.isArray(investment) ? investment[0] : investment;
 
+  // Helper to apply discount to a value
+  const applyDiscount = (value: number) => Math.round(value * (1 - QUIZ_DISCOUNT_PERCENT / 100));
+
   switch (budget) {
     case 'budget-conscious':
-      return 'Under $3,000';
+      return `$${applyDiscount(750).toLocaleString()} - $${applyDiscount(1500).toLocaleString()}`;
     case 'standard':
-      return '$3,000 - $7,000';
+      return `$${applyDiscount(1700).toLocaleString()} - $${applyDiscount(3000).toLocaleString()}`;
     case 'need-guidance':
-      return '$3,000 - $10,000';
+      return `$${applyDiscount(1500).toLocaleString()} - $${applyDiscount(3500).toLocaleString()}`;
     case 'premium':
-      return '$7,000 - $15,000';
+      return `$${applyDiscount(3200).toLocaleString()} - $${applyDiscount(5500).toLocaleString()}`;
     case 'enterprise':
-      return '$15,000+';
+      return `$${applyDiscount(5500).toLocaleString()}+`;
     case 'premium-budget':
-      return '$10,000 - $30,000+';
+      return `$${applyDiscount(8000).toLocaleString()}+`;
     default:
-      return '$3,000 - $7,000';
+      return `$${applyDiscount(1700).toLocaleString()} - $${applyDiscount(3000).toLocaleString()}`;
   }
 }
 
@@ -426,6 +437,10 @@ export function getRecommendation(answers: QuizAnswers): Recommendation {
       budget: budgetScore,
       urgency: urgencyScore,
       complexity: complexityScore,
+    },
+    quizDiscount: {
+      percent: QUIZ_DISCOUNT_PERCENT,
+      applied: true,
     },
   };
 }

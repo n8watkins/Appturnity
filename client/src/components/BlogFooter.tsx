@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Mail, Linkedin, X } from "lucide-react";
+import { Mail, Phone, Calendar } from "lucide-react";
 
 export default function BlogFooter() {
   const [, setLocation] = useLocation();
@@ -19,7 +19,7 @@ export default function BlogFooter() {
   return (
     <footer className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white mt-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
           {/* Brand Column */}
           <div>
             <Link href="/">
@@ -28,14 +28,14 @@ export default function BlogFooter() {
               </a>
             </Link>
             <p className="text-slate-400 text-sm mb-4">
-              Custom web solutions that drive growth and build trust.
+              Custom websites without the complexity. Simple solutions. Predictable prices.
             </p>
             <div className="flex gap-3">
               <a
                 href="https://twitter.com/appturnity"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all hover:scale-110"
+                className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
                 aria-label="Follow us on X"
               >
                 <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
@@ -43,8 +43,8 @@ export default function BlogFooter() {
                 </svg>
               </a>
               <a
-                href="mailto:hello@appturnity.com"
-                className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all hover:scale-110"
+                href="mailto:nathancwatkins23@gmail.com"
+                className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
                 aria-label="Email us"
               >
                 <Mail className="h-4 w-4" />
@@ -52,10 +52,18 @@ export default function BlogFooter() {
             </div>
           </div>
 
-          {/* Services Column */}
+          {/* Company Column */}
           <div>
-            <h3 className="font-bold text-lg mb-4">Services</h3>
+            <h3 className="font-bold text-lg mb-4">Company</h3>
             <ul className="space-y-2">
+              <li>
+                <button
+                  onClick={() => handleMainSiteNav("about")}
+                  className="text-slate-400 hover:text-white transition-colors text-sm"
+                >
+                  About Us
+                </button>
+              </li>
               <li>
                 <button
                   onClick={() => handleMainSiteNav("how-we-work")}
@@ -66,18 +74,18 @@ export default function BlogFooter() {
               </li>
               <li>
                 <button
-                  onClick={() => handleMainSiteNav("portfolio")}
+                  onClick={() => handleMainSiteNav("what-you-get")}
                   className="text-slate-400 hover:text-white transition-colors text-sm"
                 >
-                  Portfolio
+                  What You Get
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => handleMainSiteNav("pricing-tiers")}
+                  onClick={() => handleMainSiteNav("portfolio")}
                   className="text-slate-400 hover:text-white transition-colors text-sm"
                 >
-                  Pricing
+                  Portfolio
                 </button>
               </li>
               <li>
@@ -91,35 +99,74 @@ export default function BlogFooter() {
             </ul>
           </div>
 
-          {/* Blog Column */}
+          {/* Services Column */}
           <div>
-            <h3 className="font-bold text-lg mb-4">Blog</h3>
+            <h3 className="font-bold text-lg mb-4">Services</h3>
+            <ul className="space-y-2">
+              <li>
+                <button
+                  onClick={() => handleMainSiteNav("quiz")}
+                  className="text-slate-400 hover:text-white transition-colors text-sm"
+                >
+                  Service Quiz
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleMainSiteNav("pricing")}
+                  className="text-slate-400 hover:text-white transition-colors text-sm"
+                >
+                  Pricing Calculator
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleMainSiteNav("pricing-tiers")}
+                  className="text-slate-400 hover:text-white transition-colors text-sm"
+                >
+                  Pricing Tiers
+                </button>
+              </li>
+              <li>
+                <Link href="/features">
+                  <a className="text-slate-400 hover:text-white transition-colors text-sm">
+                    All Features
+                  </a>
+                </Link>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleMainSiteNav("contact")}
+                  className="text-slate-400 hover:text-white transition-colors text-sm"
+                >
+                  Get Started
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Resources Column */}
+          <div>
+            <h3 className="font-bold text-lg mb-4">Resources</h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/blog">
                   <a className="text-slate-400 hover:text-white transition-colors text-sm">
-                    All Posts
+                    Blog
                   </a>
                 </Link>
               </li>
               <li>
-                <Link href="/blog">
+                <Link href="/terms">
                   <a className="text-slate-400 hover:text-white transition-colors text-sm">
-                    Business Strategy
+                    Terms of Use
                   </a>
                 </Link>
               </li>
               <li>
-                <Link href="/blog">
+                <Link href="/privacy">
                   <a className="text-slate-400 hover:text-white transition-colors text-sm">
-                    Web Development
-                  </a>
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog">
-                  <a className="text-slate-400 hover:text-white transition-colors text-sm">
-                    Case Studies
+                    Privacy Policy
                   </a>
                 </Link>
               </li>
@@ -128,72 +175,46 @@ export default function BlogFooter() {
 
           {/* Contact Column */}
           <div>
-            <h3 className="font-bold text-lg mb-4">Get in Touch</h3>
+            <h3 className="font-bold text-lg mb-4">Contact</h3>
             <ul className="space-y-2">
               <li>
-                <button
-                  onClick={() => handleMainSiteNav("contact")}
-                  className="text-slate-400 hover:text-white transition-colors text-sm"
-                >
-                  Contact Us
-                </button>
-              </li>
-              <li>
                 <a
-                  href="mailto:hello@appturnity.com"
-                  className="text-slate-400 hover:text-white transition-colors text-sm"
+                  href="https://calendly.com/nathancwatkins23/web-consulting"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm"
                 >
-                  hello@appturnity.com
+                  <Calendar className="h-4 w-4" />
+                  <span>Schedule a Call</span>
                 </a>
               </li>
               <li>
-                <Link href="/">
-                  <a className="text-slate-400 hover:text-white transition-colors text-sm">
-                    About Us
-                  </a>
-                </Link>
+                <a
+                  href="tel:+18182888082"
+                  className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm"
+                >
+                  <Phone className="h-4 w-4" />
+                  <span>(818) 288-8082</span>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => {
-                    handleMainSiteNav("contact");
-                    setTimeout(() => {
-                      window.dispatchEvent(new Event('startQuiz'));
-                    }, 400);
-                  }}
-                  className="text-primary hover:text-primary/80 transition-colors text-sm font-semibold"
+                <a
+                  href="mailto:nathancwatkins23@gmail.com"
+                  className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm"
                 >
-                  Take the Quiz
-                </button>
+                  <Mail className="h-4 w-4" />
+                  <span>Get in Touch</span>
+                </a>
               </li>
             </ul>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-slate-700 pt-8 mt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-slate-400 text-sm">
-              © {currentYear} Appturnity. All rights reserved.
-            </p>
-            <div className="flex gap-6 text-sm">
-              <Link href="/">
-                <a className="text-slate-400 hover:text-white transition-colors">
-                  Privacy Policy
-                </a>
-              </Link>
-              <Link href="/">
-                <a className="text-slate-400 hover:text-white transition-colors">
-                  Terms of Service
-                </a>
-              </Link>
-              <Link href="/blog">
-                <a className="text-slate-400 hover:text-white transition-colors">
-                  Sitemap
-                </a>
-              </Link>
-            </div>
-          </div>
+        <div className="border-t border-slate-700 pt-8 mt-8 text-center">
+          <p className="text-slate-400 text-sm">
+            © {currentYear} Appturnity. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

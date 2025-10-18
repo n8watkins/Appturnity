@@ -80,7 +80,7 @@ export default function NewsletterSignup({
 
   if (variant === 'compact') {
     return (
-      <div className={cn('bg-white rounded-lg shadow-sm p-6', className)}>
+      <div className={cn('bg-white rounded-lg shadow-sm p-6 relative', className)}>
         <div className="flex items-center gap-2 mb-3">
           <Mail className="h-5 w-5 text-primary" />
           <h3 className="font-semibold text-slate-900">Stay Updated</h3>
@@ -119,30 +119,48 @@ export default function NewsletterSignup({
             </motion.p>
           )}
         </form>
+
+        {/* Custom reCAPTCHA v3 notification */}
+        <div className="absolute bottom-2 right-2 opacity-70 hover:opacity-100 transition-opacity select-none">
+          <div className="text-xs text-slate-500 flex items-center gap-1">
+            <span>🛡️</span>
+            <span>Protected by reCAPTCHA v3</span>
+          </div>
+        </div>
       </div>
     );
   }
 
   if (variant === 'inline') {
     return (
-      <form onSubmit={handleSubmit} className={cn('flex gap-2', className)}>
-        <Input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          disabled={status === 'loading' || status === 'success'}
-          required
-          className="flex-1"
-        />
-        <Button
-          type="submit"
-          disabled={status === 'loading' || status === 'success'}
-        >
-          {status === 'loading' ? 'Subscribing...' :
-           status === 'success' ? <CheckCircle className="h-5 w-5" /> : 'Subscribe'}
-        </Button>
-      </form>
+      <div className="relative">
+        <form onSubmit={handleSubmit} className={cn('flex gap-2', className)}>
+          <Input
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={status === 'loading' || status === 'success'}
+            required
+            className="flex-1"
+          />
+          <Button
+            type="submit"
+            disabled={status === 'loading' || status === 'success'}
+          >
+            {status === 'loading' ? 'Subscribing...' :
+             status === 'success' ? <CheckCircle className="h-5 w-5" /> : 'Subscribe'}
+          </Button>
+        </form>
+
+        {/* Custom reCAPTCHA v3 notification */}
+        <div className="absolute -bottom-5 right-0 opacity-70 hover:opacity-100 transition-opacity select-none">
+          <div className="text-xs text-slate-500 flex items-center gap-1">
+            <span>🛡️</span>
+            <span>Protected by reCAPTCHA v3</span>
+          </div>
+        </div>
+      </div>
     );
   }
 
@@ -150,7 +168,7 @@ export default function NewsletterSignup({
   return (
     <motion.div
       className={cn(
-        'bg-gradient-to-br from-primary/5 via-blue-50 to-purple-50 rounded-2xl p-8',
+        'bg-gradient-to-br from-primary/5 via-blue-50 to-purple-50 rounded-2xl p-8 relative',
         className
       )}
       initial={{ opacity: 0, y: 20 }}
@@ -159,9 +177,9 @@ export default function NewsletterSignup({
     >
       <div className="max-w-2xl mx-auto text-center">
         <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
           className="inline-flex p-3 bg-primary/10 rounded-full mb-4"
         >
           <Mail className="h-8 w-8 text-primary" />
@@ -236,6 +254,14 @@ export default function NewsletterSignup({
         <p className="text-xs text-slate-500 mt-6">
           Join 500+ developers and business owners. We respect your privacy.
         </p>
+      </div>
+
+      {/* Custom reCAPTCHA v3 notification */}
+      <div className="absolute bottom-4 right-4 opacity-70 hover:opacity-100 transition-opacity select-none">
+        <div className="text-xs text-slate-500 flex items-center gap-1">
+          <span>🛡️</span>
+          <span>Protected by reCAPTCHA v3</span>
+        </div>
       </div>
     </motion.div>
   );

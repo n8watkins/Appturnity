@@ -249,14 +249,14 @@ export default function BlogContent({ content }: BlogContentProps) {
               <th
                 className={`px-6 py-4 text-left font-bold text-lg ${
                   isRecommended
-                    ? 'bg-gradient-to-br from-primary to-blue-600 text-white rounded-t-xl'
-                    : 'bg-slate-100 text-slate-700 rounded-t-xl'
+                    ? 'bg-gradient-to-br from-primary to-blue-600 text-white rounded-t-xl shadow-lg'
+                    : 'bg-gradient-to-br from-slate-600 to-slate-700 text-white rounded-t-xl shadow-lg'
                 }`}
                 {...props}
               >
                 {children}
                 {isRecommended && (
-                  <span className="ml-2 text-xs bg-white/20 px-2 py-0.5 rounded-full">RECOMMENDED</span>
+                  <span className="ml-2 text-xs bg-white/30 px-2 py-0.5 rounded-full">RECOMMENDED</span>
                 )}
               </th>
             );
@@ -279,15 +279,15 @@ export default function BlogContent({ content }: BlogContentProps) {
 
           if (isLabel) {
             return (
-              <td className="px-6 py-4 text-slate-600 font-semibold text-base" {...props}>
+              <td className="px-6 py-4 text-slate-700 font-bold text-base bg-slate-50/80 rounded-l-lg" {...props}>
                 {children}
               </td>
             );
           }
 
-          let cellClass = 'px-6 py-4 text-slate-800 text-lg font-medium';
-          if (isNegative) cellClass += ' text-red-600 font-bold';
-          if (isPositive) cellClass += ' text-green-600 font-bold';
+          let cellClass = 'px-6 py-4 text-slate-900 text-lg font-semibold bg-white shadow-sm';
+          if (isNegative) cellClass = 'px-6 py-4 text-red-700 text-lg font-bold bg-red-50 shadow-sm';
+          if (isPositive) cellClass = 'px-6 py-4 text-green-700 text-lg font-bold bg-green-50 shadow-sm';
 
           return (
             <td className={cellClass} {...props}>

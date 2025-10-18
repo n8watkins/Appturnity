@@ -11,6 +11,7 @@ import { formatBlogDate } from '@/lib/dateUtils';
 import LazyImage from '@/components/LazyImage';
 import ReadingProgress from '@/components/ReadingProgress';
 import NewsletterSignup from '@/components/NewsletterSignup';
+import TopBanner from '@/components/TopBanner';
 import BlogNavbar from '@/components/BlogNavbar';
 import BlogFooter from '@/components/BlogFooter';
 
@@ -212,6 +213,9 @@ export default function BlogPost() {
           {JSON.stringify(articleSchema)}
         </script>
       </Helmet>
+
+      {/* Top Banner */}
+      <TopBanner />
 
       {/* Blog Navbar */}
       <BlogNavbar />

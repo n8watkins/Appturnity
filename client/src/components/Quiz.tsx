@@ -1,12 +1,28 @@
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ServiceQuiz from '@/components/ServiceQuiz';
 import RecommendationCard from '@/components/RecommendationCard';
 import { getRecommendation, type Recommendation } from '@/lib/quizRecommendations';
+import { saveQuizResults, clearQuizResults } from '@/lib/quizStorage';
 
 export default function Quiz() {
   const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
   const [quizKey, setQuizKey] = useState(0);
+  const [autoStart, setAutoStart] = useState(false);
+
+  // Listen for startQuiz event from navbar
+  useEffect(() => {
+    const handleStartQuiz = () => {
+      setAutoStart(true);
+      setQuizKey(prev => prev + 1); // Force quiz to remount with autoStart=true
+    };
+
+    window.addEventListener('startQuiz', handleStartQuiz);
+
+    return () => {
+      window.removeEventListener('startQuiz', handleStartQuiz);
+    };
+  }, []);
 
   // Handle quiz completion
   const handleQuizComplete = (results: Record<string, string | string[]>) => {
@@ -14,8 +30,8 @@ export default function Quiz() {
     const rec = getRecommendation(results);
     setRecommendation(rec);
 
-    // Store results in localStorage for calculator prefill
-    localStorage.setItem('quizResults', JSON.stringify(results));
+    // Store results in localStorage with 15-minute expiration
+    saveQuizResults(results);
 
     // Dispatch event so other components know quiz was completed
     window.dispatchEvent(new CustomEvent('quizCompleted', { detail: results }));
@@ -32,8 +48,9 @@ export default function Quiz() {
   // Handle quiz retake
   const handleRetakeQuiz = () => {
     setRecommendation(null);
+    setAutoStart(false);
     setQuizKey(prev => prev + 1);
-    localStorage.removeItem('quizResults');
+    clearQuizResults();
     // Scroll to top of quiz
     document.getElementById('quiz')?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -51,48 +68,38 @@ export default function Quiz() {
       aria-label="Service quiz section"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Heading */}
-        <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 mb-4">
-            Find Your Perfect Solution
-          </h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Answer 12 quick questions to get a personalized recommendation with instant pricing and timeline estimates.
-          </p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-6 text-sm text-slate-600">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-green-500"></div>
-              <span>Takes less than 60 seconds</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-green-500"></div>
-              <span>Get custom pricing estimate</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-green-500"></div>
-              <span>See what's included in your solution</span>
-            </div>
-          </div>
-        </motion.div>
+        {/* Heading - Only show if no recommendation */}
+        {!recommendation && (
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 mb-4">
+              Find Your Perfect Solution
+            </h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              Answer 12 quick questions to get a personalized recommendation with instant pricing and timeline estimates.
+            </p>
+          </motion.div>
+        )}
 
-        {/* Service Quiz */}
-        <motion.div
-          className="max-w-3xl mx-auto mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <ServiceQuiz key={quizKey} onComplete={handleQuizComplete} autoStart={false} />
-        </motion.div>
+        {/* Service Quiz - Only show if no recommendation */}
+        {!recommendation && (
+          <motion.div
+            className="max-w-5xl mx-auto mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <ServiceQuiz key={quizKey} onComplete={handleQuizComplete} autoStart={autoStart} />
+          </motion.div>
+        )}
 
-        {/* Recommendation Card */}
+        {/* Recommendation Card - Only show when quiz is complete */}
         {recommendation && (
           <motion.div
             id="quiz-recommendation"

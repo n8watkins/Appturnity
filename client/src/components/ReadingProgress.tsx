@@ -39,9 +39,9 @@ export default function ReadingProgress() {
       {/* Floating progress indicator */}
       <motion.div
         className="fixed bottom-8 right-8 bg-white shadow-lg rounded-full p-3 z-40 hidden md:flex items-center justify-center"
-        initial={{ scale: 0 }}
-        animate={{ scale: progress > 5 ? 1 : 0 }}
-        transition={{ duration: 0.2 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: progress > 5 ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
       >
         <svg className="w-12 h-12 -rotate-90">
           <circle

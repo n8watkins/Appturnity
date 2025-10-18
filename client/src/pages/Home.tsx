@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import TopBanner from "@/components/TopBanner";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import HowWeWork from "@/components/HowWeWork";
@@ -32,6 +33,7 @@ function SectionLoader() {
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
+      <TopBanner />
       <Header />
       <div className="flex-1">
         <Hero />

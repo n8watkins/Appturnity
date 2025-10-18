@@ -135,11 +135,11 @@ const quizQuestions: QuizQuestion[] = [
     id: "investment",
     question: "What's your investment budget?",
     options: [
-      { value: "budget-conscious", label: "Under $3,000", description: "Essential features only" },
-      { value: "standard", label: "$3,000 - $7,000", description: "Professional solution" },
-      { value: "premium", label: "$7,000 - $15,000", description: "Advanced features & design" },
-      { value: "enterprise", label: "$15,000+", description: "Custom enterprise solution" },
-      { value: "premium-budget", label: "Premium/No Limit", description: "Best quality, budget flexible" },
+      { value: "budget-conscious", label: "$750 - $1,500", description: "Essential tier (1-5 pages)" },
+      { value: "standard", label: "$1,700 - $3,000", description: "Professional tier (6-12 pages)" },
+      { value: "premium", label: "$3,200 - $5,500", description: "Enterprise tier (13-20 pages)" },
+      { value: "enterprise", label: "$5,500+", description: "Premium tier (21+ pages)" },
+      { value: "premium-budget", label: "$8,000+", description: "Complex custom solution" },
       { value: "need-guidance", label: "Need Guidance", description: "Help me understand costs" },
     ],
   },
@@ -290,9 +290,9 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
             className="text-center"
           >
             <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
               className="mb-6 flex justify-center"
             >
               <div className="w-20 h-20 bg-gradient-to-br from-primary to-purple-600 rounded-full flex items-center justify-center">
@@ -370,9 +370,9 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
             className="text-center"
           >
             <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: [0, 1.2, 1] }}
-              transition={{ duration: 0.6, times: [0, 0.6, 1] }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6 }}
               className="mb-6 flex justify-center"
             >
               <div className="w-24 h-24 bg-gradient-to-br from-primary to-purple-600 rounded-full flex items-center justify-center">
@@ -473,7 +473,7 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
             </div>
 
             {/* Options */}
-            <div className="space-y-3 mb-8">
+            <div className={currentQuestion.id === 'desiredFeatures' ? 'grid grid-cols-1 md:grid-cols-2 gap-3 mb-8' : 'space-y-3 mb-8'}>
               {currentQuestion.options.map((option) => {
                 const isSelected = selectedOptions.includes(option.value);
                 const isDisabled = !isMultiSelect && isAdvancing;

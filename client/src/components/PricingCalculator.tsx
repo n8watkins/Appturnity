@@ -1,10 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calculator, Check, X } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { handleSmoothScroll } from "@/lib/utils";
+import { getQuizResults } from "@/lib/quizStorage";
 
 interface Feature {
   id: string;
@@ -255,6 +256,9 @@ const FEATURES: Feature[] = [
   }
 ];
 
+// Quiz discount percentage
+const QUIZ_DISCOUNT_PERCENT = 10;
+
 export default function PricingCalculator() {
   const [pages, setPages] = useState(5);
   const [users, setUsers] = useState(3);
@@ -360,11 +364,24 @@ export default function PricingCalculator() {
     return { adjustedFeaturesTotal: adjustedTotal, enabledAdvancedCount: count };
   }, [features, featuresTotal, includedAdvancedFeatures]);
 
-  const totalPrice = useMemo(() => basePrice, [basePrice]);
+  const totalPrice = useMemo(() => {
+    // Apply quiz discount if quiz was completed
+    if (prefilledFromQuiz) {
+      return Math.round(basePrice * (1 - QUIZ_DISCOUNT_PERCENT / 100));
+    }
+    return basePrice;
+  }, [basePrice, prefilledFromQuiz]);
 
-  // Calculate SaaS costs with per-user scaling (memoized)
-  const saasPageCost = useMemo(() => pages * 8, [pages]); // $8/page/month for SaaS platforms
-  const saasBasePlatformCost = useMemo(() => 12 * users, [users]); // $12/user/month minimum
+  const quizDiscount = useMemo(() => {
+    if (prefilledFromQuiz) {
+      return basePrice - totalPrice;
+    }
+    return 0;
+  }, [basePrice, totalPrice, prefilledFromQuiz]);
+
+  // Calculate SaaS costs with per-user scaling (memoized) - conservative estimates
+  const saasPageCost = useMemo(() => pages * 5, [pages]); // $5/page/month for SaaS platforms (conservative)
+  const saasBasePlatformCost = useMemo(() => 8 * users, [users]); // $8/user/month minimum (conservative)
 
   const saasFeatureCosts = useMemo(() =>
     features
@@ -420,55 +437,87 @@ export default function PricingCalculator() {
     return "2-3 months";
   };
 
+  // Helper function to prefill calculator from quiz data
+  const prefillFromQuiz = (data: any) => {
+    // Prefill pages from pageCount question
+    if (data.pageCount) {
+      const pageRange = data.pageCount;
+      let pageValue = 5; // default
+
+      if (pageRange === '1-5') pageValue = 3;
+      else if (pageRange === '6-12') pageValue = 9;
+      else if (pageRange === '13-20') pageValue = 16;
+      else if (pageRange === '20+') pageValue = 25; // Premium tier (> 20 pages)
+      else if (pageRange === 'not-sure') pageValue = 8; // default to Professional tier
+
+      setPages(pageValue);
+      setPrefilledFromQuiz(true);
+    }
+
+    // Prefill users from teamSize question
+    if (data.teamSize) {
+      const teamRange = data.teamSize;
+      let userValue = 3; // default
+
+      if (teamRange === '1-3') userValue = 2;
+      else if (teamRange === '4-7') userValue = 5;
+      else if (teamRange === '8-15') userValue = 10;
+      else if (teamRange === '15+') userValue = 15;
+
+      setUsers(userValue);
+      setPrefilledFromQuiz(true);
+    }
+
+    // Pre-enable features based on quiz
+    if (data.desiredFeatures && Array.isArray(data.desiredFeatures)) {
+      setFeatures(prev => prev.map(feature => ({
+        ...feature,
+        enabled: data.desiredFeatures.includes(feature.id) || feature.alwaysIncluded
+      })));
+      setPrefilledFromQuiz(true);
+    }
+  };
+
   // Check for quiz prefill on mount
   useEffect(() => {
-    const quizResults = localStorage.getItem('quizResults');
-    if (quizResults) {
-      try {
-        const data = JSON.parse(quizResults);
-
-        // Prefill pages from pageCount question
-        if (data.pageCount) {
-          const pageRange = data.pageCount;
-          let pageValue = 5; // default
-
-          if (pageRange === '1-5') pageValue = 3;
-          else if (pageRange === '6-12') pageValue = 9;
-          else if (pageRange === '13-20') pageValue = 16;
-          else if (pageRange === '20+') pageValue = 20;
-          else if (pageRange === 'not-sure') pageValue = 8; // default to Professional tier
-
-          setPages(pageValue);
-          setPrefilledFromQuiz(true);
-        }
-
-        // Prefill users from teamSize question
-        if (data.teamSize) {
-          const teamRange = data.teamSize;
-          let userValue = 3; // default
-
-          if (teamRange === '1-3') userValue = 2;
-          else if (teamRange === '4-7') userValue = 5;
-          else if (teamRange === '8-15') userValue = 10;
-          else if (teamRange === '15+') userValue = 15;
-
-          setUsers(userValue);
-          setPrefilledFromQuiz(true);
-        }
-
-        // Pre-enable features based on quiz
-        if (data.desiredFeatures && Array.isArray(data.desiredFeatures)) {
-          setFeatures(prev => prev.map(feature => ({
-            ...feature,
-            enabled: data.desiredFeatures.includes(feature.id) || feature.alwaysIncluded
-          })));
-          setPrefilledFromQuiz(true);
-        }
-      } catch (error) {
-        console.error('Error parsing quiz results:', error);
-      }
+    const quizData = getQuizResults();
+    if (quizData) {
+      prefillFromQuiz(quizData);
     }
   }, []);
+
+  // Listen for quiz completion events in real-time
+  useEffect(() => {
+    const handleQuizCompleted = (event: CustomEvent) => {
+      prefillFromQuiz(event.detail);
+    };
+
+    window.addEventListener('quizCompleted', handleQuizCompleted as EventListener);
+
+    return () => {
+      window.removeEventListener('quizCompleted', handleQuizCompleted as EventListener);
+    };
+  }, []);
+
+  // Dispatch calculator updates whenever values change
+  useEffect(() => {
+    // Only dispatch if we have valid data (skip initial render)
+    if (pages && features.length > 0) {
+      const calculatorData = {
+        pages,
+        users,
+        selectedFeatures: features.filter(f => f.enabled).map(f => f.id),
+        basePrice,
+        totalPrice,
+        timeline: calculateTimeline(),
+        timestamp: new Date().toISOString()
+      };
+
+      window.dispatchEvent(new CustomEvent('calculatorUpdated', {
+        detail: calculatorData
+      }));
+    }
+  }, [pages, users, features, basePrice, totalPrice]);
 
   const handleShowComparison = () => {
     setIsCalculating(true);
@@ -560,12 +609,6 @@ export default function PricingCalculator() {
           className="max-w-7xl mx-auto"
         >
           <Card className="shadow-lg border border-slate-300 bg-white">
-            <CardHeader className="border-b border-slate-200 pb-4">
-              <CardTitle className="flex items-center text-xl text-slate-900 font-semibold">
-                <Calculator className="mr-2 h-5 w-5 text-primary" />
-                {showComparison ? "Your Savings Report" : "Design Your Solution"}
-              </CardTitle>
-            </CardHeader>
             <CardContent className="p-6 md:p-8">
               {/* Loading Animation */}
               <AnimatePresence mode="wait">
@@ -677,10 +720,25 @@ export default function PricingCalculator() {
                             );
                           })()}
 
+                          {/* Show quiz discount in comparison */}
+                          {prefilledFromQuiz && quizDiscount > 0 && (
+                            <div className="flex justify-between text-xs bg-yellow-100 p-1.5 rounded -mx-1">
+                              <span className="text-yellow-900 font-semibold">🎉 Quiz Discount ({QUIZ_DISCOUNT_PERCENT}%):</span>
+                              <span className="text-yellow-900 font-bold">-${quizDiscount}</span>
+                            </div>
+                          )}
+
                           <div className="border-t border-green-300 pt-2 mt-2">
                             <div className="flex justify-between font-bold">
                               <span className="text-green-900">Total (one-time):</span>
-                              <span className="text-green-900 text-lg">${totalPrice.toLocaleString()}</span>
+                              <div className="text-right">
+                                {prefilledFromQuiz && quizDiscount > 0 && (
+                                  <div className="text-xs text-green-700 line-through mr-2 inline">
+                                    ${basePrice.toLocaleString()}
+                                  </div>
+                                )}
+                                <span className="text-green-900 text-lg">${totalPrice.toLocaleString()}</span>
+                              </div>
                             </div>
                             <div className="flex justify-between mt-1">
                               <span className="text-green-800">Monthly cost:</span>
@@ -771,16 +829,16 @@ export default function PricingCalculator() {
                       transition={{ delay: 0.5 }}
                       className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-xl text-white text-center shadow-xl mb-6"
                     >
-                      <p className="text-xs font-medium mb-1 uppercase tracking-wide opacity-90">Your 3-Year Savings</p>
+                      <p className="text-xs font-medium mb-1 uppercase tracking-wide opacity-90">Total Savings Compared to SaaS Platforms</p>
                       <p className="text-5xl font-bold mb-2">
                         ${(saasThreeYearTotal - totalPrice).toLocaleString()}
                       </p>
                       <div className="space-y-1 opacity-90">
                         <p className="text-sm">
-                          That's <strong>${Math.round((saasThreeYearTotal - totalPrice) / 36).toLocaleString()}/month</strong> saved over 3 years
+                          Pay once: <strong>${totalPrice.toLocaleString()}</strong> vs SaaS total over 3 years: <strong>${Math.round(saasThreeYearTotal).toLocaleString()}</strong>
                         </p>
                         <p className="text-xs opacity-75">
-                          (vs ${Math.round(saasThreeYearTotal).toLocaleString()} total SaaS cost)
+                          Save an average of ${Math.round((saasThreeYearTotal - totalPrice) / 36).toLocaleString()}/month by owning your solution
                         </p>
                       </div>
                     </motion.div>
@@ -795,54 +853,10 @@ export default function PricingCalculator() {
                       </p>
                       <ul className="space-y-1 ml-5 list-disc">
                         <li>
-                          <strong>SaaS pricing sources:</strong> Based on published pricing from leading platforms:
-                          <ul className="ml-4 mt-1 space-y-0.5 list-circle">
-                            <li>
-                              <a href="https://webflow.com/pricing" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                                Webflow
-                              </a> ($29-212/mo base + $29-49/mo CMS + feature add-ons)
-                            </li>
-                            <li>
-                              <a href="https://www.wix.com/upgrade/website" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                                Wix
-                              </a> ($27-159/mo for business plans + e-commerce fees)
-                            </li>
-                            <li>
-                              <a href="https://www.squarespace.com/pricing" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                                Squarespace
-                              </a> ($25-65/mo + commerce transaction fees)
-                            </li>
-                            <li>
-                              <a href="https://www.shopify.com/pricing" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                                Shopify
-                              </a> ($39-399/mo + 2-3% transaction fees)
-                            </li>
-                            <li>
-                              <a href="https://www.hubspot.com/pricing/cms" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                                HubSpot CMS
-                              </a> ($23-1,200/mo depending on features)
-                            </li>
-                          </ul>
+                          <strong>SaaS pricing sources:</strong> Based on published pricing from Webflow ($29-212/mo), Wix ($27-159/mo), Squarespace ($25-65/mo), Shopify ($39-399/mo), and HubSpot CMS ($23-1,200/mo)
                         </li>
                         <li>
-                          <strong>Additional research:</strong>
-                          <ul className="ml-4 mt-1 space-y-0.5 list-circle">
-                            <li>
-                              <a href="https://www.forbes.com/advisor/business/software/website-builder-cost/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                                Forbes: Website Builder Cost Guide 2024
-                              </a>
-                            </li>
-                            <li>
-                              <a href="https://www.g2.com/articles/website-builder-cost" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                                G2: How Much Does a Website Builder Cost?
-                              </a>
-                            </li>
-                            <li>
-                              <a href="https://www.techradar.com/web-hosting/website-builder-cost" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                                TechRadar: The True Cost of Website Builders
-                              </a>
-                            </li>
-                          </ul>
+                          <strong>What's excluded:</strong> Comparison focuses on platform and feature costs only. Standard operational costs like SSL certificates, domain registration, and hosting are typically included in both solutions and not factored into the savings calculation.
                         </li>
                         <li>Your quote is fixed for 30 days from today</li>
                         <li>Includes {calculateTimeline()} delivery timeline</li>
@@ -1044,8 +1058,8 @@ export default function PricingCalculator() {
                           </span>
                           <motion.span
                             key={`our-pages-${basePrice}`}
-                            initial={{ scale: 1.2, color: '#15803d' }}
-                            animate={{ scale: 1, color: '#14532d' }}
+                            initial={{ color: '#15803d' }}
+                            animate={{ color: '#14532d' }}
                             transition={{ duration: 0.3 }}
                             className="text-lg font-bold ml-2 whitespace-nowrap"
                           >
@@ -1138,19 +1152,41 @@ export default function PricingCalculator() {
                       })()}
 
                       <div className="border-t-2 border-green-300 pt-3 mt-3">
+                        {/* Show quiz discount if applicable */}
+                        {prefilledFromQuiz && quizDiscount > 0 && (
+                          <div className="mb-3 p-2.5 bg-gradient-to-r from-yellow-100 to-yellow-50 rounded-lg border border-yellow-300">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <span className="text-xl">🎉</span>
+                                <span className="text-sm font-semibold text-yellow-900">Quiz Completion Discount ({QUIZ_DISCOUNT_PERCENT}%)</span>
+                              </div>
+                              <span className="text-base font-bold text-yellow-900">
+                                -${quizDiscount.toLocaleString()}
+                              </span>
+                            </div>
+                          </div>
+                        )}
+
                         <div className="flex justify-between items-center mb-2">
                           <span className="text-lg font-bold text-green-900">
                             One-Time Investment:
                           </span>
-                          <motion.span
-                            key={`total-${totalPrice}`}
-                            initial={{ scale: 1.2, color: '#15803d' }}
-                            animate={{ scale: 1, color: '#14532d' }}
-                            transition={{ duration: 0.3 }}
-                            className="text-4xl font-bold text-green-800"
-                          >
-                            ${totalPrice.toLocaleString()}
-                          </motion.span>
+                          <div className="text-right">
+                            {prefilledFromQuiz && quizDiscount > 0 && (
+                              <div className="text-sm text-green-700 line-through mb-1">
+                                ${basePrice.toLocaleString()}
+                              </div>
+                            )}
+                            <motion.span
+                              key={`total-${totalPrice}`}
+                              initial={{ color: '#15803d' }}
+                              animate={{ color: '#14532d' }}
+                              transition={{ duration: 0.3 }}
+                              className="text-4xl font-bold text-green-800"
+                            >
+                              ${totalPrice.toLocaleString()}
+                            </motion.span>
+                          </div>
                         </div>
                         <p className="text-sm text-green-700 text-right">
                           Timeline: {calculateTimeline()}
@@ -1188,7 +1224,7 @@ export default function PricingCalculator() {
 
                   {/* Get Quote Button - shown when not in comparison mode */}
                   {!showComparison && (
-                    <div className="pt-4 border-t-2 border-slate-200">
+                    <div className="pt-4 border-t-2 border-slate-200 space-y-3">
                       <Button
                         onClick={handleGetQuote}
                         size="lg"
@@ -1196,7 +1232,17 @@ export default function PricingCalculator() {
                       >
                         Get Your Free Quote →
                       </Button>
-                      <p className="text-center text-sm text-slate-600 mt-2">
+                      <Button
+                        onClick={() => {
+                          document.getElementById('pricing-tiers')?.scrollIntoView({ behavior: 'smooth' });
+                        }}
+                        variant="outline"
+                        size="lg"
+                        className="w-full text-base py-5"
+                      >
+                        See Our Pricing Options
+                      </Button>
+                      <p className="text-center text-sm text-slate-600">
                         No commitment required • Response within 24 hours
                       </p>
                     </div>

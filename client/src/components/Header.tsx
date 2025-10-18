@@ -19,7 +19,7 @@ export default function Header() {
       setLocation('/');
       // Wait for navigation to complete, then scroll
       setTimeout(() => {
-        if (startQuiz && targetId === 'contact') {
+        if (startQuiz && targetId === 'quiz') {
           window.dispatchEvent(new Event('startQuiz'));
         }
         if (targetId) {
@@ -28,7 +28,7 @@ export default function Header() {
       }, 300);
     } else {
       // We're already on home page, just scroll
-      if (startQuiz && targetId === 'contact') {
+      if (startQuiz && targetId === 'quiz') {
         window.dispatchEvent(new Event('startQuiz'));
       }
       if (targetId) {
@@ -37,6 +37,24 @@ export default function Header() {
         }, 100);
       }
     }
+  };
+
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setLocation('/');
+    // Scroll to top when navigating to home
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+  };
+
+  const handleBlogClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setLocation('/blog');
+    // Scroll to top when navigating to blog
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
   };
 
   const navigateAndClose = (e: React.MouseEvent<HTMLAnchorElement>, startQuiz?: boolean) => {
@@ -54,7 +72,7 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-sm select-none">
       <Helmet>
         <title>Appturnity - Web Consulting</title>
         <meta name="description" content="Custom landing pages built to drive trust and growth." />
@@ -65,20 +83,16 @@ export default function Header() {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link href="/">
-              <a className="flex items-center space-x-2 cursor-pointer">
+              <a
+                className="flex items-center space-x-2 cursor-pointer"
+                onClick={handleLogoClick}
+              >
                 <img src="/appturnity.webp" alt="Appturnity" width={200} height={200} />
               </a>
             </Link>
           </div>
           
           <nav className="hidden md:flex items-center space-x-6">
-            <a
-              href="#how-we-work"
-              className="text-slate-600 hover:text-primary transition-colors"
-              onClick={(e) => handleNavClick(e, "how-we-work")}
-            >
-              How We Work
-            </a>
             <a
               href="#about"
               className="text-slate-600 hover:text-primary transition-colors"
@@ -107,26 +121,29 @@ export default function Header() {
             >
               Pricing
             </a>
-            <Link href="/blog">
-              <a className="text-slate-600 hover:text-primary transition-colors">
-                Blog
-              </a>
-            </Link>
             <a
-              href="#contact"
-              className="px-4 py-2 rounded-md bg-white border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-200 shadow-sm"
-              onClick={(e) => handleNavClick(e, "contact", true)}
-            >
-              Contact
-            </a>
-            <a
-              href="#contact"
+              href="#quiz"
               className="flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 transition-colors shadow-sm"
-              onClick={(e) => handleNavClick(e, "contact", true)}
+              onClick={(e) => handleNavClick(e, "quiz", true)}
             >
               <Sparkles className="h-4 w-4" />
               Take Quiz
             </a>
+            <a
+              href="#contact"
+              className="text-slate-600 hover:text-primary transition-colors"
+              onClick={(e) => handleNavClick(e, "contact")}
+            >
+              Contact
+            </a>
+            <Link href="/blog">
+              <a
+                className="px-4 py-2 rounded-md bg-white border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-200 shadow-sm"
+                onClick={handleBlogClick}
+              >
+                Check out our Blog
+              </a>
+            </Link>
           </nav>
           
           <div className="md:hidden">
@@ -138,30 +155,23 @@ export default function Header() {
               </SheetTrigger>
               <SheetContent side="right" className="w-[240px] sm:w-[300px]">
                 <div className="flex flex-col gap-6 mt-6">
-                  <a 
-                    href="#how-we-work" 
-                    className="text-slate-700 hover:text-primary transition-colors" 
-                    onClick={navigateAndClose}
-                  >
-                    How We Work
-                  </a>
-                  <a 
-                    href="#about" 
-                    className="text-slate-700 hover:text-primary transition-colors" 
+                  <a
+                    href="#about"
+                    className="text-slate-700 hover:text-primary transition-colors"
                     onClick={navigateAndClose}
                   >
                     About
                   </a>
-                  <a 
-                    href="#portfolio" 
-                    className="text-slate-700 hover:text-primary transition-colors" 
+                  <a
+                    href="#portfolio"
+                    className="text-slate-700 hover:text-primary transition-colors"
                     onClick={navigateAndClose}
                   >
                     Portfolio
                   </a>
-                  <a 
-                    href="#testimonials" 
-                    className="text-slate-700 hover:text-primary transition-colors" 
+                  <a
+                    href="#testimonials"
+                    className="text-slate-700 hover:text-primary transition-colors"
                     onClick={navigateAndClose}
                   >
                     Testimonials
@@ -173,26 +183,32 @@ export default function Header() {
                   >
                     Pricing
                   </a>
-                  <Link href="/blog">
-                    <a className="text-slate-700 hover:text-primary transition-colors" onClick={() => setIsOpen(false)}>
-                      Blog
-                    </a>
-                  </Link>
                   <a
-                    href="#contact"
-                    className="px-4 py-2 rounded-md bg-white border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-200 text-center"
-                    onClick={(e) => navigateAndClose(e, true)}
-                  >
-                    Contact
-                  </a>
-                  <a
-                    href="#contact"
+                    href="#quiz"
                     className="flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 transition-colors shadow-sm"
                     onClick={(e) => navigateAndClose(e, true)}
                   >
                     <Sparkles className="h-4 w-4" />
                     Take Quiz
                   </a>
+                  <a
+                    href="#contact"
+                    className="text-slate-700 hover:text-primary transition-colors"
+                    onClick={navigateAndClose}
+                  >
+                    Contact
+                  </a>
+                  <Link href="/blog">
+                    <a
+                      className="px-4 py-2 rounded-md bg-white border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-200 text-center shadow-sm"
+                      onClick={(e) => {
+                        setIsOpen(false);
+                        handleBlogClick(e);
+                      }}
+                    >
+                      Check out our Blog
+                    </a>
+                  </Link>
                 </div>
               </SheetContent>
             </Sheet>

@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express, { type Request, Response, NextFunction } from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -157,8 +158,8 @@ app.use((req, res, next) => {
   }
 
   // Try to start server on available port
-  const preferredPort = 3000;
-  const maxPort = 3010; // Try up to port 3010
+  const preferredPort = 7223;
+  const maxPort = 7233; // Try up to port 7233
 
   function tryListen(port: number) {
     server.listen(port, "localhost", () => {

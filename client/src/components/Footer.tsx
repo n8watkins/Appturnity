@@ -1,11 +1,13 @@
 import { Phone, Mail, Calendar } from "lucide-react";
+import { Link } from "wouter";
 import { handleSmoothScroll } from "@/lib/utils";
 
 export default function Footer() {
   return (
     <footer className="bg-slate-900 text-slate-400 py-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-10">
+          {/* Company Info */}
           <div className="lg:col-span-1">
             <div className="flex items-center space-x-2 mb-4">
               <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center">
@@ -13,8 +15,8 @@ export default function Footer() {
               </div>
               <span className="font-bold text-lg text-white">Appturnity</span>
             </div>
-            <p className="mb-4">
-              Custom apps without the complexity.<br />
+            <p className="mb-4 text-sm">
+              Custom websites without the complexity.<br />
               Simple solutions. Predictable prices.
             </p>
             <div className="flex space-x-4">
@@ -27,10 +29,19 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="lg:col-span-2 grid grid-cols-2 gap-6">
-            <div>
-            <h3 className="text-white font-semibold mb-4">Sitemap</h3>
-            <ul className="space-y-2">
+          {/* Company Section */}
+          <div>
+            <h3 className="text-white font-semibold mb-4">Company</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <a
+                  href="#about"
+                  onClick={(e) => handleSmoothScroll(e, "about")}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
+                  About Us
+                </a>
+              </li>
               <li>
                 <a
                   href="#how-we-work"
@@ -42,11 +53,11 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#about"
-                  onClick={(e) => handleSmoothScroll(e, "about")}
+                  href="#what-you-get"
+                  onClick={(e) => handleSmoothScroll(e, "what-you-get")}
                   className="hover:text-white transition-colors cursor-pointer"
                 >
-                  About
+                  What You Get
                 </a>
               </li>
               <li>
@@ -70,37 +81,91 @@ export default function Footer() {
             </ul>
           </div>
 
-            <div>
-              <h3 className="text-white font-semibold mb-4">Tools</h3>
-              <ul className="space-y-2">
-                <li>
-                  <a
-                    href="#pricing"
-                    onClick={(e) => handleSmoothScroll(e, "pricing")}
-                    className="hover:text-white transition-colors cursor-pointer"
-                  >
-                    Pricing Calculator
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#contact"
-                    onClick={(e) => handleSmoothScroll(e, "contact", undefined, true)}
-                    className="hover:text-white transition-colors cursor-pointer"
-                  >
-                    Service Quiz
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="lg:col-span-1">
-            <h3 className="text-white font-semibold mb-4">Contact Us</h3>
-            <ul className="space-y-2">
+          {/* Services Section */}
+          <div>
+            <h3 className="text-white font-semibold mb-4">Services</h3>
+            <ul className="space-y-2 text-sm">
               <li>
                 <a
-                  href="https://calendly.com/nathancwatkins23/web-consulting?month=2025-04"
+                  href="#quiz"
+                  onClick={(e) => handleSmoothScroll(e, "quiz")}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
+                  Service Quiz
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#pricing"
+                  onClick={(e) => handleSmoothScroll(e, "pricing")}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
+                  Pricing Calculator
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#pricing-tiers"
+                  onClick={(e) => handleSmoothScroll(e, "pricing-tiers")}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
+                  Pricing Tiers
+                </a>
+              </li>
+              <li>
+                <Link href="/features">
+                  <a className="hover:text-white transition-colors cursor-pointer">
+                    All Features
+                  </a>
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="#contact"
+                  onClick={(e) => handleSmoothScroll(e, "contact")}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
+                  Get Started
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Resources Section */}
+          <div>
+            <h3 className="text-white font-semibold mb-4">Resources</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/blog">
+                  <a className="hover:text-white transition-colors cursor-pointer">
+                    Blog
+                  </a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms">
+                  <a className="hover:text-white transition-colors cursor-pointer">
+                    Terms of Use
+                  </a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy">
+                  <a className="hover:text-white transition-colors cursor-pointer">
+                    Privacy Policy
+                  </a>
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Contact Section */}
+          <div>
+            <h3 className="text-white font-semibold mb-4">Contact</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <a
+                  href="https://calendly.com/nathancwatkins23/web-consulting"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 hover:text-white transition-colors"
@@ -116,23 +181,17 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="mailto:nathancwatkins23@gmail.com" className="flex items-center gap-2 hover:text-white transition-colors">
+                <a href="mailto:nathancwatkins23@gmail.com" className="flex items-center gap-2 hover:text-white transition-colors break-all">
                   <Mail size={16} />
-                  <span>nathancwatkins23@gmail.com</span>
+                  <span>Get in Touch</span>
                 </a>
               </li>
             </ul>
           </div>
         </div>
         
-        <div className="border-t border-slate-800 mt-10 pt-6 text-sm">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p>&copy; {new Date().getFullYear()} Appturnity. All rights reserved.</p>
-            <div className="flex gap-6">
-              <a href="/terms" className="hover:text-white transition-colors">Terms of Use</a>
-              <a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a>
-            </div>
-          </div>
+        <div className="border-t border-slate-800 mt-10 pt-6 text-sm text-center">
+          <p>&copy; {new Date().getFullYear()} Appturnity. All rights reserved.</p>
         </div>
       </div>
     </footer>

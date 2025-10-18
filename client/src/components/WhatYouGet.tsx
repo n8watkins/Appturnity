@@ -73,10 +73,10 @@ export default function WhatYouGet() {
         >
           <motion.div
             className="inline-block mb-6"
-            initial={{ scale: 0 }}
-            whileInView={{ scale: 1 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
             <div className="px-4 py-2 bg-gradient-to-r from-primary to-purple-600 rounded-full">
               <p className="text-white font-semibold text-sm">Everything Included</p>

@@ -141,3 +141,7 @@
   }
 }
 
+/* Hide the Google reCAPTCHA badge */
+.grecaptcha-badge {
+  display: none !important;
+}

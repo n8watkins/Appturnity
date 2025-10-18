@@ -1,8 +1,13 @@
 import { motion } from "framer-motion";
-import { Check, Star, ArrowRight, Sparkles, FileText, Clock } from "lucide-react";
+import { Check, Star, ArrowRight, Sparkles, FileText, Clock, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { handleSmoothScroll } from "@/lib/utils";
 import { Link } from "wouter";
+import { useState, useEffect } from "react";
+import { getQuizResults } from "@/lib/quizStorage";
+
+// Quiz discount percentage
+const QUIZ_DISCOUNT_PERCENT = 10;
 
 const pricingTiers = [
   {
@@ -86,8 +91,92 @@ const pricingTiers = [
 ];
 
 export default function PricingTiers() {
+  const [recommendedTier, setRecommendedTier] = useState<string | null>(null);
+  const [hasQuizDiscount, setHasQuizDiscount] = useState(false);
+
+  // Helper function to apply discount to a price string
+  const applyDiscount = (priceString: string) => {
+    const price = parseInt(priceString.replace(/\D/g, ''));
+    if (isNaN(price)) return priceString;
+    const discountedPrice = Math.round(price * (1 - QUIZ_DISCOUNT_PERCENT / 100));
+    return `$${discountedPrice.toLocaleString()}`;
+  };
+
+  // Helper function to calculate best tier (same logic as PricingCalculator)
+  const calculateRecommendedTier = (data: any) => {
+    if (!data.pageCount) return null;
+
+    // Convert page range to numeric value
+    const pageRange = data.pageCount;
+    let pages = 5; // default
+    if (pageRange === '1-5') pages = 3;
+    else if (pageRange === '6-12') pages = 9;
+    else if (pageRange === '13-20') pages = 16;
+    else if (pageRange === '20+') pages = 25; // Changed from 20 to 25 for Premium tier
+    else if (pageRange === 'not-sure') pages = 8;
+
+    // Count advanced features selected
+    const advancedCount = (data.desiredFeatures && Array.isArray(data.desiredFeatures))
+      ? data.desiredFeatures.length
+      : 0;
+
+    // Calculate tier price for each option
+    const calculateTierPrice = (tierBase: number, tierIncluded: number) => {
+      const paidFeatures = Math.max(0, advancedCount - tierIncluded);
+      return tierBase + (paidFeatures * 500);
+    };
+
+    const allTierOptions = [
+      { name: "Essential", base: 750, included: 1, maxPages: 5 },
+      { name: "Professional", base: 1700, included: 3, maxPages: 12 },
+      { name: "Enterprise", base: 3200, included: 7, maxPages: 20 },
+      { name: "Premium", base: 5500, included: 15, maxPages: 999 }
+    ];
+
+    // Start with tier based on page count
+    let currentTier = allTierOptions.find(t => pages <= t.maxPages) || allTierOptions[3];
+    let bestPrice = calculateTierPrice(currentTier.base, currentTier.included);
+    let bestTier = currentTier.name;
+
+    // Check all tiers to find the cheapest option
+    allTierOptions.forEach(tier => {
+      const tierPrice = calculateTierPrice(tier.base, tier.included);
+      if (tierPrice < bestPrice) {
+        bestPrice = tierPrice;
+        bestTier = tier.name;
+      }
+    });
+
+    return bestTier;
+  };
+
+  // Determine recommended tier from quiz results
+  useEffect(() => {
+    const quizData = getQuizResults();
+    if (quizData) {
+      const recommended = calculateRecommendedTier(quizData);
+      setRecommendedTier(recommended);
+      setHasQuizDiscount(true);
+    }
+  }, []);
+
+  // Listen for quiz completion events in real-time
+  useEffect(() => {
+    const handleQuizCompleted = (event: CustomEvent) => {
+      const recommended = calculateRecommendedTier(event.detail);
+      setRecommendedTier(recommended);
+      setHasQuizDiscount(true);
+    };
+
+    window.addEventListener('quizCompleted', handleQuizCompleted as EventListener);
+
+    return () => {
+      window.removeEventListener('quizCompleted', handleQuizCompleted as EventListener);
+    };
+  }, []);
+
   return (
-    <section id="pricing-tiers" className="py-20 bg-white">
+    <section id="pricing-tiers" className="py-20 bg-white scroll-mt-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -97,6 +186,26 @@ export default function PricingTiers() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
+          {/* Quiz Discount Banner */}
+          {hasQuizDiscount && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4 }}
+              className="mb-6 inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-yellow-100 via-yellow-50 to-yellow-100 border-2 border-yellow-300 rounded-full shadow-lg"
+            >
+              <span className="text-2xl">🎉</span>
+              <div className="text-left">
+                <div className="text-sm font-bold text-yellow-900">
+                  Quiz Discount Active!
+                </div>
+                <div className="text-xs text-yellow-800">
+                  {QUIZ_DISCOUNT_PERCENT}% off all pricing shown below
+                </div>
+              </div>
+            </motion.div>
+          )}
+
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 mb-4">
             Simple, Transparent Pricing
           </h2>
@@ -114,21 +223,32 @@ export default function PricingTiers() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`relative ${tier.highlight ? "lg:-translate-y-4" : ""}`}
+              className={`relative transition-transform duration-300 ${
+                recommendedTier === tier.name || tier.highlight ? "lg:-translate-y-8 lg:scale-105" : ""
+              }`}
             >
-              {/* Popular Badge */}
-              {tier.popular && (
+              {/* Recommended Badge - takes priority when quiz is taken */}
+              {recommendedTier === tier.name ? (
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
+                  <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-lg whitespace-nowrap">
+                    <Target className="h-3.5 w-3.5" />
+                    RECOMMENDED FOR YOU
+                  </div>
+                </div>
+              ) : tier.popular ? (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
                   <div className="bg-gradient-to-r from-primary to-blue-600 text-white px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-lg whitespace-nowrap">
                     <Star className="h-3.5 w-3.5 fill-current" />
                     MOST POPULAR
                   </div>
                 </div>
-              )}
+              ) : null}
 
               <div
                 className={`relative h-full bg-white rounded-2xl p-6 shadow-lg border-2 transition-all duration-300 hover:shadow-xl flex flex-col ${
-                  tier.highlight
+                  recommendedTier === tier.name
+                    ? "border-green-500 shadow-2xl"
+                    : tier.highlight
                     ? "border-primary shadow-2xl"
                     : "border-slate-200 hover:border-primary/50"
                 }`}
@@ -139,14 +259,35 @@ export default function PricingTiers() {
                     {tier.name}
                   </h3>
                   <div className="mb-2">
-                    <span className="text-4xl font-bold text-primary">
-                      {tier.price}
-                    </span>
+                    {hasQuizDiscount && tier.price !== "Custom" ? (
+                      <div className="space-y-1">
+                        <div className="text-lg text-slate-500 line-through">
+                          {tier.price}
+                        </div>
+                        <div className="flex items-center justify-center gap-2">
+                          <span className="text-4xl font-bold text-primary">
+                            {applyDiscount(tier.price)}
+                          </span>
+                          <span className="inline-flex items-center px-2 py-0.5 bg-gradient-to-r from-yellow-400 to-yellow-500 text-yellow-900 text-xs font-bold rounded">
+                            -{QUIZ_DISCOUNT_PERCENT}%
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      <span className="text-4xl font-bold text-primary">
+                        {tier.price}
+                      </span>
+                    )}
                     {tier.price !== "Custom" && (
                       <span className="text-slate-600 ml-1">one-time</span>
                     )}
                   </div>
                   <p className="text-sm text-slate-600">{tier.description}</p>
+                  {hasQuizDiscount && tier.price !== "Custom" && (
+                    <p className="text-xs text-green-700 mt-1 font-medium">
+                      🎉 Quiz discount applied!
+                    </p>
+                  )}
                 </div>
 
                 {/* Quick Stats */}

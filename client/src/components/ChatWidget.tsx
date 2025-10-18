@@ -395,6 +395,16 @@ export default function ChatWidget() {
                   </form>
                 </>
               )}
+
+              {/* Custom reCAPTCHA v3 notification */}
+              {!isAnimating && !messageSent && (
+                <div className="absolute bottom-2 right-2 opacity-70 hover:opacity-100 transition-opacity select-none">
+                  <div className="text-xs text-gray-500 flex items-center gap-1">
+                    <span>🛡️</span>
+                    <span>Protected by reCAPTCHA v3</span>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

@@ -35,6 +35,12 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
     return true; // Allow in development if not configured
   }
 
+  // In development mode, allow test tokens for email testing
+  if (process.env.NODE_ENV === 'development' && token === 'test_token') {
+    console.log("Development mode: accepting test_token for email testing");
+    return true;
+  }
+
   try {
     const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
       method: 'POST',

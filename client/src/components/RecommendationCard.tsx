@@ -22,9 +22,9 @@ export default function RecommendationCard({ recommendation, onContinue, onRetak
           {/* Header */}
           <div className="flex items-start gap-4 mb-6">
             <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
               className="w-14 h-14 bg-gradient-to-br from-primary to-purple-600 rounded-xl flex items-center justify-center flex-shrink-0"
             >
               <Sparkles className="w-7 h-7 text-white" />
@@ -86,12 +86,23 @@ export default function RecommendationCard({ recommendation, onContinue, onRetak
               <p className="text-lg font-bold text-slate-900">{recommendation.timeline}</p>
             </div>
 
-            <div className="bg-slate-50 rounded-lg p-4">
+            <div className="bg-slate-50 rounded-lg p-4 relative overflow-hidden">
+              {/* Quiz discount badge */}
+              {recommendation.quizDiscount.applied && (
+                <div className="absolute top-0 right-0 bg-gradient-to-r from-yellow-400 to-yellow-500 text-yellow-900 px-2 py-0.5 text-xs font-bold rounded-bl-lg">
+                  -{recommendation.quizDiscount.percent}% OFF
+                </div>
+              )}
               <div className="flex items-center gap-2 mb-1">
                 <DollarSign className="w-4 h-4 text-primary" />
                 <span className="text-xs font-semibold text-slate-600 uppercase">Investment</span>
               </div>
               <p className="text-lg font-bold text-slate-900">{recommendation.investmentRange}</p>
+              {recommendation.quizDiscount.applied && (
+                <p className="text-xs text-green-700 mt-1 font-medium">
+                  🎉 Quiz discount applied!
+                </p>
+              )}
             </div>
           </motion.div>
 
@@ -131,14 +142,14 @@ export default function RecommendationCard({ recommendation, onContinue, onRetak
           >
             <div className="bg-gradient-to-r from-primary/10 via-purple-50 to-primary/10 rounded-lg p-5 text-center">
               <p className="text-sm text-slate-700 mb-4">
-                💡 <span className="font-semibold">Next Step:</span> Fill out the form below to get a detailed quote and timeline customized for your specific needs.
+                💡 <span className="font-semibold">Next Step:</span> Review your pre-filled pricing calculator below to see your exact cost breakdown.
               </p>
               <Button
                 onClick={onContinue}
                 size="lg"
                 className="w-full gap-2 group h-12"
               >
-                Get Your Detailed Quote
+                View My Custom Pricing
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </div>

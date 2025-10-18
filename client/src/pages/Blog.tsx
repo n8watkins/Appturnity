@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { formatBlogDate, formatBlogDateShort } from '@/lib/dateUtils';
 import LazyImage from '@/components/LazyImage';
 import NewsletterSignup from '@/components/NewsletterSignup';
+import TopBanner from '@/components/TopBanner';
 import BlogNavbar from '@/components/BlogNavbar';
 import BlogFooter from '@/components/BlogFooter';
 
@@ -57,6 +58,8 @@ export default function Blog() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      {/* Top Banner */}
+      <TopBanner />
       {/* Blog Navbar */}
       <BlogNavbar />
 
