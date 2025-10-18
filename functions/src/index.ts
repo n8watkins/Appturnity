@@ -1,3 +1,4 @@
+import "dotenv/config";
 import * as functions from "firebase-functions";
 import express, { type Request, Response, NextFunction } from "express";
 import cors from "cors";

@@ -58,6 +58,7 @@ var __importDefault =
   };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.api = void 0;
+require("dotenv/config");
 const functions = __importStar(require("firebase-functions"));
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));

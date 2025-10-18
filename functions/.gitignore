@@ -1,0 +1,16 @@
+# Environment variables
+.env
+.env.local
+
+# Compiled output
+lib/
+
+# Dependencies
+node_modules/
+
+# Firebase
+.firebase/
+
+# Logs
+*.log
+npm-debug.log*

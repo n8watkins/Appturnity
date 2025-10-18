@@ -2,11 +2,9 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { z } from "zod";
 import { sendContactEmail, sendChatWidgetEmail, sendNewsletterSubscription } from "./email";
-import * as functions from "firebase-functions";
 
-// Get config values from Firebase Functions config or environment variables (for local dev)
-const config = functions.config();
-const RECAPTCHA_SECRET_KEY = config.recaptcha?.secret_key || process.env.RECAPTCHA_SECRET_KEY;
+// Get config values from environment variables
+const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY;
 
 const contactFormSchema = z.object({
   name: z.string().min(2),

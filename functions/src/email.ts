@@ -1,15 +1,10 @@
 import { Resend } from "resend";
-import * as functions from "firebase-functions";
 
-// Get config values from Firebase Functions config or environment variables (for local dev)
-const config = functions.config();
-const RESEND_API_KEY: string | undefined = config.resend?.api_key || process.env.RESEND_API_KEY;
-const CONTACT_EMAIL: string =
-  config.contact?.email || process.env.CONTACT_EMAIL || "nathancwatkins23@gmail.com";
+// Get config values from environment variables
+const RESEND_API_KEY: string | undefined = process.env.RESEND_API_KEY;
+const CONTACT_EMAIL: string = process.env.CONTACT_EMAIL || "nathancwatkins23@gmail.com";
 const RESEND_FROM_EMAIL: string =
-  config.resend?.from_email ||
-  process.env.RESEND_FROM_EMAIL ||
-  "Appturnity Contact Form <onboarding@resend.dev>";
+  process.env.RESEND_FROM_EMAIL || "Appturnity Contact Form <onboarding@resend.dev>";
 
 const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
 
