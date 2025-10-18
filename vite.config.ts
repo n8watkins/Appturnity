@@ -31,6 +31,28 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist"),
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Vendor chunks for better caching
+          "react-vendor": ["react", "react-dom", "react-helmet-async"],
+          "radix-vendor": [
+            "@radix-ui/react-dialog",
+            "@radix-ui/react-accordion",
+            "@radix-ui/react-dropdown-menu",
+            "@radix-ui/react-popover",
+            "@radix-ui/react-toast",
+            "@radix-ui/react-label",
+            "@radix-ui/react-slot",
+          ],
+          "animation-vendor": ["framer-motion", "lottie-react"],
+          "form-vendor": ["react-hook-form", "@hookform/resolvers", "zod"],
+          "charts-vendor": ["recharts"],
+        },
+      },
+    },
+    // Increase chunk size warning limit since we're code-splitting properly
+    chunkSizeWarningLimit: 600,
   },
   server: {
     port: 7223,

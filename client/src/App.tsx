@@ -6,30 +6,46 @@ import { HelmetProvider } from "react-helmet-async";
 import { Toaster } from "@/components/ui/toaster";
 import ScrollToTop from "@/components/ScrollToTop";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import NotFound from "@/pages/not-found";
-import Home from "@/pages/Home";
-import Success from "@/pages/Success";
-import Terms from "@/pages/Terms";
-import Privacy from "@/pages/Privacy";
-import Features from "@/pages/Features";
-import Blog from "@/pages/Blog";
-import BlogPost from "@/pages/BlogPost";
 import { initPerformanceMonitoring } from "@/lib/performance";
 import { initErrorTracking } from "@/lib/errorTracking";
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
+
+// Lazy load all route components for better code splitting
+const Home = lazy(() => import("@/pages/Home"));
+const NotFound = lazy(() => import("@/pages/not-found"));
+const Success = lazy(() => import("@/pages/Success"));
+const Terms = lazy(() => import("@/pages/Terms"));
+const Privacy = lazy(() => import("@/pages/Privacy"));
+const Features = lazy(() => import("@/pages/Features"));
+const Blog = lazy(() => import("@/pages/Blog"));
+const BlogPost = lazy(() => import("@/pages/BlogPost"));
+
+// Full-page loading fallback
+function PageLoader() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="animate-pulse flex flex-col items-center gap-4">
+        <div className="h-12 w-12 rounded-full border-4 border-blue-200 border-t-blue-500 animate-spin"></div>
+        <p className="text-slate-500 text-sm">Loading...</p>
+      </div>
+    </div>
+  );
+}
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/success" component={Success} />
-      <Route path="/terms" component={Terms} />
-      <Route path="/privacy" component={Privacy} />
-      <Route path="/features" component={Features} />
-      <Route path="/blog" component={Blog} />
-      <Route path="/blog/:slug" component={BlogPost} />
-      <Route component={NotFound} />
-    </Switch>
+    <Suspense fallback={<PageLoader />}>
+      <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/success" component={Success} />
+        <Route path="/terms" component={Terms} />
+        <Route path="/privacy" component={Privacy} />
+        <Route path="/features" component={Features} />
+        <Route path="/blog" component={Blog} />
+        <Route path="/blog/:slug" component={BlogPost} />
+        <Route component={NotFound} />
+      </Switch>
+    </Suspense>
   );
 }
 
