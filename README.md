@@ -12,6 +12,7 @@ A modern, responsive landing page for Appturnity, a design agency that creates c
 - **Email**: Resend API
 - **Security**: reCAPTCHA v3 (spam protection)
 - **Animations**: Framer Motion
+- **Monitoring**: Web Vitals + DIY Error Tracking
 - **Deployment**: Firebase Hosting
 
 ## Setup Instructions
@@ -145,6 +146,10 @@ npm run check
 - Helmet security headers with CSP
 - Environment variable validation on server startup
 - Google Analytics for visitor tracking (optional)
+- **Web Vitals performance monitoring** (LCP, FID, CLS, TTFB, INP)
+- **DIY error tracking** with email notifications
+- Request ID tracing for debugging
+- Structured logging with JSON output in production
 
 ## Testing
 
@@ -173,6 +178,106 @@ GitHub Actions automatically runs on every push and pull request to `main`:
 - Build verification (`npm run build`)
 
 See `.github/workflows/ci.yml` for the full CI configuration.
+
+## Monitoring & Observability
+
+This project includes production-ready monitoring with zero external dependencies.
+
+### Performance Monitoring
+
+**Web Vitals** tracking for Core Web Vitals metrics:
+
+- **LCP** (Largest Contentful Paint) - Loading performance
+- **FID** (First Input Delay) - Interactivity (deprecated)
+- **INP** (Interaction to Next Paint) - Responsiveness
+- **CLS** (Cumulative Layout Shift) - Visual stability
+- **TTFB** (Time to First Byte) - Server response time
+
+**Features:**
+
+- Automatic tracking on all pages
+- Sends metrics to backend (`/api/vitals`)
+- Optional Google Analytics integration
+- Zero bundle impact (1.5KB gzipped)
+
+**Implementation:**
+
+```typescript
+// Automatically initialized in App.tsx
+import { initPerformanceMonitoring } from "@/lib/performance";
+initPerformanceMonitoring();
+```
+
+### Error Tracking
+
+**DIY Error Tracking** with email notifications:
+
+- Catches JavaScript errors
+- Catches unhandled promise rejections
+- React Error Boundary for component errors
+- Email notifications for critical errors
+- Rate limiting (max 10 emails/hour)
+- Error deduplication
+- Request ID correlation
+
+**Features:**
+
+- Automatic error catching
+- Email alerts for critical/error severity
+- Beautiful HTML email templates
+- Stack traces and context
+- Browser/device information
+- Zero external dependencies
+
+**Error Severity Levels:**
+
+- `critical` - Payment, auth, database errors → Email immediately
+- `error` - General errors → Email with rate limiting
+- `warning` - Low priority → Logged only
+
+**Email Rate Limiting:**
+
+- Global: 10 emails per hour
+- Same error: 1 email per 15 minutes
+- Any error: 1 email per 5 minutes
+
+**Implementation:**
+
+```typescript
+// Automatically initialized in App.tsx
+import { initErrorTracking } from "@/lib/errorTracking";
+initErrorTracking();
+
+// Manual error tracking
+import { trackError } from "@/lib/errorTracking";
+trackError(new Error("Something went wrong"), { userId: 123 });
+```
+
+### Structured Logging
+
+All server logs use a structured format:
+
+- **Development**: Human-readable with emojis
+- **Production**: JSON format for log aggregation
+- **Levels**: debug, info, warn, error
+- **Metadata**: Includes request IDs, context, stack traces
+
+**Example:**
+
+```typescript
+import { logger } from "./lib/logger";
+
+logger.info("User action", { userId: 123, action: "purchase" });
+logger.error("Payment failed", error, { orderId: 456 });
+```
+
+### Request Tracing
+
+Every request gets a unique ID for correlation:
+
+- Added to response headers (`X-Request-ID`)
+- Included in all logs
+- Helps trace requests across services
 
 ## Deployment Instructions
 

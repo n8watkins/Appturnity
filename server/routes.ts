@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { z } from "zod";
 import { sendContactEmail, sendChatWidgetEmail, sendNewsletterSubscription } from "./email";
 import { logger } from "./lib/logger";
+import { sendErrorNotification } from "./lib/errorNotification";
 
 const contactFormSchema = z.object({
   name: z.string().min(2),
@@ -224,6 +225,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
         success: false,
         message: "An error occurred while subscribing to the newsletter",
       });
+    }
+  });
+
+  // Performance metrics endpoint
+  app.post("/api/vitals", (req, res) => {
+    try {
+      const { name, value, rating, delta, pathname } = req.body;
+
+      logger.info(
+        "Web Vital",
+        {
+          metric: name,
+          value: Math.round(value),
+          rating,
+          delta: Math.round(delta),
+          pathname,
+        },
+        req.requestId
+      );
+
+      res.status(200).json({ success: true });
+    } catch (error) {
+      logger.error("Error processing web vital", error as Error, undefined, req.requestId);
+      res.status(500).json({ success: false });
+    }
+  });
+
+  // Client error tracking endpoint
+  app.post("/api/errors", async (req, res) => {
+    try {
+      const errorData = req.body;
+
+      // Send error notification (includes logging and email if needed)
+      await sendErrorNotification(errorData);
+
+      res.status(200).json({ success: true });
+    } catch (error) {
+      logger.error(
+        "Error processing client error report",
+        error as Error,
+        undefined,
+        req.requestId
+      );
+      // Still return success so client doesn't retry
+      res.status(200).json({ success: false });
     }
   });
 

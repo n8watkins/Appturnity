@@ -5,6 +5,7 @@ import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { HelmetProvider } from "react-helmet-async";
 import { Toaster } from "@/components/ui/toaster";
 import ScrollToTop from "@/components/ScrollToTop";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import Success from "@/pages/Success";
@@ -13,6 +14,9 @@ import Privacy from "@/pages/Privacy";
 import Features from "@/pages/Features";
 import Blog from "@/pages/Blog";
 import BlogPost from "@/pages/BlogPost";
+import { initPerformanceMonitoring } from "@/lib/performance";
+import { initErrorTracking } from "@/lib/errorTracking";
+import { useEffect } from "react";
 
 function Router() {
   return (
@@ -32,23 +36,31 @@ function Router() {
 function App() {
   const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "";
 
+  // Initialize monitoring on mount
+  useEffect(() => {
+    initPerformanceMonitoring();
+    initErrorTracking();
+  }, []);
+
   return (
-    <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <GoogleReCaptchaProvider
-          reCaptchaKey={recaptchaSiteKey}
-          scriptProps={{
-            async: true,
-            defer: true,
-            appendTo: "head",
-          }}
-        >
-          <Router />
-          <Toaster />
-          <ScrollToTop />
-        </GoogleReCaptchaProvider>
-      </QueryClientProvider>
-    </HelmetProvider>
+    <ErrorBoundary>
+      <HelmetProvider>
+        <QueryClientProvider client={queryClient}>
+          <GoogleReCaptchaProvider
+            reCaptchaKey={recaptchaSiteKey}
+            scriptProps={{
+              async: true,
+              defer: true,
+              appendTo: "head",
+            }}
+          >
+            <Router />
+            <Toaster />
+            <ScrollToTop />
+          </GoogleReCaptchaProvider>
+        </QueryClientProvider>
+      </HelmetProvider>
+    </ErrorBoundary>
   );
 }
 

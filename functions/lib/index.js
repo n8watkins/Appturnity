@@ -70,15 +70,35 @@ const app = (0, express_1.default)();
 // Security middleware
 app.use((0, helmet_1.default)());
 app.use((0, cors_1.default)({ origin: true })); // Firebase Functions handles CORS automatically
-app.use(express_1.default.json());
-app.use(express_1.default.urlencoded({ extended: false }));
-// Rate limiting
-const limiter = (0, express_rate_limit_1.default)({
+app.use(express_1.default.json({ limit: "100kb" }));
+app.use(express_1.default.urlencoded({ extended: false, limit: "100kb" }));
+// Rate limiting for API endpoints
+const apiLimiter = (0, express_rate_limit_1.default)({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 100 requests per windowMs
   message: "Too many requests from this IP, please try again later.",
+  standardHeaders: true,
+  legacyHeaders: false,
 });
-app.use("/api/", limiter);
+// Stricter rate limit for contact form
+const contactLimiter = (0, express_rate_limit_1.default)({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 5, // Limit each IP to 5 contact form submissions per hour
+  message: "Too many contact form submissions, please try again later.",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+// Rate limit for chat widget
+const chatLimiter = (0, express_rate_limit_1.default)({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 10, // Limit each IP to 10 chat messages per hour
+  message: "Too many messages, please try again later.",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use("/api/", apiLimiter);
+app.use("/api/contact", contactLimiter);
+app.use("/api/chat", chatLimiter);
 // Register API routes
 (0, routes_1.registerRoutes)(app);
 // Health check
