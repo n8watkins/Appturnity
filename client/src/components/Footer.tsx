@@ -101,7 +101,13 @@ export default function Footer() {
               <li>
                 <a
                   href="#quiz"
-                  onClick={(e) => handleSmoothScroll(e, "quiz")}
+                  onClick={(e) => {
+                    handleSmoothScroll(e, "quiz");
+                    // Dispatch event to auto-start the quiz
+                    setTimeout(() => {
+                      window.dispatchEvent(new Event("startQuiz"));
+                    }, 500);
+                  }}
                   className="hover:text-white transition-colors cursor-pointer"
                 >
                   Service Quiz
@@ -113,7 +119,7 @@ export default function Footer() {
                   onClick={(e) => handleSmoothScroll(e, "pricing")}
                   className="hover:text-white transition-colors cursor-pointer"
                 >
-                  Pricing Calculator
+                  Build Your Solution
                 </a>
               </li>
               <li>
