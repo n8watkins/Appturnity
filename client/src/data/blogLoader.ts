@@ -1,4 +1,4 @@
-import { BlogMetadata } from './blogMetadata';
+import { BlogMetadata } from "./blogMetadata";
 
 export interface BlogPost extends BlogMetadata {
   content: string;
@@ -10,13 +10,13 @@ const blogContentCache = new Map<string, BlogPost>();
 // Dynamically import blog content when needed
 export async function loadBlogPost(slug: string): Promise<BlogPost | null> {
   // Check cache first
-  const cached = Array.from(blogContentCache.values()).find(post => post.slug === slug);
+  const cached = Array.from(blogContentCache.values()).find((post) => post.slug === slug);
   if (cached) return cached;
 
   try {
     // Dynamically import the full blog posts data
-    const { allBlogPosts } = await import('./blog-posts');
-    const post = allBlogPosts.find(p => p.slug === slug);
+    const { allBlogPosts } = await import("./blog-posts");
+    const post = allBlogPosts.find((p) => p.slug === slug);
 
     if (post) {
       blogContentCache.set(post.id, post);
@@ -25,13 +25,13 @@ export async function loadBlogPost(slug: string): Promise<BlogPost | null> {
 
     return null;
   } catch (error) {
-    console.error('Error loading blog post:', error);
+    console.error("Error loading blog post:", error);
     return null;
   }
 }
 
 // Load multiple posts (for related posts)
 export async function loadBlogPosts(slugs: string[]): Promise<BlogPost[]> {
-  const posts = await Promise.all(slugs.map(slug => loadBlogPost(slug)));
+  const posts = await Promise.all(slugs.map((slug) => loadBlogPost(slug)));
   return posts.filter((post): post is BlogPost => post !== null);
 }

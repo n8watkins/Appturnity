@@ -24,7 +24,7 @@ export interface QuizAnswers {
 
 export interface Recommendation {
   solutionName: string;
-  solutionType: 'landing' | 'website' | 'app' | 'ecommerce';
+  solutionType: "landing" | "website" | "app" | "ecommerce";
   description: string;
   bestFor: string;
   timeline: string;
@@ -49,16 +49,16 @@ function getBudgetScore(investment?: string | string[]): number {
   const budget = Array.isArray(investment) ? investment[0] : investment;
 
   switch (budget) {
-    case 'budget-conscious':
+    case "budget-conscious":
       return 1;
-    case 'standard':
+    case "standard":
       return 2;
-    case 'need-guidance':
+    case "need-guidance":
       return 2; // Needs qualification, treat as standard for now
-    case 'premium':
+    case "premium":
       return 3;
-    case 'enterprise':
-    case 'premium-budget':
+    case "enterprise":
+    case "premium-budget":
       return 4; // High budget / no limit
     default:
       return 2; // Default to standard
@@ -72,13 +72,13 @@ function getUrgencyScore(timeline?: string | string[]): number {
   const time = Array.isArray(timeline) ? timeline[0] : timeline;
 
   switch (time) {
-    case 'flexible':
+    case "flexible":
       return 1;
-    case 'planning':
+    case "planning":
       return 2;
-    case 'normal':
+    case "normal":
       return 3;
-    case 'urgent':
+    case "urgent":
       return 4;
     default:
       return 2;
@@ -93,9 +93,7 @@ function getComplexityScore(answers: QuizAnswers): number {
     ? answers.projectScope[0]
     : answers.projectScope;
 
-  const features = Array.isArray(answers.features)
-    ? answers.features
-    : [];
+  const features = Array.isArray(answers.features) ? answers.features : [];
 
   const assets = Array.isArray(answers.existingAssets)
     ? answers.existingAssets[0]
@@ -104,19 +102,19 @@ function getComplexityScore(answers: QuizAnswers): number {
   // Base score from project scope
   let baseScore = 1;
   switch (scope) {
-    case 'simple-landing':
+    case "simple-landing":
       baseScore = 1;
       break;
-    case 'full-website':
+    case "full-website":
       baseScore = 2;
       break;
-    case 'ecommerce-store':
+    case "ecommerce-store":
       baseScore = 3;
       break;
-    case 'custom-app':
+    case "custom-app":
       baseScore = 4;
       break;
-    case 'not-sure':
+    case "not-sure":
       baseScore = 2; // Default to website complexity
       break;
   }
@@ -124,16 +122,16 @@ function getComplexityScore(answers: QuizAnswers): number {
   // Weighted feature complexity (new approach)
   let featurePoints = 0;
   const featureWeights: Record<string, number> = {
-    'payment-processing': 2.5,
-    'user-accounts': 2.0,
-    'booking-scheduling': 2.0,
-    'integrations': 1.5,
-    'analytics': 1.5,
-    'cms': 1.0,
-    'contact-forms': 0.5,
+    "payment-processing": 2.5,
+    "user-accounts": 2.0,
+    "booking-scheduling": 2.0,
+    integrations: 1.5,
+    analytics: 1.5,
+    cms: 1.0,
+    "contact-forms": 0.5,
   };
 
-  features.forEach(feature => {
+  features.forEach((feature) => {
     featurePoints += featureWeights[feature as string] || 0;
   });
 
@@ -146,9 +144,9 @@ function getComplexityScore(answers: QuizAnswers): number {
 
   // Brand assets complexity modifier
   let brandModifier = 0;
-  if (assets === 'no-brand') {
+  if (assets === "no-brand") {
     brandModifier = 1; // Significant additional work
-  } else if (assets === 'partial-brand') {
+  } else if (assets === "partial-brand") {
     brandModifier = 0.5;
   }
 
@@ -162,22 +160,22 @@ function getComplexityScore(answers: QuizAnswers): number {
 /**
  * Determine solution type based on quiz answers
  */
-function determineSolutionType(answers: QuizAnswers): Recommendation['solutionType'] {
+function determineSolutionType(answers: QuizAnswers): Recommendation["solutionType"] {
   const scope = Array.isArray(answers.projectScope)
     ? answers.projectScope[0]
     : answers.projectScope;
 
   switch (scope) {
-    case 'simple-landing':
-      return 'landing';
-    case 'ecommerce-store':
-      return 'ecommerce';
-    case 'custom-app':
-      return 'app';
-    case 'full-website':
-    case 'not-sure':
+    case "simple-landing":
+      return "landing";
+    case "ecommerce-store":
+      return "ecommerce";
+    case "custom-app":
+      return "app";
+    case "full-website":
+    case "not-sure":
     default:
-      return 'website';
+      return "website";
   }
 }
 
@@ -192,17 +190,17 @@ function getInvestmentRange(investment?: string | string[]): string {
   const applyDiscount = (value: number) => Math.round(value * (1 - QUIZ_DISCOUNT_PERCENT / 100));
 
   switch (budget) {
-    case 'budget-conscious':
+    case "budget-conscious":
       return `$${applyDiscount(750).toLocaleString()} - $${applyDiscount(1500).toLocaleString()}`;
-    case 'standard':
+    case "standard":
       return `$${applyDiscount(1700).toLocaleString()} - $${applyDiscount(3000).toLocaleString()}`;
-    case 'need-guidance':
+    case "need-guidance":
       return `$${applyDiscount(1500).toLocaleString()} - $${applyDiscount(3500).toLocaleString()}`;
-    case 'premium':
+    case "premium":
       return `$${applyDiscount(3200).toLocaleString()} - $${applyDiscount(5500).toLocaleString()}`;
-    case 'enterprise':
+    case "enterprise":
       return `$${applyDiscount(5500).toLocaleString()}+`;
-    case 'premium-budget':
+    case "premium-budget":
       return `$${applyDiscount(8000).toLocaleString()}+`;
     default:
       return `$${applyDiscount(1700).toLocaleString()} - $${applyDiscount(3000).toLocaleString()}`;
@@ -213,20 +211,23 @@ function getInvestmentRange(investment?: string | string[]): string {
  * Get timeline estimate based on solution type and urgency
  * Updated with realistic timelines
  */
-function getTimelineEstimate(solutionType: Recommendation['solutionType'], timeline?: string | string[]): string {
+function getTimelineEstimate(
+  solutionType: Recommendation["solutionType"],
+  timeline?: string | string[]
+): string {
   const time = Array.isArray(timeline) ? timeline[0] : timeline;
 
-  const estimates: Record<Recommendation['solutionType'], string> = {
-    'landing': '3-4 weeks',
-    'website': '6-10 weeks',
-    'app': '12-20 weeks',
-    'ecommerce': '10-16 weeks',
+  const estimates: Record<Recommendation["solutionType"], string> = {
+    landing: "3-4 weeks",
+    website: "6-10 weeks",
+    app: "12-20 weeks",
+    ecommerce: "10-16 weeks",
   };
 
   let estimate = estimates[solutionType];
 
   // Adjust for urgent timeline (reduce by ~25%)
-  if (time === 'urgent') {
+  if (time === "urgent") {
     estimate = estimate.replace(/(\d+)-(\d+)/, (_, start, end) => {
       const newStart = Math.max(2, Math.round(parseInt(start) * 0.75));
       const newEnd = Math.max(3, Math.round(parseInt(end) * 0.75));
@@ -240,53 +241,54 @@ function getTimelineEstimate(solutionType: Recommendation['solutionType'], timel
 /**
  * Build includes list based on features and solution type
  */
-function buildIncludesList(answers: QuizAnswers, solutionType: Recommendation['solutionType']): string[] {
-  const features = Array.isArray(answers.features)
-    ? answers.features
-    : [];
+function buildIncludesList(
+  answers: QuizAnswers,
+  solutionType: Recommendation["solutionType"]
+): string[] {
+  const features = Array.isArray(answers.features) ? answers.features : [];
 
   const includes: string[] = [
-    'Custom design tailored to your brand',
-    'Mobile responsive across all devices',
+    "Custom design tailored to your brand",
+    "Mobile responsive across all devices",
   ];
 
   // Add page count based on solution type
-  if (solutionType === 'landing') {
-    includes.push('1-3 high-converting pages');
-  } else if (solutionType === 'website') {
-    includes.push('5-10 professionally designed pages');
-  } else if (solutionType === 'app') {
-    includes.push('Custom application architecture');
-  } else if (solutionType === 'ecommerce') {
-    includes.push('Product catalog and shopping cart');
+  if (solutionType === "landing") {
+    includes.push("1-3 high-converting pages");
+  } else if (solutionType === "website") {
+    includes.push("5-10 professionally designed pages");
+  } else if (solutionType === "app") {
+    includes.push("Custom application architecture");
+  } else if (solutionType === "ecommerce") {
+    includes.push("Product catalog and shopping cart");
   }
 
   // Add feature-specific includes
-  if (features.includes('contact-forms')) {
-    includes.push('Contact forms & lead capture');
+  if (features.includes("contact-forms")) {
+    includes.push("Contact forms & lead capture");
   }
-  if (features.includes('booking-scheduling')) {
-    includes.push('Appointment booking system');
+  if (features.includes("booking-scheduling")) {
+    includes.push("Appointment booking system");
   }
-  if (features.includes('payment-processing')) {
-    includes.push('Secure payment processing');
+  if (features.includes("payment-processing")) {
+    includes.push("Secure payment processing");
   }
-  if (features.includes('user-accounts')) {
-    includes.push('User authentication & accounts');
+  if (features.includes("user-accounts")) {
+    includes.push("User authentication & accounts");
   }
-  if (features.includes('cms')) {
-    includes.push('Easy content management system');
+  if (features.includes("cms")) {
+    includes.push("Easy content management system");
   }
-  if (features.includes('analytics')) {
-    includes.push('Analytics dashboard & tracking');
+  if (features.includes("analytics")) {
+    includes.push("Analytics dashboard & tracking");
   }
-  if (features.includes('integrations')) {
-    includes.push('Third-party integrations');
+  if (features.includes("integrations")) {
+    includes.push("Third-party integrations");
   }
 
   // Always add SEO
-  if (!includes.some(item => item.includes('SEO'))) {
-    includes.push('SEO optimization');
+  if (!includes.some((item) => item.includes("SEO"))) {
+    includes.push("SEO optimization");
   }
 
   return includes;
@@ -296,36 +298,32 @@ function buildIncludesList(answers: QuizAnswers, solutionType: Recommendation['s
  * Get "best for" description based on industry and goals
  */
 function getBestForDescription(answers: QuizAnswers): string {
-  const industry = Array.isArray(answers.industry)
-    ? answers.industry[0]
-    : answers.industry;
+  const industry = Array.isArray(answers.industry) ? answers.industry[0] : answers.industry;
 
-  const goals = Array.isArray(answers.businessGoal)
-    ? answers.businessGoal
-    : [];
+  const goals = Array.isArray(answers.businessGoal) ? answers.businessGoal : [];
 
   const industryMap: Record<string, string> = {
-    'professional-services': 'professional services',
-    'healthcare': 'healthcare providers',
-    'home-services': 'home service businesses',
-    'retail-ecommerce': 'retail & e-commerce',
-    'real-estate': 'real estate professionals',
-    'technology': 'technology companies',
-    'hospitality': 'hospitality businesses',
-    'other': 'businesses',
+    "professional-services": "professional services",
+    healthcare: "healthcare providers",
+    "home-services": "home service businesses",
+    "retail-ecommerce": "retail & e-commerce",
+    "real-estate": "real estate professionals",
+    technology: "technology companies",
+    hospitality: "hospitality businesses",
+    other: "businesses",
   };
 
   const goalMap: Record<string, string> = {
-    'more-customers': 'generate more leads',
-    'save-time': 'save time with automation',
-    'reduce-costs': 'reduce software costs',
-    'improve-credibility': 'build credibility',
-    'scale-business': 'scale operations',
+    "more-customers": "generate more leads",
+    "save-time": "save time with automation",
+    "reduce-costs": "reduce software costs",
+    "improve-credibility": "build credibility",
+    "scale-business": "scale operations",
   };
 
-  const industryText = industryMap[industry || 'other'] || 'businesses';
+  const industryText = industryMap[industry || "other"] || "businesses";
   const primaryGoal = goals[0] as string;
-  const goalText = goalMap[primaryGoal] || 'grow their business';
+  const goalText = goalMap[primaryGoal] || "grow their business";
 
   return `${industryText} looking to ${goalText}`;
 }
@@ -333,12 +331,12 @@ function getBestForDescription(answers: QuizAnswers): string {
 /**
  * Get solution name based on type
  */
-function getSolutionName(solutionType: Recommendation['solutionType']): string {
-  const names: Record<Recommendation['solutionType'], string> = {
-    'landing': 'Lead Generation Landing Page',
-    'website': 'Professional Website',
-    'app': 'Custom Web Application',
-    'ecommerce': 'E-commerce Solution',
+function getSolutionName(solutionType: Recommendation["solutionType"]): string {
+  const names: Record<Recommendation["solutionType"], string> = {
+    landing: "Lead Generation Landing Page",
+    website: "Professional Website",
+    app: "Custom Web Application",
+    ecommerce: "E-commerce Solution",
   };
 
   return names[solutionType];
@@ -347,12 +345,15 @@ function getSolutionName(solutionType: Recommendation['solutionType']): string {
 /**
  * Get solution description
  */
-function getSolutionDescription(solutionType: Recommendation['solutionType']): string {
-  const descriptions: Record<Recommendation['solutionType'], string> = {
-    'landing': 'A focused, high-converting landing page designed to capture leads and drive action. Perfect for marketing campaigns and product launches.',
-    'website': 'A comprehensive website with multiple pages showcasing your services, building credibility, and converting visitors into customers.',
-    'app': 'A custom web application tailored to your unique workflow, automating processes and streamlining operations for maximum efficiency.',
-    'ecommerce': 'A complete online store with product management, secure checkout, and payment processing to sell your products online.',
+function getSolutionDescription(solutionType: Recommendation["solutionType"]): string {
+  const descriptions: Record<Recommendation["solutionType"], string> = {
+    landing:
+      "A focused, high-converting landing page designed to capture leads and drive action. Perfect for marketing campaigns and product launches.",
+    website:
+      "A comprehensive website with multiple pages showcasing your services, building credibility, and converting visitors into customers.",
+    app: "A custom web application tailored to your unique workflow, automating processes and streamlining operations for maximum efficiency.",
+    ecommerce:
+      "A complete online store with product management, secure checkout, and payment processing to sell your products online.",
   };
 
   return descriptions[solutionType];
@@ -365,15 +366,15 @@ function getCompanySizeModifier(companySize?: string | string[]): number {
   const size = Array.isArray(companySize) ? companySize[0] : companySize;
 
   switch (size) {
-    case 'solo':
+    case "solo":
       return 0; // Solopreneur: Standard
-    case '2-10':
+    case "2-10":
       return 0.5; // Small team: slight boost
-    case '11-50':
+    case "11-50":
       return 1; // Mid-size: moderate boost
-    case '51-200':
+    case "51-200":
       return 1.5; // Large: significant boost
-    case '200+':
+    case "200+":
       return 2; // Enterprise: maximum boost
     default:
       return 0;
@@ -387,13 +388,13 @@ function getDecisionMakerModifier(decisionMaker?: string | string[]): number {
   const role = Array.isArray(decisionMaker) ? decisionMaker[0] : decisionMaker;
 
   switch (role) {
-    case 'owner':
+    case "owner":
       return 2; // Owner/Founder: highest priority (fast decisions)
-    case 'executive':
+    case "executive":
       return 1; // C-Level: high priority
-    case 'manager':
+    case "manager":
       return 0; // Manager: standard priority
-    case 'team-member':
+    case "team-member":
       return -1; // Team member: lower priority (long sales cycle)
     default:
       return 0;
@@ -417,7 +418,7 @@ export function getRecommendation(answers: QuizAnswers): Recommendation {
   const decisionMakerModifier = getDecisionMakerModifier(answers.decisionMaker);
 
   // Weighted sum formula (Budget weighted 50%, Urgency 30%, Complexity 20%)
-  const basePriorityScore = (budgetScore * 5) + (urgencyScore * 3) + (complexityScore * 2);
+  const basePriorityScore = budgetScore * 5 + urgencyScore * 3 + complexityScore * 2;
 
   // Apply modifiers
   const priorityScore = Math.round(basePriorityScore + companySizeModifier + decisionMakerModifier);
@@ -450,7 +451,7 @@ export function getRecommendation(answers: QuizAnswers): Recommendation {
  * New range: 10-40+ (weighted sum approach)
  */
 export function getPriorityLabel(score: number): string {
-  if (score >= 32) return '🔥 HIGH PRIORITY';
-  if (score >= 24) return '⚡ MEDIUM PRIORITY';
-  return '📋 STANDARD PRIORITY';
+  if (score >= 32) return "🔥 HIGH PRIORITY";
+  if (score >= 24) return "⚡ MEDIUM PRIORITY";
+  return "📋 STANDARD PRIORITY";
 }

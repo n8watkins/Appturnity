@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { X, Check } from 'lucide-react';
+import { motion } from "framer-motion";
+import { X, Check } from "lucide-react";
 
 interface VSComparisonProps {
   leftTitle: string;
@@ -14,7 +14,7 @@ export default function VSComparison({
   rightTitle,
   leftItems,
   rightItems,
-  conclusion
+  conclusion,
 }: VSComparisonProps) {
   return (
     <div className="my-12">
@@ -34,7 +34,9 @@ export default function VSComparison({
             {leftItems.map((item, idx) => (
               <div key={idx}>
                 <div className="text-sm text-slate-500 mb-1">{item.label}</div>
-                <div className={`text-lg font-semibold ${item.bad ? 'text-red-600' : 'text-slate-900'}`}>
+                <div
+                  className={`text-lg font-semibold ${item.bad ? "text-red-600" : "text-slate-900"}`}
+                >
                   {item.value}
                 </div>
               </div>
@@ -60,7 +62,9 @@ export default function VSComparison({
             {rightItems.map((item, idx) => (
               <div key={idx}>
                 <div className="text-sm text-slate-600 mb-1">{item.label}</div>
-                <div className={`text-lg font-semibold ${item.good ? 'text-green-600' : 'text-slate-900'}`}>
+                <div
+                  className={`text-lg font-semibold ${item.good ? "text-green-600" : "text-slate-900"}`}
+                >
                   {item.value}
                 </div>
               </div>

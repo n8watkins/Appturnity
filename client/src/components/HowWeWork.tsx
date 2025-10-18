@@ -7,38 +7,43 @@ const steps = [
   {
     id: 1,
     title: "We Map Your Vision",
-    description: "One focused call. We dig into what makes your business different and how to translate that into a landing page that actually converts.",
+    description:
+      "One focused call. We dig into what makes your business different and how to translate that into a landing page that actually converts.",
     Icon: MapPin,
-    gradient: "from-blue-500 to-cyan-500"
+    gradient: "from-blue-500 to-cyan-500",
   },
   {
     id: 2,
     title: "See It Before It's Built",
-    description: "Custom designs in your inbox within days. Not 'close enough' templates. Your brand, your style, your message—exactly right.",
+    description:
+      "Custom designs in your inbox within days. Not 'close enough' templates. Your brand, your style, your message—exactly right.",
     Icon: Palette,
-    gradient: "from-purple-500 to-pink-500"
+    gradient: "from-purple-500 to-pink-500",
   },
   {
     id: 3,
     title: "Ship in Weeks, Not Quarters",
-    description: "We build fast with enterprise tech. React. TypeScript. You get updates, not excuses. Progress you can see, timelines we hit.",
+    description:
+      "We build fast with enterprise tech. React. TypeScript. You get updates, not excuses. Progress you can see, timelines we hit.",
     Icon: Rocket,
-    gradient: "from-orange-500 to-red-500"
+    gradient: "from-orange-500 to-red-500",
   },
   {
     id: 4,
     title: "Own Every Line of Code",
-    description: "Launch day, you get it all. Source code, assets, documentation. No subscriptions holding you hostage. True ownership.",
+    description:
+      "Launch day, you get it all. Source code, assets, documentation. No subscriptions holding you hostage. True ownership.",
     Icon: Crown,
-    gradient: "from-yellow-500 to-orange-600"
+    gradient: "from-yellow-500 to-orange-600",
   },
   {
     id: 5,
     title: "Your Tech Partner for Life",
-    description: "Market changes? New offer? Need a tweak? We handle it in hours. No tickets, no waiting, no drama.",
+    description:
+      "Market changes? New offer? Need a tweak? We handle it in hours. No tickets, no waiting, no drama.",
     Icon: Heart,
-    gradient: "from-green-500 to-emerald-500"
-  }
+    gradient: "from-green-500 to-emerald-500",
+  },
 ];
 
 export default function HowWeWork() {
@@ -53,7 +58,10 @@ export default function HowWeWork() {
           transition={{ duration: 0.5 }}
         >
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 mb-4">
-            How We <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">Build</span>
+            How We{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">
+              Build
+            </span>
           </h2>
           <p className="text-xl text-slate-600">
             From first call to launch day—here's how we turn your vision into reality.
@@ -67,7 +75,7 @@ export default function HowWeWork() {
             return (
               <motion.div
                 key={step.id}
-                className={`relative mb-10 md:mb-14 last:mb-0 ${isEven ? 'md:mr-auto md:ml-0' : 'md:ml-auto md:mr-0'} md:max-w-xl`}
+                className={`relative mb-10 md:mb-14 last:mb-0 ${isEven ? "md:mr-auto md:ml-0" : "md:ml-auto md:mr-0"} md:max-w-xl`}
                 initial={{ opacity: 0, y: 60, rotate: isEven ? -8 : 8, scale: 0.9 }}
                 whileInView={{ opacity: 1, y: 0, rotate: isEven ? 2 : -2, scale: 1 }}
                 viewport={{ once: true, margin: "-100px" }}
@@ -75,7 +83,7 @@ export default function HowWeWork() {
                   duration: 0.8,
                   delay: index * 0.15,
                   type: "spring",
-                  stiffness: 100
+                  stiffness: 100,
                 }}
               >
                 {/* Giant Background Number */}
@@ -90,7 +98,9 @@ export default function HowWeWork() {
                   transition={{ duration: 0.3 }}
                 >
                   {/* Gradient Badge */}
-                  <div className={`inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br ${step.gradient} rounded-xl mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                  <div
+                    className={`inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br ${step.gradient} rounded-xl mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                  >
                     <step.Icon className="h-6 w-6 text-white" />
                   </div>
 
@@ -98,9 +108,7 @@ export default function HowWeWork() {
                     {step.title}
                   </h3>
 
-                  <p className="text-base text-slate-600 leading-relaxed">
-                    {step.description}
-                  </p>
+                  <p className="text-base text-slate-600 leading-relaxed">{step.description}</p>
 
                   {/* Animated underline */}
                   <div className="mt-4 h-1 w-16 bg-gradient-to-r from-primary to-purple-600 rounded-full transition-all duration-300 group-hover:w-full"></div>
@@ -115,8 +123,22 @@ export default function HowWeWork() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.15 + 0.3 }}
                   >
-                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M15 3 L15 23 M15 23 L11 19 M15 23 L19 19" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-primary" strokeDasharray="3 3" />
+                    <svg
+                      width="30"
+                      height="30"
+                      viewBox="0 0 30 30"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M15 3 L15 23 M15 23 L11 19 M15 23 L19 19"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="text-primary"
+                        strokeDasharray="3 3"
+                      />
                     </svg>
                   </motion.div>
                 )}
@@ -140,9 +162,7 @@ export default function HowWeWork() {
             transition={{ duration: 0.5, delay: 0.5 }}
           >
             <span className="text-xl">👇</span>
-            <p className="text-base text-slate-600 font-medium">
-              Ready to get started?
-            </p>
+            <p className="text-base text-slate-600 font-medium">Ready to get started?</p>
           </motion.div>
 
           <Button

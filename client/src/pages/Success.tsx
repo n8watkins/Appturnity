@@ -14,9 +14,8 @@ import Header from "@/components/Header";
 
 import Footer from "@/components/Footer";
 
-
-
-const CALENDLY_URL = import.meta.env.VITE_CALENDLY_URL || 'https://calendly.com/nathancwatkins23/web-consulting';
+const CALENDLY_URL =
+  import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/nathancwatkins23/web-consulting";
 export default function Success() {
   useEffect(() => {
     // Scroll to top on mount
@@ -42,10 +41,7 @@ export default function Success() {
             className="flex justify-center mb-8"
           >
             <div className="relative">
-              <CheckCircle2
-                className="w-24 h-24 text-green-500"
-                strokeWidth={2}
-              />
+              <CheckCircle2 className="w-24 h-24 text-green-500" strokeWidth={2} />
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1.5, opacity: 0 }}
@@ -53,7 +49,7 @@ export default function Success() {
                   delay: 0.3,
                   duration: 0.8,
                   repeat: Infinity,
-                  repeatDelay: 1
+                  repeatDelay: 1,
                 }}
                 className="absolute inset-0 rounded-full border-4 border-green-500"
               />
@@ -67,9 +63,7 @@ export default function Success() {
             transition={{ delay: 0.4 }}
             className="text-center mb-8"
           >
-            <h1 className="text-4xl font-bold text-slate-900 mb-4">
-              Message Sent Successfully!
-            </h1>
+            <h1 className="text-4xl font-bold text-slate-900 mb-4">Message Sent Successfully!</h1>
             <p className="text-xl text-slate-600">
               Thank you for reaching out. We're excited to work with you!
             </p>
@@ -98,7 +92,8 @@ export default function Success() {
                         We'll review your message
                       </h3>
                       <p className="text-slate-600">
-                        Our team will carefully read through your requirements and prepare a personalized response.
+                        Our team will carefully read through your requirements and prepare a
+                        personalized response.
                       </p>
                     </div>
                   </div>
@@ -112,7 +107,8 @@ export default function Success() {
                         You'll hear from us within 1 business day
                       </h3>
                       <p className="text-slate-600">
-                        We aim to respond within 24 hours with next steps and answers to your questions.
+                        We aim to respond within 24 hours with next steps and answers to your
+                        questions.
                       </p>
                     </div>
                   </div>
@@ -122,11 +118,10 @@ export default function Success() {
                       3
                     </div>
                     <div>
-                      <h3 className="font-semibold text-slate-900 mb-1">
-                        Let's schedule a call
-                      </h3>
+                      <h3 className="font-semibold text-slate-900 mb-1">Let's schedule a call</h3>
                       <p className="text-slate-600">
-                        We'll discuss your project in detail and create a tailored plan to bring your vision to life.
+                        We'll discuss your project in detail and create a tailored plan to bring
+                        your vision to life.
                       </p>
                     </div>
                   </div>
@@ -152,27 +147,14 @@ export default function Success() {
             transition={{ delay: 0.8 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <Button
-              asChild
-              size="lg"
-              className="gap-2"
-            >
-              <a
-                href={CALENDLY_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+            <Button asChild size="lg" className="gap-2">
+              <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">
                 <Calendar className="w-5 h-5" />
                 Schedule a Call Now
               </a>
             </Button>
 
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="gap-2"
-            >
+            <Button asChild variant="outline" size="lg" className="gap-2">
               <Link href="/">
                 <Home className="w-5 h-5" />
                 Return to Home
@@ -188,7 +170,8 @@ export default function Success() {
             className="mt-8 text-center"
           >
             <p className="text-sm text-slate-500 bg-yellow-50 border border-yellow-200 rounded-lg px-4 py-3 inline-block">
-              <span className="font-semibold text-yellow-700">Pro Tip:</span> Schedule your consultation today to lock in current project pricing
+              <span className="font-semibold text-yellow-700">Pro Tip:</span> Schedule your
+              consultation today to lock in current project pricing
             </p>
           </motion.div>
         </motion.div>

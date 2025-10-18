@@ -1,17 +1,17 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calendar, CalendarDays, Clock, Users } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Calendar, CalendarDays, Clock, Users } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function ScheduleConsultation() {
   const [step, setStep] = useState(1);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTime, setSelectedTime] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
   const availableDates = [
@@ -19,16 +19,16 @@ export default function ScheduleConsultation() {
     "Tuesday, April 8, 2025",
     "Wednesday, April 9, 2025",
     "Thursday, April 10, 2025",
-    "Friday, April 11, 2025"
+    "Friday, April 11, 2025",
   ];
 
   const availableTimes = [
     "9:00 AM - 9:30 AM",
-    "10:00 AM - 10:30 AM", 
+    "10:00 AM - 10:30 AM",
     "11:00 AM - 11:30 AM",
     "1:00 PM - 1:30 PM",
     "2:00 PM - 2:30 PM",
-    "3:00 PM - 3:30 PM"
+    "3:00 PM - 3:30 PM",
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -74,22 +74,19 @@ export default function ScheduleConsultation() {
                   {/* Progress steps */}
                   <div className="flex justify-between mb-8">
                     {[1, 2].map((i) => (
-                      <div 
-                        key={i} 
-                        className={`flex items-center ${i === 1 ? 'flex-1' : ''}`}
-                      >
-                        <div 
+                      <div key={i} className={`flex items-center ${i === 1 ? "flex-1" : ""}`}>
+                        <div
                           className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                            i <= step ? 'bg-primary text-white' : 'bg-slate-200 text-slate-500'
+                            i <= step ? "bg-primary text-white" : "bg-slate-200 text-slate-500"
                           }`}
                         >
                           {i}
                         </div>
                         {i === 1 && (
                           <div className="flex-1 h-1 mx-2 bg-slate-200">
-                            <div 
-                              className="h-full bg-primary transition-all" 
-                              style={{ width: step > 1 ? '100%' : '0%' }}
+                            <div
+                              className="h-full bg-primary transition-all"
+                              style={{ width: step > 1 ? "100%" : "0%" }}
                             ></div>
                           </div>
                         )}
@@ -118,9 +115,9 @@ export default function ScheduleConsultation() {
                           ))}
                         </div>
                       </div>
-                      
-                      <Button 
-                        type="button" 
+
+                      <Button
+                        type="button"
                         className="w-full"
                         disabled={!selectedDate}
                         onClick={() => setStep(2)}
@@ -157,14 +154,14 @@ export default function ScheduleConsultation() {
                           <Users className="h-5 w-5 text-primary" />
                           <span className="font-medium">Your Information</span>
                         </div>
-                        
+
                         <div className="space-y-3">
                           <div className="space-y-1">
                             <Label htmlFor="name">Full Name</Label>
-                            <Input 
-                              id="name" 
-                              value={name} 
-                              onChange={(e) => setName(e.target.value)} 
+                            <Input
+                              id="name"
+                              value={name}
+                              onChange={(e) => setName(e.target.value)}
                               placeholder="Enter your name"
                               required
                             />
@@ -172,11 +169,11 @@ export default function ScheduleConsultation() {
 
                           <div className="space-y-1">
                             <Label htmlFor="email">Email Address</Label>
-                            <Input 
-                              id="email" 
-                              type="email" 
-                              value={email} 
-                              onChange={(e) => setEmail(e.target.value)} 
+                            <Input
+                              id="email"
+                              type="email"
+                              value={email}
+                              onChange={(e) => setEmail(e.target.value)}
                               placeholder="Enter your email"
                               required
                             />
@@ -185,16 +182,16 @@ export default function ScheduleConsultation() {
                       </div>
 
                       <div className="flex gap-3">
-                        <Button 
-                          type="button" 
+                        <Button
+                          type="button"
                           variant="outline"
                           onClick={() => setStep(1)}
                           className="flex-1"
                         >
                           Back
                         </Button>
-                        <Button 
-                          type="submit" 
+                        <Button
+                          type="submit"
                           disabled={!selectedTime || !name || !email}
                           className="flex-1"
                         >
@@ -207,11 +204,23 @@ export default function ScheduleConsultation() {
               ) : (
                 <div className="text-center py-8">
                   <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-6">
-                    <svg className="h-10 w-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    <svg
+                      className="h-10 w-10 text-green-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-bold text-slate-900 mb-2">Your meeting is scheduled!</h3>
+                  <h3 className="text-2xl font-bold text-slate-900 mb-2">
+                    Your meeting is scheduled!
+                  </h3>
                   <p className="text-slate-600 mb-6">
                     We've sent a calendar invitation to <span className="font-medium">{email}</span>
                   </p>

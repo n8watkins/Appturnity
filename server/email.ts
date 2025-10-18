@@ -1,8 +1,6 @@
-import { Resend } from 'resend';
+import { Resend } from "resend";
 
-const resend = process.env.RESEND_API_KEY
-  ? new Resend(process.env.RESEND_API_KEY)
-  : null;
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 interface ContactFormData {
   name: string;
@@ -50,11 +48,13 @@ export async function sendContactEmail(data: ContactFormData) {
       console.log(`Solution: ${recommendation.solutionName}`);
       console.log(`Timeline: ${recommendation.timeline}`);
       console.log(`Budget: ${recommendation.investmentRange}`);
-      console.log(`Score: ${recommendation.priorityScore}/40+ (Budget: ${recommendation.scores.budget}/4, Urgency: ${recommendation.scores.urgency}/4, Complexity: ${recommendation.scores.complexity}/4)`);
+      console.log(
+        `Score: ${recommendation.priorityScore}/40+ (Budget: ${recommendation.scores.budget}/4, Urgency: ${recommendation.scores.urgency}/4, Complexity: ${recommendation.scores.complexity}/4)`
+      );
     }
     console.log(`Message:\n${message}`);
     console.log("=".repeat(60) + "\n");
-    return { success: true, mode: 'development' };
+    return { success: true, mode: "development" };
   }
 
   const htmlContent = `
@@ -188,14 +188,20 @@ export async function sendContactEmail(data: ContactFormData) {
       <body>
         <div class="header">
           <h1>🚀 New Contact Form Submission</h1>
-          ${recommendation ? `
-            <div class="priority-badge priority-${recommendation.priorityScore >= 32 ? 'high' : recommendation.priorityScore >= 24 ? 'medium' : 'standard'}">
+          ${
+            recommendation
+              ? `
+            <div class="priority-badge priority-${recommendation.priorityScore >= 32 ? "high" : recommendation.priorityScore >= 24 ? "medium" : "standard"}">
               ${recommendation.priorityLabel}
             </div>
-          ` : ''}
+          `
+              : ""
+          }
         </div>
         <div class="content">
-          ${recommendation ? `
+          ${
+            recommendation
+              ? `
           <div class="recommendation-box">
             <h3 style="margin: 0 0 10px 0; color: #667eea;">📊 Quiz Recommendation</h3>
             <div style="margin-bottom: 10px;">
@@ -225,7 +231,9 @@ export async function sendContactEmail(data: ContactFormData) {
               Total Score: <strong>${recommendation.priorityScore}/40+</strong>
             </div>
           </div>
-          ` : ''}
+          `
+              : ""
+          }
           <div class="field">
             <span class="label">Name</span>
             <div class="value">${name}</div>
@@ -236,12 +244,16 @@ export async function sendContactEmail(data: ContactFormData) {
               <a href="mailto:${email}" style="color: #667eea; text-decoration: none;">${email}</a>
             </div>
           </div>
-          ${company ? `
+          ${
+            company
+              ? `
           <div class="field">
             <span class="label">Company</span>
             <div class="value">${company}</div>
           </div>
-          ` : ''}
+          `
+              : ""
+          }
           <div class="field">
             <span class="label">Message</span>
             <div class="value message-value">${message}</div>
@@ -260,7 +272,11 @@ export async function sendContactEmail(data: ContactFormData) {
   const textContent = `
 New Contact Form Submission
 ============================
-${recommendation ? `\n${recommendation.priorityLabel}\n` + '='.repeat(60) + `
+${
+  recommendation
+    ? `\n${recommendation.priorityLabel}\n` +
+      "=".repeat(60) +
+      `
 
 QUIZ RECOMMENDATION:
 - Recommended Solution: ${recommendation.solutionName}
@@ -271,10 +287,14 @@ QUIZ RECOMMENDATION:
   - Urgency Score: ${recommendation.scores.urgency}/4
   - Complexity Score: ${recommendation.scores.complexity}/4
 
-` + '='.repeat(60) + '\n' : ''}
+` +
+      "=".repeat(60) +
+      "\n"
+    : ""
+}
 Name: ${name}
 Email: ${email}
-${company ? `Company: ${company}` : ''}
+${company ? `Company: ${company}` : ""}
 
 Message:
 ${message}
@@ -284,24 +304,25 @@ Reply to: ${email}
   `.trim();
 
   try {
-    const priorityPrefix = recommendation && recommendation.priorityScore >= 32
-      ? '🔥 HIGH PRIORITY - '
-      : recommendation && recommendation.priorityScore >= 24
-      ? '⚡ '
-      : '';
+    const priorityPrefix =
+      recommendation && recommendation.priorityScore >= 32
+        ? "🔥 HIGH PRIORITY - "
+        : recommendation && recommendation.priorityScore >= 24
+          ? "⚡ "
+          : "";
 
     const result = await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL || 'Appturnity Contact Form <onboarding@resend.dev>',
-      to: process.env.CONTACT_EMAIL || 'nathancwatkins23@gmail.com',
+      from: process.env.RESEND_FROM_EMAIL || "Appturnity Contact Form <onboarding@resend.dev>",
+      to: process.env.CONTACT_EMAIL || "nathancwatkins23@gmail.com",
       replyTo: email,
-      subject: `${priorityPrefix}New Contact: ${name}${company ? ` from ${company}` : ''}`,
+      subject: `${priorityPrefix}New Contact: ${name}${company ? ` from ${company}` : ""}`,
       html: htmlContent,
       text: textContent,
     });
 
     return result;
   } catch (error) {
-    console.error('Failed to send email:', error);
+    console.error("Failed to send email:", error);
     throw error;
   }
 }
@@ -316,7 +337,7 @@ export async function sendNewsletterSubscription(data: NewsletterData) {
     console.log("=".repeat(60));
     console.log(`Subscriber Email: ${email}`);
     console.log("=".repeat(60) + "\n");
-    return { success: true, mode: 'development' };
+    return { success: true, mode: "development" };
   }
 
   const htmlContent = `
@@ -391,7 +412,7 @@ export async function sendNewsletterSubscription(data: NewsletterData) {
           </div>
           <div class="field">
             <span class="label">Subscribed</span>
-            <div class="value">${new Date().toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'short' })}</div>
+            <div class="value">${new Date().toLocaleString("en-US", { dateStyle: "full", timeStyle: "short" })}</div>
           </div>
         </div>
         <div class="footer">
@@ -406,14 +427,14 @@ New Newsletter Subscriber
 =========================
 
 Email: ${email}
-Subscribed: ${new Date().toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'short' })}
+Subscribed: ${new Date().toLocaleString("en-US", { dateStyle: "full", timeStyle: "short" })}
   `.trim();
 
   try {
     // Send notification to site owner
     const result = await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL || 'Appturnity Newsletter <onboarding@resend.dev>',
-      to: process.env.CONTACT_EMAIL || 'nathancwatkins23@gmail.com',
+      from: process.env.RESEND_FROM_EMAIL || "Appturnity Newsletter <onboarding@resend.dev>",
+      to: process.env.CONTACT_EMAIL || "nathancwatkins23@gmail.com",
       subject: `📰 New Newsletter Subscriber: ${email}`,
       html: htmlContent,
       text: textContent,
@@ -421,7 +442,7 @@ Subscribed: ${new Date().toLocaleString('en-US', { dateStyle: 'full', timeStyle:
 
     return result;
   } catch (error) {
-    console.error('Failed to send newsletter subscription email:', error);
+    console.error("Failed to send newsletter subscription email:", error);
     throw error;
   }
 }
@@ -436,11 +457,11 @@ export async function sendChatWidgetEmail(data: ChatWidgetData) {
     console.log("=".repeat(60));
     console.log(`From: ${name} <${email}>`);
     if (suggestions && suggestions.length > 0) {
-      console.log(`Topics: ${suggestions.join(', ')}`);
+      console.log(`Topics: ${suggestions.join(", ")}`);
     }
     console.log(`Message:\n${message}`);
     console.log("=".repeat(60) + "\n");
-    return { success: true, mode: 'development' };
+    return { success: true, mode: "development" };
   }
 
   const htmlContent = `
@@ -541,14 +562,18 @@ export async function sendChatWidgetEmail(data: ChatWidgetData) {
               <a href="mailto:${email}" style="color: #667eea; text-decoration: none;">${email}</a>
             </div>
           </div>
-          ${suggestions && suggestions.length > 0 ? `
+          ${
+            suggestions && suggestions.length > 0
+              ? `
           <div class="field">
             <span class="label">Interested In</span>
             <div class="value">
-              ${suggestions.map(s => `<span class="badge">${s}</span>`).join('')}
+              ${suggestions.map((s) => `<span class="badge">${s}</span>`).join("")}
             </div>
           </div>
-          ` : ''}
+          `
+              : ""
+          }
           <div class="field">
             <span class="label">Message</span>
             <div class="value message-value">${message}</div>
@@ -570,7 +595,7 @@ New Chat Widget Message
 
 Name: ${name}
 Email: ${email}
-${suggestions && suggestions.length > 0 ? `Topics: ${suggestions.join(', ')}` : ''}
+${suggestions && suggestions.length > 0 ? `Topics: ${suggestions.join(", ")}` : ""}
 
 Message:
 ${message}
@@ -581,17 +606,17 @@ Reply to: ${email}
 
   try {
     const result = await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL || 'Appturnity Chat Widget <onboarding@resend.dev>',
-      to: process.env.CONTACT_EMAIL || 'nathancwatkins23@gmail.com',
+      from: process.env.RESEND_FROM_EMAIL || "Appturnity Chat Widget <onboarding@resend.dev>",
+      to: process.env.CONTACT_EMAIL || "nathancwatkins23@gmail.com",
       replyTo: email,
-      subject: `💬 Chat: ${name}${suggestions && suggestions.length > 0 ? ` - ${suggestions.join(', ')}` : ''}`,
+      subject: `💬 Chat: ${name}${suggestions && suggestions.length > 0 ? ` - ${suggestions.join(", ")}` : ""}`,
       html: htmlContent,
       text: textContent,
     });
 
     return result;
   } catch (error) {
-    console.error('Failed to send chat widget email:', error);
+    console.error("Failed to send chat widget email:", error);
     throw error;
   }
 }

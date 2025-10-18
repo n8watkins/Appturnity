@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
 export default function ReadingProgress() {
   const [progress, setProgress] = useState(0);
@@ -13,13 +13,13 @@ export default function ReadingProgress() {
     };
 
     // Update on scroll
-    window.addEventListener('scroll', updateProgress);
+    window.addEventListener("scroll", updateProgress);
 
     // Initial calculation
     updateProgress();
 
     return () => {
-      window.removeEventListener('scroll', updateProgress);
+      window.removeEventListener("scroll", updateProgress);
     };
   }, []);
 
@@ -30,9 +30,9 @@ export default function ReadingProgress() {
         <motion.div
           className="h-full bg-gradient-to-r from-primary to-blue-600"
           style={{ width: `${progress}%` }}
-          initial={{ width: '0%' }}
+          initial={{ width: "0%" }}
           animate={{ width: `${progress}%` }}
-          transition={{ duration: 0.1, ease: 'easeOut' }}
+          transition={{ duration: 0.1, ease: "easeOut" }}
         />
       </div>
 

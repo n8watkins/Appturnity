@@ -27,7 +27,13 @@ const portfolioItems: PortfolioItem[] = [
     description:
       "An AI-powered security automation service designed to monitor, detect, and respond to threats in real time. Built with modern UI and seamless backend integrations.",
     image: "/guardcast.webp",
-    features: ["Contact Forms", "SEO", "Mobile Responsive", "User Authentication", "Advanced Animations"],
+    features: [
+      "Contact Forms",
+      "SEO",
+      "Mobile Responsive",
+      "User Authentication",
+      "Advanced Animations",
+    ],
     link: "https://guardcast-a4457.web.app/",
   },
   {
@@ -55,16 +61,23 @@ const allFeatures = [
 export default function Portfolio() {
   const [selectedFeature, setSelectedFeature] = useState<string>("All");
 
-  const filteredItems = selectedFeature === "All"
-    ? portfolioItems
-    : portfolioItems.filter(item => item.features.includes(selectedFeature));
+  const filteredItems =
+    selectedFeature === "All"
+      ? portfolioItems
+      : portfolioItems.filter((item) => item.features.includes(selectedFeature));
 
   return (
-    <section id="portfolio" className="relative py-24 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 scroll-mt-16">
+    <section
+      id="portfolio"
+      className="relative py-24 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 scroll-mt-16"
+    >
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-24 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 -left-24 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div
+          className="absolute bottom-0 -left-24 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: "1s" }}
+        ></div>
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -88,7 +101,10 @@ export default function Portfolio() {
           </motion.div>
 
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Work That <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-purple-500">Speaks for Itself</span>
+            Work That{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-purple-500">
+              Speaks for Itself
+            </span>
           </h2>
           <p className="text-xl text-slate-300">
             Enterprise-grade solutions. Custom-built. Owned by our clients.
@@ -107,9 +123,11 @@ export default function Portfolio() {
             variant={selectedFeature === "All" ? "default" : "outline"}
             size="sm"
             onClick={() => setSelectedFeature("All")}
-            className={selectedFeature === "All"
-              ? "bg-primary hover:bg-primary/90"
-              : "bg-slate-800/50 text-slate-300 hover:text-white hover:bg-slate-700 border-slate-600"}
+            className={
+              selectedFeature === "All"
+                ? "bg-primary hover:bg-primary/90"
+                : "bg-slate-800/50 text-slate-300 hover:text-white hover:bg-slate-700 border-slate-600"
+            }
           >
             All Projects
           </Button>
@@ -119,9 +137,11 @@ export default function Portfolio() {
               variant={selectedFeature === feature ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedFeature(feature)}
-              className={selectedFeature === feature
-                ? "bg-primary hover:bg-primary/90"
-                : "bg-slate-800/50 text-slate-300 hover:text-white hover:bg-slate-700 border-slate-600"}
+              className={
+                selectedFeature === feature
+                  ? "bg-primary hover:bg-primary/90"
+                  : "bg-slate-800/50 text-slate-300 hover:text-white hover:bg-slate-700 border-slate-600"
+              }
             >
               {feature}
             </Button>
@@ -154,28 +174,26 @@ export default function Portfolio() {
                 </div>
 
                 <CardHeader>
-                  <CardTitle className="text-white text-2xl">
-                    {item.title}
-                  </CardTitle>
+                  <CardTitle className="text-white text-2xl">{item.title}</CardTitle>
                   <CardDescription className="flex flex-wrap gap-2 mt-3">
-                      {item.features.map((feature, featureIndex) => {
-                        const gradients = [
-                          "from-blue-500 to-cyan-500",
-                          "from-purple-500 to-pink-500",
-                          "from-green-500 to-emerald-500",
-                          "from-orange-500 to-red-500"
-                        ];
-                        const gradient = gradients[featureIndex % gradients.length];
+                    {item.features.map((feature, featureIndex) => {
+                      const gradients = [
+                        "from-blue-500 to-cyan-500",
+                        "from-purple-500 to-pink-500",
+                        "from-green-500 to-emerald-500",
+                        "from-orange-500 to-red-500",
+                      ];
+                      const gradient = gradients[featureIndex % gradients.length];
 
-                        return (
-                          <span
-                            key={feature}
-                            className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${gradient} text-white shadow-lg`}
-                          >
-                            {feature}
-                          </span>
-                        );
-                      })}
+                      return (
+                        <span
+                          key={feature}
+                          className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${gradient} text-white shadow-lg`}
+                        >
+                          {feature}
+                        </span>
+                      );
+                    })}
                   </CardDescription>
                 </CardHeader>
 
@@ -192,7 +210,10 @@ export default function Portfolio() {
                       className="inline-flex items-center gap-2"
                     >
                       <span className="relative z-10">Visit Live Site</span>
-                      <ExternalLink size={16} className="relative z-10 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                      <ExternalLink
+                        size={16}
+                        className="relative z-10 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform"
+                      />
                       <span className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover/btn:scale-x-100 transition-transform origin-left duration-500"></span>
                     </a>
                   </Button>

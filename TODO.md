@@ -3,6 +3,7 @@
 ## 🔑 API Keys & Configuration
 
 ### 1. Get Resend API Key
+
 - [ ] Go to https://resend.com
 - [ ] Sign up for a free account
 - [ ] Verify your email address
@@ -12,11 +13,13 @@
 - [ ] Add to `.env` as `RESEND_API_KEY=re_...`
 
 **For Production:**
+
 - [ ] Add and verify your custom domain in Resend
 - [ ] Update `server/email.ts` line 116 to use your domain
 - [ ] Change from: `onboarding@resend.dev` to `contact@yourdomain.com`
 
 ### 2. Get reCAPTCHA v3 Keys
+
 - [ ] Go to https://www.google.com/recaptcha/admin
 - [ ] Click "+" to register a new site
 - [ ] Label: "Appturnity Contact Form" (or whatever you want)
@@ -34,6 +37,7 @@
   ```
 
 ### 3. Get Google Analytics ⚠️ TODO
+
 - [ ] Go to https://analytics.google.com
 - [ ] Create a new property for your website
 - [ ] Copy the Measurement ID (starts with `G-`)
@@ -42,10 +46,11 @@
 - [ ] **IMPORTANT: This needs to be implemented for production**
 
 ### 4. Configure Environment Variables
+
 - [ ] Create `.env` file: `cp .env.example .env`
 - [ ] Add Resend API key
 - [ ] Add your contact email (where forms will be sent)
-- [ ] Add reCAPTCHA site key (VITE_ prefix for frontend)
+- [ ] Add reCAPTCHA site key (VITE\_ prefix for frontend)
 - [ ] Add reCAPTCHA secret key (for backend)
 - [ ] Add Google Analytics ID ⚠️ (needs to be implemented)
 - [ ] Verify `.env` is in `.gitignore` (it already is!)
@@ -53,6 +58,7 @@
 ## 🧪 Testing
 
 ### Local Development
+
 - [ ] Run `npm install` to ensure all dependencies are installed
 - [ ] Run `npm run check` to verify TypeScript compiles
 - [ ] Run `npm run test:run` to run the test suite
@@ -65,6 +71,7 @@
   - [ ] Verify reCAPTCHA badge appears (bottom right)
 
 ### Production Checklist
+
 - [ ] Update email "from" address in `server/email.ts:116`
 - [ ] Add production domain to reCAPTCHA admin
 - [ ] Set all environment variables in hosting service
@@ -76,7 +83,9 @@
 ## 🚀 Deployment
 
 ### Backend (Express Server)
+
 The backend needs Node.js hosting. Choose one:
+
 - [ ] **Option 1: Vercel** (easiest)
   - Supports Node.js out of the box
   - Free tier available
@@ -88,12 +97,15 @@ The backend needs Node.js hosting. Choose one:
   - Auto-deploy from Git
 
 ### Frontend (Static Files)
+
 - [ ] Build frontend: `npm run build`
 - [ ] Deploy `dist/` folder to Firebase Hosting
 - [ ] Or deploy to Vercel/Netlify (simpler than Firebase)
 
 ### Environment Variables in Production
+
 Make sure to set in your hosting service:
+
 - [ ] `RESEND_API_KEY`
 - [ ] `CONTACT_EMAIL`
 - [ ] `RECAPTCHA_SECRET_KEY`
@@ -104,6 +116,7 @@ Make sure to set in your hosting service:
 ## 📝 Optional Future Improvements
 
 ### Nice to Have
+
 - [ ] Set up error monitoring service (Sentry, LogRocket)
 - [ ] Add performance monitoring/alerts
 - [ ] Create better social share image (replace generated-icon.png)
@@ -113,6 +126,7 @@ Make sure to set in your hosting service:
 - [ ] Add E2E tests with Playwright
 
 ### Future Features
+
 - [ ] Add success/thank you page after form submission
 - [ ] Store submissions in database for backup (if needed later)
 - [ ] Add newsletter signup

@@ -1,10 +1,11 @@
-import { BlogPost } from './types';
+import { BlogPost } from "./types";
 
 const post2: BlogPost = {
   id: "2",
   slug: "custom-website-vs-website-builder",
   title: "Custom Website vs Website Builder: Complete 2025 Comparison",
-  excerpt: "Choosing between a custom website and a website builder? This detailed comparison covers costs, features, pros and cons to help you make the right decision for your business.",
+  excerpt:
+    "Choosing between a custom website and a website builder? This detailed comparison covers costs, features, pros and cons to help you make the right decision for your business.",
   author: "Appturnity Team",
   date: "2025-01-12",
   readTime: "6 min read",
@@ -12,8 +13,14 @@ const post2: BlogPost = {
   tags: ["custom website", "website builder", "wix", "squarespace", "comparison"],
   image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200&h=630&fit=crop",
   seoTitle: "Custom Website vs Website Builder 2025: Which Should You Choose?",
-  seoDescription: "Compare custom websites vs website builders in detail. See real costs, features, and find out which option is best for your business in 2025.",
-  seoKeywords: ["custom website vs website builder", "wix vs custom", "squarespace alternative", "website builder comparison"],
+  seoDescription:
+    "Compare custom websites vs website builders in detail. See real costs, features, and find out which option is best for your business in 2025.",
+  seoKeywords: [
+    "custom website vs website builder",
+    "wix vs custom",
+    "squarespace alternative",
+    "website builder comparison",
+  ],
   content: `# Custom Website vs Website Builder in 2025
 
 Two years ago, my friend Alex launched his consulting business. He chose Squarespace because it was "quick and easy." Last month, he called me in frustration.
@@ -175,7 +182,7 @@ But this isn't just about money. It's about control over your business, freedom 
 
 [Calculate your savings with custom development](#pricing)
 
-*Every month you delay switching is money spent on rent with nothing to show for it. A year from now, you'll wish you had started today.*`
+*Every month you delay switching is money spent on rent with nothing to show for it. A year from now, you'll wish you had started today.*`,
 };
 
 export default post2;

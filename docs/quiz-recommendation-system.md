@@ -35,12 +35,12 @@ Email with Priority Score
 
 The system recommends one of four solution types:
 
-| Type | Trigger | Timeline | Investment Range |
-|------|---------|----------|------------------|
-| **Landing Page** | `projectScope: 'simple-landing'` | 3-4 weeks | Under $3,000 |
-| **Professional Website** | `projectScope: 'full-website'` or `'not-sure'` | 6-10 weeks | $3,000-$7,000 |
-| **Custom Web Application** | `projectScope: 'custom-app'` | 12-20 weeks | $7,000-$15,000+ |
-| **E-commerce Solution** | `projectScope: 'ecommerce-store'` | 10-16 weeks | $7,000-$15,000 |
+| Type                       | Trigger                                        | Timeline    | Investment Range |
+| -------------------------- | ---------------------------------------------- | ----------- | ---------------- |
+| **Landing Page**           | `projectScope: 'simple-landing'`               | 3-4 weeks   | Under $3,000     |
+| **Professional Website**   | `projectScope: 'full-website'` or `'not-sure'` | 6-10 weeks  | $3,000-$7,000    |
+| **Custom Web Application** | `projectScope: 'custom-app'`                   | 12-20 weeks | $7,000-$15,000+  |
+| **E-commerce Solution**    | `projectScope: 'ecommerce-store'`              | 10-16 weeks | $7,000-$15,000   |
 
 ### Priority Scoring System
 
@@ -48,33 +48,35 @@ Priority scores help prioritize leads based on three dimensions:
 
 #### 1. Budget Score (1-4 points)
 
-| Budget Range | Score | Value |
-|--------------|-------|-------|
-| Under $3,000 | 1 | `budget-conscious` |
-| $3,000-$7,000 | 2 | `standard` |
-| Need Guidance | 2 | `need-guidance` |
-| $7,000-$15,000 | 3 | `premium` |
-| $15,000+ | 4 | `enterprise` |
-| Premium/No Limit | 4 | `premium-budget` |
+| Budget Range     | Score | Value              |
+| ---------------- | ----- | ------------------ |
+| Under $3,000     | 1     | `budget-conscious` |
+| $3,000-$7,000    | 2     | `standard`         |
+| Need Guidance    | 2     | `need-guidance`    |
+| $7,000-$15,000   | 3     | `premium`          |
+| $15,000+         | 4     | `enterprise`       |
+| Premium/No Limit | 4     | `premium-budget`   |
 
 #### 2. Urgency Score (1-4 points)
 
-| Timeline | Score | Value |
-|----------|-------|-------|
-| 16+ weeks | 1 | `flexible` |
-| 10-16 weeks | 2 | `planning` |
-| 6-10 weeks | 3 | `normal` |
-| Within 4-6 weeks | 4 | `urgent` |
+| Timeline         | Score | Value      |
+| ---------------- | ----- | ---------- |
+| 16+ weeks        | 1     | `flexible` |
+| 10-16 weeks      | 2     | `planning` |
+| 6-10 weeks       | 3     | `normal`   |
+| Within 4-6 weeks | 4     | `urgent`   |
 
 #### 3. Complexity Score (1-4 points)
 
 **Base Score from Project Scope:**
+
 - Landing Page: 1
 - Full Website: 2
 - E-commerce: 3
 - Custom App: 4
 
 **Feature Complexity (Weighted):**
+
 - Payment Processing: +2.5
 - User Accounts: +2.0
 - Booking/Scheduling: +2.0
@@ -84,6 +86,7 @@ Priority scores help prioritize leads based on three dimensions:
 - Contact Forms: +0.5
 
 **Brand Assets Modifier:**
+
 - No Brand Materials: +1.0
 - Partial Brand Materials: +0.5
 - Full Branding: +0.0
@@ -92,22 +95,22 @@ Feature points are scaled to a 0-2 bonus range and combined with the base score 
 
 #### 4. Company Size Modifier (0-2 points)
 
-| Company Size | Modifier |
-|--------------|----------|
-| Just Me (Solo) | +0 |
-| 2-10 Employees | +0.5 |
-| 11-50 Employees | +1.0 |
-| 51-200 Employees | +1.5 |
-| 200+ Employees | +2.0 |
+| Company Size     | Modifier |
+| ---------------- | -------- |
+| Just Me (Solo)   | +0       |
+| 2-10 Employees   | +0.5     |
+| 11-50 Employees  | +1.0     |
+| 51-200 Employees | +1.5     |
+| 200+ Employees   | +2.0     |
 
 #### 5. Decision Maker Modifier (-1 to +2 points)
 
-| Role | Modifier | Rationale |
-|------|----------|-----------|
-| Owner/Founder | +2 | Fast decisions, highest authority |
-| Executive/C-Level | +1 | Budget authority, high priority |
-| Manager | +0 | Standard approval process |
-| Team Member | -1 | Longer sales cycle, information gathering |
+| Role              | Modifier | Rationale                                 |
+| ----------------- | -------- | ----------------------------------------- |
+| Owner/Founder     | +2       | Fast decisions, highest authority         |
+| Executive/C-Level | +1       | Budget authority, high priority           |
+| Manager           | +0       | Standard approval process                 |
+| Team Member       | -1       | Longer sales cycle, information gathering |
 
 ### Total Priority Score
 
@@ -117,15 +120,16 @@ Feature points are scaled to a 0-2 bonus range and combined with the base score 
 
 **Priority Levels:**
 
-| Score Range | Priority Level | Email Prefix | Description |
-|-------------|----------------|--------------|-------------|
-| 32+ | 🔥 HIGH PRIORITY | `🔥 HIGH PRIORITY -` | High budget, urgent timeline, decision authority |
-| 24-31 | ⚡ MEDIUM PRIORITY | `⚡` | Mid-range opportunity with good potential |
-| 10-23 | 📋 STANDARD PRIORITY | (none) | Standard lead requiring qualification |
+| Score Range | Priority Level       | Email Prefix         | Description                                      |
+| ----------- | -------------------- | -------------------- | ------------------------------------------------ |
+| 32+         | 🔥 HIGH PRIORITY     | `🔥 HIGH PRIORITY -` | High budget, urgent timeline, decision authority |
+| 24-31       | ⚡ MEDIUM PRIORITY   | `⚡`                 | Mid-range opportunity with good potential        |
+| 10-23       | 📋 STANDARD PRIORITY | (none)               | Standard lead requiring qualification            |
 
 ### Example Calculations
 
 **Example 1: High Priority Lead**
+
 - Budget: Premium ($7k-$15k) = 4 points → 4 × 5 = 20
 - Urgency: Urgent (4-6 weeks) = 4 points → 4 × 3 = 12
 - Complexity: Custom App (4) + Features (0) + No Brand (1) = 4 points → 4 × 2 = 8
@@ -134,6 +138,7 @@ Feature points are scaled to a 0-2 bonus range and combined with the base score 
 - **Total: 20 + 12 + 8 + 1 + 2 = 43 points (🔥 HIGH PRIORITY)**
 
 **Example 2: Medium Priority Lead**
+
 - Budget: Standard ($3k-$7k) = 2 points → 2 × 5 = 10
 - Urgency: Normal (6-10 weeks) = 3 points → 3 × 3 = 9
 - Complexity: Full Website (2) + CMS (1.0) + Partial Brand (0.5) = 3 points → 3 × 2 = 6
@@ -142,6 +147,7 @@ Feature points are scaled to a 0-2 bonus range and combined with the base score 
 - **Total: 10 + 9 + 6 + 0.5 + 0 = 25.5 → 26 points (⚡ MEDIUM PRIORITY)**
 
 **Example 3: Standard Lead**
+
 - Budget: Budget Conscious (<$3k) = 1 point → 1 × 5 = 5
 - Urgency: Flexible (16+ weeks) = 1 point → 1 × 3 = 3
 - Complexity: Landing Page (1) + Contact Forms (0.5) + Full Brand (0) = 1 point → 1 × 2 = 2
@@ -154,30 +160,31 @@ Feature points are scaled to a 0-2 bonus range and combined with the base score 
 The recommendation includes a list of features based on quiz selections:
 
 ### Always Included
+
 - Custom design tailored to your brand
 - Mobile responsive across all devices
 - SEO optimization
 
 ### Conditional Includes
 
-| Quiz Selection | Added Feature |
-|----------------|---------------|
-| `contact-forms` | Contact forms & lead capture |
-| `booking-scheduling` | Appointment booking system |
-| `payment-processing` | Secure payment processing |
-| `user-accounts` | User authentication & accounts |
-| `cms` | Easy content management system |
-| `analytics` | Analytics dashboard & tracking |
-| `integrations` | Third-party integrations |
+| Quiz Selection       | Added Feature                  |
+| -------------------- | ------------------------------ |
+| `contact-forms`      | Contact forms & lead capture   |
+| `booking-scheduling` | Appointment booking system     |
+| `payment-processing` | Secure payment processing      |
+| `user-accounts`      | User authentication & accounts |
+| `cms`                | Easy content management system |
+| `analytics`          | Analytics dashboard & tracking |
+| `integrations`       | Third-party integrations       |
 
 ### Solution Type Specific
 
-| Solution Type | Page Count Feature |
-|---------------|-------------------|
-| Landing Page | 1-3 high-converting pages |
-| Website | 5-10 professionally designed pages |
-| Custom App | Custom application architecture |
-| E-commerce | Product catalog and shopping cart |
+| Solution Type | Page Count Feature                 |
+| ------------- | ---------------------------------- |
+| Landing Page  | 1-3 high-converting pages          |
+| Website       | 5-10 professionally designed pages |
+| Custom App    | Custom application architecture    |
+| E-commerce    | Product catalog and shopping cart  |
 
 ## "Best For" Description
 
@@ -186,6 +193,7 @@ Dynamically generated based on industry and primary business goal:
 **Format:** `{industry} looking to {primary_goal}`
 
 **Examples:**
+
 - "Healthcare providers looking to generate more leads"
 - "Professional services looking to save time with automation"
 - "Home service businesses looking to build credibility"
@@ -238,6 +246,7 @@ Message:
 ### Modifying Score Calculations
 
 Edit these functions in `quizRecommendations.ts`:
+
 - `getBudgetScore()` - Budget scoring logic
 - `getUrgencyScore()` - Timeline scoring logic
 - `getComplexityScore()` - Complexity calculation
@@ -246,6 +255,7 @@ Edit these functions in `quizRecommendations.ts`:
 ### Customizing Email Template
 
 Edit `server/email.ts`:
+
 - **Priority thresholds:** Lines 283-287 (subject) and 188 (badge) - Currently set to 32+ for HIGH, 24+ for MEDIUM
 - **HTML styling:** Lines 127-181 (CSS classes)
 - **Recommendation box:** Lines 194-224
@@ -256,29 +266,29 @@ Edit `server/email.ts`:
 ### Test Different Scenarios
 
 ```typescript
-import { getRecommendation } from '@/lib/quizRecommendations';
+import { getRecommendation } from "@/lib/quizRecommendations";
 
 // High priority test
 const highPriority = getRecommendation({
-  projectScope: 'custom-app',
-  features: ['payment-processing', 'user-accounts', 'analytics'],
-  timeline: 'urgent',
-  investment: 'premium',
-  existingAssets: 'no-brand',
-  companySize: '51-200',
-  decisionMaker: 'owner'
+  projectScope: "custom-app",
+  features: ["payment-processing", "user-accounts", "analytics"],
+  timeline: "urgent",
+  investment: "premium",
+  existingAssets: "no-brand",
+  companySize: "51-200",
+  decisionMaker: "owner",
 });
 // Expected: priorityScore >= 32
 
 // Standard test
 const standard = getRecommendation({
-  projectScope: 'simple-landing',
-  features: ['contact-forms'],
-  timeline: 'flexible',
-  investment: 'budget-conscious',
-  existingAssets: 'full-brand',
-  companySize: 'solo',
-  decisionMaker: 'team-member'
+  projectScope: "simple-landing",
+  features: ["contact-forms"],
+  timeline: "flexible",
+  investment: "budget-conscious",
+  existingAssets: "full-brand",
+  companySize: "solo",
+  decisionMaker: "team-member",
 });
 // Expected: priorityScore < 24
 ```

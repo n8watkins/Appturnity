@@ -1,33 +1,33 @@
-import { useState, useMemo, useEffect } from 'react';
-import { useRoute, Link } from 'wouter';
-import { Helmet } from 'react-helmet-async';
-import { motion } from 'framer-motion';
-import { Calendar, Clock, Tag, ArrowLeft, Share2, Linkedin, Facebook, X } from 'lucide-react';
-import { getMetadataBySlug, blogMetadata } from '@/data/blogMetadata';
-import { loadBlogPost, BlogPost as BlogPostType } from '@/data/blogLoader';
-import { Button } from '@/components/ui/button';
-import BlogContent from '@/components/BlogContent';
-import { formatBlogDate } from '@/lib/dateUtils';
-import LazyImage from '@/components/LazyImage';
-import ReadingProgress from '@/components/ReadingProgress';
-import NewsletterSignup from '@/components/NewsletterSignup';
-import TopBanner from '@/components/TopBanner';
-import BlogNavbar from '@/components/BlogNavbar';
-import BlogFooter from '@/components/BlogFooter';
+import { useState, useMemo, useEffect } from "react";
+import { useRoute, Link } from "wouter";
+import { Helmet } from "react-helmet-async";
+import { motion } from "framer-motion";
+import { Calendar, Clock, Tag, ArrowLeft, Share2, Linkedin, Facebook, X } from "lucide-react";
+import { getMetadataBySlug, blogMetadata } from "@/data/blogMetadata";
+import { loadBlogPost, BlogPost as BlogPostType } from "@/data/blogLoader";
+import { Button } from "@/components/ui/button";
+import BlogContent from "@/components/BlogContent";
+import { formatBlogDate } from "@/lib/dateUtils";
+import LazyImage from "@/components/LazyImage";
+import ReadingProgress from "@/components/ReadingProgress";
+import NewsletterSignup from "@/components/NewsletterSignup";
+import TopBanner from "@/components/TopBanner";
+import BlogNavbar from "@/components/BlogNavbar";
+import BlogFooter from "@/components/BlogFooter";
 
 export default function BlogPost() {
-  const [, params] = useRoute('/blog/:slug');
+  const [, params] = useRoute("/blog/:slug");
   const [post, setPost] = useState<BlogPostType | null>(null);
   const [loading, setLoading] = useState(true);
   const [showStickyTitle, setShowStickyTitle] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>('');
+  const [activeSection, setActiveSection] = useState<string>("");
   const metadata = params?.slug ? getMetadataBySlug(params.slug) : null;
 
   // Load post content dynamically
   useEffect(() => {
     if (params?.slug) {
       setLoading(true);
-      loadBlogPost(params.slug).then(loadedPost => {
+      loadBlogPost(params.slug).then((loadedPost) => {
         setPost(loadedPost);
         setLoading(false);
       });
@@ -38,34 +38,39 @@ export default function BlogPost() {
   useEffect(() => {
     const handleScroll = () => {
       // Handle sticky title
-      const articleHeader = document.getElementById('article-header');
+      const articleHeader = document.getElementById("article-header");
       if (articleHeader) {
         const headerBottom = articleHeader.getBoundingClientRect().bottom;
         setShowStickyTitle(headerBottom < 80); // Show when article header goes above navbar
       }
 
       // Handle active section tracking for table of contents
-      if (typeof post?.content === 'string') {
+      if (typeof post?.content === "string") {
         const headings = post.content.match(/^## .+$/gm);
         if (headings) {
-          const headingElements = headings.map(heading => {
-            const text = heading.slice(3);
-            const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-            const element = document.getElementById(id);
-            if (element) {
-              const rect = element.getBoundingClientRect();
-              return { id, top: rect.top };
-            }
-            return null;
-          }).filter(Boolean);
+          const headingElements = headings
+            .map((heading) => {
+              const text = heading.slice(3);
+              const id = text
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/^-|-$/g, "");
+              const element = document.getElementById(id);
+              if (element) {
+                const rect = element.getBoundingClientRect();
+                return { id, top: rect.top };
+              }
+              return null;
+            })
+            .filter(Boolean);
 
           // Find the section that's currently in view (closest to top of viewport)
-          const activeElement = headingElements.find(el => el && el.top > 0 && el.top < 300);
+          const activeElement = headingElements.find((el) => el && el.top > 0 && el.top < 300);
           if (activeElement) {
             setActiveSection(activeElement.id);
           } else if (headingElements.length > 0) {
             // If scrolled past all sections, highlight the last one
-            const lastVisible = headingElements.filter(el => el && el.top < 300).pop();
+            const lastVisible = headingElements.filter((el) => el && el.top < 300).pop();
             if (lastVisible) {
               setActiveSection(lastVisible.id);
             }
@@ -74,9 +79,9 @@ export default function BlogPost() {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     handleScroll(); // Check on mount
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [post]);
 
   // Optimized related posts algorithm with scoring and memoization
@@ -84,13 +89,13 @@ export default function BlogPost() {
     if (!post) return [];
 
     return blogMetadata
-      .filter(p => p.id !== post.id)
-      .map(p => {
+      .filter((p) => p.id !== post.id)
+      .map((p) => {
         let score = 0;
         // Category match is worth 3 points
         if (p.category === post.category) score += 3;
         // Each matching tag is worth 1 point
-        score += p.tags.filter(tag => post.tags.includes(tag)).length;
+        score += p.tags.filter((tag) => post.tags.includes(tag)).length;
         return { post: p, score };
       })
       .filter(({ score }) => score > 0)
@@ -117,7 +122,10 @@ export default function BlogPost() {
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <Helmet>
           <title>Article Not Found | Appturnity</title>
-          <meta name="description" content="This article could not be found. Browse our blog for other helpful content." />
+          <meta
+            name="description"
+            content="This article could not be found. Browse our blog for other helpful content."
+          />
           <meta name="robots" content="noindex" />
         </Helmet>
         <div className="text-center">
@@ -142,39 +150,39 @@ export default function BlogPost() {
   const shareText = post.title;
 
   // Helper to check if content is string (markdown) or component (MDX)
-  const contentIsString = typeof post.content === 'string';
-  const contentString = contentIsString ? post.content : '';
+  const contentIsString = typeof post.content === "string";
+  const contentString = contentIsString ? post.content : "";
 
   // Schema.org structured data for article
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": post.title,
-    "description": post.seoDescription,
-    "image": post.image,
-    "datePublished": post.date,
-    "dateModified": post.date,
-    "author": {
+    headline: post.title,
+    description: post.seoDescription,
+    image: post.image,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: {
       "@type": "Organization",
-      "name": post.author,
-      "url": window.location.origin
+      name: post.author,
+      url: window.location.origin,
     },
-    "publisher": {
+    publisher: {
       "@type": "Organization",
-      "name": "Appturnity",
-      "url": window.location.origin,
-      "logo": {
+      name: "Appturnity",
+      url: window.location.origin,
+      logo: {
         "@type": "ImageObject",
-        "url": `${window.location.origin}/logo.svg`
-      }
+        url: `${window.location.origin}/logo.svg`,
+      },
     },
-    "mainEntityOfPage": {
+    mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": shareUrl
+      "@id": shareUrl,
     },
-    "keywords": post.seoKeywords.join(", "),
-    "articleSection": post.category,
-    "wordCount": contentIsString ? contentString.split(/\s+/).length : 0
+    keywords: post.seoKeywords.join(", "),
+    articleSection: post.category,
+    wordCount: contentIsString ? contentString.split(/\s+/).length : 0,
   };
 
   return (
@@ -183,7 +191,7 @@ export default function BlogPost() {
       <Helmet>
         <title>{post.seoTitle} | Appturnity</title>
         <meta name="description" content={post.seoDescription} />
-        <meta name="keywords" content={post.seoKeywords.join(', ')} />
+        <meta name="keywords" content={post.seoKeywords.join(", ")} />
 
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="article" />
@@ -194,7 +202,7 @@ export default function BlogPost() {
         <meta property="article:published_time" content={post.date} />
         <meta property="article:author" content={post.author} />
         <meta property="article:section" content={post.category} />
-        {post.tags.map(tag => (
+        {post.tags.map((tag) => (
           <meta key={tag} property="article:tag" content={tag} />
         ))}
 
@@ -209,9 +217,7 @@ export default function BlogPost() {
         <link rel="canonical" href={shareUrl} />
 
         {/* Schema.org JSON-LD */}
-        <script type="application/ld+json">
-          {JSON.stringify(articleSchema)}
-        </script>
+        <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
       </Helmet>
 
       {/* Top Banner */}
@@ -267,9 +273,7 @@ export default function BlogPost() {
           </h1>
 
           {/* Excerpt */}
-          <p className="text-xl md:text-2xl text-slate-600 leading-relaxed mb-8">
-            {post.excerpt}
-          </p>
+          <p className="text-xl md:text-2xl text-slate-600 leading-relaxed mb-8">{post.excerpt}</p>
 
           {/* Meta Info */}
           <div className="flex flex-wrap items-center gap-4 text-sm text-slate-600">
@@ -316,7 +320,10 @@ export default function BlogPost() {
                   <nav className="space-y-2 max-h-[60vh] overflow-y-auto pr-2">
                     {contentString.match(/^## .+$/gm)?.map((heading, idx) => {
                       const text = heading.slice(3);
-                      const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+                      const id = text
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]+/g, "-")
+                        .replace(/^-|-$/g, "");
                       const isActive = activeSection === id;
                       return (
                         <a
@@ -325,14 +332,14 @@ export default function BlogPost() {
                           onClick={(e) => {
                             e.preventDefault();
                             document.getElementById(id)?.scrollIntoView({
-                              behavior: 'smooth',
-                              block: 'start'
+                              behavior: "smooth",
+                              block: "start",
                             });
                           }}
                           className={`block text-base transition-all py-2.5 px-3 rounded-lg border-l-3 leading-snug ${
                             isActive
-                              ? 'text-primary bg-blue-50 pl-4 border-primary font-semibold'
-                              : 'text-slate-600 hover:text-primary hover:bg-blue-50/50 hover:pl-4 border-transparent hover:border-primary'
+                              ? "text-primary bg-blue-50 pl-4 border-primary font-semibold"
+                              : "text-slate-600 hover:text-primary hover:bg-blue-50/50 hover:pl-4 border-transparent hover:border-primary"
                           }`}
                         >
                           {text}
@@ -355,9 +362,7 @@ export default function BlogPost() {
             <div className="sticky top-40 space-y-5">
               {/* Social Share */}
               <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                <h3 className="font-bold text-lg text-slate-900 mb-4">
-                  Share Article
-                </h3>
+                <h3 className="font-bold text-lg text-slate-900 mb-4">Share Article</h3>
                 <div className="flex gap-2">
                   <a
                     href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`}
@@ -367,7 +372,7 @@ export default function BlogPost() {
                     aria-label="Share on X"
                   >
                     <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                     </svg>
                   </a>
                   <a
@@ -393,9 +398,7 @@ export default function BlogPost() {
 
               {/* Newsletter Signup */}
               <div className="bg-gradient-to-br from-primary/10 to-blue-50 rounded-xl shadow-sm border border-primary/20 p-6">
-                <h3 className="font-bold text-lg text-slate-900 mb-2">
-                  Get Updates
-                </h3>
+                <h3 className="font-bold text-lg text-slate-900 mb-2">Get Updates</h3>
                 <p className="text-sm text-slate-600 mb-4 leading-relaxed">
                   Subscribe to our newsletter for the latest articles and insights
                 </p>
@@ -422,7 +425,11 @@ export default function BlogPost() {
                 </p>
                 <Link href="/#pricing">
                   <a>
-                    <Button size="sm" variant="secondary" className="w-full bg-white text-primary hover:bg-white/90 font-semibold py-2.5">
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      className="w-full bg-white text-primary hover:bg-white/90 font-semibold py-2.5"
+                    >
                       View Pricing
                     </Button>
                   </a>
@@ -441,7 +448,7 @@ export default function BlogPost() {
         >
           <h3 className="text-sm font-semibold text-slate-900 mb-4">Tagged in</h3>
           <div className="flex flex-wrap gap-2">
-            {post.tags.map(tag => (
+            {post.tags.map((tag) => (
               <Link key={tag} href="/blog">
                 <a className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 rounded-lg text-sm font-medium transition-colors">
                   <Tag className="h-3.5 w-3.5" />
@@ -468,7 +475,7 @@ export default function BlogPost() {
             aria-label="Share on X"
           >
             <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
             </svg>
             Share on X
           </a>
@@ -496,7 +503,9 @@ export default function BlogPost() {
               <span className="text-white font-bold">Appturnity</span>
               <span className="text-white/80">Custom Development</span>
             </div>
-            <h3 className="text-2xl font-bold text-white mb-3">Ready to Build Your Custom Website?</h3>
+            <h3 className="text-2xl font-bold text-white mb-3">
+              Ready to Build Your Custom Website?
+            </h3>
             <p className="text-white/90 mb-6 text-lg">
               Join hundreds of businesses who chose Appturnity over expensive monthly subscriptions.
               Calculate how much you can save with a custom website.
@@ -530,10 +539,11 @@ export default function BlogPost() {
                 Continue Reading
               </h2>
               <p className="text-center text-slate-600 mb-10">
-                More insights from the <span className="font-semibold text-primary">Appturnity</span> blog
+                More insights from the{" "}
+                <span className="font-semibold text-primary">Appturnity</span> blog
               </p>
               <div className="grid md:grid-cols-3 gap-8">
-                {relatedPosts.map(relatedPost => (
+                {relatedPosts.map((relatedPost) => (
                   <Link key={relatedPost.id} href={`/blog/${relatedPost.slug}`}>
                     <a className="group block bg-white rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 h-full">
                       <LazyImage
@@ -548,9 +558,7 @@ export default function BlogPost() {
                         <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-primary transition-colors line-clamp-2">
                           {relatedPost.title}
                         </h3>
-                        <p className="text-slate-600 line-clamp-3">
-                          {relatedPost.excerpt}
-                        </p>
+                        <p className="text-slate-600 line-clamp-3">{relatedPost.excerpt}</p>
                       </div>
                     </a>
                   </Link>

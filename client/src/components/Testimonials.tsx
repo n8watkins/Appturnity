@@ -8,50 +8,58 @@ const testimonials = [
     id: 1,
     name: "Sarah Johnson",
     role: "Marketing Director, TechStart",
-    content: "They delivered exactly what we needed without all the extra fluff. Our team tracker app is intuitive, focused, and costs a fraction of what we were paying for bloated alternatives."
+    content:
+      "They delivered exactly what we needed without all the extra fluff. Our team tracker app is intuitive, focused, and costs a fraction of what we were paying for bloated alternatives.",
   },
   {
     id: 2,
     name: "Michael Chen",
     role: "Founder, GreenDelivery",
-    content: "The flat monthly fee is refreshing. We can add as many users as we need without worrying about costs exploding. The app is exactly what our delivery business needed."
+    content:
+      "The flat monthly fee is refreshing. We can add as many users as we need without worrying about costs exploding. The app is exactly what our delivery business needed.",
   },
   {
     id: 3,
     name: "Emily Rodriguez",
     role: "Office Manager, Corvus Legal",
-    content: "Their client intake app transformed our firm. We tried several off-the-shelf solutions but none fit our workflow. Appturnity built exactly what we needed - no more, no less."
+    content:
+      "Their client intake app transformed our firm. We tried several off-the-shelf solutions but none fit our workflow. Appturnity built exactly what we needed - no more, no less.",
   },
   {
     id: 4,
     name: "David Park",
     role: "CEO, FitLife Studios",
-    content: "We needed a simple booking system for our fitness classes. Appturnity delivered in weeks, not months. The app is fast, reliable, and our members love how easy it is to use."
+    content:
+      "We needed a simple booking system for our fitness classes. Appturnity delivered in weeks, not months. The app is fast, reliable, and our members love how easy it is to use.",
   },
   {
     id: 5,
     name: "Jessica Martinez",
     role: "Operations Manager, QuickServe Restaurants",
-    content: "Their no-frills approach saved us thousands. We got a custom inventory management system that actually works for our workflow. No unnecessary features, just what we need."
+    content:
+      "Their no-frills approach saved us thousands. We got a custom inventory management system that actually works for our workflow. No unnecessary features, just what we need.",
   },
   {
     id: 6,
     name: "Robert Thompson",
     role: "Director, Heritage Construction",
-    content: "Finally, a development team that understands budget constraints. Our project management app handles everything we need without the enterprise price tag. Highly recommended."
+    content:
+      "Finally, a development team that understands budget constraints. Our project management app handles everything we need without the enterprise price tag. Highly recommended.",
   },
   {
     id: 7,
     name: "Amanda Lee",
     role: "Founder, Pawsitive Pet Care",
-    content: "The client portal they built streamlined our entire booking process. Pet parents can schedule appointments, view records, and pay invoices all in one place. Game changer for our business."
+    content:
+      "The client portal they built streamlined our entire booking process. Pet parents can schedule appointments, view records, and pay invoices all in one place. Game changer for our business.",
   },
   {
     id: 8,
     name: "James Wilson",
     role: "Partner, Summit Financial Advisors",
-    content: "We needed a secure client document portal that met compliance requirements. Appturnity delivered exactly that - nothing fancy, just solid, reliable software that does the job."
-  }
+    content:
+      "We needed a secure client document portal that met compliance requirements. Appturnity delivered exactly that - nothing fancy, just solid, reliable software that does the job.",
+  },
 ];
 
 export default function Testimonials() {
@@ -97,26 +105,32 @@ export default function Testimonials() {
   const slideVariants = {
     enter: (direction: number) => ({
       x: direction > 0 ? 1000 : -1000,
-      opacity: 0
+      opacity: 0,
     }),
     center: {
       zIndex: 1,
       x: 0,
-      opacity: 1
+      opacity: 1,
     },
     exit: (direction: number) => ({
       zIndex: 0,
       x: direction < 0 ? 1000 : -1000,
-      opacity: 0
-    })
+      opacity: 0,
+    }),
   };
 
   return (
-    <section id="testimonials" className="relative py-24 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 scroll-mt-16">
+    <section
+      id="testimonials"
+      className="relative py-24 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 scroll-mt-16"
+    >
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-24 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 -left-24 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div
+          className="absolute bottom-0 -left-24 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: "1s" }}
+        ></div>
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -140,7 +154,10 @@ export default function Testimonials() {
           </motion.div>
 
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            What Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-purple-500">Clients Say</span>
+            What Our{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-purple-500">
+              Clients Say
+            </span>
           </h2>
           <p className="text-xl text-slate-300">
             Real feedback from real businesses who made the switch.
@@ -182,12 +199,12 @@ export default function Testimonials() {
                 transition={{
                   enter: {
                     x: { type: "spring", stiffness: 400, damping: 35 },
-                    opacity: { duration: 0.15 }
+                    opacity: { duration: 0.15 },
                   },
                   exit: {
                     x: { type: "spring", stiffness: 250, damping: 28 },
-                    opacity: { duration: 0.25 }
-                  }
+                    opacity: { duration: 0.25 },
+                  },
                 }}
                 className="grid md:grid-cols-3 gap-8"
               >
@@ -224,8 +241,8 @@ export default function Testimonials() {
                 onClick={() => goToSlide(index)}
                 className={`h-2 rounded-full transition-all ${
                   index === currentIndex
-                    ? 'w-8 bg-gradient-to-r from-primary to-purple-500'
-                    : 'w-2 bg-slate-600 hover:bg-slate-500'
+                    ? "w-8 bg-gradient-to-r from-primary to-purple-500"
+                    : "w-2 bg-slate-600 hover:bg-slate-500"
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
               />

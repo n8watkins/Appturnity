@@ -38,20 +38,48 @@ const quizQuestions: QuizQuestion[] = [
     question: "What's your current situation?",
     options: [
       { value: "no-website", label: "No Website Yet", description: "Starting from scratch" },
-      { value: "outdated-website", label: "Outdated Website", description: "Need a modern redesign" },
-      { value: "losing-leads", label: "Losing Leads", description: "Website isn't converting visitors" },
-      { value: "paying-too-much", label: "Paying Too Much for SaaS", description: "Want to own my solution" },
-      { value: "manual-processes", label: "Too Many Manual Processes", description: "Need automation tools" },
+      {
+        value: "outdated-website",
+        label: "Outdated Website",
+        description: "Need a modern redesign",
+      },
+      {
+        value: "losing-leads",
+        label: "Losing Leads",
+        description: "Website isn't converting visitors",
+      },
+      {
+        value: "paying-too-much",
+        label: "Paying Too Much for SaaS",
+        description: "Want to own my solution",
+      },
+      {
+        value: "manual-processes",
+        label: "Too Many Manual Processes",
+        description: "Need automation tools",
+      },
     ],
   },
   {
     id: "industry",
     question: "What industry are you in?",
     options: [
-      { value: "professional-services", label: "Professional Services", description: "Consulting, legal, accounting" },
+      {
+        value: "professional-services",
+        label: "Professional Services",
+        description: "Consulting, legal, accounting",
+      },
       { value: "healthcare", label: "Healthcare", description: "Medical, dental, wellness" },
-      { value: "home-services", label: "Home Services", description: "HVAC, roofing, plumbing, contractors" },
-      { value: "retail-ecommerce", label: "Retail/E-commerce", description: "Online or physical stores" },
+      {
+        value: "home-services",
+        label: "Home Services",
+        description: "HVAC, roofing, plumbing, contractors",
+      },
+      {
+        value: "retail-ecommerce",
+        label: "Retail/E-commerce",
+        description: "Online or physical stores",
+      },
       { value: "real-estate", label: "Real Estate", description: "Property sales or rentals" },
       { value: "technology", label: "Technology/SaaS", description: "Software or tech services" },
       { value: "hospitality", label: "Hospitality", description: "Restaurants, hotels, events" },
@@ -63,11 +91,23 @@ const quizQuestions: QuizQuestion[] = [
     question: "What business outcomes do you want? (Select all that apply)",
     multiSelect: true,
     options: [
-      { value: "more-customers", label: "Get More Customers", description: "Increase leads and sales" },
+      {
+        value: "more-customers",
+        label: "Get More Customers",
+        description: "Increase leads and sales",
+      },
       { value: "save-time", label: "Save Time", description: "Automate repetitive tasks" },
       { value: "reduce-costs", label: "Reduce Costs", description: "Cut expensive subscriptions" },
-      { value: "improve-credibility", label: "Look More Professional", description: "Build trust with better design" },
-      { value: "scale-business", label: "Scale My Business", description: "Support growth with better systems" },
+      {
+        value: "improve-credibility",
+        label: "Look More Professional",
+        description: "Build trust with better design",
+      },
+      {
+        value: "scale-business",
+        label: "Scale My Business",
+        description: "Support growth with better systems",
+      },
     ],
   },
   {
@@ -86,7 +126,11 @@ const quizQuestions: QuizQuestion[] = [
     multiSelect: true,
     options: [
       { value: "seo", label: "Advanced SEO", description: "Search engine optimization" },
-      { value: "email-automation", label: "Email Automation", description: "Automated email sequences" },
+      {
+        value: "email-automation",
+        label: "Email Automation",
+        description: "Automated email sequences",
+      },
       { value: "newsletter", label: "Newsletter Management", description: "Email list building" },
       { value: "forms", label: "Custom Forms", description: "Multi-step forms" },
       { value: "cms", label: "CMS", description: "Content management system" },
@@ -105,9 +149,21 @@ const quizQuestions: QuizQuestion[] = [
     id: "projectScope",
     question: "What type of solution fits your needs?",
     options: [
-      { value: "simple-landing", label: "Simple Landing Page", description: "One page to capture leads" },
-      { value: "full-website", label: "Complete Website", description: "Multi-page site with full content" },
-      { value: "custom-app", label: "Custom Web Application", description: "Tailored tools for your workflow" },
+      {
+        value: "simple-landing",
+        label: "Simple Landing Page",
+        description: "One page to capture leads",
+      },
+      {
+        value: "full-website",
+        label: "Complete Website",
+        description: "Multi-page site with full content",
+      },
+      {
+        value: "custom-app",
+        label: "Custom Web Application",
+        description: "Tailored tools for your workflow",
+      },
       { value: "ecommerce-store", label: "E-commerce Store", description: "Sell products online" },
       { value: "not-sure", label: "Not Sure Yet", description: "Help me figure it out" },
     ],
@@ -116,7 +172,11 @@ const quizQuestions: QuizQuestion[] = [
     id: "existingAssets",
     question: "Do you have existing brand materials?",
     options: [
-      { value: "full-brand", label: "Yes, Full Branding", description: "Logo, colors, fonts, guidelines" },
+      {
+        value: "full-brand",
+        label: "Yes, Full Branding",
+        description: "Logo, colors, fonts, guidelines",
+      },
       { value: "partial-brand", label: "Some Materials", description: "Logo and colors only" },
       { value: "no-brand", label: "No, Need Help", description: "Starting from scratch" },
     ],
@@ -135,8 +195,16 @@ const quizQuestions: QuizQuestion[] = [
     id: "investment",
     question: "What's your investment budget?",
     options: [
-      { value: "budget-conscious", label: "$750 - $1,500", description: "Essential tier (1-5 pages)" },
-      { value: "standard", label: "$1,700 - $3,000", description: "Professional tier (6-12 pages)" },
+      {
+        value: "budget-conscious",
+        label: "$750 - $1,500",
+        description: "Essential tier (1-5 pages)",
+      },
+      {
+        value: "standard",
+        label: "$1,700 - $3,000",
+        description: "Professional tier (6-12 pages)",
+      },
       { value: "premium", label: "$3,200 - $5,500", description: "Enterprise tier (13-20 pages)" },
       { value: "enterprise", label: "$5,500+", description: "Premium tier (21+ pages)" },
       { value: "premium-budget", label: "$8,000+", description: "Complex custom solution" },
@@ -187,7 +255,7 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
     if (isMultiSelect) {
       // Handle multi-select toggle
       const newSelected = selectedOptions.includes(value)
-        ? selectedOptions.filter(v => v !== value)
+        ? selectedOptions.filter((v) => v !== value)
         : [...selectedOptions, value];
       setSelectedOptions(newSelected);
     } else {
@@ -245,9 +313,7 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
       // Load previous answers for next question
       const nextQuestion = quizQuestions[currentStep + 1];
       const nextAnswer = newAnswers[nextQuestion.id];
-      setSelectedOptions(
-        Array.isArray(nextAnswer) ? nextAnswer : nextAnswer ? [nextAnswer] : []
-      );
+      setSelectedOptions(Array.isArray(nextAnswer) ? nextAnswer : nextAnswer ? [nextAnswer] : []);
     } else {
       // Quiz complete - show celebration
       setIsCompleted(true);
@@ -272,9 +338,7 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
       setCurrentStep(currentStep - 1);
       const prevQuestion = quizQuestions[currentStep - 1];
       const prevAnswer = answers[prevQuestion.id];
-      setSelectedOptions(
-        Array.isArray(prevAnswer) ? prevAnswer : prevAnswer ? [prevAnswer] : []
-      );
+      setSelectedOptions(Array.isArray(prevAnswer) ? prevAnswer : prevAnswer ? [prevAnswer] : []);
     }
   };
 
@@ -315,7 +379,8 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
               transition={{ delay: 0.4, duration: 0.5 }}
               className="text-slate-600 mb-6 max-w-lg mx-auto"
             >
-              Answer 12 quick questions to get a personalized recommendation with instant pricing and timeline estimates.
+              Answer 12 quick questions to get a personalized recommendation with instant pricing
+              and timeline estimates.
             </motion.p>
 
             <motion.div
@@ -461,9 +526,7 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
             <div className="mb-6">
               <div className="flex items-center gap-2 mb-3">
                 <Sparkles className="w-5 h-5 text-primary" />
-                <h3 className="text-2xl font-bold text-slate-900">
-                  {currentQuestion.question}
-                </h3>
+                <h3 className="text-2xl font-bold text-slate-900">{currentQuestion.question}</h3>
               </div>
               <p className="text-slate-600">
                 {isMultiSelect
@@ -473,7 +536,13 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
             </div>
 
             {/* Options */}
-            <div className={currentQuestion.id === 'desiredFeatures' ? 'grid grid-cols-1 md:grid-cols-2 gap-3 mb-8' : 'space-y-3 mb-8'}>
+            <div
+              className={
+                currentQuestion.id === "desiredFeatures"
+                  ? "grid grid-cols-1 md:grid-cols-2 gap-3 mb-8"
+                  : "space-y-3 mb-8"
+              }
+            >
               {currentQuestion.options.map((option) => {
                 const isSelected = selectedOptions.includes(option.value);
                 const isDisabled = !isMultiSelect && isAdvancing;
@@ -497,19 +566,17 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
                     <div className="flex items-start gap-3">
                       <div
                         className={`
-                        w-5 h-5 ${isMultiSelect ? 'rounded' : 'rounded-full'} border-2 flex items-center justify-center mt-0.5 flex-shrink-0
-                        ${
-                          isSelected
-                            ? "border-primary bg-primary"
-                            : "border-slate-300"
-                        }
+                        w-5 h-5 ${isMultiSelect ? "rounded" : "rounded-full"} border-2 flex items-center justify-center mt-0.5 flex-shrink-0
+                        ${isSelected ? "border-primary bg-primary" : "border-slate-300"}
                       `}
                       >
                         {isSelected && (
                           <motion.div
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
-                            className={isMultiSelect ? "text-white text-xs" : "w-2 h-2 bg-white rounded-full"}
+                            className={
+                              isMultiSelect ? "text-white text-xs" : "w-2 h-2 bg-white rounded-full"
+                            }
                           >
                             {isMultiSelect && "✓"}
                           </motion.div>
@@ -518,9 +585,7 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
                       <div className="flex-1">
                         <div className="font-semibold text-slate-900">{option.label}</div>
                         {option.description && (
-                          <div className="text-sm text-slate-600 mt-1">
-                            {option.description}
-                          </div>
+                          <div className="text-sm text-slate-600 mt-1">{option.description}</div>
                         )}
                       </div>
                     </div>
@@ -534,11 +599,7 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
         {/* Navigation */}
         <div className="flex justify-between items-center">
           {currentStep > 0 ? (
-            <Button
-              variant="ghost"
-              onClick={handleBack}
-              className="gap-2"
-            >
+            <Button variant="ghost" onClick={handleBack} className="gap-2">
               <ChevronLeft className="w-4 h-4" />
               Back
             </Button>
@@ -546,11 +607,7 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
             <div></div>
           )}
 
-          <Button
-            onClick={handleNext}
-            disabled={selectedOptions.length === 0}
-            className="gap-2"
-          >
+          <Button onClick={handleNext} disabled={selectedOptions.length === 0} className="gap-2">
             {currentStep < quizQuestions.length - 1 ? (
               <>
                 Next

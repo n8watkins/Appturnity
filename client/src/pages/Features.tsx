@@ -2,7 +2,46 @@ import { useEffect, useState, lazy, Suspense } from "react";
 import { useLocation } from "wouter";
 import { Link } from "wouter";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, Palette, TrendingUp, Shield, Target, Search, Plus, Minus, CreditCard, Calendar, Mail, Users, Upload, Zap, BarChart, Eye, TestTube2, MessageSquare, Bot, Smartphone, Gauge, Sparkles, Moon, Image, FileText, Lock, Server, Database, UserCheck, LifeBuoy, BookOpen, RefreshCw, Headphones, Settings, Send, ShoppingCart, Globe, Star } from "lucide-react";
+import {
+  ArrowLeft,
+  Palette,
+  TrendingUp,
+  Shield,
+  Target,
+  Search,
+  Plus,
+  Minus,
+  CreditCard,
+  Calendar,
+  Mail,
+  Users,
+  Upload,
+  Zap,
+  BarChart,
+  Eye,
+  TestTube2,
+  MessageSquare,
+  Bot,
+  Smartphone,
+  Gauge,
+  Sparkles,
+  Moon,
+  Image,
+  FileText,
+  Lock,
+  Server,
+  Database,
+  UserCheck,
+  LifeBuoy,
+  BookOpen,
+  RefreshCw,
+  Headphones,
+  Settings,
+  Send,
+  ShoppingCart,
+  Globe,
+  Star,
+} from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -14,18 +53,18 @@ const categories = [
   {
     id: "design",
     name: "Design & Brand",
-    icon: Palette
+    icon: Palette,
   },
   {
     id: "marketing",
     name: "Lead Generation",
-    icon: TrendingUp
+    icon: TrendingUp,
   },
   {
     id: "security",
     name: "Security & Hosting",
-    icon: Shield
-  }
+    icon: Shield,
+  },
 ];
 
 const allFeatures = [
@@ -35,63 +74,63 @@ const allFeatures = [
     name: "Custom Design",
     details: "Colors, fonts, and style perfectly aligned with your business identity",
     type: "essential",
-    icon: Palette
+    icon: Palette,
   },
   {
     category: "design",
     name: "Mobile Responsive",
     details: "Automatically adapts to phones, tablets, and desktops",
     type: "essential",
-    icon: Smartphone
+    icon: Smartphone,
   },
   {
     category: "design",
     name: "Modern Animations",
     details: "Subtle transitions and effects that guide users naturally",
     type: "essential",
-    icon: Sparkles
+    icon: Sparkles,
   },
   {
     category: "design",
     name: "Professional Typography",
     details: "Carefully selected fonts that enhance readability and brand",
     type: "essential",
-    icon: FileText
+    icon: FileText,
   },
   {
     category: "design",
     name: "Performance Optimized",
     details: "Lightning-fast load times under 2 seconds with optimized images",
     type: "essential",
-    icon: Zap
+    icon: Zap,
   },
   {
     category: "design",
     name: "Dark Mode",
     details: "Toggle between light and dark themes for user comfort",
     type: "advanced",
-    icon: Moon
+    icon: Moon,
   },
   {
     category: "design",
     name: "Advanced Animations",
     details: "Complex scroll-triggered animations and interactive elements",
     type: "advanced",
-    icon: Sparkles
+    icon: Sparkles,
   },
   {
     category: "design",
     name: "Custom Illustrations",
     details: "Original icons and visuals designed specifically for your brand",
     type: "advanced",
-    icon: Image
+    icon: Image,
   },
   {
     category: "design",
     name: "Micro-interactions",
     details: "Delightful button effects and hover animations throughout",
     type: "advanced",
-    icon: Zap
+    icon: Zap,
   },
 
   // Lead Generation & Marketing
@@ -100,98 +139,98 @@ const allFeatures = [
     name: "Contact Forms",
     details: "Spam-protected forms that email you instantly when submitted",
     type: "essential",
-    icon: Mail
+    icon: Mail,
   },
   {
     category: "marketing",
     name: "SEO Optimization",
     details: "Meta tags, sitemaps, and structure to rank in search results",
     type: "essential",
-    icon: Search
+    icon: Search,
   },
   {
     category: "marketing",
     name: "Google Analytics",
     details: "See who visits, what they do, and where they come from",
     type: "essential",
-    icon: BarChart
+    icon: BarChart,
   },
   {
     category: "marketing",
     name: "Social Media Links",
     details: "Connect your social profiles with branded icons",
     type: "essential",
-    icon: Users
+    icon: Users,
   },
   {
     category: "security",
     name: "Custom Domain Setup",
     details: "Connect your own domain name with full DNS configuration",
     type: "essential",
-    icon: Globe
+    icon: Globe,
   },
   {
     category: "marketing",
     name: "Email Templates",
     details: "Custom branded email designs for notifications and campaigns",
     type: "advanced",
-    icon: Mail
+    icon: Mail,
   },
   {
     category: "marketing",
     name: "Email Automation",
     details: "Automated email sequences and drip campaigns",
     type: "advanced",
-    icon: Send
+    icon: Send,
   },
   {
     category: "marketing",
     name: "Newsletter Management",
     details: "Email list building and subscriber management",
     type: "advanced",
-    icon: Mail
+    icon: Mail,
   },
   {
     category: "marketing",
     name: "Blog Integration",
     details: "Built-in content management system for articles and updates",
     type: "advanced",
-    icon: FileText
+    icon: FileText,
   },
   {
     category: "marketing",
     name: "Advanced SEO",
     details: "Schema markup, rich snippets, and ongoing SEO improvements",
     type: "advanced",
-    icon: TrendingUp
+    icon: TrendingUp,
   },
   {
     category: "marketing",
     name: "Conversion Tracking",
     details: "Track form submissions, purchases, and other key actions",
     type: "advanced",
-    icon: Target
+    icon: Target,
   },
   {
     category: "marketing",
     name: "Multi-step Forms",
     details: "Progressive forms that increase completion rates",
     type: "advanced",
-    icon: FileText
+    icon: FileText,
   },
   {
     category: "marketing",
     name: "Email Marketing",
     details: "Auto-add signups to your email list with Mailchimp integration",
     type: "advanced",
-    icon: Send
+    icon: Send,
   },
   {
     category: "marketing",
     name: "CRM Integration",
     details: "Sync with Salesforce, HubSpot, or other platforms",
     type: "advanced",
-    icon: Settings
+    icon: Settings,
   },
 
   // Security & Hosting
@@ -200,108 +239,113 @@ const allFeatures = [
     name: "SSL Certificate",
     details: "Encrypted HTTPS connection protects your visitors' data",
     type: "essential",
-    icon: Lock
+    icon: Lock,
   },
   {
     category: "security",
     name: "Cloud Hosting",
     details: "Fast, reliable hosting with 99.9% uptime on premium servers",
     type: "essential",
-    icon: Server
+    icon: Server,
   },
   {
     category: "security",
     name: "Regular Updates",
     details: "Security patches and framework updates to keep your site safe",
     type: "essential",
-    icon: RefreshCw
+    icon: RefreshCw,
   },
   {
     category: "security",
     name: "User Authentication",
     details: "Let customers create accounts with secure password protection",
     type: "advanced",
-    icon: UserCheck
+    icon: UserCheck,
   },
   {
     category: "security",
     name: "Payment Processing",
     details: "Stripe integration for secure online credit card payments",
     type: "advanced",
-    icon: CreditCard
+    icon: CreditCard,
   },
   {
     category: "security",
     name: "File Uploads",
     details: "Let users upload documents safely to secure cloud storage",
     type: "advanced",
-    icon: Upload
+    icon: Upload,
   },
   {
     category: "security",
     name: "API Integration",
     details: "Connect to third-party services with secure API endpoints",
     type: "advanced",
-    icon: Zap
+    icon: Zap,
   },
   {
     category: "security",
     name: "E-commerce Platform",
     details: "Full online store with product catalog, cart, and checkout",
     type: "advanced",
-    icon: ShoppingCart
+    icon: ShoppingCart,
   },
   {
     category: "security",
     name: "Multi-language Support",
     details: "Reach global audiences with multiple language options",
     type: "advanced",
-    icon: Globe
+    icon: Globe,
   },
   {
     category: "security",
     name: "Custom Integrations",
     details: "Connect to your existing tools and business systems",
     type: "advanced",
-    icon: Settings
+    icon: Settings,
   },
   {
     category: "security",
     name: "Dedicated Support",
     details: "Priority support with faster response times",
     type: "advanced",
-    icon: Headphones
+    icon: Headphones,
   },
   {
     category: "security",
     name: "White-glove Service",
     details: "Personalized service with dedicated account management",
     type: "advanced",
-    icon: Star
-  }
+    icon: Star,
+  },
 ];
 
 const faqs = [
   {
     question: "What's included in every project?",
-    answer: "All essential features are included at no extra cost - things like responsive design, SSL, hosting, contact forms, basic SEO, and analytics. You get a complete, professional website ready to drive results."
+    answer:
+      "All essential features are included at no extra cost - things like responsive design, SSL, hosting, contact forms, basic SEO, and analytics. You get a complete, professional website ready to drive results.",
   },
   {
     question: "How do advanced features work?",
-    answer: "Advanced features are optional add-ons you can choose based on your business needs. Want user accounts? Payment processing? Calendar booking? Just let us know and we'll include them in your quote."
+    answer:
+      "Advanced features are optional add-ons you can choose based on your business needs. Want user accounts? Payment processing? Calendar booking? Just let us know and we'll include them in your quote.",
   },
   {
     question: "Can I add features after launch?",
-    answer: "Absolutely! We build sites to be expandable. Start with the essentials and add features like payments, integrations, or automation later as your business grows."
+    answer:
+      "Absolutely! We build sites to be expandable. Start with the essentials and add features like payments, integrations, or automation later as your business grows.",
   },
   {
     question: "Do these features cost extra per month?",
-    answer: "Most features are one-time costs with no ongoing fees. Some integrations (like Stripe for payments) have their own fees, but we'll discuss those upfront so there are no surprises."
+    answer:
+      "Most features are one-time costs with no ongoing fees. Some integrations (like Stripe for payments) have their own fees, but we'll discuss those upfront so there are no surprises.",
   },
   {
     question: "How do I know which features I need?",
-    answer: "Take our quick quiz or schedule a free consultation. We'll review your business goals and recommend the right features - no overselling, just what makes sense for you."
-  }
+    answer:
+      "Take our quick quiz or schedule a free consultation. We'll review your business goals and recommend the right features - no overselling, just what makes sense for you.",
+  },
 ];
 
 export default function Features() {
@@ -317,32 +361,33 @@ export default function Features() {
   const handleQuizClick = (e: React.MouseEvent) => {
     e.preventDefault();
     // Navigate to home page
-    setLocation('/');
+    setLocation("/");
     // Wait for navigation and page load, then trigger quiz and scroll
     setTimeout(() => {
       // Dispatch the event to open the quiz
-      window.dispatchEvent(new Event('startQuiz'));
+      window.dispatchEvent(new Event("startQuiz"));
       // Wait a bit more for the quiz to be ready, then scroll
       setTimeout(() => {
-        const contactSection = document.getElementById('contact');
+        const contactSection = document.getElementById("contact");
         if (contactSection) {
-          contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          contactSection.scrollIntoView({ behavior: "smooth", block: "start" });
         }
       }, 100);
     }, 500);
   };
 
   // Filter features based on category and search
-  const filteredFeatures = allFeatures.filter(feature => {
+  const filteredFeatures = allFeatures.filter((feature) => {
     const matchesCategory = selectedCategory === "all" || feature.category === selectedCategory;
-    const matchesSearch = feature.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         feature.details.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch =
+      feature.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      feature.details.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
   // Separate essential and advanced features
-  const essentialFeatures = filteredFeatures.filter(f => f.type === "essential");
-  const advancedFeatures = filteredFeatures.filter(f => f.type === "advanced");
+  const essentialFeatures = filteredFeatures.filter((f) => f.type === "essential");
+  const advancedFeatures = filteredFeatures.filter((f) => f.type === "advanced");
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
@@ -352,7 +397,10 @@ export default function Features() {
       <section className="relative py-16 pb-24 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute top-1/2 -right-24 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div
+            className="absolute top-1/2 -right-24 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"
+            style={{ animationDelay: "1s" }}
+          ></div>
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -361,7 +409,11 @@ export default function Features() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4 }}
           >
-            <Button asChild variant="ghost" className="mb-8 text-white hover:text-white hover:bg-white/10">
+            <Button
+              asChild
+              variant="ghost"
+              className="mb-8 text-white hover:text-white hover:bg-white/10"
+            >
               <Link href="/">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Home
@@ -419,9 +471,11 @@ export default function Features() {
                 variant={selectedCategory === "all" ? "default" : "ghost"}
                 size="sm"
                 onClick={() => setSelectedCategory("all")}
-                className={selectedCategory === "all"
-                  ? "whitespace-nowrap"
-                  : "whitespace-nowrap text-white hover:text-white hover:bg-white/10 border border-white/20"}
+                className={
+                  selectedCategory === "all"
+                    ? "whitespace-nowrap"
+                    : "whitespace-nowrap text-white hover:text-white hover:bg-white/10 border border-white/20"
+                }
               >
                 All Features
               </Button>
@@ -433,9 +487,11 @@ export default function Features() {
                     variant={selectedCategory === category.id ? "default" : "ghost"}
                     size="sm"
                     onClick={() => setSelectedCategory(category.id)}
-                    className={selectedCategory === category.id
-                      ? "whitespace-nowrap"
-                      : "whitespace-nowrap text-white hover:text-white hover:bg-white/10 border border-white/20"}
+                    className={
+                      selectedCategory === category.id
+                        ? "whitespace-nowrap"
+                        : "whitespace-nowrap text-white hover:text-white hover:bg-white/10 border border-white/20"
+                    }
                   >
                     <Icon className="h-4 w-4 mr-2" />
                     {category.name}
@@ -465,7 +521,9 @@ export default function Features() {
                 >
                   <div className="mb-8 text-center lg:text-left">
                     <div className="inline-block px-4 py-1.5 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full mb-3">
-                      <p className="text-white font-semibold text-sm uppercase tracking-wide">Essential</p>
+                      <p className="text-white font-semibold text-sm uppercase tracking-wide">
+                        Essential
+                      </p>
                     </div>
                     <h2 className="text-3xl font-bold text-slate-900 mb-2">
                       Included in Every Project
@@ -485,15 +543,17 @@ export default function Features() {
                         >
                           {/* Card content that shrinks and moves up */}
                           <div className="flex flex-col items-center gap-2 transition-all duration-300 group-hover:scale-90 group-hover:-translate-y-1">
-                            {Icon && (
-                              <Icon className="h-6 w-6 text-green-600 flex-shrink-0" />
-                            )}
-                            <h3 className="font-semibold text-base text-slate-900 text-center">{feature.name}</h3>
+                            {Icon && <Icon className="h-6 w-6 text-green-600 flex-shrink-0" />}
+                            <h3 className="font-semibold text-base text-slate-900 text-center">
+                              {feature.name}
+                            </h3>
                           </div>
 
                           {/* Details that fade in on hover */}
                           <div className="opacity-0 max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-40 transition-all duration-300 text-center mt-0 group-hover:mt-1">
-                            <p className="text-xs text-slate-600 leading-relaxed">{feature.details}</p>
+                            <p className="text-xs text-slate-600 leading-relaxed">
+                              {feature.details}
+                            </p>
                           </div>
                         </motion.div>
                       );
@@ -511,11 +571,11 @@ export default function Features() {
                 >
                   <div className="mb-8 text-center lg:text-left">
                     <div className="inline-block px-4 py-1.5 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full mb-3">
-                      <p className="text-white font-semibold text-sm uppercase tracking-wide">Advanced</p>
+                      <p className="text-white font-semibold text-sm uppercase tracking-wide">
+                        Advanced
+                      </p>
                     </div>
-                    <h2 className="text-3xl font-bold text-slate-900 mb-2">
-                      Level Up Your Site
-                    </h2>
+                    <h2 className="text-3xl font-bold text-slate-900 mb-2">Level Up Your Site</h2>
                     <p className="text-slate-600 text-lg">Pick the features that fit your goals</p>
                   </div>
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
@@ -531,15 +591,17 @@ export default function Features() {
                         >
                           {/* Card content that shrinks and moves up */}
                           <div className="flex flex-col items-center gap-2 transition-all duration-300 group-hover:scale-90 group-hover:-translate-y-1">
-                            {Icon && (
-                              <Icon className="h-6 w-6 text-blue-600 flex-shrink-0" />
-                            )}
-                            <h3 className="font-semibold text-base text-slate-900 text-center">{feature.name}</h3>
+                            {Icon && <Icon className="h-6 w-6 text-blue-600 flex-shrink-0" />}
+                            <h3 className="font-semibold text-base text-slate-900 text-center">
+                              {feature.name}
+                            </h3>
                           </div>
 
                           {/* Details that fade in on hover */}
                           <div className="opacity-0 max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-40 transition-all duration-300 text-center mt-0 group-hover:mt-1">
-                            <p className="text-xs text-slate-600 leading-relaxed">{feature.details}</p>
+                            <p className="text-xs text-slate-600 leading-relaxed">
+                              {feature.details}
+                            </p>
                           </div>
                         </motion.div>
                       );
@@ -594,9 +656,7 @@ export default function Features() {
                       transition={{ duration: 0.2 }}
                       className="overflow-hidden"
                     >
-                      <div className="px-6 pb-6 text-slate-600">
-                        {faq.answer}
-                      </div>
+                      <div className="px-6 pb-6 text-slate-600">{faq.answer}</div>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -622,14 +682,8 @@ export default function Features() {
               Let's discuss which features are right for your business
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                size="lg"
-                className="bg-primary hover:bg-primary/90 text-lg px-8"
-                asChild
-              >
-                <Link href="/#contact">
-                  Get Your Free Quote
-                </Link>
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-lg px-8" asChild>
+                <Link href="/#contact">Get Your Free Quote</Link>
               </Button>
               <Button
                 size="lg"

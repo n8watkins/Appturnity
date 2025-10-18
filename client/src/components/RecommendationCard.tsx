@@ -10,7 +10,11 @@ interface RecommendationCardProps {
   onRetake: () => void;
 }
 
-export default function RecommendationCard({ recommendation, onContinue, onRetake }: RecommendationCardProps) {
+export default function RecommendationCard({
+  recommendation,
+  onContinue,
+  onRetake,
+}: RecommendationCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -99,9 +103,7 @@ export default function RecommendationCard({ recommendation, onContinue, onRetak
               </div>
               <p className="text-lg font-bold text-slate-900">{recommendation.investmentRange}</p>
               {recommendation.quizDiscount.applied && (
-                <p className="text-xs text-green-700 mt-1 font-medium">
-                  🎉 Quiz discount applied!
-                </p>
+                <p className="text-xs text-green-700 mt-1 font-medium">🎉 Quiz discount applied!</p>
               )}
             </div>
           </motion.div>
@@ -142,13 +144,10 @@ export default function RecommendationCard({ recommendation, onContinue, onRetak
           >
             <div className="bg-gradient-to-r from-primary/10 via-purple-50 to-primary/10 rounded-lg p-5 text-center">
               <p className="text-sm text-slate-700 mb-4">
-                💡 <span className="font-semibold">Next Step:</span> Review your pre-filled pricing calculator below to see your exact cost breakdown.
+                💡 <span className="font-semibold">Next Step:</span> Review your pre-filled pricing
+                calculator below to see your exact cost breakdown.
               </p>
-              <Button
-                onClick={onContinue}
-                size="lg"
-                className="w-full gap-2 group h-12"
-              >
+              <Button onClick={onContinue} size="lg" className="w-full gap-2 group h-12">
                 View My Custom Pricing
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>

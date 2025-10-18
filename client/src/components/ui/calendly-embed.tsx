@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
-import { Button, ButtonProps } from '@/components/ui/button';
-import { Calendar } from 'lucide-react';
+import React, { useEffect, useRef } from "react";
+import { Button, ButtonProps } from "@/components/ui/button";
+import { Calendar } from "lucide-react";
 
 interface CalendlyEmbedProps {
   url: string;
@@ -23,15 +23,19 @@ interface CalendlyEmbedProps {
 // Load the Calendly script once
 const loadCalendlyScript = (): Promise<void> => {
   return new Promise((resolve) => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       // Check if Calendly is already loaded
       if ((window as any).Calendly) {
         resolve();
         return;
       }
-      
+
       // Check if script is already being loaded
-      if (document.querySelector('script[src="https://assets.calendly.com/assets/external/widget.js"]')) {
+      if (
+        document.querySelector(
+          'script[src="https://assets.calendly.com/assets/external/widget.js"]'
+        )
+      ) {
         // If script is loading, wait for it to complete
         const checkCalendly = setInterval(() => {
           if ((window as any).Calendly) {
@@ -41,10 +45,10 @@ const loadCalendlyScript = (): Promise<void> => {
         }, 100);
         return;
       }
-      
+
       // Load the script if not already loaded or loading
-      const script = document.createElement('script');
-      script.src = 'https://assets.calendly.com/assets/external/widget.js';
+      const script = document.createElement("script");
+      script.src = "https://assets.calendly.com/assets/external/widget.js";
       script.onload = () => resolve();
       script.async = true;
       document.head.appendChild(script);
@@ -53,89 +57,88 @@ const loadCalendlyScript = (): Promise<void> => {
 };
 
 // Embedded Calendly widget component
-export function CalendlyEmbed({ 
+export function CalendlyEmbed({
   url,
   prefill,
   utm,
-  className = ''
+  className = "",
 }: CalendlyEmbedProps & { className?: string }) {
   const calendlyRoot = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!calendlyRoot.current) return;
-    
+
     let cleanup: () => void;
-    
+
     const initCalendly = async () => {
       await loadCalendlyScript();
-      
+
       if (!calendlyRoot.current || !(window as any).Calendly) return;
-      
+
       (window as any).Calendly.initInlineWidget({
         url: url,
         parentElement: calendlyRoot.current,
         prefill: prefill,
-        utm: utm
+        utm: utm,
       });
-      
+
       // Return cleanup function
       cleanup = () => {
         // Clean up any event listeners or references if needed
         if (calendlyRoot.current) {
-          calendlyRoot.current.innerHTML = '';
+          calendlyRoot.current.innerHTML = "";
         }
       };
     };
-    
+
     initCalendly();
-    
+
     return () => {
       if (cleanup) cleanup();
     };
   }, [url, prefill, utm]);
-  
+
   return (
-    <div 
-      ref={calendlyRoot} 
+    <div
+      ref={calendlyRoot}
       className={`calendly-inline-widget ${className}`}
-      style={{ minHeight: '650px' }}
+      style={{ minHeight: "650px" }}
       data-auto-load="false"
     ></div>
   );
 }
 
 // Button that opens Calendly in a popup
-export function CalendlyButton({ 
+export function CalendlyButton({
   url,
   children = "Schedule a meeting",
   prefill,
   utm,
   openInNewTab = false,
   ...props
-}: CalendlyEmbedProps & { 
-  children?: React.ReactNode,
-  openInNewTab?: boolean 
+}: CalendlyEmbedProps & {
+  children?: React.ReactNode;
+  openInNewTab?: boolean;
 } & ButtonProps) {
-  
   useEffect(() => {
     loadCalendlyScript();
   }, []);
-  
+
   const handleClick = async () => {
     if (openInNewTab) {
       // Open in a new tab directly
-      window.open(url, '_blank');
+      window.open(url, "_blank");
       return;
     }
-    
+
     // Otherwise use the popup widget
     await loadCalendlyScript();
-    
+
     if ((window as any).Calendly) {
       (window as any).Calendly.initPopupWidget({
         url: url,
         prefill: prefill,
-        utm: utm
+        utm: utm,
       });
     }
   };

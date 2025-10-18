@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 interface PricingComparisonProps {
   children: React.ReactNode;
@@ -13,13 +13,11 @@ export default function PricingComparison({ children, className }: PricingCompar
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.4 }}
-      className={cn('my-8 overflow-x-auto', className)}
+      className={cn("my-8 overflow-x-auto", className)}
     >
       <div className="inline-block min-w-full align-middle">
         <div className="overflow-hidden shadow-xl ring-1 ring-black ring-opacity-5 rounded-lg">
-          <table className="min-w-full divide-y divide-gray-300">
-            {children}
-          </table>
+          <table className="min-w-full divide-y divide-gray-300">{children}</table>
         </div>
       </div>
       <style jsx>{`

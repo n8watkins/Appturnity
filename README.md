@@ -51,12 +51,14 @@ NODE_ENV=development
 ```
 
 **Getting a Resend API Key:**
+
 1. Sign up at [resend.com](https://resend.com)
 2. Verify your email
 3. Create an API key in the dashboard
 4. For production, add and verify your custom domain
 
 **Getting reCAPTCHA v3 Keys:**
+
 1. Go to [Google reCAPTCHA Admin](https://www.google.com/recaptcha/admin)
 2. Click "+" to register a new site
 3. Choose "reCAPTCHA v3" as the type
@@ -65,6 +67,7 @@ NODE_ENV=development
 6. Copy the Secret Key to `RECAPTCHA_SECRET_KEY`
 
 **Getting Google Analytics (Optional):**
+
 1. Go to [Google Analytics](https://analytics.google.com)
 2. Create a new property for your website
 3. Copy the Measurement ID (starts with `G-`)
@@ -119,12 +122,14 @@ npm run check
 ## Features
 
 ### Interactive Pricing Calculator
+
 - Real-time cost estimation for custom app development
 - Compares custom development vs traditional SaaS pricing
 - Calculates potential 3-year savings
 - Pre-fills contact form with pricing details
 
 ### Contact Form
+
 - Sends formatted emails via Resend API
 - Form validation with Zod
 - reCAPTCHA v3 spam protection (invisible, user-friendly)
@@ -134,6 +139,7 @@ npm run check
 - Beautiful HTML email templates with brand styling
 
 ### Security & Performance
+
 - Express rate limiting (100 requests per 15 minutes globally)
 - CORS configuration for production
 - Helmet security headers with CSP
@@ -145,6 +151,7 @@ npm run check
 This project uses Vitest with React Testing Library for testing.
 
 **Running Tests:**
+
 ```bash
 npm run test        # Watch mode
 npm run test:run    # CI mode (run once)
@@ -152,6 +159,7 @@ npm run test:ui     # UI mode with browser interface
 ```
 
 **Test Structure:**
+
 - Unit tests: `client/src/test/`
 - Test setup: `client/src/test/setup.ts`
 - Configuration: `vitest.config.ts`
@@ -159,6 +167,7 @@ npm run test:ui     # UI mode with browser interface
 ## Continuous Integration
 
 GitHub Actions automatically runs on every push and pull request to `main`:
+
 - TypeScript type checking (`npm run check`)
 - Test suite (`npm run test:run`)
 - Build verification (`npm run build`)
@@ -178,6 +187,7 @@ This project deploys to Firebase Hosting for the frontend. Note that the backend
    - Click "Add project" and follow the prompts
 
 2. **Initialize & Deploy**:
+
    ```bash
    ./init-firebase.sh    # First time only
    ./deploy-firebase.sh  # Build and deploy

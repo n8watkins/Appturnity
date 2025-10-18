@@ -1,10 +1,11 @@
-import { BlogPost } from './types';
+import { BlogPost } from "./types";
 
 const post6: BlogPost = {
   id: "6",
   slug: "seo-basics-for-business-websites",
   title: "SEO Basics for Business Websites: What Actually Works in 2025",
-  excerpt: "Cut through the SEO noise. Learn the practical, proven strategies that actually improve your Google rankings and drive traffic to your business website.",
+  excerpt:
+    "Cut through the SEO noise. Learn the practical, proven strategies that actually improve your Google rankings and drive traffic to your business website.",
   author: "Appturnity Team",
   date: "2025-01-04",
   readTime: "10 min read",
@@ -12,8 +13,15 @@ const post6: BlogPost = {
   tags: ["seo", "search engine optimization", "google ranking", "organic traffic"],
   image: "https://images.unsplash.com/photo-1562577309-4932fdd64cd1?w=1200&h=630&fit=crop",
   seoTitle: "SEO Basics 2025: Proven Strategies That Actually Improve Rankings",
-  seoDescription: "Learn practical SEO strategies that work in 2025. No jargon, no tricks—just proven techniques to help your business website rank higher in Google.",
-  seoKeywords: ["seo basics", "business seo", "seo 2025", "improve google rankings", "seo for beginners"],
+  seoDescription:
+    "Learn practical SEO strategies that work in 2025. No jargon, no tricks—just proven techniques to help your business website rank higher in Google.",
+  seoKeywords: [
+    "seo basics",
+    "business seo",
+    "seo 2025",
+    "improve google rankings",
+    "seo for beginners",
+  ],
   content: `# SEO Basics for Business Websites: What Actually Works in 2025
 
 SEO doesn't have to be complicated. Focus on these fundamentals and you'll outrank 80% of your competition.
@@ -320,7 +328,7 @@ Do this consistently for 6-12 months and you'll see results.
 
 Most businesses never do these basics. If you do, you'll win.
 
-[Get SEO-Optimized Website](#pricing)`
+[Get SEO-Optimized Website](#pricing)`,
 };
 
 export default post6;

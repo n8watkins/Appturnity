@@ -1,36 +1,36 @@
-import { useState, useMemo, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Link } from 'wouter';
-import { Calendar, Clock, Tag, Search, ArrowRight } from 'lucide-react';
-import { blogMetadata, getAllCategories, getAllTags } from '@/data/blogMetadata';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { formatBlogDate, formatBlogDateShort } from '@/lib/dateUtils';
-import LazyImage from '@/components/LazyImage';
-import NewsletterSignup from '@/components/NewsletterSignup';
-import TopBanner from '@/components/TopBanner';
-import BlogNavbar from '@/components/BlogNavbar';
-import BlogFooter from '@/components/BlogFooter';
+import { useState, useMemo, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Link } from "wouter";
+import { Calendar, Clock, Tag, Search, ArrowRight } from "lucide-react";
+import { blogMetadata, getAllCategories, getAllTags } from "@/data/blogMetadata";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { formatBlogDate, formatBlogDateShort } from "@/lib/dateUtils";
+import LazyImage from "@/components/LazyImage";
+import NewsletterSignup from "@/components/NewsletterSignup";
+import TopBanner from "@/components/TopBanner";
+import BlogNavbar from "@/components/BlogNavbar";
+import BlogFooter from "@/components/BlogFooter";
 
 export default function Blog() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [selectedTag, setSelectedTag] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [selectedTag, setSelectedTag] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 6;
 
-  const categories = ['All', ...getAllCategories()];
+  const categories = ["All", ...getAllCategories()];
   const tags = getAllTags();
 
   // Filter posts based on search, category, and tag
   const filteredPosts = useMemo(() => {
-    return blogMetadata.filter(post => {
+    return blogMetadata.filter((post) => {
       const matchesSearch =
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+        post.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
 
-      const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
+      const matchesCategory = selectedCategory === "All" || post.category === selectedCategory;
       const matchesTag = !selectedTag || post.tags.includes(selectedTag);
 
       return matchesSearch && matchesCategory && matchesTag;
@@ -48,12 +48,12 @@ export default function Blog() {
   const endIndex = startIndex + postsPerPage;
   const currentPosts = filteredPosts.slice(startIndex, endIndex);
 
-  const featuredPost = blogMetadata.find(post => post.featured) || blogMetadata[0];
+  const featuredPost = blogMetadata.find((post) => post.featured) || blogMetadata[0];
 
   // Pagination helpers
   const goToPage = (page: number) => {
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -82,7 +82,9 @@ export default function Blog() {
               Web Development Insights & Resources
             </h1>
             <p className="text-xl text-slate-600 mb-8">
-              From <span className="font-semibold text-primary">Appturnity</span> — Expert guides, tutorials, and strategies to help you build better websites and grow your business online. Learn how to save money and own your digital presence.
+              From <span className="font-semibold text-primary">Appturnity</span> — Expert guides,
+              tutorials, and strategies to help you build better websites and grow your business
+              online. Learn how to save money and own your digital presence.
             </p>
 
             {/* Search Bar */}
@@ -105,7 +107,7 @@ export default function Blog() {
           {/* Main Content */}
           <div>
             {/* Featured Post */}
-            {!searchQuery && !selectedTag && selectedCategory === 'All' && (
+            {!searchQuery && !selectedTag && selectedCategory === "All" && (
               <motion.div
                 className="mb-12"
                 initial={{ opacity: 0, y: 20 }}
@@ -137,9 +139,7 @@ export default function Blog() {
                       <h3 className="text-3xl font-bold text-slate-900 mb-4 group-hover:text-primary transition-colors">
                         {featuredPost.title}
                       </h3>
-                      <p className="text-lg text-slate-600 mb-6">
-                        {featuredPost.excerpt}
-                      </p>
+                      <p className="text-lg text-slate-600 mb-6">{featuredPost.excerpt}</p>
                       <div className="flex items-center text-primary font-semibold group-hover:gap-3 transition-all">
                         Read Article
                         <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -153,17 +153,17 @@ export default function Blog() {
             {/* Category Filter */}
             <div className="mb-8">
               <div className="flex items-center gap-3 flex-wrap">
-                {categories.map(category => (
+                {categories.map((category) => (
                   <button
                     key={category}
                     onClick={() => {
                       setSelectedCategory(category);
-                      setSelectedTag('');
+                      setSelectedTag("");
                     }}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                       selectedCategory === category
-                        ? 'bg-primary text-white shadow-lg'
-                        : 'bg-white text-slate-600 border border-slate-200 hover:border-primary hover:text-primary'
+                        ? "bg-primary text-white shadow-lg"
+                        : "bg-white text-slate-600 border border-slate-200 hover:border-primary hover:text-primary"
                     }`}
                   >
                     {category}
@@ -173,12 +173,12 @@ export default function Blog() {
             </div>
 
             {/* Results Count */}
-            {(searchQuery || selectedTag || selectedCategory !== 'All') && (
+            {(searchQuery || selectedTag || selectedCategory !== "All") && (
               <div className="mb-6 text-slate-600">
-                Found {filteredPosts.length} article{filteredPosts.length !== 1 ? 's' : ''}
+                Found {filteredPosts.length} article{filteredPosts.length !== 1 ? "s" : ""}
                 {selectedTag && (
                   <button
-                    onClick={() => setSelectedTag('')}
+                    onClick={() => setSelectedTag("")}
                     className="ml-2 text-primary hover:underline"
                   >
                     Clear tag filter
@@ -220,11 +220,9 @@ export default function Blog() {
                         <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-primary transition-colors line-clamp-2">
                           {post.title}
                         </h3>
-                        <p className="text-slate-600 mb-4 line-clamp-3 flex-grow">
-                          {post.excerpt}
-                        </p>
+                        <p className="text-slate-600 mb-4 line-clamp-3 flex-grow">{post.excerpt}</p>
                         <div className="flex flex-wrap gap-2 mb-4">
-                          {post.tags.slice(0, 3).map(tag => (
+                          {post.tags.slice(0, 3).map((tag) => (
                             <span
                               key={tag}
                               className="inline-flex items-center gap-1 px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs"
@@ -258,7 +256,7 @@ export default function Blog() {
                 </Button>
 
                 <div className="flex gap-2">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => {
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
                     // Show first page, last page, current page, and pages around current
                     const showPage =
                       page === 1 ||
@@ -267,7 +265,8 @@ export default function Blog() {
 
                     // Show ellipsis
                     const showEllipsisBefore = page === currentPage - 2 && currentPage > 3;
-                    const showEllipsisAfter = page === currentPage + 2 && currentPage < totalPages - 2;
+                    const showEllipsisAfter =
+                      page === currentPage + 2 && currentPage < totalPages - 2;
 
                     if (showEllipsisBefore || showEllipsisAfter) {
                       return (
@@ -282,7 +281,7 @@ export default function Blog() {
                     return (
                       <Button
                         key={page}
-                        variant={currentPage === page ? 'default' : 'outline'}
+                        variant={currentPage === page ? "default" : "outline"}
                         onClick={() => goToPage(page)}
                         className="min-w-[40px]"
                       >
@@ -306,12 +305,14 @@ export default function Blog() {
             {/* No Results */}
             {filteredPosts.length === 0 && (
               <div className="text-center py-12">
-                <p className="text-xl text-slate-600 mb-4">No articles found matching your criteria.</p>
+                <p className="text-xl text-slate-600 mb-4">
+                  No articles found matching your criteria.
+                </p>
                 <Button
                   onClick={() => {
-                    setSearchQuery('');
-                    setSelectedCategory('All');
-                    setSelectedTag('');
+                    setSearchQuery("");
+                    setSelectedCategory("All");
+                    setSelectedTag("");
                   }}
                   variant="outline"
                 >
@@ -332,14 +333,14 @@ export default function Blog() {
             >
               <h3 className="text-lg font-bold text-slate-900 mb-4">Popular Tags</h3>
               <div className="flex flex-wrap gap-2">
-                {tags.map(tag => (
+                {tags.map((tag) => (
                   <button
                     key={tag}
-                    onClick={() => setSelectedTag(tag === selectedTag ? '' : tag)}
+                    onClick={() => setSelectedTag(tag === selectedTag ? "" : tag)}
                     className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-sm transition-all ${
                       selectedTag === tag
-                        ? 'bg-primary text-white'
-                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                        ? "bg-primary text-white"
+                        : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                     }`}
                   >
                     <Tag className="h-3 w-3" />
@@ -390,7 +391,7 @@ export default function Blog() {
             >
               <h3 className="text-lg font-bold text-slate-900 mb-4">Recent Articles</h3>
               <div className="space-y-4">
-                {blogMetadata.slice(0, 5).map(post => (
+                {blogMetadata.slice(0, 5).map((post) => (
                   <Link key={post.id} href={`/blog/${post.slug}`}>
                     <a className="block group">
                       <h4 className="font-medium text-slate-900 group-hover:text-primary transition-colors line-clamp-2 mb-1">

@@ -1,10 +1,11 @@
-import { BlogPost } from './types';
+import { BlogPost } from "./types";
 
 const post10: BlogPost = {
   id: "10",
   slug: "website-maintenance-guide",
   title: "Website Maintenance: What You Need to Do & When",
-  excerpt: "Websites need ongoing maintenance to stay secure, fast, and effective. Learn what tasks to do daily, weekly, monthly, and yearly.",
+  excerpt:
+    "Websites need ongoing maintenance to stay secure, fast, and effective. Learn what tasks to do daily, weekly, monthly, and yearly.",
   author: "Appturnity Team",
   date: "2024-12-26",
   readTime: "10 min read",
@@ -12,8 +13,14 @@ const post10: BlogPost = {
   tags: ["website maintenance", "updates", "security", "backups"],
   image: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1200&h=630&fit=crop",
   seoTitle: "Website Maintenance Guide 2025: Essential Tasks & Schedule",
-  seoDescription: "Complete website maintenance checklist. Learn what to do daily, weekly, monthly, and yearly to keep your site secure, fast, and effective.",
-  seoKeywords: ["website maintenance", "website upkeep", "website maintenance checklist", "website updates"],
+  seoDescription:
+    "Complete website maintenance checklist. Learn what to do daily, weekly, monthly, and yearly to keep your site secure, fast, and effective.",
+  seoKeywords: [
+    "website maintenance",
+    "website upkeep",
+    "website maintenance checklist",
+    "website updates",
+  ],
   content: `# Website Maintenance: What You Need to Do & When
 
 Websites aren't "set and forget". Regular maintenance keeps your site secure, fast, and effective.
@@ -368,7 +375,7 @@ If hiring, ensure contract includes:
 
 **Don't skip maintenance**. The cost of problems far exceeds the cost of prevention.
 
-[Get Maintenance Service →](#contact)`
+[Get Maintenance Service →](#contact)`,
 };
 
 export default post10;

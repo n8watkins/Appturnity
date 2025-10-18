@@ -32,7 +32,7 @@ export const PRICING_TIERS: PricingTier[] = [
     tierName: "Essential (1-5 pages)",
     basePrice: 750,
     pricePerPage: 0,
-    description: "Perfect for landing pages & small sites"
+    description: "Perfect for landing pages & small sites",
   },
   {
     minPages: 6,
@@ -40,7 +40,7 @@ export const PRICING_TIERS: PricingTier[] = [
     tierName: "Professional (6-12 pages)",
     basePrice: 1700,
     pricePerPage: 0,
-    description: "Most popular for growing businesses"
+    description: "Most popular for growing businesses",
   },
   {
     minPages: 13,
@@ -48,7 +48,7 @@ export const PRICING_TIERS: PricingTier[] = [
     tierName: "Growth (13-20 pages)",
     basePrice: 2450,
     pricePerPage: 0,
-    description: "For established businesses"
+    description: "For established businesses",
   },
   {
     minPages: 21,
@@ -56,8 +56,8 @@ export const PRICING_TIERS: PricingTier[] = [
     tierName: "Premium",
     basePrice: 3500,
     pricePerPage: 100,
-    description: "Large-scale custom solutions"
-  }
+    description: "Large-scale custom solutions",
+  },
 ];
 
 /**
@@ -77,7 +77,7 @@ export function calculatePagePrice(pageCount: number): { price: number; tier: st
     price = 2450;
     tier = "Growth (13-20 pages)";
   } else {
-    price = 3500 + ((pageCount - 20) * 100);
+    price = 3500 + (pageCount - 20) * 100;
     tier = `Premium (${pageCount} pages)`;
   }
 
@@ -95,7 +95,7 @@ export const ALWAYS_INCLUDED_FEATURES: Feature[] = [
     price: 0,
     saasMonthly: 49,
     category: "Always Included",
-    isAlwaysIncluded: true
+    isAlwaysIncluded: true,
   },
   {
     id: "ssl-hosting",
@@ -104,7 +104,7 @@ export const ALWAYS_INCLUDED_FEATURES: Feature[] = [
     price: 0,
     saasMonthly: 25,
     category: "Always Included",
-    isAlwaysIncluded: true
+    isAlwaysIncluded: true,
   },
   {
     id: "responsive",
@@ -113,7 +113,7 @@ export const ALWAYS_INCLUDED_FEATURES: Feature[] = [
     price: 0,
     saasMonthly: 0,
     category: "Always Included",
-    isAlwaysIncluded: true
+    isAlwaysIncluded: true,
   },
   {
     id: "basic-seo",
@@ -122,7 +122,7 @@ export const ALWAYS_INCLUDED_FEATURES: Feature[] = [
     price: 0,
     saasMonthly: 79,
     category: "Always Included",
-    isAlwaysIncluded: true
+    isAlwaysIncluded: true,
   },
   {
     id: "contact-forms",
@@ -131,8 +131,8 @@ export const ALWAYS_INCLUDED_FEATURES: Feature[] = [
     price: 0,
     saasMonthly: 15,
     category: "Always Included",
-    isAlwaysIncluded: true
-  }
+    isAlwaysIncluded: true,
+  },
 ];
 
 /**
@@ -145,7 +145,7 @@ export const OPTIONAL_FEATURES: Feature[] = [
     description: "Search engine optimization",
     price: 400,
     saasMonthly: 99,
-    category: "Advanced Features"
+    category: "Advanced Features",
   },
   {
     id: "forms",
@@ -153,7 +153,7 @@ export const OPTIONAL_FEATURES: Feature[] = [
     description: "Multi-step lead forms",
     price: 500,
     saasMonthly: 50,
-    category: "Advanced Features"
+    category: "Advanced Features",
   },
   {
     id: "cms",
@@ -161,7 +161,7 @@ export const OPTIONAL_FEATURES: Feature[] = [
     description: "Content management system",
     price: 800,
     saasMonthly: 149,
-    category: "Advanced Features"
+    category: "Advanced Features",
   },
   {
     id: "blog",
@@ -169,7 +169,7 @@ export const OPTIONAL_FEATURES: Feature[] = [
     description: "Built-in blogging platform",
     price: 600,
     saasMonthly: 29,
-    category: "Advanced Features"
+    category: "Advanced Features",
   },
   {
     id: "multilang",
@@ -177,7 +177,7 @@ export const OPTIONAL_FEATURES: Feature[] = [
     description: "Multiple language support",
     price: 700,
     saasMonthly: 79,
-    category: "Advanced Features"
+    category: "Advanced Features",
   },
   {
     id: "auth",
@@ -185,7 +185,7 @@ export const OPTIONAL_FEATURES: Feature[] = [
     description: "Login and signup system",
     price: 1500,
     saasMonthly: 99,
-    category: "Advanced Features"
+    category: "Advanced Features",
   },
   {
     id: "ecommerce",
@@ -193,7 +193,7 @@ export const OPTIONAL_FEATURES: Feature[] = [
     description: "Shopping cart and checkout",
     price: 2500,
     saasMonthly: 299,
-    category: "Advanced Features"
+    category: "Advanced Features",
   },
   {
     id: "payment",
@@ -201,7 +201,7 @@ export const OPTIONAL_FEATURES: Feature[] = [
     description: "Credit card processing",
     price: 1000,
     saasMonthly: 89,
-    category: "Advanced Features"
+    category: "Advanced Features",
   },
   {
     id: "booking",
@@ -209,7 +209,7 @@ export const OPTIONAL_FEATURES: Feature[] = [
     description: "Appointment scheduling",
     price: 800,
     saasMonthly: 49,
-    category: "Advanced Features"
+    category: "Advanced Features",
   },
   {
     id: "api",
@@ -217,7 +217,7 @@ export const OPTIONAL_FEATURES: Feature[] = [
     description: "Connect third-party tools",
     price: 600,
     saasMonthly: 59,
-    category: "Advanced Features"
+    category: "Advanced Features",
   },
   {
     id: "chat",
@@ -225,7 +225,7 @@ export const OPTIONAL_FEATURES: Feature[] = [
     description: "Real-time customer support",
     price: 300,
     saasMonthly: 69,
-    category: "Advanced Features"
+    category: "Advanced Features",
   },
   {
     id: "crm",
@@ -233,7 +233,7 @@ export const OPTIONAL_FEATURES: Feature[] = [
     description: "Customer relationship management",
     price: 900,
     saasMonthly: 120,
-    category: "Advanced Features"
+    category: "Advanced Features",
   },
   {
     id: "cdn",
@@ -241,7 +241,7 @@ export const OPTIONAL_FEATURES: Feature[] = [
     description: "Content delivery network",
     price: 300,
     saasMonthly: 45,
-    category: "Advanced Features"
+    category: "Advanced Features",
   },
   {
     id: "ai",
@@ -249,7 +249,7 @@ export const OPTIONAL_FEATURES: Feature[] = [
     description: "AI-powered features",
     price: 1200,
     saasMonthly: 150,
-    category: "Advanced Features"
+    category: "Advanced Features",
   },
   {
     id: "animations",
@@ -257,17 +257,14 @@ export const OPTIONAL_FEATURES: Feature[] = [
     description: "Premium interactions",
     price: 400,
     saasMonthly: 0,
-    category: "Advanced Features"
-  }
+    category: "Advanced Features",
+  },
 ];
 
 /**
  * All features combined
  */
-export const ALL_FEATURES: Feature[] = [
-  ...ALWAYS_INCLUDED_FEATURES,
-  ...OPTIONAL_FEATURES
-];
+export const ALL_FEATURES: Feature[] = [...ALWAYS_INCLUDED_FEATURES, ...OPTIONAL_FEATURES];
 
 /**
  * SaaS competitor pricing
@@ -277,13 +274,13 @@ export const SAAS_PRICING = {
   pageCostPerPage: 15, // Cost per page per month
 
   // Features that scale with number of users
-  userScalingFeatures: ['cms', 'auth', 'booking', 'chat'],
+  userScalingFeatures: ["cms", "auth", "booking", "chat"],
 
   // Base users included before per-user charges kick in
   baseUsersIncluded: 3,
 
   // Per-user multiplier for scaling features (50% of base cost per additional user)
-  perUserMultiplier: 0.5
+  perUserMultiplier: 0.5,
 };
 
 /**
@@ -304,12 +301,14 @@ export function calculateSaasPrice(
   const platformCost = users * SAAS_PRICING.platformCostPerUser;
 
   const featureCost = enabledFeatures
-    .filter(f => f.saasMonthly > 0)
+    .filter((f) => f.saasMonthly > 0)
     .reduce((sum, f) => {
       const isScaling = SAAS_PRICING.userScalingFeatures.includes(f.id);
       if (isScaling) {
         const additionalUsers = Math.max(0, users - SAAS_PRICING.baseUsersIncluded);
-        return sum + f.saasMonthly + (additionalUsers * (f.saasMonthly * SAAS_PRICING.perUserMultiplier));
+        return (
+          sum + f.saasMonthly + additionalUsers * (f.saasMonthly * SAAS_PRICING.perUserMultiplier)
+        );
       }
       return sum + f.saasMonthly;
     }, 0);
@@ -322,7 +321,7 @@ export function calculateSaasPrice(
     platformCost,
     featureCost,
     monthlyTotal,
-    threeYearTotal
+    threeYearTotal,
   };
 }
 

@@ -9,14 +9,14 @@ export default function BlogNavbar() {
   const [, setLocation] = useLocation();
 
   const handleMainSiteNav = (section: string, startQuiz?: boolean) => {
-    setLocation('/');
+    setLocation("/");
     setTimeout(() => {
-      if (startQuiz && section === 'contact') {
-        window.dispatchEvent(new Event('startQuiz'));
+      if (startQuiz && section === "contact") {
+        window.dispatchEvent(new Event("startQuiz"));
       }
       const element = document.getElementById(section);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }, 300);
   };
@@ -59,9 +59,7 @@ export default function BlogNavbar() {
               Pricing
             </button>
             <Link href="/blog">
-              <a className="text-slate-600 hover:text-primary transition-colors">
-                All Posts
-              </a>
+              <a className="text-slate-600 hover:text-primary transition-colors">All Posts</a>
             </Link>
             <button
               onClick={() => handleMainSiteNav("contact", true)}
@@ -82,7 +80,10 @@ export default function BlogNavbar() {
               <SheetContent side="right" className="w-[240px] sm:w-[300px]">
                 <div className="flex flex-col gap-6 mt-6">
                   <Link href="/blog">
-                    <a className="text-slate-700 hover:text-primary transition-colors" onClick={() => setIsOpen(false)}>
+                    <a
+                      className="text-slate-700 hover:text-primary transition-colors"
+                      onClick={() => setIsOpen(false)}
+                    >
                       All Posts
                     </a>
                   </Link>

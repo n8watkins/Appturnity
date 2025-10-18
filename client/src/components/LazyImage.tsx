@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
-import { cn } from '@/lib/utils';
+import { useState, useEffect, useRef } from "react";
+import { cn } from "@/lib/utils";
 
 interface LazyImageProps {
   src: string;
@@ -13,10 +13,10 @@ interface LazyImageProps {
 export default function LazyImage({
   src,
   alt,
-  className = '',
-  placeholderClassName = '',
+  className = "",
+  placeholderClassName = "",
   width,
-  height
+  height,
 }: LazyImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
@@ -30,7 +30,7 @@ export default function LazyImage({
           observer.disconnect();
         }
       },
-      { threshold: 0.01, rootMargin: '50px' }
+      { threshold: 0.01, rootMargin: "50px" }
     );
 
     if (imgRef.current) {
@@ -43,15 +43,10 @@ export default function LazyImage({
   }, []);
 
   return (
-    <div ref={imgRef} className={cn('relative overflow-hidden', className)}>
+    <div ref={imgRef} className={cn("relative overflow-hidden", className)}>
       {/* Placeholder with blur effect */}
       {!isLoaded && (
-        <div
-          className={cn(
-            'absolute inset-0 bg-slate-200 animate-pulse',
-            placeholderClassName
-          )}
-        />
+        <div className={cn("absolute inset-0 bg-slate-200 animate-pulse", placeholderClassName)} />
       )}
 
       {/* Load image only when in view */}
@@ -62,8 +57,8 @@ export default function LazyImage({
           width={width}
           height={height}
           className={cn(
-            'w-full h-full object-cover transition-opacity duration-300',
-            isLoaded ? 'opacity-100' : 'opacity-0',
+            "w-full h-full object-cover transition-opacity duration-300",
+            isLoaded ? "opacity-100" : "opacity-0",
             className
           )}
           onLoad={() => setIsLoaded(true)}

@@ -1,10 +1,11 @@
-import { BlogPost } from './types';
+import { BlogPost } from "./types";
 
 const post9: BlogPost = {
   id: "9",
   slug: "mobile-first-website-design",
   title: "Mobile-First Website Design: Why It's Essential in 2025",
-  excerpt: "Mobile traffic now dominates the web. Learn why mobile-first design matters and how to ensure your website works perfectly on every device.",
+  excerpt:
+    "Mobile traffic now dominates the web. Learn why mobile-first design matters and how to ensure your website works perfectly on every device.",
   author: "Appturnity Team",
   date: "2024-12-28",
   readTime: "9 min read",
@@ -12,8 +13,14 @@ const post9: BlogPost = {
   tags: ["mobile design", "responsive design", "mobile-first", "user experience"],
   image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&h=630&fit=crop",
   seoTitle: "Mobile-First Website Design 2025: Essential Guide for Business",
-  seoDescription: "Understand mobile-first design and why it's critical. Learn best practices for creating websites that work perfectly on mobile devices.",
-  seoKeywords: ["mobile-first design", "responsive web design", "mobile website", "mobile optimization"],
+  seoDescription:
+    "Understand mobile-first design and why it's critical. Learn best practices for creating websites that work perfectly on mobile devices.",
+  seoKeywords: [
+    "mobile-first design",
+    "responsive web design",
+    "mobile website",
+    "mobile optimization",
+  ],
   content: `# Mobile-First Website Design: Why It's Essential in 2025
 
 Mobile traffic now exceeds desktop. If your site isn't mobile-first, you're losing customers and rankings.
@@ -331,7 +338,7 @@ If you sell online:
 
 **Don't treat mobile as an afterthought**. It's where most of your users are.
 
-[Get a Mobile-First Website →](#pricing)`
+[Get a Mobile-First Website →](#pricing)`,
 };
 
 export default post9;

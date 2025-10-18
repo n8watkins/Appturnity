@@ -1,6 +1,7 @@
 # Quiz Enhancement Roadmap
 
 ## Overview
+
 This document outlines the strategic enhancements to transform the quiz from a basic lead capture tool into an intelligent qualification and conversion system.
 
 ---
@@ -8,6 +9,7 @@ This document outlines the strategic enhancements to transform the quiz from a b
 ## Phase 1: Critical Fixes ⚡ (IMPLEMENTING NOW)
 
 ### 1.1 Fix Scoring Formula ✅
+
 **Problem:** Multiplication penalizes high-value clients
 **Solution:** Weighted sum approach
 
@@ -28,7 +30,9 @@ Priority Levels:
 ---
 
 ### 1.2 Add Company Size Question ✅
+
 **New Question (after Budget):**
+
 ```
 "How many people work at your company?"
 Options:
@@ -40,6 +44,7 @@ Options:
 ```
 
 **Scoring Impact:**
+
 - Solopreneur: Standard
 - 2-10: +0.5 budget modifier
 - 11-50: +1 budget modifier
@@ -47,6 +52,7 @@ Options:
 - 200+: +2 budget modifier
 
 **Business Intelligence:**
+
 - Larger companies = higher budgets
 - Enterprise clients = more complex approval processes
 - Solopreneurs = faster decision making
@@ -54,7 +60,9 @@ Options:
 ---
 
 ### 1.3 Add Decision Maker Question ✅
+
 **New Question (after Company Size):**
+
 ```
 "What's your role in this project?"
 Options:
@@ -66,12 +74,14 @@ Options:
 ```
 
 **Scoring Impact:**
+
 - Owner/Founder: +2 to priority (fastest close)
 - Executive: +1 to priority
 - Manager: Standard
 - Team Member: -1 to priority (longer sales cycle)
 
 **Business Intelligence:**
+
 - Decision makers = higher win probability
 - Researchers = longer nurture needed
 - Affects response strategy
@@ -79,9 +89,11 @@ Options:
 ---
 
 ### 1.4 Improve Feature Complexity Weighting ✅
+
 **Problem:** All features weighted equally
 
 **New Weighted Scoring:**
+
 ```typescript
 Feature Complexity Points:
 - Payment Processing: +2.5
@@ -107,9 +119,11 @@ Complexity Calculation:
 ---
 
 ### 1.5 Adjust Unrealistic Timelines ✅
+
 **Problem:** "2-4 weeks" is impossible for most projects
 
 **Old vs New:**
+
 ```
 OLD                          NEW                         WHY
 ---------------------------  --------------------------  -----------------------
@@ -120,6 +134,7 @@ Within 2-4 Weeks (Urgent)  → Within 4-6 Weeks (Urgent)  Realistic for landing
 ```
 
 **Impact:**
+
 - Sets realistic expectations
 - Prevents client disappointment
 - More accurate timeline estimates
@@ -127,12 +142,15 @@ Within 2-4 Weeks (Urgent)  → Within 4-6 Weeks (Urgent)  Realistic for landing
 ---
 
 ### 1.6 Split "Flexible Budget" ✅
+
 **Problem:** "Flexible" is ambiguous - could mean "high budget" or "I don't know"
 
 **Old Option:**
+
 - Flexible Budget (Score: 4)
 
 **New Options:**
+
 - Premium/No Budget Limit (Score: 4)
 - Need Guidance on Budget (Score: 2)
 
@@ -141,9 +159,11 @@ Within 2-4 Weeks (Urgent)  → Within 4-6 Weeks (Urgent)  Realistic for landing
 ---
 
 ### 1.7 Add Existing Assets to Scoring ✅
+
 **Problem:** Brand development significantly affects scope but isn't scored
 
 **New Scoring:**
+
 ```typescript
 Existing Assets Impact:
 - No brand (need full brand development):
@@ -162,6 +182,7 @@ Existing Assets Impact:
 ## Phase 2: Strategic Additions 🎯 (FUTURE)
 
 ### 2.1 Red Flag Detection System
+
 **Auto-detect problematic leads:**
 
 ```typescript
@@ -192,15 +213,17 @@ Red Flags:
 ```
 
 **Display:**
+
 - In recommendation: Warning banner with solutions
 - In email: "⚠️ Risk Assessment: 2 red flags detected"
 - Suggested mitigation strategies
 
 **Implementation:**
+
 ```typescript
 interface RedFlag {
-  type: 'budget-scope' | 'timeline' | 'feature-overload' | 'clarity' | 'authority' | 'content';
-  severity: 'warning' | 'concern' | 'blocker';
+  type: "budget-scope" | "timeline" | "feature-overload" | "clarity" | "authority" | "content";
+  severity: "warning" | "concern" | "blocker";
   message: string;
   suggestion: string;
 }
@@ -213,6 +236,7 @@ function detectRedFlags(answers: QuizAnswers): RedFlag[] {
 ---
 
 ### 2.2 Fit Score Algorithm
+
 **Beyond priority - should you take this client?**
 
 ```typescript
@@ -232,6 +256,7 @@ Fit Levels:
 ```
 
 **In Email:**
+
 ```
 Priority Score: 🔥 38/40 (HIGH)
 Fit Score: 🎯 87/100 (Perfect Fit)
@@ -241,6 +266,7 @@ Fit Score: 🎯 87/100 (Perfect Fit)
 ---
 
 ### 2.3 Deal Size Predictor
+
 **Predict actual project value:**
 
 ```typescript
@@ -275,6 +301,7 @@ Result: "$12,000 - $18,000"
 ```
 
 **In Email:**
+
 ```
 💰 Estimated Project Value: $12,000-$18,000
 📊 Confidence: High (based on 45 similar projects)
@@ -283,6 +310,7 @@ Result: "$12,000 - $18,000"
 ---
 
 ### 2.4 Conditional Question Branching
+
 **Personalized paths:**
 
 ```
@@ -317,6 +345,7 @@ IF features includes 'integrations':
 ---
 
 ### 2.5 Payment Preference Question
+
 **Critical for close rate:**
 
 ```
@@ -330,6 +359,7 @@ Options:
 ```
 
 **Scoring Impact:**
+
 - Pay upfront: +1 priority (serious, solvent)
 - 50/50: Standard
 - Milestone: Standard
@@ -337,6 +367,7 @@ Options:
 - Flexible: -1 priority (financial risk)
 
 **Business Intelligence:**
+
 - Upfront = highest close probability
 - Retainer = may need financing discussion
 - Flexible = may need budget justification help
@@ -344,6 +375,7 @@ Options:
 ---
 
 ### 2.6 Content Readiness Question
+
 **Huge timeline impact:**
 
 ```
@@ -356,17 +388,20 @@ Options:
 ```
 
 **Impact on Timeline:**
+
 - All ready: Timeline as estimated
 - Most ready: +1-2 weeks
 - Need writing: +2-4 weeks
 - Full support: +4-6 weeks
 
 **Impact on Budget:**
+
 - Full support: +$2k-$5k for copywriting/content creation
 
 ---
 
 ### 2.7 Question Reordering
+
 **Qualify faster, improve completion:**
 
 ```
@@ -386,6 +421,7 @@ Current Order → New Order:
 ```
 
 **Why This Works:**
+
 - Core qualification in first 4 questions
 - If they drop at Q4, still have critical data
 - Context questions after investment (sunk cost)
@@ -396,6 +432,7 @@ Current Order → New Order:
 ## Phase 3: Innovation & Conversion 🚀 (FUTURE ENHANCEMENTS)
 
 ### 3.1 ROI Calculator (Interactive)
+
 **For cost-reduction focused clients:**
 
 ```
@@ -423,6 +460,7 @@ SHOW Interactive Calculator:
 ---
 
 ### 3.2 Progressive Value Reveal
+
 **Show value as they progress:**
 
 ```
@@ -446,6 +484,7 @@ After Completion:
 ---
 
 ### 3.3 Social Proof Injection
+
 **Build trust at key moments:**
 
 ```
@@ -479,6 +518,7 @@ After Complex Features:
 ---
 
 ### 3.4 Instant Booking for High-Fit Leads
+
 **Strike while iron is hot:**
 
 ```typescript
@@ -506,6 +546,7 @@ ELSE IF fitScore < 40:
 ---
 
 ### 3.5 Exit Intent Recovery
+
 **Don't lose partial completions:**
 
 ```
@@ -534,6 +575,7 @@ THEN:
 ---
 
 ### 3.6 Competitive Intelligence
+
 **Market research goldmine:**
 
 ```
@@ -561,6 +603,7 @@ Business Intelligence:
 ```
 
 **In Email:**
+
 ```
 🎯 Competitive Context: Evaluating 2 alternatives
   → DIY builders, Other agencies
@@ -574,6 +617,7 @@ Business Intelligence:
 ---
 
 ### 3.7 Win Probability Score
+
 **Internal sales intelligence:**
 
 ```typescript
@@ -610,6 +654,7 @@ Result: "🎯 Win Probability: 72%"
 ```
 
 **In Email:**
+
 ```
 📊 SALES INTELLIGENCE:
 
@@ -627,6 +672,7 @@ Win Probability: 72% (Above Average)
 ---
 
 ### 3.8 Multi-Session Behavioral Tracking
+
 **Understand buying intent:**
 
 ```typescript
@@ -658,6 +704,7 @@ Intent Signals:
 ```
 
 **In Email:**
+
 ```
 📈 Engagement Metrics:
   - Completion time: 7 minutes (deliberate)
@@ -669,6 +716,7 @@ Intent Signals:
 ---
 
 ### 3.9 Automated Lead Segmentation
+
 **Smart follow-up sequences:**
 
 ```typescript
@@ -700,6 +748,7 @@ TIRE-KICKER:
 ```
 
 **Integration:**
+
 - Mailchimp tags
 - HubSpot properties
 - Pipedrive custom fields
@@ -708,6 +757,7 @@ TIRE-KICKER:
 ---
 
 ### 3.10 Alternative Pathways
+
 **Don't lose low-budget leads:**
 
 ```
@@ -741,6 +791,7 @@ Show:
 ```
 
 **Impact:**
+
 - Don't reject leads, help them
 - Build trust for future
 - Generate referrals
@@ -751,6 +802,7 @@ Show:
 ## Implementation Timeline
 
 ### Week 1-2: Phase 1 (Critical Fixes)
+
 - [ ] Fix scoring formula
 - [ ] Add company size question
 - [ ] Add decision maker question
@@ -760,6 +812,7 @@ Show:
 - [ ] Add brand assets to scoring
 
 ### Month 2: Phase 2 (Strategic)
+
 - [ ] Build red flag detection
 - [ ] Implement fit score algorithm
 - [ ] Create deal size predictor
@@ -769,6 +822,7 @@ Show:
 - [ ] Reorder questions
 
 ### Month 3: Phase 3 (Innovation)
+
 - [ ] Build ROI calculator
 - [ ] Add progressive value reveal
 - [ ] Inject social proof
@@ -787,6 +841,7 @@ Show:
 Track improvements:
 
 **Current Baseline:**
+
 - Quiz completion rate: ?%
 - Lead-to-consultation rate: ?%
 - Consultation-to-close rate: ?%
@@ -794,18 +849,21 @@ Track improvements:
 - Time to first response: ?
 
 **Target After Phase 1:**
+
 - Completion rate: +5-10%
 - Lead quality score: +15%
 - Response prioritization: 100% accurate
 - Average deal size: +10% (better budget alignment)
 
 **Target After Phase 2:**
+
 - Lead-to-consultation: +20%
 - Poor-fit leads: -30% (time saved)
 - Win probability accuracy: 75%+
 - Deal size prediction: ±15% accuracy
 
 **Target After Phase 3:**
+
 - Quiz completion: +25%
 - Immediate bookings: 15% of high-fit leads
 - Alternative conversions: 10% of poor-fit leads

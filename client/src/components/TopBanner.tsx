@@ -1,24 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-import { Phone, Sparkles } from 'lucide-react';
+import { Phone, Sparkles } from "lucide-react";
 
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
-import { useLocation } from 'wouter';
+import { useLocation } from "wouter";
 
-import { CalendlyButton } from '@/components/ui/calendly-embed';
+import { CalendlyButton } from "@/components/ui/calendly-embed";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
-
-
-const CALENDLY_URL = import.meta.env.VITE_CALENDLY_URL || 'https://calendly.com/nathancwatkins23/web-consulting';
+const CALENDLY_URL =
+  import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/nathancwatkins23/web-consulting";
 export default function TopBanner() {
   const [location, setLocation] = useLocation();
   const [timeLeft, setTimeLeft] = useState({
     hours: 0,
     minutes: 0,
-    seconds: 0
+    seconds: 0,
   });
 
   useEffect(() => {
@@ -34,7 +33,7 @@ export default function TopBanner() {
         setTimeLeft({
           hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
           minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60)
+          seconds: Math.floor((difference / 1000) % 60),
         });
       }
     };
@@ -47,22 +46,22 @@ export default function TopBanner() {
 
   const handleQuizClick = () => {
     // If we're not on the home page, navigate there first
-    if (location !== '/') {
-      setLocation('/');
+    if (location !== "/") {
+      setLocation("/");
       // Wait for navigation to complete, then scroll and start quiz
       setTimeout(() => {
-        window.dispatchEvent(new Event('startQuiz'));
-        const quizSection = document.getElementById('quiz');
+        window.dispatchEvent(new Event("startQuiz"));
+        const quizSection = document.getElementById("quiz");
         if (quizSection) {
-          quizSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          quizSection.scrollIntoView({ behavior: "smooth", block: "start" });
         }
       }, 300);
     } else {
       // Already on home page, just scroll and start quiz
-      window.dispatchEvent(new Event('startQuiz'));
-      const quizSection = document.getElementById('quiz');
+      window.dispatchEvent(new Event("startQuiz"));
+      const quizSection = document.getElementById("quiz");
       if (quizSection) {
-        quizSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        quizSection.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }
   };
@@ -78,13 +77,13 @@ export default function TopBanner() {
       <motion.div
         className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
         animate={{
-          x: ['-200%', '200%']
+          x: ["-200%", "200%"],
         }}
         transition={{
           duration: 3,
           repeat: Infinity,
           ease: "linear",
-          repeatDelay: 2
+          repeatDelay: 2,
         }}
       />
 
@@ -93,15 +92,15 @@ export default function TopBanner() {
           {/* Timer - Left side on desktop, hidden on mobile */}
           <div className="hidden lg:flex items-center gap-2 text-sm font-semibold">
             <span className="bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-lg shadow-lg border border-white/30">
-              {String(timeLeft.hours).padStart(2, '0')}h
+              {String(timeLeft.hours).padStart(2, "0")}h
             </span>
             <span className="text-white/80">:</span>
             <span className="bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-lg shadow-lg border border-white/30">
-              {String(timeLeft.minutes).padStart(2, '0')}m
+              {String(timeLeft.minutes).padStart(2, "0")}m
             </span>
             <span className="text-white/80">:</span>
             <span className="bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-lg shadow-lg border border-white/30">
-              {String(timeLeft.seconds).padStart(2, '0')}s
+              {String(timeLeft.seconds).padStart(2, "0")}s
             </span>
           </div>
 

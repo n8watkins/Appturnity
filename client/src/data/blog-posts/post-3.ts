@@ -1,10 +1,11 @@
-import { BlogPost } from './types';
+import { BlogPost } from "./types";
 
 const post3: BlogPost = {
   id: "3",
   slug: "how-much-does-custom-website-cost",
   title: "How Much Does a Custom Website Really Cost in 2025?",
-  excerpt: "Confused about custom website pricing? This transparent breakdown shows exactly what you pay for and how to budget for your project.",
+  excerpt:
+    "Confused about custom website pricing? This transparent breakdown shows exactly what you pay for and how to budget for your project.",
   author: "Appturnity Team",
   date: "2025-01-10",
   readTime: "7 min read",
@@ -12,8 +13,14 @@ const post3: BlogPost = {
   tags: ["website cost", "pricing", "budget", "web development cost"],
   image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&h=630&fit=crop",
   seoTitle: "Custom Website Cost 2025: Complete Pricing Breakdown & Guide",
-  seoDescription: "Discover real custom website costs in 2025. Detailed pricing breakdown by features, complexity, and project scope. Budget accurately for your website project.",
-  seoKeywords: ["custom website cost", "website development cost", "how much does a website cost", "website pricing 2025"],
+  seoDescription:
+    "Discover real custom website costs in 2025. Detailed pricing breakdown by features, complexity, and project scope. Budget accurately for your website project.",
+  seoKeywords: [
+    "custom website cost",
+    "website development cost",
+    "how much does a website cost",
+    "website pricing 2025",
+  ],
   content: `# What Nobody Tells You About Website Pricing
 
 Last month, I did something revealing. I posed as different types of businesses and got quotes from 47 web developers and agencies. Same requirements. Same timeline. Same features.
@@ -221,7 +228,7 @@ Break-even vs website builder: 12-24 months
 
 After break-even, you save money AND own an asset.
 
-[Calculate your project cost with our pricing calculator](#pricing)`
+[Calculate your project cost with our pricing calculator](#pricing)`,
 };
 
 export default post3;

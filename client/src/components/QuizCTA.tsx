@@ -22,15 +22,8 @@ export default function QuizCTA({ variant = "banner", className = "" }: QuizCTAP
           <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-full flex items-center justify-center">
             <Sparkles className="h-5 w-5 md:h-6 md:w-6 text-primary" />
           </div>
-          <Button
-            size="default"
-            className="gap-2 group text-sm md:text-base font-semibold"
-            asChild
-          >
-            <a
-              href="#quiz"
-              onClick={(e) => handleSmoothScroll(e, "quiz", undefined, true)}
-            >
+          <Button size="default" className="gap-2 group text-sm md:text-base font-semibold" asChild>
+            <a href="#quiz" onClick={(e) => handleSmoothScroll(e, "quiz", undefined, true)}>
               Start Quiz
               <ArrowRight className="h-4 w-4 md:h-5 md:w-5 group-hover:translate-x-1 transition-transform" />
             </a>
@@ -66,8 +59,8 @@ export default function QuizCTA({ variant = "banner", className = "" }: QuizCTAP
             Not Sure Where to Start?
           </h2>
           <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
-            Take our interactive quiz to discover the perfect web solution for your business.
-            Get personalized recommendations in just 60 seconds.
+            Take our interactive quiz to discover the perfect web solution for your business. Get
+            personalized recommendations in just 60 seconds.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-8">
@@ -85,15 +78,8 @@ export default function QuizCTA({ variant = "banner", className = "" }: QuizCTAP
             </div>
           </div>
 
-          <Button
-            size="lg"
-            className="gap-2 group text-lg px-8 h-14"
-            asChild
-          >
-            <a
-              href="#quiz"
-              onClick={(e) => handleSmoothScroll(e, "quiz", undefined, true)}
-            >
+          <Button size="lg" className="gap-2 group text-lg px-8 h-14" asChild>
+            <a href="#quiz" onClick={(e) => handleSmoothScroll(e, "quiz", undefined, true)}>
               Take the Quiz
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </a>

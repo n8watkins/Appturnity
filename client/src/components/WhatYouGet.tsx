@@ -11,8 +11,8 @@ const categories = [
       "Custom design matched to your brand",
       "Fully responsive across all devices",
       "Lightning-fast performance optimized",
-      "Modern animations and interactions"
-    ]
+      "Modern animations and interactions",
+    ],
   },
   {
     icon: TrendingUp,
@@ -23,8 +23,8 @@ const categories = [
       "Custom contact and lead capture forms",
       "SEO optimization and Google Analytics",
       "Social media integration",
-      "Strategic call-to-action placement"
-    ]
+      "Strategic call-to-action placement",
+    ],
   },
   {
     icon: Shield,
@@ -35,8 +35,8 @@ const categories = [
       "SSL certificate included",
       "Cloud hosting with 99.9% uptime",
       "Regular security updates",
-      "Performance monitoring"
-    ]
+      "Performance monitoring",
+    ],
   },
   {
     icon: Target,
@@ -47,9 +47,9 @@ const categories = [
       "Full source code ownership",
       "Regular updates and maintenance",
       "Fast support (under 24 hours)",
-      "Documentation and training"
-    ]
-  }
+      "Documentation and training",
+    ],
+  },
 ];
 
 export default function WhatYouGet() {
@@ -58,8 +58,14 @@ export default function WhatYouGet() {
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-1/2 -right-24 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute -bottom-24 left-1/3 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div
+          className="absolute top-1/2 -right-24 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: "1s" }}
+        ></div>
+        <div
+          className="absolute -bottom-24 left-1/3 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: "2s" }}
+        ></div>
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -91,7 +97,8 @@ export default function WhatYouGet() {
           </h2>
 
           <p className="text-xl text-slate-300 leading-relaxed max-w-3xl mx-auto">
-            Not just a website. A complete, professional solution built to drive results. No hidden fees, no surprises.
+            Not just a website. A complete, professional solution built to drive results. No hidden
+            fees, no surprises.
           </p>
         </motion.div>
 
@@ -119,9 +126,7 @@ export default function WhatYouGet() {
                   </div>
 
                   <div>
-                    <h3 className="text-xl font-bold text-white mb-1">
-                      {category.title}
-                    </h3>
+                    <h3 className="text-xl font-bold text-white mb-1">{category.title}</h3>
                     <p className="text-sm text-slate-400">{category.tagline}</p>
                   </div>
                 </div>
@@ -133,9 +138,7 @@ export default function WhatYouGet() {
                       <div
                         className={`mt-1.5 w-1.5 h-1.5 rounded-full bg-gradient-to-r ${category.gradient} flex-shrink-0`}
                       ></div>
-                      <span className="text-sm text-slate-300 leading-relaxed">
-                        {feature}
-                      </span>
+                      <span className="text-sm text-slate-300 leading-relaxed">{feature}</span>
                     </li>
                   ))}
                 </ul>

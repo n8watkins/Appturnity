@@ -1,8 +1,8 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 /**
@@ -12,14 +12,14 @@ export function cn(...inputs: ClassValue[]) {
  */
 export function scrollToElement(elementId: string, offset: number = 80) {
   const element = document.getElementById(elementId);
-  
+
   if (element) {
     const elementPosition = element.getBoundingClientRect().top;
     const offsetPosition = elementPosition + window.pageYOffset - offset;
-    
+
     window.scrollTo({
       top: offsetPosition,
-      behavior: "smooth"
+      behavior: "smooth",
     });
   }
 }
@@ -40,8 +40,8 @@ export function handleSmoothScroll(
   event.preventDefault();
 
   // Dispatch quiz start event BEFORE scrolling if requested
-  if (startQuiz && targetId === 'contact') {
-    window.dispatchEvent(new Event('startQuiz'));
+  if (startQuiz && targetId === "contact") {
+    window.dispatchEvent(new Event("startQuiz"));
   }
 
   scrollToElement(targetId);

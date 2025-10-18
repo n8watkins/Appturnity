@@ -1,10 +1,11 @@
-import { BlogPost } from './types';
+import { BlogPost } from "./types";
 
 const post8: BlogPost = {
   id: "8",
   slug: "website-speed-optimization",
   title: "Website Speed Optimization: Why It Matters & How to Fix It",
-  excerpt: "Slow websites lose customers and ranking. Learn why speed matters for SEO and conversions, plus practical tips to make your website lightning-fast.",
+  excerpt:
+    "Slow websites lose customers and ranking. Learn why speed matters for SEO and conversions, plus practical tips to make your website lightning-fast.",
   author: "Appturnity Team",
   date: "2024-12-30",
   readTime: "8 min read",
@@ -12,8 +13,14 @@ const post8: BlogPost = {
   tags: ["website speed", "performance", "page speed", "optimization"],
   image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop",
   seoTitle: "Website Speed Optimization 2025: Boost Performance & Conversions",
-  seoDescription: "Learn how to optimize website speed for better SEO and conversions. Practical tips to reduce load time and improve user experience.",
-  seoKeywords: ["website speed optimization", "improve page speed", "website performance", "faster website"],
+  seoDescription:
+    "Learn how to optimize website speed for better SEO and conversions. Practical tips to reduce load time and improve user experience.",
+  seoKeywords: [
+    "website speed optimization",
+    "improve page speed",
+    "website performance",
+    "faster website",
+  ],
   content: `# Website Speed Optimization: Why It Matters & How to Fix It
 
 Your website speed affects everything: SEO, conversions, and user experience. Here's why it matters and how to fix it.
@@ -313,7 +320,7 @@ After optimization:
 
 **Don't sacrifice speed for fancy features**. A fast, simple site beats a slow, complex one every time.
 
-[Get a Fast Website →](#pricing)`
+[Get a Fast Website →](#pricing)`,
 };
 
 export default post8;

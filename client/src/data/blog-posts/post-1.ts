@@ -1,10 +1,11 @@
-import { BlogPost } from './types';
+import { BlogPost } from "./types";
 
 const post1: BlogPost = {
   id: "1",
   slug: "why-own-your-website-2025",
   title: "Why You Should Own Your Website in 2025 (Not Rent It)",
-  excerpt: "Discover why owning your website outright is the smartest business decision you can make in 2025. Break free from monthly subscriptions and platform lock-in.",
+  excerpt:
+    "Discover why owning your website outright is the smartest business decision you can make in 2025. Break free from monthly subscriptions and platform lock-in.",
   author: "Appturnity Team",
   date: "2025-01-15",
   readTime: "4 min read",
@@ -12,8 +13,15 @@ const post1: BlogPost = {
   tags: ["website ownership", "saas alternatives", "business strategy", "cost savings"],
   image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=630&fit=crop",
   seoTitle: "Why Own Your Website in 2025 | Save Money & Avoid Platform Lock-in",
-  seoDescription: "Learn why owning your website is better than renting from SaaS platforms. Discover how to save thousands while gaining full control of your online presence.",
-  seoKeywords: ["website ownership", "saas alternatives", "website cost savings", "platform lock-in", "custom website development"],
+  seoDescription:
+    "Learn why owning your website is better than renting from SaaS platforms. Discover how to save thousands while gaining full control of your online presence.",
+  seoKeywords: [
+    "website ownership",
+    "saas alternatives",
+    "website cost savings",
+    "platform lock-in",
+    "custom website development",
+  ],
   featured: true,
   content: `# Stop Paying Rent on Your Website
 
@@ -131,7 +139,7 @@ The verdict is clear.
 
 **[Calculate YOUR savings →](#pricing)**
 
-*Pricing accurate January 2025. Platform prices only go UP.*`
+*Pricing accurate January 2025. Platform prices only go UP.*`,
 };
 
 export default post1;

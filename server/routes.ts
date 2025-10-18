@@ -36,16 +36,16 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
   }
 
   // In development mode, allow test tokens for email testing
-  if (process.env.NODE_ENV === 'development' && token === 'test_token') {
+  if (process.env.NODE_ENV === "development" && token === "test_token") {
     console.log("Development mode: accepting test_token for email testing");
     return true;
   }
 
   try {
-    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-      method: 'POST',
+    const response = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        "Content-Type": "application/x-www-form-urlencoded",
       },
       body: `secret=${secretKey}&response=${token}`,
     });
@@ -75,7 +75,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!isHuman) {
         return res.status(400).json({
           success: false,
-          message: "reCAPTCHA verification failed. Please try again."
+          message: "reCAPTCHA verification failed. Please try again.",
         });
       }
 
@@ -93,7 +93,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({
           success: false,
           message: "Validation failed",
-          errors: error.errors
+          errors: error.errors,
         });
       }
 
@@ -101,7 +101,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       return res.status(500).json({
         success: false,
-        message: "An error occurred while processing your request"
+        message: "An error occurred while processing your request",
       });
     }
   });
@@ -116,7 +116,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (validatedData.hp_field) {
         return res.status(400).json({
           success: false,
-          message: "Spam detected"
+          message: "Spam detected",
         });
       }
 
@@ -126,7 +126,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!isHuman) {
         return res.status(400).json({
           success: false,
-          message: "reCAPTCHA verification failed. Please try again."
+          message: "reCAPTCHA verification failed. Please try again.",
         });
       }
 
@@ -144,7 +144,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({
           success: false,
           message: "Validation failed",
-          errors: error.errors
+          errors: error.errors,
         });
       }
 
@@ -152,7 +152,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       return res.status(500).json({
         success: false,
-        message: "An error occurred while sending your message"
+        message: "An error occurred while sending your message",
       });
     }
   });
@@ -167,7 +167,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (validatedData.hp_field) {
         return res.status(400).json({
           success: false,
-          message: "Spam detected"
+          message: "Spam detected",
         });
       }
 
@@ -177,7 +177,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!isHuman) {
         return res.status(400).json({
           success: false,
-          message: "reCAPTCHA verification failed. Please try again."
+          message: "reCAPTCHA verification failed. Please try again.",
         });
       }
 
@@ -189,13 +189,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       console.log("Newsletter subscription received:", validatedData.email);
 
-      return res.status(200).json({ success: true, message: "Successfully subscribed to newsletter" });
+      return res
+        .status(200)
+        .json({ success: true, message: "Successfully subscribed to newsletter" });
     } catch (error) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({
           success: false,
           message: "Validation failed",
-          errors: error.errors
+          errors: error.errors,
         });
       }
 
@@ -203,7 +205,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       return res.status(500).json({
         success: false,
-        message: "An error occurred while subscribing to the newsletter"
+        message: "An error occurred while subscribing to the newsletter",
       });
     }
   });

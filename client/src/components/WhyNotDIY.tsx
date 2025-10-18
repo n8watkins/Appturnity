@@ -33,16 +33,18 @@ export default function WhyNotDIY() {
           </motion.div>
 
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-            You Started on Wix.<br />
+            You Started on Wix.
+            <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-purple-500">
               You Deserve Better.
             </span>
           </h2>
 
           <p className="text-xl text-slate-300 leading-relaxed max-w-3xl mx-auto">
-            We've heard the story a hundred times: You spent weeks wrestling with a drag-and-drop builder.
-            Bought premium plugins. Watched endless tutorials. And in the end? You're stuck with something
-            that <span className="text-white font-semibold">feels borrowed</span>, not <span className="text-white font-semibold">owned</span>.
+            We've heard the story a hundred times: You spent weeks wrestling with a drag-and-drop
+            builder. Bought premium plugins. Watched endless tutorials. And in the end? You're stuck
+            with something that <span className="text-white font-semibold">feels borrowed</span>,
+            not <span className="text-white font-semibold">owned</span>.
           </p>
         </motion.div>
 
@@ -69,21 +71,24 @@ export default function WhyNotDIY() {
               {
                 icon: Crown,
                 title: "You'll Own Every Line of Code",
-                description: "No monthly hostage fees. No platform lock-in. Export it, modify it, sell it—this is YOURS. The code, the design, the future. True ownership, not a rental agreement that bleeds your business dry.",
-                gradient: "from-yellow-500 to-orange-600"
+                description:
+                  "No monthly hostage fees. No platform lock-in. Export it, modify it, sell it—this is YOURS. The code, the design, the future. True ownership, not a rental agreement that bleeds your business dry.",
+                gradient: "from-yellow-500 to-orange-600",
               },
               {
                 icon: Zap,
                 title: "Built With Tech That Actually Matters",
-                description: "React. TypeScript. The same stack that powers Netflix and Airbnb. Not some dying drag-and-drop relic from 2010. Lightning-fast, modern, and built to last a decade—not break after the next update.",
-                gradient: "from-blue-500 to-cyan-500"
+                description:
+                  "React. TypeScript. The same stack that powers Netflix and Airbnb. Not some dying drag-and-drop relic from 2010. Lightning-fast, modern, and built to last a decade—not break after the next update.",
+                gradient: "from-blue-500 to-cyan-500",
               },
               {
                 icon: Code2,
                 title: "Zero Plugin Nightmares",
-                description: "Everything custom-built into ONE system. No juggling 47 plugins that conflict. No surprise $29/month fees that stack up. No compatibility breakdowns at 3am. Just clean, professional code that works.",
-                gradient: "from-purple-500 to-pink-600"
-              }
+                description:
+                  "Everything custom-built into ONE system. No juggling 47 plugins that conflict. No surprise $29/month fees that stack up. No compatibility breakdowns at 3am. Just clean, professional code that works.",
+                gradient: "from-purple-500 to-pink-600",
+              },
             ].map((feature, index) => (
               <motion.div
                 key={index}
@@ -96,7 +101,9 @@ export default function WhyNotDIY() {
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-purple-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300 opacity-50 group-hover:opacity-100"></div>
 
                 <div className="relative bg-slate-800/90 backdrop-blur-sm border border-slate-700 rounded-2xl p-8 h-full hover:border-primary/50 transition-all duration-300 flex flex-col">
-                  <div className={`w-14 h-14 bg-gradient-to-br ${feature.gradient} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                  <div
+                    className={`w-14 h-14 bg-gradient-to-br ${feature.gradient} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}
+                  >
                     <feature.icon className="h-7 w-7 text-white" />
                   </div>
 
@@ -104,9 +111,7 @@ export default function WhyNotDIY() {
                     {feature.title}
                   </h4>
 
-                  <p className="text-slate-300 leading-relaxed text-base">
-                    {feature.description}
-                  </p>
+                  <p className="text-slate-300 leading-relaxed text-base">{feature.description}</p>
                 </div>
               </motion.div>
             ))}
@@ -124,15 +129,17 @@ export default function WhyNotDIY() {
 
             <div className="relative bg-gradient-to-br from-slate-800/95 to-slate-900/95 backdrop-blur-sm border-2 border-primary/30 rounded-3xl p-10 md:p-14 text-center">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
-                Stop Renting Your Future.<br />
+                Stop Renting Your Future.
+                <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-purple-500">
                   Start Owning It.
                 </span>
               </h3>
 
               <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-8">
-                Your competitors are still dragging and dropping. You'll have enterprise-grade technology,
-                custom-built for your business, and you'll <span className="font-bold text-white">own every line of code</span>.
+                Your competitors are still dragging and dropping. You'll have enterprise-grade
+                technology, custom-built for your business, and you'll{" "}
+                <span className="font-bold text-white">own every line of code</span>.
               </p>
 
               <div className="flex flex-wrap justify-center gap-4 text-sm">

@@ -1,6 +1,6 @@
-import { motion } from 'framer-motion';
-import { Check, X } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { motion } from "framer-motion";
+import { Check, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface FeatureComparisonProps {
   features: {
@@ -13,9 +13,13 @@ interface FeatureComparisonProps {
   className?: string;
 }
 
-export default function FeatureComparison({ features, headers, className }: FeatureComparisonProps) {
+export default function FeatureComparison({
+  features,
+  headers,
+  className,
+}: FeatureComparisonProps) {
   const renderCell = (value: boolean | string) => {
-    if (typeof value === 'boolean') {
+    if (typeof value === "boolean") {
       return value ? (
         <Check className="w-6 h-6 text-green-600 mx-auto" />
       ) : (
@@ -31,7 +35,7 @@ export default function FeatureComparison({ features, headers, className }: Feat
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.4 }}
-      className={cn('my-8 overflow-x-auto', className)}
+      className={cn("my-8 overflow-x-auto", className)}
     >
       <div className="inline-block min-w-full align-middle">
         <div className="overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5 rounded-xl">
@@ -41,13 +45,18 @@ export default function FeatureComparison({ features, headers, className }: Feat
                 <th scope="col" className="px-6 py-4 text-left text-sm font-semibold text-white">
                   Feature
                 </th>
-                {headers.map((header, index) => (
-                  header && (
-                    <th key={index} scope="col" className="px-6 py-4 text-center text-sm font-semibold text-white">
-                      {header}
-                    </th>
-                  )
-                ))}
+                {headers.map(
+                  (header, index) =>
+                    header && (
+                      <th
+                        key={index}
+                        scope="col"
+                        className="px-6 py-4 text-center text-sm font-semibold text-white"
+                      >
+                        {header}
+                      </th>
+                    )
+                )}
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -55,8 +64,8 @@ export default function FeatureComparison({ features, headers, className }: Feat
                 <tr
                   key={index}
                   className={cn(
-                    'hover:bg-gray-50 transition-colors',
-                    index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+                    "hover:bg-gray-50 transition-colors",
+                    index % 2 === 0 ? "bg-white" : "bg-gray-50"
                   )}
                 >
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">

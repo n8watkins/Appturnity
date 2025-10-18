@@ -1,14 +1,13 @@
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { Calendar } from 'lucide-react';
+import { Calendar } from "lucide-react";
 
-import { CalendlyEmbed } from '@/components/ui/calendly-embed';
+import { CalendlyEmbed } from "@/components/ui/calendly-embed";
 
-
-
-const CALENDLY_URL = import.meta.env.VITE_CALENDLY_URL || 'https://calendly.com/nathancwatkins23/web-consulting';
+const CALENDLY_URL =
+  import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/nathancwatkins23/web-consulting";
 export default function CalendlyScheduler() {
   return (
     <section id="schedule" className="py-20 bg-slate-50 scroll-mt-16">
@@ -24,7 +23,8 @@ export default function CalendlyScheduler() {
             Schedule a Consultation
           </h2>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Book a free 30-minute call to discuss your project needs and how we can help you build a stupid simple app that solves your exact problem.
+            Book a free 30-minute call to discuss your project needs and how we can help you build a
+            stupid simple app that solves your exact problem.
           </p>
         </motion.div>
 
@@ -48,16 +48,14 @@ export default function CalendlyScheduler() {
                 url={CALENDLY_URL}
                 utm={{
                   utmSource: "website",
-                  utmMedium: "scheduler_page"
+                  utmMedium: "scheduler_page",
                 }}
               />
             </CardContent>
           </Card>
-          
+
           <div className="mt-8 bg-white p-6 rounded-lg shadow-md border border-slate-200">
-            <h3 className="text-lg font-semibold text-slate-900 mb-4">
-              What to Expect
-            </h3>
+            <h3 className="text-lg font-semibold text-slate-900 mb-4">What to Expect</h3>
             <ul className="space-y-3">
               <li className="flex gap-3">
                 <div className="text-primary">✓</div>

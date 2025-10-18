@@ -1,10 +1,11 @@
-import { BlogPost } from './types';
+import { BlogPost } from "./types";
 
 const post5: BlogPost = {
   id: "5",
   slug: "website-features-guide",
   title: "Essential Website Features Every Business Needs in 2025",
-  excerpt: "Not sure which features your website needs? This guide breaks down must-have features, nice-to-haves, and costly additions you might not need.",
+  excerpt:
+    "Not sure which features your website needs? This guide breaks down must-have features, nice-to-haves, and costly additions you might not need.",
   author: "Appturnity Team",
   date: "2025-01-06",
   readTime: "9 min read",
@@ -12,8 +13,14 @@ const post5: BlogPost = {
   tags: ["website features", "functionality", "web development features", "requirements"],
   image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=630&fit=crop",
   seoTitle: "Essential Website Features 2025: Complete Guide for Business Owners",
-  seoDescription: "Discover which website features are essential, which are optional, and which to skip. Make informed decisions about your website functionality and budget.",
-  seoKeywords: ["website features", "essential website features", "website functionality", "what features does my website need"],
+  seoDescription:
+    "Discover which website features are essential, which are optional, and which to skip. Make informed decisions about your website functionality and budget.",
+  seoKeywords: [
+    "website features",
+    "essential website features",
+    "website functionality",
+    "what features does my website need",
+  ],
   content: `# Essential Website Features Every Business Needs in 2025
 
 Choosing the right features for your website can be overwhelming. This guide helps you decide what you actually need.
@@ -298,7 +305,7 @@ Use this decision tree:
 
 [Calculate Your Features Cost →](#pricing)
 
-[Get Feature Recommendations →](#quiz)`
+[Get Feature Recommendations →](#quiz)`,
 };
 
 export default post5;

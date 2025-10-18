@@ -1,23 +1,23 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Mail, CheckCircle, AlertCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Mail, CheckCircle, AlertCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 interface NewsletterSignupProps {
-  variant?: 'default' | 'compact' | 'inline';
+  variant?: "default" | "compact" | "inline";
   className?: string;
 }
 
 export default function NewsletterSignup({
-  variant = 'default',
-  className = ''
+  variant = "default",
+  className = "",
 }: NewsletterSignupProps) {
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [message, setMessage] = useState("");
   const { executeRecaptcha } = useGoogleReCaptcha();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -26,26 +26,26 @@ export default function NewsletterSignup({
     if (!email) return;
 
     if (!executeRecaptcha) {
-      setStatus('error');
-      setMessage('reCAPTCHA not ready. Please wait a moment and try again.');
+      setStatus("error");
+      setMessage("reCAPTCHA not ready. Please wait a moment and try again.");
       setTimeout(() => {
-        setStatus('idle');
-        setMessage('');
+        setStatus("idle");
+        setMessage("");
       }, 5000);
       return;
     }
 
-    setStatus('loading');
+    setStatus("loading");
 
     try {
       // Execute reCAPTCHA to get token
-      const recaptchaToken = await executeRecaptcha('newsletter_subscription');
+      const recaptchaToken = await executeRecaptcha("newsletter_subscription");
 
       // Call the API endpoint
-      const response = await fetch('/api/newsletter', {
-        method: 'POST',
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           email,
@@ -56,31 +56,33 @@ export default function NewsletterSignup({
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.message || 'Failed to subscribe');
+        throw new Error(result.message || "Failed to subscribe");
       }
 
-      setStatus('success');
-      setMessage('🎉 Welcome aboard! You\'ve successfully subscribed to our newsletter.');
-      setEmail('');
+      setStatus("success");
+      setMessage("🎉 Welcome aboard! You've successfully subscribed to our newsletter.");
+      setEmail("");
 
       // Reset after 5 seconds
       setTimeout(() => {
-        setStatus('idle');
-        setMessage('');
+        setStatus("idle");
+        setMessage("");
       }, 5000);
     } catch (error) {
-      setStatus('error');
-      setMessage(error instanceof Error ? error.message : 'Something went wrong. Please try again.');
+      setStatus("error");
+      setMessage(
+        error instanceof Error ? error.message : "Something went wrong. Please try again."
+      );
       setTimeout(() => {
-        setStatus('idle');
-        setMessage('');
+        setStatus("idle");
+        setMessage("");
       }, 5000);
     }
   };
 
-  if (variant === 'compact') {
+  if (variant === "compact") {
     return (
-      <div className={cn('bg-white rounded-lg shadow-sm p-6 relative', className)}>
+      <div className={cn("bg-white rounded-lg shadow-sm p-6 relative", className)}>
         <div className="flex items-center gap-2 mb-3">
           <Mail className="h-5 w-5 text-primary" />
           <h3 className="font-semibold text-slate-900">Stay Updated</h3>
@@ -94,26 +96,26 @@ export default function NewsletterSignup({
             placeholder="your@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            disabled={status === 'loading' || status === 'success'}
+            disabled={status === "loading" || status === "success"}
             required
             className="text-sm"
           />
           <Button
             type="submit"
             className="w-full"
-            disabled={status === 'loading' || status === 'success'}
+            disabled={status === "loading" || status === "success"}
           >
-            {status === 'loading' ? 'Subscribing...' :
-             status === 'success' ? 'Subscribed!' : 'Subscribe'}
+            {status === "loading"
+              ? "Subscribing..."
+              : status === "success"
+                ? "Subscribed!"
+                : "Subscribe"}
           </Button>
           {message && (
             <motion.p
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className={cn(
-                'text-xs',
-                status === 'success' ? 'text-green-600' : 'text-red-600'
-              )}
+              className={cn("text-xs", status === "success" ? "text-green-600" : "text-red-600")}
             >
               {message}
             </motion.p>
@@ -131,25 +133,27 @@ export default function NewsletterSignup({
     );
   }
 
-  if (variant === 'inline') {
+  if (variant === "inline") {
     return (
       <div className="relative">
-        <form onSubmit={handleSubmit} className={cn('flex gap-2', className)}>
+        <form onSubmit={handleSubmit} className={cn("flex gap-2", className)}>
           <Input
             type="email"
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            disabled={status === 'loading' || status === 'success'}
+            disabled={status === "loading" || status === "success"}
             required
             className="flex-1"
           />
-          <Button
-            type="submit"
-            disabled={status === 'loading' || status === 'success'}
-          >
-            {status === 'loading' ? 'Subscribing...' :
-             status === 'success' ? <CheckCircle className="h-5 w-5" /> : 'Subscribe'}
+          <Button type="submit" disabled={status === "loading" || status === "success"}>
+            {status === "loading" ? (
+              "Subscribing..."
+            ) : status === "success" ? (
+              <CheckCircle className="h-5 w-5" />
+            ) : (
+              "Subscribe"
+            )}
           </Button>
         </form>
 
@@ -168,7 +172,7 @@ export default function NewsletterSignup({
   return (
     <motion.div
       className={cn(
-        'bg-gradient-to-br from-primary/5 via-blue-50 to-purple-50 rounded-2xl p-8 relative',
+        "bg-gradient-to-br from-primary/5 via-blue-50 to-purple-50 rounded-2xl p-8 relative",
         className
       )}
       initial={{ opacity: 0, y: 20 }}
@@ -185,13 +189,11 @@ export default function NewsletterSignup({
           <Mail className="h-8 w-8 text-primary" />
         </motion.div>
 
-        <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3">
-          Join Our Newsletter
-        </h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3">Join Our Newsletter</h2>
 
         <p className="text-slate-600 mb-8">
-          Get exclusive web development tips, business insights, and updates on saving money
-          with custom websites vs expensive SaaS subscriptions. No spam, unsubscribe anytime.
+          Get exclusive web development tips, business insights, and updates on saving money with
+          custom websites vs expensive SaaS subscriptions. No spam, unsubscribe anytime.
         </p>
 
         <form onSubmit={handleSubmit} className="max-w-md mx-auto">
@@ -201,7 +203,7 @@ export default function NewsletterSignup({
               placeholder="Enter your email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              disabled={status === 'loading' || status === 'success'}
+              disabled={status === "loading" || status === "success"}
               required
               className="flex-1 h-12"
             />
@@ -209,23 +211,35 @@ export default function NewsletterSignup({
               type="submit"
               size="lg"
               className="h-12 px-8"
-              disabled={status === 'loading' || status === 'success'}
+              disabled={status === "loading" || status === "success"}
             >
-              {status === 'loading' ? (
+              {status === "loading" ? (
                 <span className="flex items-center gap-2">
                   <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="none"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    />
                   </svg>
                   Subscribing...
                 </span>
-              ) : status === 'success' ? (
+              ) : status === "success" ? (
                 <span className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5" />
                   Subscribed!
                 </span>
               ) : (
-                'Get Free Tips'
+                "Get Free Tips"
               )}
             </Button>
           </div>
@@ -235,13 +249,11 @@ export default function NewsletterSignup({
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               className={cn(
-                'mt-4 p-3 rounded-lg flex items-center gap-2',
-                status === 'success'
-                  ? 'bg-green-100 text-green-800'
-                  : 'bg-red-100 text-red-800'
+                "mt-4 p-3 rounded-lg flex items-center gap-2",
+                status === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
               )}
             >
-              {status === 'success' ? (
+              {status === "success" ? (
                 <CheckCircle className="h-5 w-5 flex-shrink-0" />
               ) : (
                 <AlertCircle className="h-5 w-5 flex-shrink-0" />

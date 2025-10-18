@@ -6,21 +6,24 @@ import { Menu, Sparkles } from "lucide-react";
 import { scrollToElement } from "@/lib/utils";
 import { Helmet } from "react-helmet";
 
-
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [location, setLocation] = useLocation();
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string, startQuiz?: boolean) => {
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    targetId: string,
+    startQuiz?: boolean
+  ) => {
     e.preventDefault();
 
     // If we're not on the home page, navigate there first
-    if (location !== '/') {
-      setLocation('/');
+    if (location !== "/") {
+      setLocation("/");
       // Wait for navigation to complete, then scroll
       setTimeout(() => {
-        if (startQuiz && targetId === 'quiz') {
-          window.dispatchEvent(new Event('startQuiz'));
+        if (startQuiz && targetId === "quiz") {
+          window.dispatchEvent(new Event("startQuiz"));
         }
         if (targetId) {
           scrollToElement(targetId);
@@ -28,8 +31,8 @@ export default function Header() {
       }, 300);
     } else {
       // We're already on home page, just scroll
-      if (startQuiz && targetId === 'quiz') {
-        window.dispatchEvent(new Event('startQuiz'));
+      if (startQuiz && targetId === "quiz") {
+        window.dispatchEvent(new Event("startQuiz"));
       }
       if (targetId) {
         setTimeout(() => {
@@ -41,28 +44,28 @@ export default function Header() {
 
   const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    setLocation('/');
+    setLocation("/");
     // Scroll to top when navigating to home
     setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }, 100);
   };
 
   const handleBlogClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    setLocation('/blog');
+    setLocation("/blog");
     // Scroll to top when navigating to blog
     setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }, 100);
   };
 
   const navigateAndClose = (e: React.MouseEvent<HTMLAnchorElement>, startQuiz?: boolean) => {
     // Get the target ID from the href attribute
-    const href = e.currentTarget.getAttribute('href') || '';
-    const hashIndex = href.indexOf('#');
+    const href = e.currentTarget.getAttribute("href") || "";
+    const hashIndex = href.indexOf("#");
 
-    let targetId = '';
+    let targetId = "";
     if (hashIndex !== -1) {
       targetId = href.substring(hashIndex + 1);
     }
@@ -76,7 +79,10 @@ export default function Header() {
       <Helmet>
         <title>Appturnity - Web Consulting</title>
         <meta name="description" content="Custom landing pages built to drive trust and growth." />
-    <meta name="google-site-verification" content="tY1kZLONMnmFfumFbh0EHixuCoGOFCmvNJW8qVYIRHA" />
+        <meta
+          name="google-site-verification"
+          content="tY1kZLONMnmFfumFbh0EHixuCoGOFCmvNJW8qVYIRHA"
+        />
         <link rel="icon" href="/a-icon.png" />
       </Helmet>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -90,7 +96,7 @@ export default function Header() {
               <img src="/appturnity.webp" alt="Appturnity" width={200} height={200} />
             </a>
           </div>
-          
+
           <nav className="hidden md:flex items-center space-x-6">
             <a
               href="#about"
@@ -143,7 +149,7 @@ export default function Header() {
               Check out our Blog
             </a>
           </nav>
-          
+
           <div className="md:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>

@@ -1,17 +1,18 @@
 import { Link, useLocation } from "wouter";
 import { Mail, Phone, Calendar } from "lucide-react";
 
-const CALENDLY_URL = import.meta.env.VITE_CALENDLY_URL || 'https://calendly.com/nathancwatkins23/web-consulting';
+const CALENDLY_URL =
+  import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/nathancwatkins23/web-consulting";
 
 export default function BlogFooter() {
   const [, setLocation] = useLocation();
 
   const handleMainSiteNav = (section: string) => {
-    setLocation('/');
+    setLocation("/");
     setTimeout(() => {
       const element = document.getElementById(section);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }, 300);
   };
@@ -26,7 +27,13 @@ export default function BlogFooter() {
           <div>
             <Link href="/">
               <a className="inline-block mb-4">
-                <img src="/appturnity.webp" alt="Appturnity" width={180} height={180} className="brightness-0 invert" />
+                <img
+                  src="/appturnity.webp"
+                  alt="Appturnity"
+                  width={180}
+                  height={180}
+                  className="brightness-0 invert"
+                />
               </a>
             </Link>
             <p className="text-slate-400 text-sm mb-4">
@@ -41,7 +48,7 @@ export default function BlogFooter() {
                 aria-label="Follow us on X"
               >
                 <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
               </a>
               <a
@@ -153,9 +160,7 @@ export default function BlogFooter() {
             <ul className="space-y-2">
               <li>
                 <Link href="/blog">
-                  <a className="text-slate-400 hover:text-white transition-colors text-sm">
-                    Blog
-                  </a>
+                  <a className="text-slate-400 hover:text-white transition-colors text-sm">Blog</a>
                 </Link>
               </li>
               <li>

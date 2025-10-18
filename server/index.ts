@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import "dotenv/config";
 import express, { type Request, Response, NextFunction } from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -52,26 +52,33 @@ process.setMaxListeners(20);
 const app = express();
 
 // Security middleware
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://www.google.com", "https://www.gstatic.com"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      imgSrc: ["'self'", "data:", "https:", "blob:"],
-      connectSrc: ["'self'", "https://www.google.com"],
-      frameSrc: ["https://www.google.com"],
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://www.google.com",
+          "https://www.gstatic.com",
+        ],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", "data:", "https:", "blob:"],
+        connectSrc: ["'self'", "https://www.google.com"],
+        frameSrc: ["https://www.google.com"],
+      },
     },
-  },
-}));
+  })
+);
 
 // CORS configuration
-app.use(cors({
-  origin: process.env.NODE_ENV === "production"
-    ? process.env.FRONTEND_URL || false
-    : true, // Allow all origins in development
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: process.env.NODE_ENV === "production" ? process.env.FRONTEND_URL || false : true, // Allow all origins in development
+    credentials: true,
+  })
+);
 
 // Rate limiting for API endpoints
 const apiLimiter = rateLimit({
@@ -162,25 +169,28 @@ app.use((req, res, next) => {
   const maxPort = 7233; // Try up to port 7233
 
   function tryListen(port: number) {
-    server.listen(port, "localhost", () => {
-      log(`http://localhost:${port} - Server is running`);
-    }).on('error', (err: any) => {
-      if (err.code === 'EADDRINUSE') {
-        if (port < maxPort) {
-          console.warn(`⚠️  Port ${port} is in use, trying ${port + 1}...`);
-          tryListen(port + 1);
+    server
+      .listen(port, "localhost", () => {
+        log(`http://localhost:${port} - Server is running`);
+      })
+      .on("error", (err: any) => {
+        if (err.code === "EADDRINUSE") {
+          if (port < maxPort) {
+            console.warn(`⚠️  Port ${port} is in use, trying ${port + 1}...`);
+            tryListen(port + 1);
+          } else {
+            console.error(
+              `❌ Could not find an available port between ${preferredPort} and ${maxPort}`
+            );
+            console.error(`   Please close other applications or specify a different port.`);
+            process.exit(1);
+          }
         } else {
-          console.error(`❌ Could not find an available port between ${preferredPort} and ${maxPort}`);
-          console.error(`   Please close other applications or specify a different port.`);
+          console.error(`❌ Error starting server: ${err.message}`);
           process.exit(1);
         }
-      } else {
-        console.error(`❌ Error starting server: ${err.message}`);
-        process.exit(1);
-      }
-    });
+      });
   }
 
   tryListen(preferredPort);
-  
 })();

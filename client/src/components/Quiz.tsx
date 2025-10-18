@@ -1,9 +1,9 @@
-import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
-import ServiceQuiz from '@/components/ServiceQuiz';
-import RecommendationCard from '@/components/RecommendationCard';
-import { getRecommendation, type Recommendation } from '@/lib/quizRecommendations';
-import { saveQuizResults, clearQuizResults } from '@/lib/quizStorage';
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import ServiceQuiz from "@/components/ServiceQuiz";
+import RecommendationCard from "@/components/RecommendationCard";
+import { getRecommendation, type Recommendation } from "@/lib/quizRecommendations";
+import { saveQuizResults, clearQuizResults } from "@/lib/quizStorage";
 
 export default function Quiz() {
   const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
@@ -14,13 +14,13 @@ export default function Quiz() {
   useEffect(() => {
     const handleStartQuiz = () => {
       setAutoStart(true);
-      setQuizKey(prev => prev + 1); // Force quiz to remount with autoStart=true
+      setQuizKey((prev) => prev + 1); // Force quiz to remount with autoStart=true
     };
 
-    window.addEventListener('startQuiz', handleStartQuiz);
+    window.addEventListener("startQuiz", handleStartQuiz);
 
     return () => {
-      window.removeEventListener('startQuiz', handleStartQuiz);
+      window.removeEventListener("startQuiz", handleStartQuiz);
     };
   }, []);
 
@@ -34,13 +34,13 @@ export default function Quiz() {
     saveQuizResults(results);
 
     // Dispatch event so other components know quiz was completed
-    window.dispatchEvent(new CustomEvent('quizCompleted', { detail: results }));
+    window.dispatchEvent(new CustomEvent("quizCompleted", { detail: results }));
 
     // Scroll to recommendation
     setTimeout(() => {
-      document.getElementById('quiz-recommendation')?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center'
+      document.getElementById("quiz-recommendation")?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
       });
     }, 300);
   };
@@ -49,24 +49,20 @@ export default function Quiz() {
   const handleRetakeQuiz = () => {
     setRecommendation(null);
     setAutoStart(false);
-    setQuizKey(prev => prev + 1);
+    setQuizKey((prev) => prev + 1);
     clearQuizResults();
     // Scroll to top of quiz
-    document.getElementById('quiz')?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById("quiz")?.scrollIntoView({ behavior: "smooth" });
   };
 
   // Handle continue to calculator
   const handleContinue = () => {
     // Scroll to pricing calculator
-    document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section
-      id="quiz"
-      className="py-20 bg-white scroll-mt-16"
-      aria-label="Service quiz section"
-    >
+    <section id="quiz" className="py-20 bg-white scroll-mt-16" aria-label="Service quiz section">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading - Only show if no recommendation */}
         {!recommendation && (
@@ -81,7 +77,8 @@ export default function Quiz() {
               Find Your Perfect Solution
             </h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Answer 12 quick questions to get a personalized recommendation with instant pricing and timeline estimates.
+              Answer 12 quick questions to get a personalized recommendation with instant pricing
+              and timeline estimates.
             </p>
           </motion.div>
         )}

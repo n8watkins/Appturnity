@@ -2,7 +2,8 @@ import { Phone, Mail, Calendar } from "lucide-react";
 import { Link } from "wouter";
 import { handleSmoothScroll } from "@/lib/utils";
 
-const CALENDLY_URL = import.meta.env.VITE_CALENDLY_URL || 'https://calendly.com/nathancwatkins23/web-consulting';
+const CALENDLY_URL =
+  import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/nathancwatkins23/web-consulting";
 
 export default function Footer() {
   return (
@@ -18,14 +19,24 @@ export default function Footer() {
               <span className="font-bold text-lg text-white">Appturnity</span>
             </div>
             <p className="mb-4 text-sm">
-              Custom websites without the complexity.<br />
+              Custom websites without the complexity.
+              <br />
               Simple solutions. Predictable prices.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-slate-400 hover:text-white transition-colors">
                 <span className="sr-only">X (Twitter)</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z" fill="currentColor" />
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"
+                    fill="currentColor"
+                  />
                 </svg>
               </a>
             </div>
@@ -116,9 +127,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/features">
-                  <a className="hover:text-white transition-colors cursor-pointer">
-                    All Features
-                  </a>
+                  <a className="hover:text-white transition-colors cursor-pointer">All Features</a>
                 </Link>
               </li>
               <li>
@@ -139,16 +148,12 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/blog">
-                  <a className="hover:text-white transition-colors cursor-pointer">
-                    Blog
-                  </a>
+                  <a className="hover:text-white transition-colors cursor-pointer">Blog</a>
                 </Link>
               </li>
               <li>
                 <Link href="/terms">
-                  <a className="hover:text-white transition-colors cursor-pointer">
-                    Terms of Use
-                  </a>
+                  <a className="hover:text-white transition-colors cursor-pointer">Terms of Use</a>
                 </Link>
               </li>
               <li>
@@ -177,13 +182,19 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="tel:+18182888082" className="flex items-center gap-2 hover:text-white transition-colors">
+                <a
+                  href="tel:+18182888082"
+                  className="flex items-center gap-2 hover:text-white transition-colors"
+                >
                   <Phone size={16} />
                   <span>(818) 288-8082</span>
                 </a>
               </li>
               <li>
-                <a href="mailto:nathancwatkins23@gmail.com" className="flex items-center gap-2 hover:text-white transition-colors break-all">
+                <a
+                  href="mailto:nathancwatkins23@gmail.com"
+                  className="flex items-center gap-2 hover:text-white transition-colors break-all"
+                >
                   <Mail size={16} />
                   <span>Get in Touch</span>
                 </a>
@@ -191,7 +202,7 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        
+
         <div className="border-t border-slate-800 mt-10 pt-6 text-sm text-center">
           <p>&copy; {new Date().getFullYear()} Appturnity. All rights reserved.</p>
         </div>

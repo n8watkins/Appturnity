@@ -1,9 +1,9 @@
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
-import { MDXProvider } from '@mdx-js/react';
-import * as BlogComponents from '@/components/blog';
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+import { MDXProvider } from "@mdx-js/react";
+import * as BlogComponents from "@/components/blog";
 
 interface BlogContentProps {
   content: string | React.ComponentType;
@@ -11,7 +11,7 @@ interface BlogContentProps {
 
 export default function BlogContent({ content }: BlogContentProps) {
   // If content is a React component (MDX), render it with MDX provider
-  if (typeof content === 'function') {
+  if (typeof content === "function") {
     const ContentComponent = content as React.ComponentType;
     return (
       <MDXProvider components={BlogComponents}>
@@ -37,43 +37,49 @@ export default function BlogContent({ content }: BlogContentProps) {
         ),
         h2: ({ children, ...props }) => {
           const text = String(children);
-          const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+          const id = text
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-|-$/g, "");
           return (
             <h2
               id={id}
               className="text-3xl md:text-4xl font-bold text-slate-900 mt-14 mb-6 flex items-center gap-3 group scroll-mt-24"
               {...props}
             >
-              <span className="text-primary text-4xl opacity-30 group-hover:opacity-100 transition-opacity">#</span>
+              <span className="text-primary text-4xl opacity-30 group-hover:opacity-100 transition-opacity">
+                #
+              </span>
               {children}
             </h2>
           );
         },
         h3: ({ children, ...props }) => {
           const text = String(children);
-          const isBefore = text.includes('Before') || text.includes('Option A');
-          const isAfter = text.includes('After') || text.includes('Option B');
-          const isStep = text.includes('Step') || text.includes('Week');
+          const isBefore = text.includes("Before") || text.includes("Option A");
+          const isAfter = text.includes("After") || text.includes("Option B");
+          const isStep = text.includes("Step") || text.includes("Week");
 
-          let className = "text-2xl md:text-3xl font-bold text-slate-800 mt-10 mb-4 pl-4 border-l-4 ";
+          let className =
+            "text-2xl md:text-3xl font-bold text-slate-800 mt-10 mb-4 pl-4 border-l-4 ";
           let borderColor = "border-primary";
 
           if (isBefore) {
             borderColor = "border-red-500";
-            className = "text-2xl md:text-3xl font-bold text-red-700 mt-10 mb-4 pl-4 border-l-4 bg-red-50 py-2 rounded-r-lg";
+            className =
+              "text-2xl md:text-3xl font-bold text-red-700 mt-10 mb-4 pl-4 border-l-4 bg-red-50 py-2 rounded-r-lg";
           } else if (isAfter) {
             borderColor = "border-green-500";
-            className = "text-2xl md:text-3xl font-bold text-green-700 mt-10 mb-4 pl-4 border-l-4 bg-green-50 py-2 rounded-r-lg";
+            className =
+              "text-2xl md:text-3xl font-bold text-green-700 mt-10 mb-4 pl-4 border-l-4 bg-green-50 py-2 rounded-r-lg";
           } else if (isStep) {
             borderColor = "border-blue-500";
-            className = "text-2xl md:text-3xl font-bold text-blue-700 mt-10 mb-4 pl-4 border-l-4 bg-blue-50 py-2 rounded-r-lg";
+            className =
+              "text-2xl md:text-3xl font-bold text-blue-700 mt-10 mb-4 pl-4 border-l-4 bg-blue-50 py-2 rounded-r-lg";
           }
 
           return (
-            <h3
-              className={cn(className, borderColor)}
-              {...props}
-            >
+            <h3 className={cn(className, borderColor)} {...props}>
               {children}
             </h3>
           );
@@ -99,10 +105,7 @@ export default function BlogContent({ content }: BlogContentProps) {
           </ul>
         ),
         li: ({ children, ...props }) => (
-          <li
-            className="flex items-start gap-3 text-lg text-slate-700"
-            {...props}
-          >
+          <li className="flex items-start gap-3 text-lg text-slate-700" {...props}>
             <span className="text-primary text-xl mt-1 flex-shrink-0">•</span>
             <span className="leading-relaxed">{children}</span>
           </li>
@@ -112,22 +115,24 @@ export default function BlogContent({ content }: BlogContentProps) {
             className="my-10 p-6 bg-gradient-to-r from-primary/5 via-blue-50 to-purple-50 border-l-4 border-primary rounded-lg shadow-sm"
             {...props}
           >
-            <div className="text-xl md:text-2xl text-slate-800 italic font-medium">
-              {children}
-            </div>
+            <div className="text-xl md:text-2xl text-slate-800 italic font-medium">{children}</div>
           </blockquote>
         ),
         code: ({ inline, children, ...props }: any) => {
           if (inline) {
             return (
-              <code className="text-primary bg-slate-100 px-2 py-1 rounded-md text-base font-mono" {...props}>
+              <code
+                className="text-primary bg-slate-100 px-2 py-1 rounded-md text-base font-mono"
+                {...props}
+              >
                 {children}
               </code>
             );
           }
           // Check if it's a pricing comparison block
           const content = String(children);
-          const isPricing = content.includes('$') && (content.includes('Total:') || content.includes('Cost:'));
+          const isPricing =
+            content.includes("$") && (content.includes("Total:") || content.includes("Cost:"));
 
           if (isPricing) {
             return (
@@ -175,8 +180,8 @@ export default function BlogContent({ content }: BlogContentProps) {
         table: ({ children, ...props }: any) => {
           // Check if this is a VS comparison (2 columns with no header row)
           const tableContent = String(children);
-          const isVSComparison = tableContent.includes('|  |') ||
-                                 (tableContent.split('|').length <= 10);
+          const isVSComparison =
+            tableContent.includes("|  |") || tableContent.split("|").length <= 10;
 
           if (isVSComparison) {
             return (
@@ -202,11 +207,7 @@ export default function BlogContent({ content }: BlogContentProps) {
           const isVSComparison = headContent.trim().length < 50;
 
           if (isVSComparison) {
-            return (
-              <thead {...props}>
-                {children}
-              </thead>
-            );
+            return <thead {...props}>{children}</thead>;
           }
 
           return (
@@ -223,9 +224,10 @@ export default function BlogContent({ content }: BlogContentProps) {
         tr: ({ children, ...props }: any) => {
           // Check if this is in a thead for VS comparison
           const rowContent = String(children);
-          const isHeaderRow = rowContent.includes('Website Builder') ||
-                             rowContent.includes('Custom Website') ||
-                             rowContent.includes('Squarespace');
+          const isHeaderRow =
+            rowContent.includes("Website Builder") ||
+            rowContent.includes("Custom Website") ||
+            rowContent.includes("Squarespace");
 
           if (isHeaderRow) {
             return <tr {...props}>{children}</tr>;
@@ -239,55 +241,67 @@ export default function BlogContent({ content }: BlogContentProps) {
         },
         th: ({ children, ...props }: any) => {
           const content = String(children);
-          const isVSHeader = content.includes('Website Builder') ||
-                            content.includes('Custom Website') ||
-                            content.includes('Squarespace');
+          const isVSHeader =
+            content.includes("Website Builder") ||
+            content.includes("Custom Website") ||
+            content.includes("Squarespace");
 
           if (isVSHeader) {
-            const isRecommended = content.includes('Custom');
+            const isRecommended = content.includes("Custom");
             return (
               <th
                 className={`px-6 py-4 text-left font-bold text-lg ${
                   isRecommended
-                    ? 'bg-gradient-to-br from-primary to-blue-600 text-white rounded-t-xl shadow-lg'
-                    : 'bg-gradient-to-br from-slate-600 to-slate-700 text-white rounded-t-xl shadow-lg'
+                    ? "bg-gradient-to-br from-primary to-blue-600 text-white rounded-t-xl shadow-lg"
+                    : "bg-gradient-to-br from-slate-600 to-slate-700 text-white rounded-t-xl shadow-lg"
                 }`}
                 {...props}
               >
                 {children}
                 {isRecommended && (
-                  <span className="ml-2 text-xs bg-white/30 px-2 py-0.5 rounded-full">RECOMMENDED</span>
+                  <span className="ml-2 text-xs bg-white/30 px-2 py-0.5 rounded-full">
+                    RECOMMENDED
+                  </span>
                 )}
               </th>
             );
           }
 
           return (
-            <th className="px-6 py-5 text-left font-bold text-white text-base md:text-lg tracking-wide" {...props}>
+            <th
+              className="px-6 py-5 text-left font-bold text-white text-base md:text-lg tracking-wide"
+              {...props}
+            >
               {children}
             </th>
           );
         },
         td: ({ children, ...props }: any) => {
           const content = String(children);
-          const isLabel = content.includes('Cost') ||
-                         content.includes('What You Own') ||
-                         content.includes('Asset Value') ||
-                         content.includes('Break-even');
-          const isNegative = content.includes('Nothing') || content === '$0' || content === 'Never';
-          const isPositive = content.includes('Everything') || content.includes('$10,000');
+          const isLabel =
+            content.includes("Cost") ||
+            content.includes("What You Own") ||
+            content.includes("Asset Value") ||
+            content.includes("Break-even");
+          const isNegative = content.includes("Nothing") || content === "$0" || content === "Never";
+          const isPositive = content.includes("Everything") || content.includes("$10,000");
 
           if (isLabel) {
             return (
-              <td className="px-6 py-4 text-slate-700 font-bold text-base bg-slate-50/80 rounded-l-lg" {...props}>
+              <td
+                className="px-6 py-4 text-slate-700 font-bold text-base bg-slate-50/80 rounded-l-lg"
+                {...props}
+              >
                 {children}
               </td>
             );
           }
 
-          let cellClass = 'px-6 py-4 text-slate-900 text-lg font-semibold bg-white shadow-sm';
-          if (isNegative) cellClass = 'px-6 py-4 text-red-700 text-lg font-bold bg-red-50 shadow-sm';
-          if (isPositive) cellClass = 'px-6 py-4 text-green-700 text-lg font-bold bg-green-50 shadow-sm';
+          let cellClass = "px-6 py-4 text-slate-900 text-lg font-semibold bg-white shadow-sm";
+          if (isNegative)
+            cellClass = "px-6 py-4 text-red-700 text-lg font-bold bg-red-50 shadow-sm";
+          if (isPositive)
+            cellClass = "px-6 py-4 text-green-700 text-lg font-bold bg-green-50 shadow-sm";
 
           return (
             <td className={cellClass} {...props}>

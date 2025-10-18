@@ -1,9 +1,9 @@
-import sharp from 'sharp';
-import { readdir, stat } from 'fs/promises';
-import { join } from 'path';
+import sharp from "sharp";
+import { readdir, stat } from "fs/promises";
+import { join } from "path";
 
-const PUBLIC_DIR = './client/public';
-const TARGET_IMAGES = ['portrait.jpg', 'riverwood.png', 'guardcast.png', 'appturnity.png'];
+const PUBLIC_DIR = "./client/public";
+const TARGET_IMAGES = ["portrait.jpg", "riverwood.png", "guardcast.png", "appturnity.png"];
 
 async function optimizeImage(filename) {
   const inputPath = join(PUBLIC_DIR, filename);
@@ -18,9 +18,9 @@ async function optimizeImage(filename) {
 
   // Determine max width based on image
   let maxWidth = 1200;
-  if (filename.includes('portrait')) {
+  if (filename.includes("portrait")) {
     maxWidth = 800; // Portrait doesn't need to be huge
-  } else if (filename.includes('icon')) {
+  } else if (filename.includes("icon")) {
     maxWidth = 500; // Icons smaller
   }
 
@@ -28,7 +28,7 @@ async function optimizeImage(filename) {
   const resizeOptions = metadata.width > maxWidth ? { width: maxWidth } : {};
 
   // Convert to WebP for better compression
-  const webpFilename = filename.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+  const webpFilename = filename.replace(/\.(jpg|jpeg|png)$/i, ".webp");
   const outputPath = join(PUBLIC_DIR, webpFilename);
 
   await image
@@ -38,15 +38,15 @@ async function optimizeImage(filename) {
 
   const newStats = await stat(outputPath);
   const newSize = newStats.size;
-  const savings = ((originalSize - newSize) / originalSize * 100).toFixed(1);
+  const savings = (((originalSize - newSize) / originalSize) * 100).toFixed(1);
 
   console.log(`New size: ${(newSize / 1024).toFixed(2)} KB (${savings}% smaller)`);
   console.log(`Saved as: ${webpFilename}`);
 }
 
 async function main() {
-  console.log('Starting image optimization...\n');
-  console.log('Converting to WebP format for better compression...');
+  console.log("Starting image optimization...\n");
+  console.log("Converting to WebP format for better compression...");
 
   for (const filename of TARGET_IMAGES) {
     try {
@@ -56,10 +56,10 @@ async function main() {
     }
   }
 
-  console.log('\n✅ Image optimization complete!');
-  console.log('\nNext steps:');
-  console.log('1. Update components to use .webp files');
-  console.log('2. Add <picture> tags with fallbacks for older browsers');
+  console.log("\n✅ Image optimization complete!");
+  console.log("\nNext steps:");
+  console.log("1. Update components to use .webp files");
+  console.log("2. Add <picture> tags with fallbacks for older browsers");
 }
 
 main().catch(console.error);

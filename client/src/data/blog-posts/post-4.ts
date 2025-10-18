@@ -1,10 +1,11 @@
-import { BlogPost } from './types';
+import { BlogPost } from "./types";
 
 const post4: BlogPost = {
   id: "4",
   slug: "website-planning-guide",
   title: "How to Plan Your Website Project: Step-by-Step Guide for 2025",
-  excerpt: "Planning a website? This comprehensive guide walks you through requirements gathering, feature selection, budgeting, and timeline planning to ensure project success.",
+  excerpt:
+    "Planning a website? This comprehensive guide walks you through requirements gathering, feature selection, budgeting, and timeline planning to ensure project success.",
   author: "Appturnity Team",
   date: "2025-01-08",
   readTime: "7 min read",
@@ -12,8 +13,14 @@ const post4: BlogPost = {
   tags: ["website planning", "project planning", "requirements", "strategy"],
   image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&h=630&fit=crop",
   seoTitle: "Website Planning Guide 2025: How to Plan a Successful Website Project",
-  seoDescription: "Complete step-by-step guide to planning your website project. Learn how to gather requirements, set budgets, choose features, and create a timeline that works.",
-  seoKeywords: ["website planning", "website project plan", "how to plan a website", "website requirements"],
+  seoDescription:
+    "Complete step-by-step guide to planning your website project. Learn how to gather requirements, set budgets, choose features, and create a timeline that works.",
+  seoKeywords: [
+    "website planning",
+    "website project plan",
+    "how to plan a website",
+    "website requirements",
+  ],
   content: `# How to Plan Your Website Project for Success
 
 Poor planning is the number one reason website projects fail, go over budget, or miss deadlines. This guide ensures your project succeeds from the start.
@@ -170,7 +177,7 @@ Projects that fail rush into design without planning, have vague or changing req
 
 [Take our quiz to get a personalized project plan and accurate timeline](#quiz)
 
-[Calculate your estimated project costs](#pricing)`
+[Calculate your estimated project costs](#pricing)`,
 };
 
 export default post4;

@@ -2,7 +2,7 @@
  * Utility functions for managing quiz results with expiration
  */
 
-const QUIZ_RESULTS_KEY = 'quizResults';
+const QUIZ_RESULTS_KEY = "quizResults";
 const QUIZ_EXPIRATION_MS = 15 * 60 * 1000; // 15 minutes
 
 interface QuizStorageData {
@@ -24,14 +24,14 @@ export function getQuizResults(): Record<string, string | string[]> | null {
 
     // Check if expired
     if (Date.now() > data.expiresAt) {
-      console.log('Quiz results expired, clearing...');
+      console.log("Quiz results expired, clearing...");
       localStorage.removeItem(QUIZ_RESULTS_KEY);
       return null;
     }
 
     return data.results;
   } catch (error) {
-    console.error('Error reading quiz results:', error);
+    console.error("Error reading quiz results:", error);
     localStorage.removeItem(QUIZ_RESULTS_KEY);
     return null;
   }
@@ -44,7 +44,7 @@ export function saveQuizResults(results: Record<string, string | string[]>): voi
   const quizData: QuizStorageData = {
     results,
     timestamp: Date.now(),
-    expiresAt: Date.now() + QUIZ_EXPIRATION_MS
+    expiresAt: Date.now() + QUIZ_EXPIRATION_MS,
   };
   localStorage.setItem(QUIZ_RESULTS_KEY, JSON.stringify(quizData));
 }

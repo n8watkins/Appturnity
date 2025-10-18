@@ -1,10 +1,11 @@
-import { BlogPost } from './types';
+import { BlogPost } from "./types";
 
 const post7: BlogPost = {
   id: "7",
   slug: "how-to-hire-web-developer-2025",
   title: "How to Hire the Right Web Developer in 2025 — Without Burning $10K and 3 Months",
-  excerpt: "Hiring a developer isn't just a tech decision — it's a business one. Learn the exact process to find, evaluate, and hire the right partner who ships on time and builds something that lasts.",
+  excerpt:
+    "Hiring a developer isn't just a tech decision — it's a business one. Learn the exact process to find, evaluate, and hire the right partner who ships on time and builds something that lasts.",
   author: "Appturnity Team",
   date: "2025-01-18",
   readTime: "12 min read",
@@ -12,8 +13,15 @@ const post7: BlogPost = {
   tags: ["hiring", "web developer", "agency", "vendor selection", "project management"],
   image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&h=630&fit=crop",
   seoTitle: "How to Hire Web Developer 2025: Complete Guide Without Costly Mistakes",
-  seoDescription: "Learn exactly how to hire the right web developer in 2025. Avoid burning $10K and months on the wrong partner. Red flags, green flags, and proven evaluation process.",
-  seoKeywords: ["how to hire web developer", "hiring web developer 2025", "choose web agency", "web developer selection", "avoid bad developers"],
+  seoDescription:
+    "Learn exactly how to hire the right web developer in 2025. Avoid burning $10K and months on the wrong partner. Red flags, green flags, and proven evaluation process.",
+  seoKeywords: [
+    "how to hire web developer",
+    "hiring web developer 2025",
+    "choose web agency",
+    "web developer selection",
+    "avoid bad developers",
+  ],
   content: `# How to Hire the Right Web Developer in 2025
 ## Without Burning $10K and 3 Months on the Wrong Partner
 
@@ -228,7 +236,7 @@ Send them over — we'll tell you which one's built to last.
 
 **[Get Your Free Proposal Review →](#contact)**
 
-*Remember: The right developer becomes a long-term asset. The wrong one becomes an expensive lesson.*`
+*Remember: The right developer becomes a long-term asset. The wrong one becomes an expensive lesson.*`,
 };
 
 export default post7;

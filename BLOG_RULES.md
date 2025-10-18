@@ -26,7 +26,7 @@ Blockquotes serve a specific purpose: highlighting key takeaways or summary stat
 
 When presenting inline lists within a paragraph, use bullet symbols (•) to separate items. For example: "Rankings +20-40% • Conversions +15-25% • Bounce rates -30-50%". For longer lists that need their own space, use standard bullet points with dashes.
 
-##  Layout and Sidebar Content
+## Layout and Sidebar Content
 
 The Quick Stats sidebar has been removed from all articles. Read time appears in the header and sticky title, and category badges are shown in the header as well. Word counts aren't displayed because users don't need this information—they just want to read valuable content.
 

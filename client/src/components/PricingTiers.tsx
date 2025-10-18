@@ -1,5 +1,14 @@
 import { motion } from "framer-motion";
-import { Check, Star, ArrowRight, Sparkles, FileText, Clock, Target, CheckCircle2 } from "lucide-react";
+import {
+  Check,
+  Star,
+  ArrowRight,
+  Sparkles,
+  FileText,
+  Clock,
+  Target,
+  CheckCircle2,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { handleSmoothScroll } from "@/lib/utils";
 import { Link } from "wouter";
@@ -25,9 +34,9 @@ const pricingTiers = [
       "Contact forms",
       "SEO optimization",
       "SSL certificate",
-      "Cloud hosting"
+      "Cloud hosting",
     ],
-    highlight: false
+    highlight: false,
   },
   {
     name: "Professional",
@@ -44,9 +53,9 @@ const pricingTiers = [
       "Multi-step forms",
       "Blog integration",
       "CRM integration",
-      "Dark mode"
+      "Dark mode",
     ],
-    highlight: true
+    highlight: true,
   },
   {
     name: "Enterprise",
@@ -64,9 +73,9 @@ const pricingTiers = [
       "API integrations",
       "Conversion tracking",
       "Advanced animations",
-      "Custom illustrations"
+      "Custom illustrations",
     ],
-    highlight: false
+    highlight: false,
   },
   {
     name: "Premium",
@@ -83,11 +92,11 @@ const pricingTiers = [
       "Custom integrations",
       "Dedicated support",
       "Priority delivery",
-      "White-glove service"
+      "White-glove service",
     ],
     highlight: false,
-    isUnlimited: false
-  }
+    isUnlimited: false,
+  },
 ];
 
 export default function PricingTiers() {
@@ -96,7 +105,7 @@ export default function PricingTiers() {
 
   // Helper function to apply discount to a price string
   const applyDiscount = (priceString: string) => {
-    const price = parseInt(priceString.replace(/\D/g, ''));
+    const price = parseInt(priceString.replace(/\D/g, ""));
     if (isNaN(price)) return priceString;
     const discountedPrice = Math.round(price * (1 - QUIZ_DISCOUNT_PERCENT / 100));
     return `$${discountedPrice.toLocaleString()}`;
@@ -109,37 +118,37 @@ export default function PricingTiers() {
     // Convert page range to numeric value
     const pageRange = data.pageCount;
     let pages = 5; // default
-    if (pageRange === '1-5') pages = 3;
-    else if (pageRange === '6-12') pages = 9;
-    else if (pageRange === '13-20') pages = 16;
-    else if (pageRange === '20+') pages = 25; // Changed from 20 to 25 for Premium tier
-    else if (pageRange === 'not-sure') pages = 8;
+    if (pageRange === "1-5") pages = 3;
+    else if (pageRange === "6-12") pages = 9;
+    else if (pageRange === "13-20") pages = 16;
+    else if (pageRange === "20+")
+      pages = 25; // Changed from 20 to 25 for Premium tier
+    else if (pageRange === "not-sure") pages = 8;
 
     // Count advanced features selected
-    const advancedCount = (data.desiredFeatures && Array.isArray(data.desiredFeatures))
-      ? data.desiredFeatures.length
-      : 0;
+    const advancedCount =
+      data.desiredFeatures && Array.isArray(data.desiredFeatures) ? data.desiredFeatures.length : 0;
 
     // Calculate tier price for each option
     const calculateTierPrice = (tierBase: number, tierIncluded: number) => {
       const paidFeatures = Math.max(0, advancedCount - tierIncluded);
-      return tierBase + (paidFeatures * 500);
+      return tierBase + paidFeatures * 500;
     };
 
     const allTierOptions = [
       { name: "Essential", base: 750, included: 1, maxPages: 5 },
       { name: "Professional", base: 1700, included: 3, maxPages: 12 },
       { name: "Enterprise", base: 3200, included: 7, maxPages: 20 },
-      { name: "Premium", base: 5500, included: 15, maxPages: 999 }
+      { name: "Premium", base: 5500, included: 15, maxPages: 999 },
     ];
 
     // Start with tier based on page count
-    let currentTier = allTierOptions.find(t => pages <= t.maxPages) || allTierOptions[3];
+    let currentTier = allTierOptions.find((t) => pages <= t.maxPages) || allTierOptions[3];
     let bestPrice = calculateTierPrice(currentTier.base, currentTier.included);
     let bestTier = currentTier.name;
 
     // Check all tiers to find the cheapest option
-    allTierOptions.forEach(tier => {
+    allTierOptions.forEach((tier) => {
       const tierPrice = calculateTierPrice(tier.base, tier.included);
       if (tierPrice < bestPrice) {
         bestPrice = tierPrice;
@@ -168,10 +177,10 @@ export default function PricingTiers() {
       setHasQuizDiscount(true);
     };
 
-    window.addEventListener('quizCompleted', handleQuizCompleted as EventListener);
+    window.addEventListener("quizCompleted", handleQuizCompleted as EventListener);
 
     return () => {
-      window.removeEventListener('quizCompleted', handleQuizCompleted as EventListener);
+      window.removeEventListener("quizCompleted", handleQuizCompleted as EventListener);
     };
   }, []);
 
@@ -196,9 +205,7 @@ export default function PricingTiers() {
             >
               <span className="text-2xl">🎉</span>
               <div className="text-left">
-                <div className="text-sm font-bold text-yellow-900">
-                  Quiz Discount Active!
-                </div>
+                <div className="text-sm font-bold text-yellow-900">Quiz Discount Active!</div>
                 <div className="text-xs text-yellow-800">
                   {QUIZ_DISCOUNT_PERCENT}% off all pricing shown below
                 </div>
@@ -221,16 +228,18 @@ export default function PricingTiers() {
               key={tier.name}
               initial={{
                 opacity: 0,
-                y: 0
+                y: 0,
               }}
               whileInView={{
                 opacity: 1,
-                y: (recommendedTier === tier.name || (!recommendedTier && tier.popular)) ? -32 : 0
+                y: recommendedTier === tier.name || (!recommendedTier && tier.popular) ? -32 : 0,
               }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className={`relative ${
-                recommendedTier === tier.name || (!recommendedTier && tier.popular) ? "lg:scale-105" : ""
+                recommendedTier === tier.name || (!recommendedTier && tier.popular)
+                  ? "lg:scale-105"
+                  : ""
               }`}
             >
               {/* Recommended Badge - takes priority when quiz is taken */}
@@ -255,21 +264,17 @@ export default function PricingTiers() {
                   recommendedTier === tier.name
                     ? "border-green-500 shadow-2xl"
                     : tier.highlight
-                    ? "border-primary shadow-2xl"
-                    : "border-slate-200 hover:border-primary/50"
+                      ? "border-primary shadow-2xl"
+                      : "border-slate-200 hover:border-primary/50"
                 }`}
               >
                 {/* Tier Header */}
                 <div className="text-center mb-6">
-                  <h3 className="text-2xl font-bold text-slate-900 mb-2">
-                    {tier.name}
-                  </h3>
+                  <h3 className="text-2xl font-bold text-slate-900 mb-2">{tier.name}</h3>
                   <div className="mb-2">
                     {hasQuizDiscount && tier.price !== "Custom" ? (
                       <div className="space-y-1">
-                        <div className="text-lg text-slate-500 line-through">
-                          {tier.price}
-                        </div>
+                        <div className="text-lg text-slate-500 line-through">{tier.price}</div>
                         <div className="flex items-center justify-center gap-2">
                           <span className="text-4xl font-bold text-primary">
                             {applyDiscount(tier.price)}
@@ -280,9 +285,7 @@ export default function PricingTiers() {
                         </div>
                       </div>
                     ) : (
-                      <span className="text-4xl font-bold text-primary">
-                        {tier.price}
-                      </span>
+                      <span className="text-4xl font-bold text-primary">{tier.price}</span>
                     )}
                     {tier.price !== "Custom" && (
                       <span className="text-slate-600 ml-1">one-time</span>
@@ -299,8 +302,18 @@ export default function PricingTiers() {
                 {/* Quick Stats */}
                 <div className="space-y-2 mb-6 pb-6 border-b border-slate-200">
                   <div className="flex items-center gap-2 text-sm text-slate-700">
-                    <Sparkles className={`h-4 w-4 flex-shrink-0 ${tier.name === "Premium" ? "text-purple-600" : "text-blue-600"}`} />
-                    <span className={tier.name === "Premium" ? "text-purple-700 font-bold" : "text-blue-700 font-bold"}>{tier.advancedCount}</span>
+                    <Sparkles
+                      className={`h-4 w-4 flex-shrink-0 ${tier.name === "Premium" ? "text-purple-600" : "text-blue-600"}`}
+                    />
+                    <span
+                      className={
+                        tier.name === "Premium"
+                          ? "text-purple-700 font-bold"
+                          : "text-blue-700 font-bold"
+                      }
+                    >
+                      {tier.advancedCount}
+                    </span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-slate-700">
                     <Clock className="h-4 w-4 text-slate-500 flex-shrink-0" />
@@ -324,7 +337,9 @@ export default function PricingTiers() {
                       <li
                         key={featureIndex}
                         className={`flex items-start gap-2 ${
-                          isSectionHeader ? "font-semibold text-slate-700 text-xs uppercase tracking-wide" : ""
+                          isSectionHeader
+                            ? "font-semibold text-slate-700 text-xs uppercase tracking-wide"
+                            : ""
                         }`}
                       >
                         {!isSectionHeader && (
