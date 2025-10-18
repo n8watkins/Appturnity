@@ -59,24 +59,60 @@ app.use(
         defaultSrc: ["'self'"],
         scriptSrc: [
           "'self'",
-          "'unsafe-inline'",
+          // Note: Vite in dev mode requires unsafe-eval and unsafe-inline
+          // In production, only external scripts are needed
+          process.env.NODE_ENV === "development" ? "'unsafe-inline'" : "",
+          process.env.NODE_ENV === "development" ? "'unsafe-eval'" : "",
           "https://www.google.com",
           "https://www.gstatic.com",
+          "https://assets.calendly.com",
+        ].filter(Boolean),
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'", // Required for styled-components and Tailwind
+          "https://assets.calendly.com",
         ],
-        styleSrc: ["'self'", "'unsafe-inline'"],
         imgSrc: ["'self'", "data:", "https:", "blob:"],
-        connectSrc: ["'self'", "https://www.google.com"],
-        frameSrc: ["https://www.google.com"],
+        connectSrc: [
+          "'self'",
+          "https://www.google.com",
+          "ws://localhost:*", // Vite HMR in development
+          process.env.NODE_ENV === "development" ? "ws:" : "",
+        ].filter(Boolean),
+        frameSrc: ["https://www.google.com", "https://calendly.com"],
+        fontSrc: ["'self'", "data:"],
       },
     },
   })
 );
 
 // CORS configuration
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? [process.env.FRONTEND_URL || "https://appturnity.web.app"].filter(Boolean)
+    : [
+        "http://localhost:7223",
+        "http://localhost:5173",
+        "http://127.0.0.1:7223",
+        "http://127.0.0.1:5173",
+      ];
+
 app.use(
   cors({
-    origin: process.env.NODE_ENV === "production" ? process.env.FRONTEND_URL || false : true, // Allow all origins in development
+    origin: (origin, callback) => {
+      // Allow requests with no origin (mobile apps, Postman, curl, etc.)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.warn(`Blocked CORS request from unauthorized origin: ${origin}`);
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 

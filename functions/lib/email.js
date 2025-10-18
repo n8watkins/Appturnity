@@ -4,6 +4,7 @@ exports.sendContactEmail = sendContactEmail;
 exports.sendNewsletterSubscription = sendNewsletterSubscription;
 exports.sendChatWidgetEmail = sendChatWidgetEmail;
 const resend_1 = require("resend");
+const html_escaper_1 = require("html-escaper");
 // Get config values from environment variables
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL || "nathancwatkins23@gmail.com";
@@ -211,12 +212,12 @@ async function sendContactEmail(data) {
           }
           <div class="field">
             <span class="label">Name</span>
-            <div class="value">${name}</div>
+            <div class="value">${(0, html_escaper_1.escape)(name)}</div>
           </div>
           <div class="field">
             <span class="label">Email</span>
             <div class="value">
-              <a href="mailto:${email}" style="color: #667eea; text-decoration: none;">${email}</a>
+              <a href="mailto:${(0, html_escaper_1.escape)(email)}" style="color: #667eea; text-decoration: none;">${(0, html_escaper_1.escape)(email)}</a>
             </div>
           </div>
           ${
@@ -224,17 +225,17 @@ async function sendContactEmail(data) {
               ? `
           <div class="field">
             <span class="label">Company</span>
-            <div class="value">${company}</div>
+            <div class="value">${(0, html_escaper_1.escape)(company)}</div>
           </div>
           `
               : ""
           }
           <div class="field">
             <span class="label">Message</span>
-            <div class="value message-value">${message}</div>
+            <div class="value message-value">${(0, html_escaper_1.escape)(message)}</div>
           </div>
           <div style="text-align: center; margin-top: 30px;">
-            <a href="mailto:${email}" class="cta-button">Reply to ${name}</a>
+            <a href="mailto:${(0, html_escaper_1.escape)(email)}" class="cta-button">Reply to ${(0, html_escaper_1.escape)(name)}</a>
           </div>
         </div>
         <div class="footer">
@@ -375,7 +376,7 @@ async function sendNewsletterSubscription(data) {
           <div class="field">
             <span class="label">Email</span>
             <div class="value">
-              <a href="mailto:${email}" style="color: #667eea; text-decoration: none;">${email}</a>
+              <a href="mailto:${(0, html_escaper_1.escape)(email)}" style="color: #667eea; text-decoration: none;">${(0, html_escaper_1.escape)(email)}</a>
             </div>
           </div>
           <div class="field">
@@ -516,12 +517,12 @@ async function sendChatWidgetEmail(data) {
         <div class="content">
           <div class="field">
             <span class="label">Name</span>
-            <div class="value">${name}</div>
+            <div class="value">${(0, html_escaper_1.escape)(name)}</div>
           </div>
           <div class="field">
             <span class="label">Email</span>
             <div class="value">
-              <a href="mailto:${email}" style="color: #667eea; text-decoration: none;">${email}</a>
+              <a href="mailto:${(0, html_escaper_1.escape)(email)}" style="color: #667eea; text-decoration: none;">${(0, html_escaper_1.escape)(email)}</a>
             </div>
           </div>
           ${
@@ -530,7 +531,7 @@ async function sendChatWidgetEmail(data) {
           <div class="field">
             <span class="label">Interested In</span>
             <div class="value">
-              ${suggestions.map((s) => `<span class="badge">${s}</span>`).join("")}
+              ${suggestions.map((s) => `<span class="badge">${(0, html_escaper_1.escape)(s)}</span>`).join("")}
             </div>
           </div>
           `
@@ -538,10 +539,10 @@ async function sendChatWidgetEmail(data) {
           }
           <div class="field">
             <span class="label">Message</span>
-            <div class="value message-value">${message}</div>
+            <div class="value message-value">${(0, html_escaper_1.escape)(message)}</div>
           </div>
           <div style="text-align: center; margin-top: 30px;">
-            <a href="mailto:${email}" class="cta-button">Reply to ${name}</a>
+            <a href="mailto:${(0, html_escaper_1.escape)(email)}" class="cta-button">Reply to ${(0, html_escaper_1.escape)(name)}</a>
           </div>
         </div>
         <div class="footer">

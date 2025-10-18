@@ -43,11 +43,18 @@ const newsletterSchema = zod_1.z.object({
 async function verifyRecaptcha(token) {
   const secretKey = RECAPTCHA_SECRET_KEY;
   if (!secretKey) {
-    console.warn("RECAPTCHA_SECRET_KEY not configured, skipping verification");
-    return true; // Allow in development if not configured
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("RECAPTCHA_SECRET_KEY is required in production");
+    }
+    console.warn("RECAPTCHA_SECRET_KEY not configured, skipping verification (DEV ONLY)");
+    return true;
   }
-  // In development mode, allow test tokens for email testing
-  if (process.env.NODE_ENV === "development" && token === "test_token") {
+  // In development mode, allow test tokens for email testing ONLY if explicitly enabled
+  if (
+    process.env.NODE_ENV === "development" &&
+    process.env.ALLOW_TEST_RECAPTCHA === "true" &&
+    token === "test_token"
+  ) {
     console.log("Development mode: accepting test_token for email testing");
     return true;
   }

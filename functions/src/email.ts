@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { escape as escapeHtml } from "html-escaper";
 
 // Get config values from environment variables
 const RESEND_API_KEY: string | undefined = process.env.RESEND_API_KEY;
@@ -242,12 +243,12 @@ export async function sendContactEmail(data: ContactFormData) {
           }
           <div class="field">
             <span class="label">Name</span>
-            <div class="value">${name}</div>
+            <div class="value">${escapeHtml(name)}</div>
           </div>
           <div class="field">
             <span class="label">Email</span>
             <div class="value">
-              <a href="mailto:${email}" style="color: #667eea; text-decoration: none;">${email}</a>
+              <a href="mailto:${escapeHtml(email)}" style="color: #667eea; text-decoration: none;">${escapeHtml(email)}</a>
             </div>
           </div>
           ${
@@ -255,17 +256,17 @@ export async function sendContactEmail(data: ContactFormData) {
               ? `
           <div class="field">
             <span class="label">Company</span>
-            <div class="value">${company}</div>
+            <div class="value">${escapeHtml(company)}</div>
           </div>
           `
               : ""
           }
           <div class="field">
             <span class="label">Message</span>
-            <div class="value message-value">${message}</div>
+            <div class="value message-value">${escapeHtml(message)}</div>
           </div>
           <div style="text-align: center; margin-top: 30px;">
-            <a href="mailto:${email}" class="cta-button">Reply to ${name}</a>
+            <a href="mailto:${escapeHtml(email)}" class="cta-button">Reply to ${escapeHtml(name)}</a>
           </div>
         </div>
         <div class="footer">
@@ -413,7 +414,7 @@ export async function sendNewsletterSubscription(data: NewsletterData) {
           <div class="field">
             <span class="label">Email</span>
             <div class="value">
-              <a href="mailto:${email}" style="color: #667eea; text-decoration: none;">${email}</a>
+              <a href="mailto:${escapeHtml(email)}" style="color: #667eea; text-decoration: none;">${escapeHtml(email)}</a>
             </div>
           </div>
           <div class="field">
@@ -560,12 +561,12 @@ export async function sendChatWidgetEmail(data: ChatWidgetData) {
         <div class="content">
           <div class="field">
             <span class="label">Name</span>
-            <div class="value">${name}</div>
+            <div class="value">${escapeHtml(name)}</div>
           </div>
           <div class="field">
             <span class="label">Email</span>
             <div class="value">
-              <a href="mailto:${email}" style="color: #667eea; text-decoration: none;">${email}</a>
+              <a href="mailto:${escapeHtml(email)}" style="color: #667eea; text-decoration: none;">${escapeHtml(email)}</a>
             </div>
           </div>
           ${
@@ -574,7 +575,7 @@ export async function sendChatWidgetEmail(data: ChatWidgetData) {
           <div class="field">
             <span class="label">Interested In</span>
             <div class="value">
-              ${suggestions.map((s) => `<span class="badge">${s}</span>`).join("")}
+              ${suggestions.map((s) => `<span class="badge">${escapeHtml(s)}</span>`).join("")}
             </div>
           </div>
           `
@@ -582,10 +583,10 @@ export async function sendChatWidgetEmail(data: ChatWidgetData) {
           }
           <div class="field">
             <span class="label">Message</span>
-            <div class="value message-value">${message}</div>
+            <div class="value message-value">${escapeHtml(message)}</div>
           </div>
           <div style="text-align: center; margin-top: 30px;">
-            <a href="mailto:${email}" class="cta-button">Reply to ${name}</a>
+            <a href="mailto:${escapeHtml(email)}" class="cta-button">Reply to ${escapeHtml(name)}</a>
           </div>
         </div>
         <div class="footer">
