@@ -9,6 +9,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { Calendar, Mail, Phone } from "lucide-react";
 import { CalendlyButton } from "@/components/ui/calendly-embed";
+import type { ProjectDetails, CalculatorData } from "@/types";
 
 import {
   Form,
@@ -37,7 +38,7 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [textareaHeight, setTextareaHeight] = useState("240px"); // Increased default height
-  const [projectDetails, setProjectDetails] = useState<any>(null); // Store quiz/calculator data
+  const [projectDetails, setProjectDetails] = useState<ProjectDetails | null>(null); // Store quiz/calculator data
   const { toast } = useToast();
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [, setLocation] = useLocation();
@@ -101,7 +102,7 @@ export default function Contact() {
       const recaptchaToken = await executeRecaptcha("contact_form");
 
       // Prepare request data
-      const requestData: any = {
+      const requestData = {
         ...data,
         recaptchaToken,
       };
@@ -125,7 +126,7 @@ export default function Contact() {
   }
 
   // Format and populate contact message from calculator data
-  const formatAndPopulateMessage = (data: any, source: "calculator") => {
+  const formatAndPopulateMessage = (data: CalculatorData, source: "calculator") => {
     // Format calculator data into a message
     const sections = [];
 
