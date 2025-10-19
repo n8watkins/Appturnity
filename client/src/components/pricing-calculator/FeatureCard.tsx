@@ -60,7 +60,7 @@ export function FeatureCard({ feature, onToggle, index }: FeatureCardProps) {
             </h4>
           </div>
           <p
-            className={`hidden md:block text-sm leading-snug pl-7 ${
+            className={`hidden lg:block text-sm leading-snug pl-7 ${
               isDisabled ? "text-emerald-700" : "text-slate-600"
             }`}
           >
