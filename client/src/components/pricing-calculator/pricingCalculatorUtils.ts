@@ -19,50 +19,58 @@ export interface TierInfo {
 }
 
 /**
+ * Calculate optimal tier - finds the cheapest tier that supports the page count and features
+ */
+export function calculateOptimalTier(
+  pageCount: number,
+  advancedFeaturesCount: number
+): { name: string; base: number; included: number } {
+  const allTierOptions = [
+    { name: "Essential", base: 750, included: 1, maxPages: 5 },
+    { name: "Professional", base: 1700, included: 3, maxPages: 12 },
+    { name: "Growth", base: 2450, included: 7, maxPages: 20 },
+    {
+      name: "Premium",
+      base: 3500 + (pageCount > 20 ? (pageCount - 20) * 100 : 0),
+      included: 15,
+      maxPages: 999,
+    },
+  ];
+
+  // Filter tiers that support the page count
+  const compatibleTiers = allTierOptions.filter((tier) => pageCount <= tier.maxPages);
+
+  // Find the cheapest compatible tier
+  let bestTier = compatibleTiers[0];
+  let bestCost = bestTier.base + Math.max(0, advancedFeaturesCount - bestTier.included) * 500;
+
+  compatibleTiers.forEach((tier) => {
+    const tierCost = tier.base + Math.max(0, advancedFeaturesCount - tier.included) * 500;
+    if (tierCost < bestCost) {
+      bestCost = tierCost;
+      bestTier = tier;
+    }
+  });
+
+  return bestTier;
+}
+
+/**
  * Calculate base price and tier information based on page count and features
+ * Uses optimal tier calculation to find the cheapest option
  */
 export function calculateTierInfo(pageCount: number, features: FeatureWithEnabled[]): TierInfo {
   const advancedCount = features.filter((f) => f.enabled && !f.isAlwaysIncluded).length;
 
-  // Determine base price and tier based on page count
-  let price: number;
-  let tier: string;
-  let includedFeatures: number;
-
-  if (pageCount <= 5) {
-    price = 750; // Base price for Essential tier
-    tier = "Essential";
-    includedFeatures = 1; // +1 advanced feature
-  } else if (pageCount <= 12) {
-    price = 1700; // Base price for Professional tier
-    tier = "Professional";
-    includedFeatures = 3; // +3 advanced features
-  } else if (pageCount <= 20) {
-    price = 2450; // Base price for Growth tier
-    tier = "Growth";
-    includedFeatures = 7; // +7 advanced features
-  } else {
-    price = 3500 + (pageCount - 20) * 100; // Premium tier (dynamic pricing)
-    tier = "Premium";
-    includedFeatures = 15; // +15 advanced features
-  }
-
-  // Determine actual tier based on advanced features
-  let actualTier = tier;
-  if (advancedCount > 7) {
-    actualTier = "Growth";
-  } else if (advancedCount > 3) {
-    actualTier = "Professional";
-  } else if (advancedCount > 1) {
-    actualTier = "Essential";
-  }
+  // Calculate optimal tier (cheapest option that supports page count and features)
+  const optimalTier = calculateOptimalTier(pageCount, advancedCount);
 
   return {
-    basePrice: price,
-    pageTier: tier,
-    includedAdvancedFeatures: includedFeatures,
-    actualTier,
-    originalBasePrice: price,
+    basePrice: optimalTier.base,
+    pageTier: optimalTier.name,
+    includedAdvancedFeatures: optimalTier.included,
+    actualTier: optimalTier.name,
+    originalBasePrice: optimalTier.base,
   };
 }
 

@@ -20,6 +20,7 @@ import {
   PricingSummary,
   calculateTierInfo,
   calculateTotalPrice,
+  calculateOptimalTier,
   type FeatureWithEnabled,
 } from "./pricing-calculator";
 
@@ -74,35 +75,7 @@ export default function PricingCalculator() {
   // Calculate optimal tier recommendation (cheapest tier that supports page count)
   const recommendedTier = useMemo(() => {
     const advancedCount = features.filter((f) => f.enabled && !f.isAlwaysIncluded).length;
-
-    const allTierOptions = [
-      { name: "Essential", base: 750, included: 1, maxPages: 5 },
-      { name: "Professional", base: 1700, included: 3, maxPages: 12 },
-      { name: "Growth", base: 2450, included: 7, maxPages: 20 },
-      {
-        name: "Premium",
-        base: 3500 + (pages > 20 ? (pages - 20) * 100 : 0),
-        included: 15,
-        maxPages: 999,
-      },
-    ];
-
-    // Filter tiers that support the page count
-    const compatibleTiers = allTierOptions.filter((tier) => pages <= tier.maxPages);
-
-    // Find the cheapest compatible tier
-    let bestTier = compatibleTiers[0];
-    let bestCost = bestTier.base + Math.max(0, advancedCount - bestTier.included) * 500;
-
-    compatibleTiers.forEach((tier) => {
-      const tierCost = tier.base + Math.max(0, advancedCount - tier.included) * 500;
-      if (tierCost < bestCost) {
-        bestCost = tierCost;
-        bestTier = tier;
-      }
-    });
-
-    return bestTier.name;
+    return calculateOptimalTier(pages, advancedCount).name;
   }, [pages, features]);
 
   // Feature management
@@ -296,6 +269,7 @@ export default function PricingCalculator() {
                     features={features}
                     users={users}
                     totalPrice={totalPrice}
+                    totalPriceBeforeDiscount={totalPriceBeforeDiscount}
                     timeline={timeline}
                     prefilledFromQuiz={prefilledFromQuiz}
                     quizDiscount={quizDiscount}

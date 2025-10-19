@@ -15,6 +15,7 @@ interface PricingSummaryProps {
   features: FeatureWithEnabled[];
   users: number;
   totalPrice: number;
+  totalPriceBeforeDiscount: number;
   timeline: string;
   prefilledFromQuiz: boolean;
   quizDiscount?: number;
@@ -26,6 +27,7 @@ export function PricingSummary({
   features,
   users,
   totalPrice,
+  totalPriceBeforeDiscount,
   timeline,
   prefilledFromQuiz,
   quizDiscount = 0,
@@ -140,7 +142,7 @@ export function PricingSummary({
               <div className="text-right">
                 {prefilledFromQuiz && quizDiscount > 0 && (
                   <div className="text-sm text-green-700 line-through mb-1">
-                    ${basePrice.toLocaleString()}
+                    ${totalPriceBeforeDiscount.toLocaleString()}
                   </div>
                 )}
                 <PriceDisplay price={totalPrice} size="lg" />

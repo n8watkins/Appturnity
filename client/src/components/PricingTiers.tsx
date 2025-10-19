@@ -14,6 +14,7 @@ import { handleSmoothScroll } from "@/lib/utils";
 import { Link } from "wouter";
 import { useState, useEffect } from "react";
 import { getQuizResults } from "@/lib/quizStorage";
+import { calculateOptimalTier } from "@/components/pricing-calculator";
 
 // Quiz discount percentage
 const QUIZ_DISCOUNT_PERCENT = 10;
@@ -128,34 +129,8 @@ export default function PricingTiers() {
     const advancedCount =
       data.desiredFeatures && Array.isArray(data.desiredFeatures) ? data.desiredFeatures.length : 0;
 
-    const allTierOptions = [
-      { name: "Essential", base: 750, included: 1, maxPages: 5 },
-      { name: "Professional", base: 1700, included: 3, maxPages: 12 },
-      { name: "Growth", base: 2450, included: 7, maxPages: 20 },
-      {
-        name: "Premium",
-        base: 3500 + (pages > 20 ? (pages - 20) * 100 : 0),
-        included: 15,
-        maxPages: 999,
-      },
-    ];
-
-    // Filter tiers that support the page count
-    const compatibleTiers = allTierOptions.filter((tier) => pages <= tier.maxPages);
-
-    // Find the cheapest compatible tier
-    let bestTier = compatibleTiers[0];
-    let bestCost = bestTier.base + Math.max(0, advancedCount - bestTier.included) * 500;
-
-    compatibleTiers.forEach((tier) => {
-      const tierCost = tier.base + Math.max(0, advancedCount - tier.included) * 500;
-      if (tierCost < bestCost) {
-        bestCost = tierCost;
-        bestTier = tier;
-      }
-    });
-
-    return bestTier.name;
+    // Use shared optimal tier calculation
+    return calculateOptimalTier(pages, advancedCount).name;
   };
 
   // Determine recommended tier from quiz results
