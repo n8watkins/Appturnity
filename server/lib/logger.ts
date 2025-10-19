@@ -42,11 +42,14 @@ class Logger {
       error: "❌",
     };
 
-    let output = `${levelEmoji[level]} [${timestamp}] ${message}`;
+    let output = `${levelEmoji[level]} ${message}`;
 
     if (requestId) {
       output += ` [reqId: ${requestId}]`;
     }
+
+    // Add timestamp at the end for less clutter
+    output += ` [${timestamp}]`;
 
     if (metadata && Object.keys(metadata).length > 0) {
       output += `\n${JSON.stringify(metadata, null, 2)}`;
