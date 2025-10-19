@@ -243,11 +243,13 @@ export default function PricingCalculator() {
 
         <div className="max-w-7xl mx-auto">
           <Card className="shadow-lg border border-slate-300 bg-white">
-            <CardContent className="p-6 md:p-8">
-              <div className="grid md:grid-cols-[2fr_1fr] gap-8">
+            <CardContent className="p-4 sm:p-6 md:p-8">
+              <div className="grid md:grid-cols-[2fr_1fr] gap-6 md:gap-8">
                 {/* Left Column */}
                 <div>
-                  <h3 className="text-2xl font-bold text-slate-900 mb-6">Configure Your Project</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 sm:mb-6">
+                    Configure Your Project
+                  </h3>
 
                   <FeatureSliders
                     pages={pages}
