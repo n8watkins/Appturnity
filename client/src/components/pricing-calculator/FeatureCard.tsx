@@ -29,7 +29,7 @@ export function FeatureCard({ feature, onToggle, index }: FeatureCardProps) {
         type="button"
         onClick={onToggle}
         disabled={isDisabled}
-        className={`w-full text-left p-2.5 sm:p-3.5 rounded-lg border-2 transition-all ${
+        className={`w-full text-left p-2 sm:p-3 lg:p-3.5 rounded-md sm:rounded-lg border-2 transition-all ${
           isDisabled
             ? "border-emerald-300 bg-emerald-50 cursor-default"
             : feature.enabled
@@ -38,9 +38,9 @@ export function FeatureCard({ feature, onToggle, index }: FeatureCardProps) {
         }`}
       >
         <div className="flex flex-col gap-1 sm:gap-2">
-          <div className="flex items-start gap-2 sm:gap-2.5">
+          <div className="flex items-start gap-1.5 sm:gap-2 lg:gap-2.5">
             <div
-              className={`mt-0.5 w-5 h-5 rounded border flex items-center justify-center flex-shrink-0 ${
+              className={`mt-0.5 w-4 h-4 sm:w-5 sm:h-5 rounded border flex items-center justify-center flex-shrink-0 ${
                 isDisabled
                   ? "bg-emerald-600 border-emerald-600"
                   : feature.enabled
@@ -48,11 +48,13 @@ export function FeatureCard({ feature, onToggle, index }: FeatureCardProps) {
                     : "border-slate-400"
               }`}
             >
-              {(feature.enabled || isDisabled) && <Check className="h-3.5 w-3.5 text-white" />}
+              {(feature.enabled || isDisabled) && (
+                <Check className="h-2.5 w-2.5 sm:h-3.5 sm:w-3.5 text-white" />
+              )}
             </div>
 
             <h4
-              className={`font-semibold text-sm sm:text-base leading-tight flex-grow ${
+              className={`font-semibold text-xs sm:text-sm lg:text-base leading-tight flex-grow ${
                 isDisabled ? "text-emerald-800" : "text-slate-900"
               }`}
             >

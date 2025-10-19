@@ -243,11 +243,11 @@ export default function PricingCalculator() {
 
         <div className="max-w-7xl mx-auto">
           <Card className="shadow-lg border border-slate-300 bg-white">
-            <CardContent className="p-4 sm:p-6 md:p-8">
-              <div className="grid md:grid-cols-[2fr_1fr] gap-6 md:gap-8">
+            <CardContent className="p-3 sm:p-5 md:p-6 lg:p-8">
+              <div className="grid md:grid-cols-[2fr_1fr] gap-4 sm:gap-6 md:gap-8">
                 {/* Left Column */}
                 <div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 sm:mb-6">
+                  <h3 className="text-base sm:text-xl lg:text-2xl font-bold text-slate-900 mb-3 sm:mb-4 lg:mb-6">
                     Configure Your Project
                   </h3>
 
@@ -279,7 +279,7 @@ export default function PricingCalculator() {
                   />
 
                   {/* Action Buttons */}
-                  <div className="space-y-3 mt-6">
+                  <div className="space-y-2 sm:space-y-3 mt-4 sm:mt-6">
                     <Button onClick={handleLockInQuote} size="lg" className="w-full">
                       Lock in Your Quote Now
                     </Button>
@@ -291,7 +291,7 @@ export default function PricingCalculator() {
                     >
                       See Pricing Options
                     </Button>
-                    <p className="text-center text-xs text-slate-500 mt-2">
+                    <p className="text-center text-xs text-slate-500 mt-1.5 sm:mt-2">
                       No commitment • Free consultation
                     </p>
                   </div>
