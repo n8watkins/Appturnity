@@ -100,19 +100,19 @@ export function ComparisonReport({
               </span>
             </div>
 
-            {/* Advanced features */}
+            {/* Advanced features - all cost $500 */}
             {includedFeatures.length > 0 &&
               includedFeatures.map((f) => (
                 <div key={f.id} className="flex justify-between text-xs">
                   <span className="text-green-700">• {f.name} (included)</span>
-                  <span className="text-green-600 line-through">${f.price}</span>
+                  <span className="text-green-600 line-through">$500</span>
                 </div>
               ))}
             {paidFeatures.length > 0 &&
               paidFeatures.map((f) => (
                 <div key={f.id} className="flex justify-between text-xs">
                   <span className="text-green-700">• {f.name}</span>
-                  <span className="text-green-900 font-semibold">+${f.price}</span>
+                  <span className="text-green-900 font-semibold">+$500</span>
                 </div>
               ))}
 

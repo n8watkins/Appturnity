@@ -2,6 +2,7 @@
  * Feature Breakdown Component
  *
  * Displays a list of features separated into included and paid add-ons
+ * All features cost $500 flat
  */
 
 import type { FeatureWithEnabled } from "./pricingCalculatorUtils";
@@ -11,17 +12,19 @@ interface FeatureBreakdownProps {
   includedAdvancedFeatures: number;
 }
 
+const FEATURE_PRICE = 500; // All advanced features cost $500
+
 export function FeatureBreakdown({ features, includedAdvancedFeatures }: FeatureBreakdownProps) {
   const advancedFeatures = features.filter((f) => f.enabled && f.price > 0);
-  const sortedByPrice = [...advancedFeatures].sort((a, b) => a.price - b.price);
 
-  const includedFeatures = sortedByPrice.filter((f, index) => {
+  // No need to sort by price since all cost the same
+  const includedFeatures = advancedFeatures.filter((f, index) => {
     const isIncluded = includedAdvancedFeatures !== Infinity && index < includedAdvancedFeatures;
     const allIncluded = includedAdvancedFeatures === Infinity;
     return isIncluded || allIncluded;
   });
 
-  const paidFeatures = sortedByPrice.filter((f, index) => {
+  const paidFeatures = advancedFeatures.filter((f, index) => {
     const isIncluded = includedAdvancedFeatures !== Infinity && index < includedAdvancedFeatures;
     const allIncluded = includedAdvancedFeatures === Infinity;
     return !isIncluded && !allIncluded;
@@ -39,7 +42,7 @@ export function FeatureBreakdown({ features, includedAdvancedFeatures }: Feature
                 <span className="text-green-700 text-xs ml-1">(included)</span>
               </span>
               <span className="text-base font-semibold ml-2 whitespace-nowrap line-through text-green-600">
-                ${f.price.toLocaleString()}
+                ${FEATURE_PRICE.toLocaleString()}
               </span>
             </div>
           ))}
@@ -57,7 +60,7 @@ export function FeatureBreakdown({ features, includedAdvancedFeatures }: Feature
               <div key={f.id} className="flex justify-between items-start py-0.5">
                 <span className="text-sm flex-grow">{f.name}</span>
                 <span className="text-base font-semibold ml-2 whitespace-nowrap">
-                  +${f.price.toLocaleString()}
+                  +${FEATURE_PRICE.toLocaleString()}
                 </span>
               </div>
             ))}
