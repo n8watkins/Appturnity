@@ -1,7 +1,8 @@
 import { BlogMetadata } from "./blogMetadata";
+import type { ComponentType } from "react";
 
 export interface BlogPost extends BlogMetadata {
-  content: string;
+  content: string | ComponentType;
 }
 
 // Map of blog post IDs to their lazy-loaded content
@@ -25,7 +26,7 @@ export async function loadBlogPost(slug: string): Promise<BlogPost | null> {
 
     return null;
   } catch (error) {
-    console.error("Error loading blog post:", error);
+    console.debug("Error loading blog post:", error);
     return null;
   }
 }

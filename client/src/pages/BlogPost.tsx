@@ -182,7 +182,8 @@ export default function BlogPost() {
     },
     keywords: post.seoKeywords.join(", "),
     articleSection: post.category,
-    wordCount: contentIsString ? contentString.split(/\s+/).length : 0,
+    wordCount:
+      contentIsString && typeof contentString === "string" ? contentString.split(/\s+/).length : 0,
   };
 
   return (
@@ -311,44 +312,46 @@ export default function BlogPost() {
           <aside className="lg:col-span-3 space-y-6">
             <div className="sticky top-40">
               {/* Table of Contents - Only for markdown posts */}
-              {contentIsString && contentString.match(/^## .+$/gm) && (
-                <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                  <h3 className="font-bold text-xl text-slate-900 mb-5 flex items-center gap-2">
-                    <span className="text-primary text-2xl">≡</span>
-                    Table of Contents
-                  </h3>
-                  <nav className="space-y-2 max-h-[60vh] overflow-y-auto pr-2">
-                    {contentString.match(/^## .+$/gm)?.map((heading, idx) => {
-                      const text = heading.slice(3);
-                      const id = text
-                        .toLowerCase()
-                        .replace(/[^a-z0-9]+/g, "-")
-                        .replace(/^-|-$/g, "");
-                      const isActive = activeSection === id;
-                      return (
-                        <a
-                          key={idx}
-                          href={`#${id}`}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            document.getElementById(id)?.scrollIntoView({
-                              behavior: "smooth",
-                              block: "start",
-                            });
-                          }}
-                          className={`block text-base transition-all py-2.5 px-3 rounded-lg border-l-3 leading-snug ${
-                            isActive
-                              ? "text-primary bg-blue-50 pl-4 border-primary font-semibold"
-                              : "text-slate-600 hover:text-primary hover:bg-blue-50/50 hover:pl-4 border-transparent hover:border-primary"
-                          }`}
-                        >
-                          {text}
-                        </a>
-                      );
-                    })}
-                  </nav>
-                </div>
-              )}
+              {contentIsString &&
+                typeof contentString === "string" &&
+                contentString.match(/^## .+$/gm) && (
+                  <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                    <h3 className="font-bold text-xl text-slate-900 mb-5 flex items-center gap-2">
+                      <span className="text-primary text-2xl">≡</span>
+                      Table of Contents
+                    </h3>
+                    <nav className="space-y-2 max-h-[60vh] overflow-y-auto pr-2">
+                      {contentString.match(/^## .+$/gm)?.map((heading: string, idx: number) => {
+                        const text = heading.slice(3);
+                        const id = text
+                          .toLowerCase()
+                          .replace(/[^a-z0-9]+/g, "-")
+                          .replace(/^-|-$/g, "");
+                        const isActive = activeSection === id;
+                        return (
+                          <a
+                            key={idx}
+                            href={`#${id}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              document.getElementById(id)?.scrollIntoView({
+                                behavior: "smooth",
+                                block: "start",
+                              });
+                            }}
+                            className={`block text-base transition-all py-2.5 px-3 rounded-lg border-l-3 leading-snug ${
+                              isActive
+                                ? "text-primary bg-blue-50 pl-4 border-primary font-semibold"
+                                : "text-slate-600 hover:text-primary hover:bg-blue-50/50 hover:pl-4 border-transparent hover:border-primary"
+                            }`}
+                          >
+                            {text}
+                          </a>
+                        );
+                      })}
+                    </nav>
+                  </div>
+                )}
             </div>
           </aside>
 

@@ -4,6 +4,12 @@ import { z } from "zod";
 import { sendContactEmail, sendChatWidgetEmail, sendNewsletterSubscription } from "./email";
 import { logger } from "./lib/logger";
 import { sendErrorNotification } from "./lib/errorNotification";
+import {
+  ValidationError,
+  ExternalServiceError,
+  getErrorMessage,
+  getErrorStatusCode,
+} from "./lib/errors";
 
 const contactFormSchema = z.object({
   name: z.string().min(2),
@@ -98,7 +104,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       return res.status(200).json({ success: true, message: "Form submitted successfully" });
     } catch (error) {
+      // Handle validation errors from Zod
       if (error instanceof z.ZodError) {
+        logger.debug("Validation error on contact form", { errors: error.errors }, req.requestId);
         return res.status(400).json({
           success: false,
           message: "Validation failed",
@@ -106,9 +114,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
+      // Handle custom application errors
+      if (error instanceof ValidationError) {
+        logger.debug("Validation error", { message: error.message }, req.requestId);
+        return res.status(error.statusCode).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
+      if (error instanceof ExternalServiceError) {
+        logger.error(
+          `External service error: ${error.service}`,
+          error,
+          { service: error.service },
+          req.requestId
+        );
+        return res.status(error.statusCode).json({
+          success: false,
+          message: "Service temporarily unavailable. Please try again later.",
+        });
+      }
+
+      // Log unexpected errors
       logger.error("Error processing contact form", error as Error, undefined, req.requestId);
 
-      return res.status(500).json({
+      return res.status(getErrorStatusCode(error)).json({
         success: false,
         message: "An error occurred while processing your request",
       });

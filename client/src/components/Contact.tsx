@@ -173,7 +173,9 @@ export default function Contact() {
         });
 
       if (featureNames.length > 0) {
-        sections.push(`Advanced Features:\n${featureNames.map((f) => `  • ${f}`).join("\n")}`);
+        sections.push(
+          `Advanced Features:\n${featureNames.map((f: string) => `  • ${f}`).join("\n")}`
+        );
       }
     }
 

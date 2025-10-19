@@ -34,7 +34,7 @@ export function getQuizResults(): Record<string, string | string[]> | null {
     const validationResult = quizStorageSchema.safeParse(parsed);
 
     if (!validationResult.success) {
-      console.warn("Invalid quiz data format, clearing...", validationResult.error);
+      console.debug("Invalid quiz data format, clearing...", validationResult.error);
       localStorage.removeItem(QUIZ_RESULTS_KEY);
       return null;
     }
@@ -43,14 +43,14 @@ export function getQuizResults(): Record<string, string | string[]> | null {
 
     // Check if expired
     if (Date.now() > data.expiresAt) {
-      console.log("Quiz results expired, clearing...");
+      console.debug("Quiz results expired, clearing...");
       localStorage.removeItem(QUIZ_RESULTS_KEY);
       return null;
     }
 
     return data.results;
   } catch (error) {
-    console.error("Error reading quiz results:", error);
+    console.debug("Error reading quiz results:", error);
     localStorage.removeItem(QUIZ_RESULTS_KEY);
     return null;
   }

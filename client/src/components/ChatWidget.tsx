@@ -101,7 +101,7 @@ export default function ChatWidget() {
     fetch("/lottie-check.json")
       .then((r) => r.json())
       .then(setSendAnimData)
-      .catch(console.error);
+      .catch((error) => console.debug("reCAPTCHA load error:", error));
   }, []);
 
   // — form helpers —
@@ -169,7 +169,7 @@ export default function ChatWidget() {
       const data = await response.json();
 
       if (!response.ok) {
-        console.error("Failed to send message:", data.message);
+        console.debug("Failed to send message:", data.message);
         toast({
           title: "Something went wrong",
           description: data.message || "Your message couldn't be sent. Please try again.",
@@ -183,7 +183,7 @@ export default function ChatWidget() {
       // Only set message sent if successful
       setMessageSent(true);
     } catch (error) {
-      console.error("Error sending message:", error);
+      console.debug("Error sending message:", error);
       toast({
         title: "Something went wrong",
         description: "Your message couldn't be sent. Please try again.",

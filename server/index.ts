@@ -107,7 +107,7 @@ app.use(
       if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        console.warn(`Blocked CORS request from unauthorized origin: ${origin}`);
+        logger.warn(`Blocked CORS request from unauthorized origin: ${origin}`);
         callback(new Error("Not allowed by CORS"));
       }
     },

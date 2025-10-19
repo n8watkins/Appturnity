@@ -3,6 +3,33 @@
  *
  * Analyzes quiz answers to provide personalized solution recommendations
  * and calculate lead priority scores for backend processing.
+ *
+ * The recommendation algorithm uses a multi-factor scoring system:
+ *
+ * 1. **Budget Score** (1-4 points):
+ *    - Budget-conscious: 1 point
+ *    - Standard: 2 points
+ *    - Premium: 3 points
+ *    - Enterprise/No limit: 4 points
+ *
+ * 2. **Urgency Score** (1-4 points):
+ *    - Flexible timeline: 1 point
+ *    - Planning phase: 2 points
+ *    - Normal timeline: 3 points
+ *    - Urgent: 4 points
+ *
+ * 3. **Complexity Score** (1-4 points):
+ *    - Based on project scope, feature requirements, and existing assets
+ *    - Simple landing page: 1 point
+ *    - Multi-page website: 2 points
+ *    - Complex features: 3 points
+ *    - Custom application: 4 points
+ *
+ * **Priority Score Formula**:
+ * Priority = (Budget × 0.4) + (Urgency × 0.35) + (Complexity × 0.25)
+ *
+ * Weighted to prioritize budget (40%), urgency (35%), and complexity (25%)
+ * for optimal lead qualification.
  */
 
 // Quiz discount percentage
@@ -44,6 +71,11 @@ export interface Recommendation {
 
 /**
  * Calculate budget score (1-4 points)
+ *
+ * Evaluates the user's budget capacity to prioritize high-value leads.
+ *
+ * @param investment - Budget preference from quiz ("budget-conscious" | "standard" | "premium" | "enterprise")
+ * @returns Score from 1-4, where 4 = highest budget capacity
  */
 function getBudgetScore(investment?: string | string[]): number {
   const budget = Array.isArray(investment) ? investment[0] : investment;
@@ -67,6 +99,11 @@ function getBudgetScore(investment?: string | string[]): number {
 
 /**
  * Calculate urgency score (1-4 points)
+ *
+ * Evaluates project timeline to prioritize leads ready to start soon.
+ *
+ * @param timeline - Timeline preference from quiz ("flexible" | "planning" | "normal" | "urgent")
+ * @returns Score from 1-4, where 4 = most urgent
  */
 function getUrgencyScore(timeline?: string | string[]): number {
   const time = Array.isArray(timeline) ? timeline[0] : timeline;
@@ -87,6 +124,12 @@ function getUrgencyScore(timeline?: string | string[]): number {
 
 /**
  * Calculate complexity score (1-4 points) with weighted features and brand assets
+ *
+ * Evaluates project complexity based on scope, features, and existing assets.
+ * More complex projects may require more resources but also higher budgets.
+ *
+ * @param answers - Complete quiz answers including scope, features, and assets
+ * @returns Score from 1-4, where 4 = most complex project
  */
 function getComplexityScore(answers: QuizAnswers): number {
   const scope = Array.isArray(answers.projectScope)

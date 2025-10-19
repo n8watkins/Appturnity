@@ -62,6 +62,20 @@ export const PRICING_TIERS: PricingTier[] = [
 
 /**
  * Calculate the price for a given number of pages
+ *
+ * Uses tiered pricing with volume discounts:
+ * - 1-5 pages: Flat $750 (Essential tier)
+ * - 6-12 pages: Flat $1,700 (Professional tier)
+ * - 13-20 pages: Flat $2,450 (Growth tier)
+ * - 21+ pages: $3,500 base + $100/additional page (Premium tier)
+ *
+ * @param pageCount - Number of pages to price (must be >= 1)
+ * @returns Object containing total price and tier name
+ *
+ * @example
+ * calculatePagePrice(3)   // { price: 750, tier: "Essential (1-5 pages)" }
+ * calculatePagePrice(10)  // { price: 1700, tier: "Professional (6-12 pages)" }
+ * calculatePagePrice(25)  // { price: 4000, tier: "Premium (25 pages)" }
  */
 export function calculatePagePrice(pageCount: number): { price: number; tier: string } {
   let price = 0;

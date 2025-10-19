@@ -35,7 +35,7 @@ export default function Home() {
     <div className="min-h-screen flex flex-col">
       <TopBanner />
       <Header />
-      <div className="flex-1">
+      <main id="main-content" className="flex-1">
         <Hero />
         <WhyNotDIY />
         <About />
@@ -67,7 +67,7 @@ export default function Home() {
         <Suspense fallback={<SectionLoader />}>
           <ChatWidget />
         </Suspense>
-      </div>
+      </main>
       <Footer />
     </div>
   );

@@ -20,7 +20,7 @@ export default function PricingComparison({ children, className }: PricingCompar
           <table className="min-w-full divide-y divide-gray-300">{children}</table>
         </div>
       </div>
-      <style jsx>{`
+      <style>{`
         table thead tr {
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }

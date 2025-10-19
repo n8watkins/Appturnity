@@ -30,8 +30,10 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // Track the error
-    trackReactError(error, errorInfo);
+    // Track the error - handle null componentStack
+    trackReactError(error, {
+      componentStack: errorInfo.componentStack || undefined,
+    });
 
     // Log to console in development
     if (process.env.NODE_ENV === "development") {
