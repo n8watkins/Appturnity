@@ -9,7 +9,7 @@ export default function Footer() {
   return (
     <footer className="bg-slate-900 text-slate-400 py-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-10">
           {/* Company Info */}
           <div className="lg:col-span-1">
             <div className="flex items-center space-x-2 mb-4">
@@ -124,25 +124,6 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#pricing-tiers"
-                  onClick={(e) => handleSmoothScroll(e, "pricing-tiers")}
-                  className="hover:text-white transition-colors cursor-pointer"
-                >
-                  Pricing Tiers
-                </a>
-              </li>
-              <li>
-                <Link href="/features">
-                  <a
-                    className="hover:text-white transition-colors cursor-pointer"
-                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                  >
-                    All Features
-                  </a>
-                </Link>
-              </li>
-              <li>
-                <a
                   href="#contact"
                   onClick={(e) => handleSmoothScroll(e, "contact")}
                   className="hover:text-white transition-colors cursor-pointer"
@@ -167,6 +148,32 @@ export default function Footer() {
                   </a>
                 </Link>
               </li>
+              <li>
+                <a
+                  href="#pricing-tiers"
+                  onClick={(e) => handleSmoothScroll(e, "pricing-tiers")}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
+                  Pricing Tiers
+                </a>
+              </li>
+              <li>
+                <Link href="/features">
+                  <a
+                    className="hover:text-white transition-colors cursor-pointer"
+                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                  >
+                    All Features
+                  </a>
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Legal Section */}
+          <div>
+            <h3 className="text-white font-semibold mb-4">Legal</h3>
+            <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/terms">
                   <a

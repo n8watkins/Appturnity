@@ -354,7 +354,7 @@ export default function Contact() {
                     </Form>
 
                     {/* Custom reCAPTCHA v3 notification */}
-                    <div className="absolute bottom-4 right-4 opacity-70 hover:opacity-100 transition-opacity select-none">
+                    <div className="absolute bottom-8 right-4 opacity-70 select-none">
                       <div className="text-xs text-slate-400 flex items-center gap-1">
                         <span>🛡️</span>
                         <span>Protected by reCAPTCHA v3</span>

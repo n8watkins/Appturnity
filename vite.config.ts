@@ -21,6 +21,12 @@ export default defineConfig({
       ? [await import("@replit/vite-plugin-cartographer").then((m) => m.cartographer())]
       : []),
   ],
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: "./src/test/setup.ts",
+    css: true,
+  },
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
