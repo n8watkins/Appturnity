@@ -111,7 +111,7 @@ export default function PricingTiers() {
     return `$${discountedPrice.toLocaleString()}`;
   };
 
-  // Helper function to calculate best tier (same logic as PricingCalculator)
+  // Helper function to calculate best tier (upgrade when features exceed capacity)
   const calculateRecommendedTier = (data: any) => {
     if (!data.pageCount) return null;
 
@@ -121,42 +121,54 @@ export default function PricingTiers() {
     if (pageRange === "1-5") pages = 3;
     else if (pageRange === "6-12") pages = 9;
     else if (pageRange === "13-20") pages = 16;
-    else if (pageRange === "20+")
-      pages = 25; // Changed from 20 to 25 for Premium tier
+    else if (pageRange === "20+") pages = 25;
     else if (pageRange === "not-sure") pages = 8;
 
     // Count advanced features selected
     const advancedCount =
       data.desiredFeatures && Array.isArray(data.desiredFeatures) ? data.desiredFeatures.length : 0;
 
-    // Calculate tier price for each option
-    const calculateTierPrice = (tierBase: number, tierIncluded: number) => {
-      const paidFeatures = Math.max(0, advancedCount - tierIncluded);
-      return tierBase + paidFeatures * 500;
-    };
-
     const allTierOptions = [
       { name: "Essential", base: 750, included: 1, maxPages: 5 },
       { name: "Professional", base: 1700, included: 3, maxPages: 12 },
       { name: "Growth", base: 2450, included: 7, maxPages: 20 },
-      { name: "Premium", base: 5500, included: 15, maxPages: 999 },
+      {
+        name: "Premium",
+        base: 3500 + (pages > 20 ? (pages - 20) * 100 : 0),
+        included: 15,
+        maxPages: 999,
+      },
     ];
 
     // Start with tier based on page count
-    let currentTier = allTierOptions.find((t) => pages <= t.maxPages) || allTierOptions[3];
-    let bestPrice = calculateTierPrice(currentTier.base, currentTier.included);
-    let bestTier = currentTier.name;
+    let currentTierIndex = allTierOptions.findIndex((t) => pages <= t.maxPages);
+    if (currentTierIndex === -1) currentTierIndex = allTierOptions.length - 1;
 
-    // Check all tiers to find the cheapest option
-    allTierOptions.forEach((tier) => {
-      const tierPrice = calculateTierPrice(tier.base, tier.included);
-      if (tierPrice < bestPrice) {
-        bestPrice = tierPrice;
-        bestTier = tier.name;
+    // Check if we need to upgrade due to features
+    // Upgrade to next tier when: current tier cost > next tier base price
+    for (let i = currentTierIndex; i < allTierOptions.length; i++) {
+      const currentTier = allTierOptions[i];
+      const extraFeatures = Math.max(0, advancedCount - currentTier.included);
+      const currentCost = currentTier.base + extraFeatures * 500;
+
+      // If there's a next tier, check if upgrading is cheaper
+      if (i < allTierOptions.length - 1) {
+        const nextTier = allTierOptions[i + 1];
+        const nextExtraFeatures = Math.max(0, advancedCount - nextTier.included);
+        const nextCost = nextTier.base + nextExtraFeatures * 500;
+
+        // If next tier is cheaper or equal, upgrade
+        if (nextCost <= currentCost) {
+          continue; // Keep checking higher tiers
+        }
       }
-    });
 
-    return bestTier;
+      // This tier is optimal
+      return currentTier.name;
+    }
+
+    // Fallback to highest tier
+    return allTierOptions[allTierOptions.length - 1].name;
   };
 
   // Determine recommended tier from quiz results
