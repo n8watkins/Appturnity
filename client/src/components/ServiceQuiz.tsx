@@ -5,7 +5,7 @@
  * Reduced from 627 lines to ~250 lines through component extraction.
  */
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, ChevronLeft, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -25,6 +25,7 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [isCompleted, setIsCompleted] = useState(false);
   const [isAdvancing, setIsAdvancing] = useState(false);
+  const advanceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const currentQuestion = quizQuestions[currentStep];
   const isMultiSelect = currentQuestion?.multiSelect;
@@ -40,6 +41,11 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
       // Prevent selection if already advancing
       if (isAdvancing) return;
 
+      // Clear any pending timeout to prevent race condition
+      if (advanceTimeoutRef.current) {
+        clearTimeout(advanceTimeoutRef.current);
+      }
+
       // Lock selections
       setIsAdvancing(true);
 
@@ -49,7 +55,7 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
       setAnswers(newAnswers);
 
       // Auto-advance after short delay for visual feedback
-      setTimeout(() => {
+      advanceTimeoutRef.current = setTimeout(() => {
         if (currentStep < quizQuestions.length - 1) {
           setCurrentStep(currentStep + 1);
           const nextQuestion = quizQuestions[currentStep + 1];
@@ -73,6 +79,7 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
             }, 500);
           }, 2500);
         }
+        advanceTimeoutRef.current = null;
       }, 300);
     }
   };
@@ -105,6 +112,11 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
 
   const handleBack = () => {
     if (currentStep > 0) {
+      // Clear any pending timeout when going back
+      if (advanceTimeoutRef.current) {
+        clearTimeout(advanceTimeoutRef.current);
+        advanceTimeoutRef.current = null;
+      }
       setCurrentStep(currentStep - 1);
       const prevQuestion = quizQuestions[currentStep - 1];
       const prevAnswer = answers[prevQuestion.id];

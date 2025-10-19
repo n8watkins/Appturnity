@@ -38,11 +38,11 @@ export function calculateTierInfo(pageCount: number, features: FeatureWithEnable
     tier = "Professional";
     includedFeatures = 3; // +3 advanced features
   } else if (pageCount <= 20) {
-    price = 3200; // Base price for Enterprise tier
-    tier = "Enterprise";
+    price = 2450; // Base price for Growth tier
+    tier = "Growth";
     includedFeatures = 7; // +7 advanced features
   } else {
-    price = 5500; // Premium tier
+    price = 3500 + (pageCount - 20) * 100; // Premium tier (dynamic pricing)
     tier = "Premium";
     includedFeatures = 15; // +15 advanced features
   }
@@ -50,7 +50,7 @@ export function calculateTierInfo(pageCount: number, features: FeatureWithEnable
   // Determine actual tier based on advanced features
   let actualTier = tier;
   if (advancedCount > 7) {
-    actualTier = "Enterprise";
+    actualTier = "Growth";
   } else if (advancedCount > 3) {
     actualTier = "Professional";
   } else if (advancedCount > 1) {
@@ -120,9 +120,9 @@ export interface ROIInfo {
 
 export function calculateROI(oneTimePrice: number, monthlySaasPrice: number): ROIInfo {
   const breakEvenMonths = Math.ceil(oneTimePrice / monthlySaasPrice);
-  const yearOneSavings = monthlySaasPrice * 12 - oneTimePrice;
-  const threeYearSavings = monthlySaasPrice * 36 - oneTimePrice;
-  const fiveYearSavings = monthlySaasPrice * 60 - oneTimePrice;
+  const yearOneSavings = Math.max(0, monthlySaasPrice * 12 - oneTimePrice);
+  const threeYearSavings = Math.max(0, monthlySaasPrice * 36 - oneTimePrice);
+  const fiveYearSavings = Math.max(0, monthlySaasPrice * 60 - oneTimePrice);
 
   return {
     monthlyEquivalent: monthlySaasPrice,
@@ -142,7 +142,7 @@ export function getTierColor(tier: string): string {
       return "bg-blue-100 text-blue-800 border-blue-300";
     case "Professional":
       return "bg-purple-100 text-purple-800 border-purple-300";
-    case "Enterprise":
+    case "Growth":
       return "bg-green-100 text-green-800 border-green-300";
     case "Premium":
       return "bg-amber-100 text-amber-800 border-amber-300";

@@ -58,8 +58,8 @@ export function ComparisonReport({
   const tierBases = {
     Essential: 750,
     Professional: 1700,
-    Enterprise: 3200,
-    Premium: 5500,
+    Growth: 2450,
+    Premium: tierInfo.basePrice, // Use dynamic price from tierInfo
   };
 
   return (

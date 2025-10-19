@@ -116,8 +116,8 @@ export default function PricingCalculator() {
   // Quiz prefill logic
   const prefillFromQuiz = (data: Record<string, unknown>) => {
     // Prefill pages from pageCount question
-    if (data.pageCount) {
-      const pageRange = data.pageCount as string;
+    if (data.pageCount && typeof data.pageCount === "string") {
+      const pageRange = data.pageCount;
       let pageValue = 5; // default
 
       if (pageRange === "1-5") pageValue = 3;
@@ -131,8 +131,8 @@ export default function PricingCalculator() {
     }
 
     // Prefill users from teamSize question
-    if (data.teamSize) {
-      const teamRange = data.teamSize as string;
+    if (data.teamSize && typeof data.teamSize === "string") {
+      const teamRange = data.teamSize;
       let userValue = 3; // default
 
       if (teamRange === "1-3") userValue = 2;
@@ -145,7 +145,11 @@ export default function PricingCalculator() {
     }
 
     // Pre-enable features based on quiz
-    if (data.desiredFeatures && Array.isArray(data.desiredFeatures)) {
+    if (
+      data.desiredFeatures &&
+      Array.isArray(data.desiredFeatures) &&
+      data.desiredFeatures.every((item) => typeof item === "string")
+    ) {
       setFeatures((prev) =>
         prev.map((feature) => ({
           ...feature,
