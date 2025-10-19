@@ -68,20 +68,17 @@ export function calculateTierInfo(pageCount: number, features: FeatureWithEnable
 
 /**
  * Calculate total price including additional features
+ * Each feature beyond the included count costs $500
  */
 export function calculateTotalPrice(tierInfo: TierInfo, features: FeatureWithEnabled[]): number {
   const { basePrice, includedAdvancedFeatures } = tierInfo;
 
-  // Calculate feature costs for features beyond included count
-  const advancedFeatures = features.filter((f) => f.enabled && f.price > 0);
-  const sortedByPrice = [...advancedFeatures].sort((a, b) => a.price - b.price);
+  // Count advanced features (features with price > 0)
+  const advancedFeaturesCount = features.filter((f) => f.enabled && f.price > 0).length;
 
-  let featureCost = 0;
-  sortedByPrice.forEach((feature, index) => {
-    if (index >= includedAdvancedFeatures) {
-      featureCost += feature.price;
-    }
-  });
+  // Calculate feature costs: $500 per feature beyond included count
+  const extraFeaturesCount = Math.max(0, advancedFeaturesCount - includedAdvancedFeatures);
+  const featureCost = extraFeaturesCount * 500;
 
   return basePrice + featureCost;
 }
