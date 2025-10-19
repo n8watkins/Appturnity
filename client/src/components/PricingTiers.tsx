@@ -267,40 +267,27 @@ export default function PricingTiers() {
               }}
               whileInView={{
                 opacity: 1,
-                y: recommendedTier === tier.name || (!recommendedTier && tier.popular) ? -32 : 0,
+                y: recommendedTier === tier.name ? -32 : 0,
               }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`relative ${
-                recommendedTier === tier.name || (!recommendedTier && tier.popular)
-                  ? "lg:scale-105"
-                  : ""
-              }`}
+              className={`relative ${recommendedTier === tier.name ? "lg:scale-105" : ""}`}
             >
-              {/* Recommended Badge - takes priority when quiz is taken */}
-              {recommendedTier === tier.name ? (
+              {/* Recommended Badge - only show after quiz or builder interaction */}
+              {recommendedTier === tier.name && (
                 <div className="absolute -top-6 left-1/2 -translate-x-1/2 z-10">
                   <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-2.5 rounded-full text-sm font-bold flex items-center gap-2 shadow-xl whitespace-nowrap">
                     <CheckCircle2 className="h-5 w-5" />
                     RECOMMENDED FOR YOU
                   </div>
                 </div>
-              ) : tier.popular ? (
-                <div className="absolute -top-6 left-1/2 -translate-x-1/2 z-10">
-                  <div className="bg-gradient-to-r from-primary to-blue-600 text-white px-6 py-2.5 rounded-full text-sm font-bold flex items-center gap-2 shadow-xl whitespace-nowrap">
-                    <Star className="h-5 w-5 fill-current" />
-                    MOST POPULAR
-                  </div>
-                </div>
-              ) : null}
+              )}
 
               <div
                 className={`relative h-full bg-white rounded-2xl p-6 shadow-lg border-2 transition-all duration-300 hover:shadow-xl flex flex-col ${
                   recommendedTier === tier.name
                     ? "border-green-500 shadow-2xl"
-                    : tier.highlight
-                      ? "border-primary shadow-2xl"
-                      : "border-slate-200 hover:border-primary/50"
+                    : "border-slate-200 hover:border-primary/50"
                 }`}
               >
                 {/* Tier Header */}
