@@ -58,8 +58,8 @@ const pricingTiers = [
     highlight: true,
   },
   {
-    name: "Enterprise",
-    price: "$3,200",
+    name: "Growth",
+    price: "$2,450",
     pageRange: "13-20 pages",
     delivery: "1-2 month delivery",
     advancedCount: "+ 7 advanced features",
@@ -138,7 +138,7 @@ export default function PricingTiers() {
     const allTierOptions = [
       { name: "Essential", base: 750, included: 1, maxPages: 5 },
       { name: "Professional", base: 1700, included: 3, maxPages: 12 },
-      { name: "Enterprise", base: 3200, included: 7, maxPages: 20 },
+      { name: "Growth", base: 2450, included: 7, maxPages: 20 },
       { name: "Premium", base: 5500, included: 15, maxPages: 999 },
     ];
 
@@ -189,6 +189,34 @@ export default function PricingTiers() {
 
     return () => {
       window.removeEventListener("quizCompleted", handleQuizCompleted as EventListener);
+    };
+  }, []);
+
+  // Listen for project builder configuration changes
+  useEffect(() => {
+    const handleProjectConfigured = (event: CustomEvent) => {
+      const projectData = event.detail;
+
+      // Validate event data
+      if (!projectData || typeof projectData !== "object") {
+        console.warn("Invalid project data received");
+        return;
+      }
+
+      // Update recommended tier based on project builder configuration
+      if (projectData.recommendedTier) {
+        setRecommendedTier(projectData.recommendedTier);
+        // Keep quiz discount if it was already active
+        if (projectData.prefilledFromQuiz) {
+          setHasQuizDiscount(true);
+        }
+      }
+    };
+
+    window.addEventListener("projectConfigured", handleProjectConfigured as EventListener);
+
+    return () => {
+      window.removeEventListener("projectConfigured", handleProjectConfigured as EventListener);
     };
   }, []);
 
@@ -252,16 +280,16 @@ export default function PricingTiers() {
             >
               {/* Recommended Badge - takes priority when quiz is taken */}
               {recommendedTier === tier.name ? (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
-                  <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-lg whitespace-nowrap">
-                    <CheckCircle2 className="h-3.5 w-3.5" />
+                <div className="absolute -top-6 left-1/2 -translate-x-1/2 z-10">
+                  <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-2.5 rounded-full text-sm font-bold flex items-center gap-2 shadow-xl whitespace-nowrap">
+                    <CheckCircle2 className="h-5 w-5" />
                     RECOMMENDED FOR YOU
                   </div>
                 </div>
               ) : tier.popular ? (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
-                  <div className="bg-gradient-to-r from-primary to-blue-600 text-white px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-lg whitespace-nowrap">
-                    <Star className="h-3.5 w-3.5 fill-current" />
+                <div className="absolute -top-6 left-1/2 -translate-x-1/2 z-10">
+                  <div className="bg-gradient-to-r from-primary to-blue-600 text-white px-6 py-2.5 rounded-full text-sm font-bold flex items-center gap-2 shadow-xl whitespace-nowrap">
+                    <Star className="h-5 w-5 fill-current" />
                     MOST POPULAR
                   </div>
                 </div>
