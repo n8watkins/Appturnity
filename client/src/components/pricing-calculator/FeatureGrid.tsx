@@ -27,19 +27,19 @@ export function FeatureGrid({ featuresByCategory, onToggleFeature }: FeatureGrid
         return (
           <div key={category}>
             {isAlwaysIncluded ? (
-              /* Mobile: Compact notification-style list */
+              /* Mobile: 2-column grid layout */
               <>
                 <div className="lg:hidden mb-3">
                   <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-2.5">
-                    <div className="flex items-center gap-1.5 mb-1.5">
+                    <div className="flex items-center gap-1.5 mb-2">
                       <div className="w-4 h-4 rounded-full bg-emerald-600 flex items-center justify-center flex-shrink-0">
                         <Check className="h-2.5 w-2.5 text-white" />
                       </div>
                       <h3 className="text-xs font-bold text-emerald-800 uppercase">
-                        Included Free
+                        Included Always
                       </h3>
                     </div>
-                    <div className="pl-5 space-y-0.5">
+                    <div className="grid grid-cols-2 gap-x-3 gap-y-1">
                       {categoryFeatures.map((feature) => (
                         <div key={feature.id} className="text-xs text-emerald-700">
                           • {feature.shortName || feature.name}
@@ -76,7 +76,7 @@ export function FeatureGrid({ featuresByCategory, onToggleFeature }: FeatureGrid
               <>
                 <div className="mb-3 sm:mb-4 mt-4 sm:mt-6 lg:mt-8">
                   <div className="pb-2 border-b border-slate-300">
-                    <h3 className="text-sm sm:text-base lg:text-lg font-bold text-slate-900">
+                    <h3 className="text-base sm:text-lg lg:text-xl font-bold text-slate-900">
                       ADD MORE POWER
                     </h3>
                     <p className="text-xs text-slate-600 mt-1">
