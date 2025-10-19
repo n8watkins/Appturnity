@@ -184,24 +184,31 @@ app.use((req, res, next) => {
   const server = await registerRoutes(app);
 
   // Error handling middleware
-  app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
+  app.use(
+    (
+      err: Error & { status?: number; statusCode?: number },
+      req: Request,
+      res: Response,
+      _next: NextFunction
+    ) => {
+      const status = err.status || err.statusCode || 500;
+      const message = err.message || "Internal Server Error";
 
-    // Log error with structured logging
-    logger.error(
-      "Request error",
-      err,
-      {
-        status,
-        url: req.url,
-        method: req.method,
-      },
-      req.requestId
-    );
+      // Log error with structured logging
+      logger.error(
+        "Request error",
+        err,
+        {
+          status,
+          url: req.url,
+          method: req.method,
+        },
+        req.requestId
+      );
 
-    res.status(status).json({ message });
-  });
+      res.status(status).json({ message });
+    }
+  );
 
   // Setting up Vite only in development mode
   if (app.get("env") === "development") {
@@ -219,7 +226,7 @@ app.use((req, res, next) => {
       .listen(port, "localhost", () => {
         logger.info(`Server is running on http://localhost:${port}`);
       })
-      .on("error", (err: any) => {
+      .on("error", (err: NodeJS.ErrnoException) => {
         if (err.code === "EADDRINUSE") {
           if (port < maxPort) {
             logger.warn(`Port ${port} is in use, trying ${port + 1}...`);

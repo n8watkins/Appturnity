@@ -8,7 +8,7 @@
 export type LogLevel = "debug" | "info" | "warn" | "error";
 
 interface LogMetadata {
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface LogEntry {
@@ -99,7 +99,7 @@ class Logger {
     this.log("warn", message, metadata, requestId);
   }
 
-  error(message: string, error?: Error | any, metadata?: LogMetadata, requestId?: string) {
+  error(message: string, error?: Error | unknown, metadata?: LogMetadata, requestId?: string) {
     const errorMetadata = {
       ...metadata,
       error: error

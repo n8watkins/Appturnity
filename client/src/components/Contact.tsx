@@ -75,6 +75,13 @@ export default function Contact() {
   useEffect(() => {
     const handleCalculatorUpdate = (event: CustomEvent) => {
       const calculatorData = event.detail;
+
+      // Validate event data before using
+      if (!calculatorData || typeof calculatorData !== "object") {
+        console.warn("Invalid calculator data received");
+        return;
+      }
+
       setProjectDetails({ source: "calculator", data: calculatorData });
       formatAndPopulateMessage(calculatorData, "calculator");
     };

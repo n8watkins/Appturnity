@@ -21,17 +21,15 @@ interface ErrorData {
   userAgent: string;
   timestamp: number;
   componentStack?: string;
-  errorInfo?: any;
+  errorInfo?: { componentStack?: string };
   // Additional context
-  context?: {
-    [key: string]: any;
-  };
+  context?: Record<string, unknown>;
 }
 
 /**
  * Determine error severity based on error details
  */
-function getErrorSeverity(error: Error | any, type: string): "critical" | "error" | "warning" {
+function getErrorSeverity(error: Error | unknown, type: string): "critical" | "error" | "warning" {
   const errorMessage = error?.message || String(error);
   const errorStack = error?.stack || "";
 
@@ -220,7 +218,7 @@ export function initErrorTracking() {
 /**
  * Manually track an error with custom context
  */
-export function trackError(error: Error | string, context?: any) {
+export function trackError(error: Error | string, context?: Record<string, unknown>) {
   const errorObj = typeof error === "string" ? new Error(error) : error;
 
   const errorData: ErrorData = {

@@ -499,7 +499,15 @@ export default function PricingCalculator() {
   // Listen for quiz completion events in real-time
   useEffect(() => {
     const handleQuizCompleted = (event: CustomEvent) => {
-      prefillFromQuiz(event.detail);
+      const quizData = event.detail;
+
+      // Validate event data before using
+      if (!quizData || typeof quizData !== "object") {
+        console.warn("Invalid quiz data received");
+        return;
+      }
+
+      prefillFromQuiz(quizData);
     };
 
     window.addEventListener("quizCompleted", handleQuizCompleted as EventListener);

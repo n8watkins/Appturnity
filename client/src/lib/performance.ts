@@ -61,8 +61,8 @@ async function sendMetric(metric: Metric) {
     });
 
     // Optionally send to Google Analytics if available
-    if (typeof window !== "undefined" && (window as any).gtag) {
-      (window as any).gtag("event", metric.name, {
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", metric.name, {
         value: Math.round(metric.value),
         metric_id: metric.id,
         metric_rating: metric.rating,

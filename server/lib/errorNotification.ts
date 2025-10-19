@@ -20,8 +20,8 @@ interface ErrorData {
   userAgent: string;
   timestamp: number;
   componentStack?: string;
-  errorInfo?: any;
-  context?: any;
+  errorInfo?: { componentStack?: string };
+  context?: Record<string, unknown>;
 }
 
 // In-memory error tracking for rate limiting and deduplication
@@ -82,7 +82,7 @@ function shouldSendEmail(error: ErrorData): boolean {
   const now = Date.now();
 
   // Check if severity warrants an email
-  if (!CONFIG.EMAIL_SEVERITIES.includes(error.severity as any)) {
+  if (!CONFIG.EMAIL_SEVERITIES.includes(error.severity as "critical" | "error")) {
     return false;
   }
 

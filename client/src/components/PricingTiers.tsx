@@ -172,7 +172,15 @@ export default function PricingTiers() {
   // Listen for quiz completion events in real-time
   useEffect(() => {
     const handleQuizCompleted = (event: CustomEvent) => {
-      const recommended = calculateRecommendedTier(event.detail);
+      const quizData = event.detail;
+
+      // Validate event data before using
+      if (!quizData || typeof quizData !== "object") {
+        console.warn("Invalid quiz data received");
+        return;
+      }
+
+      const recommended = calculateRecommendedTier(quizData);
       setRecommendedTier(recommended);
       setHasQuizDiscount(true);
     };
