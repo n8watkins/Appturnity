@@ -1,7 +1,7 @@
 /**
- * Pricing Calculator Components
+ * Project Builder Components
  *
- * Barrel export for all pricing calculator sub-components
+ * Barrel export for all project builder sub-components
  */
 
 export { PricingCalculatorHeader } from "./PricingCalculatorHeader";
@@ -11,5 +11,4 @@ export { FeatureBreakdown } from "./FeatureBreakdown";
 export { FeatureSliders } from "./FeatureSliders";
 export { FeatureGrid } from "./FeatureGrid";
 export { PricingSummary } from "./PricingSummary";
-export { ComparisonReport } from "./ComparisonReport";
 export * from "./pricingCalculatorUtils";

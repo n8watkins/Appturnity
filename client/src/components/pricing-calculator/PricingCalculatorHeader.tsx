@@ -1,5 +1,5 @@
 /**
- * Pricing Calculator Header Component
+ * Project Builder Header Component
  *
  * Displays the title, description, and quiz badge
  */
