@@ -150,6 +150,16 @@ app.use(express.urlencoded({ extended: false, limit: "100kb" }));
 // Add request ID to all requests
 app.use(requestIdMiddleware);
 
+// HTTPS redirect in production
+if (process.env.NODE_ENV === "production") {
+  app.use((req, res, next) => {
+    if (req.headers["x-forwarded-proto"] !== "https") {
+      return res.redirect(301, `https://${req.get("host")}${req.url}`);
+    }
+    next();
+  });
+}
+
 app.use("/api", apiLimiter);
 app.use("/api/contact", contactLimiter);
 app.use("/api/chat", chatLimiter);

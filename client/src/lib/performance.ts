@@ -3,9 +3,14 @@
  *
  * Tracks Core Web Vitals and sends them to backend for analysis.
  * Metrics tracked: LCP, CLS, TTFB, INP
+ * Includes throttling to prevent spam.
  */
 
 import { onCLS, onLCP, onTTFB, onINP, type Metric } from "web-vitals";
+
+// Throttling configuration - limit metrics sent per session
+const MAX_METRICS_PER_SESSION = 20; // Max 20 metrics per page load
+let metricsSentThisSession = 0;
 
 interface PerformanceMetric {
   name: string;
@@ -22,6 +27,14 @@ interface PerformanceMetric {
  * Send metric to backend
  */
 async function sendMetric(metric: Metric) {
+  // Check throttle limit
+  if (metricsSentThisSession >= MAX_METRICS_PER_SESSION) {
+    console.debug(`Performance metrics throttled (max ${MAX_METRICS_PER_SESSION} per session)`);
+    return;
+  }
+
+  metricsSentThisSession++;
+
   try {
     const data: PerformanceMetric = {
       name: metric.name,

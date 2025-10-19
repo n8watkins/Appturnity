@@ -6,16 +6,17 @@ import { Slider } from "@/components/ui/slider";
 import { Card, CardContent } from "@/components/ui/card";
 import { handleSmoothScroll } from "@/lib/utils";
 import { getQuizResults } from "@/lib/quizStorage";
+import {
+  ALWAYS_INCLUDED_FEATURES,
+  OPTIONAL_FEATURES,
+  calculatePagePrice,
+  calculateSaasPrice,
+  calculateTimeline as getTimeline,
+} from "@/lib/pricing";
+import type { Feature as PricingFeature } from "@/lib/pricing";
 
-interface Feature {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  saasMonthly: number;
+interface Feature extends PricingFeature {
   enabled: boolean;
-  category: string;
-  alwaysIncluded?: boolean;
 }
 
 interface FeatureCategory {
@@ -23,7 +24,17 @@ interface FeatureCategory {
   features: Feature[];
 }
 
+// Convert pricing features to calculator features with enabled flag
 const FEATURES: Feature[] = [
+  // Always Included (Free) - from pricing.ts
+  ...ALWAYS_INCLUDED_FEATURES.map((f) => ({ ...f, enabled: true })),
+  // Optional Features - from pricing.ts
+  ...OPTIONAL_FEATURES.map((f) => ({ ...f, enabled: false })),
+];
+
+// DEPRECATED - Removed hardcoded features to use pricing.ts as single source of truth
+/* Old hardcoded list removed - see commit history if needed
+const OLD_FEATURES: Feature[] = [
   // Always Included (Free)
   {
     id: "analytics",
@@ -33,7 +44,7 @@ const FEATURES: Feature[] = [
     saasMonthly: 19,
     enabled: true,
     category: "Always Included",
-    alwaysIncluded: true,
+    isAlwaysIncluded: true,
   },
   {
     id: "ssl-hosting",
@@ -43,7 +54,7 @@ const FEATURES: Feature[] = [
     saasMonthly: 0,
     enabled: true,
     category: "Always Included",
-    alwaysIncluded: true,
+    isAlwaysIncluded: true,
   },
   {
     id: "responsive",
@@ -53,7 +64,7 @@ const FEATURES: Feature[] = [
     saasMonthly: 0,
     enabled: true,
     category: "Always Included",
-    alwaysIncluded: true,
+    isAlwaysIncluded: true,
   },
   {
     id: "basic-seo",
@@ -63,7 +74,7 @@ const FEATURES: Feature[] = [
     saasMonthly: 0,
     enabled: true,
     category: "Always Included",
-    alwaysIncluded: true,
+    isAlwaysIncluded: true,
   },
   {
     id: "contact-forms",
@@ -73,7 +84,7 @@ const FEATURES: Feature[] = [
     saasMonthly: 0,
     enabled: true,
     category: "Always Included",
-    alwaysIncluded: true,
+    isAlwaysIncluded: true,
   },
   {
     id: "domain-setup",
@@ -83,7 +94,7 @@ const FEATURES: Feature[] = [
     saasMonthly: 0,
     enabled: true,
     category: "Always Included",
-    alwaysIncluded: true,
+    isAlwaysIncluded: true,
   },
   // Marketing & Growth
   {
@@ -244,17 +255,7 @@ const FEATURES: Feature[] = [
     enabled: false,
     category: "Advanced Features",
   },
-  // Design & UX
-  {
-    id: "animations",
-    name: "Animations",
-    description: "Premium effects",
-    price: 500,
-    saasMonthly: 0,
-    enabled: false,
-    category: "Advanced Features",
-  },
-];
+*/
 
 // Quiz discount percentage
 const QUIZ_DISCOUNT_PERCENT = 10;
@@ -270,7 +271,7 @@ export default function PricingCalculator() {
   // Memoize calculations to prevent unnecessary re-renders
   const { basePrice, pageTier, includedAdvancedFeatures, actualTier, originalBasePrice } =
     useMemo(() => {
-      const advancedCount = features.filter((f) => f.enabled && !f.alwaysIncluded).length;
+      const advancedCount = features.filter((f) => f.enabled && !f.isAlwaysIncluded).length;
 
       const getBasePriceAndTier = (pageCount: number) => {
         // Pricing aligned with pricing tiers structure
@@ -344,7 +345,7 @@ export default function PricingCalculator() {
 
   // Calculate enabled advanced features count and apply tier discount
   const { adjustedFeaturesTotal, enabledAdvancedCount } = useMemo(() => {
-    const advancedFeatures = features.filter((f) => f.enabled && !f.alwaysIncluded);
+    const advancedFeatures = features.filter((f) => f.enabled && !f.isAlwaysIncluded);
     const count = advancedFeatures.length;
 
     // Apply tier-based included features discount
@@ -410,7 +411,7 @@ export default function PricingCalculator() {
     setFeatures((prev) =>
       prev.map((f) =>
         // Don't toggle if it's always included
-        f.id === id && !f.alwaysIncluded ? { ...f, enabled: !f.enabled } : f
+        f.id === id && !f.isAlwaysIncluded ? { ...f, enabled: !f.enabled } : f
       )
     );
   };
@@ -480,7 +481,7 @@ export default function PricingCalculator() {
       setFeatures((prev) =>
         prev.map((feature) => ({
           ...feature,
-          enabled: data.desiredFeatures.includes(feature.id) || feature.alwaysIncluded,
+          enabled: data.desiredFeatures.includes(feature.id) || feature.isAlwaysIncluded,
         }))
       );
       setPrefilledFromQuiz(true);
@@ -567,7 +568,12 @@ export default function PricingCalculator() {
       timestamp: new Date().toISOString(),
     };
 
-    localStorage.setItem("calculatorResults", JSON.stringify(calculatorData));
+    try {
+      localStorage.setItem("calculatorResults", JSON.stringify(calculatorData));
+    } catch (error) {
+      console.debug("Failed to save calculator results to localStorage:", error);
+      // Silently fail - calculator state is enhancement, not critical
+    }
 
     window.dispatchEvent(
       new CustomEvent("calculatorCompleted", {
@@ -1074,14 +1080,16 @@ export default function PricingCalculator() {
                                     {categoryFeatures.map((feature) => (
                                       <motion.div
                                         key={feature.id}
-                                        whileHover={!feature.alwaysIncluded ? { scale: 1.02 } : {}}
-                                        whileTap={!feature.alwaysIncluded ? { scale: 0.98 } : {}}
+                                        whileHover={
+                                          !feature.isAlwaysIncluded ? { scale: 1.02 } : {}
+                                        }
+                                        whileTap={!feature.isAlwaysIncluded ? { scale: 0.98 } : {}}
                                       >
                                         <button
                                           onClick={() => toggleFeature(feature.id)}
-                                          disabled={feature.alwaysIncluded}
+                                          disabled={feature.isAlwaysIncluded}
                                           className={`w-full text-left p-3 rounded-lg border transition-all h-full ${
-                                            feature.alwaysIncluded
+                                            feature.isAlwaysIncluded
                                               ? "border-emerald-300 bg-emerald-50 cursor-default"
                                               : feature.enabled
                                                 ? "border-primary bg-primary/5"
@@ -1092,21 +1100,21 @@ export default function PricingCalculator() {
                                             <div className="flex items-start gap-2.5">
                                               <div
                                                 className={`mt-0.5 w-5 h-5 rounded border flex items-center justify-center flex-shrink-0 ${
-                                                  feature.alwaysIncluded
+                                                  feature.isAlwaysIncluded
                                                     ? "bg-emerald-600 border-emerald-600"
                                                     : feature.enabled
                                                       ? "bg-primary border-primary"
                                                       : "border-slate-400"
                                                 }`}
                                               >
-                                                {(feature.enabled || feature.alwaysIncluded) && (
+                                                {(feature.enabled || feature.isAlwaysIncluded) && (
                                                   <Check className="h-3.5 w-3.5 text-white" />
                                                 )}
                                               </div>
 
                                               <h4
                                                 className={`font-semibold text-base leading-tight flex-grow ${
-                                                  feature.alwaysIncluded
+                                                  feature.isAlwaysIncluded
                                                     ? "text-emerald-800"
                                                     : "text-slate-900"
                                                 }`}
@@ -1116,7 +1124,7 @@ export default function PricingCalculator() {
                                             </div>
                                             <p
                                               className={`text-sm leading-snug pl-7 ${
-                                                feature.alwaysIncluded
+                                                feature.isAlwaysIncluded
                                                   ? "text-emerald-700"
                                                   : "text-slate-600"
                                               }`}

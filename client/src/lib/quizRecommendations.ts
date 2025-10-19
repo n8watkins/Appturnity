@@ -26,10 +26,16 @@
  *    - Custom application: 4 points
  *
  * **Priority Score Formula**:
- * Priority = (Budget × 0.4) + (Urgency × 0.35) + (Complexity × 0.25)
+ * Base Score = (Budget × 5) + (Urgency × 3) + (Complexity × 2)
+ * Final Score = Base Score + Company Size Modifier + Decision Maker Modifier
  *
- * Weighted to prioritize budget (40%), urgency (35%), and complexity (25%)
- * for optimal lead qualification.
+ * This creates a weighted distribution of roughly 50% budget, 30% urgency, 20% complexity.
+ * Score range: 10-40+ (with modifiers)
+ *
+ * Priority labels:
+ * - HIGH: 32+ points
+ * - MEDIUM: 24-31 points
+ * - STANDARD: <24 points
  */
 
 // Quiz discount percentage

@@ -3,7 +3,13 @@
  *
  * Captures JavaScript errors, unhandled promise rejections, and React errors.
  * Sends them to backend for logging and email notifications.
+ * Includes client-side rate limiting to prevent spam attacks.
  */
+
+// Rate limiting configuration
+const MAX_ERRORS_PER_MINUTE = 5;
+let errorsSentInLastMinute = 0;
+let lastErrorResetTime = Date.now();
 
 interface ErrorData {
   message: string;
@@ -78,9 +84,37 @@ function getBrowserInfo() {
 }
 
 /**
+ * Check if we should send an error (rate limiting)
+ */
+function shouldSendError(): boolean {
+  const now = Date.now();
+
+  // Reset counter every minute
+  if (now - lastErrorResetTime > 60000) {
+    errorsSentInLastMinute = 0;
+    lastErrorResetTime = now;
+  }
+
+  // Check rate limit
+  if (errorsSentInLastMinute >= MAX_ERRORS_PER_MINUTE) {
+    console.debug(`Error tracking rate limit reached (${MAX_ERRORS_PER_MINUTE}/min)`);
+    return false;
+  }
+
+  return true;
+}
+
+/**
  * Send error to backend
  */
 async function sendErrorToBackend(errorData: ErrorData) {
+  // Check rate limit before sending
+  if (!shouldSendError()) {
+    return;
+  }
+
+  errorsSentInLastMinute++;
+
   try {
     await fetch("/api/errors", {
       method: "POST",

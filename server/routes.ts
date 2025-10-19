@@ -304,6 +304,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Health check endpoint
+  app.get("/api/health", async (req, res) => {
+    const checks: Record<string, string> = {
+      server: "ok",
+      timestamp: new Date().toISOString(),
+    };
+
+    // Check email service
+    if (process.env.RESEND_API_KEY) {
+      try {
+        // Just verify the key exists - actual send test would cost quota
+        checks.email = "configured";
+      } catch (error) {
+        checks.email = "error";
+      }
+    } else {
+      checks.email = "not_configured";
+    }
+
+    // Check reCAPTCHA configuration
+    if (process.env.RECAPTCHA_SECRET_KEY) {
+      checks.recaptcha = "configured";
+    } else {
+      checks.recaptcha = "not_configured";
+    }
+
+    res.json(checks);
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

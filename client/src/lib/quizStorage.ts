@@ -5,7 +5,7 @@
 import { z } from "zod";
 
 const QUIZ_RESULTS_KEY = "quizResults";
-const QUIZ_EXPIRATION_MS = 15 * 60 * 1000; // 15 minutes
+const QUIZ_EXPIRATION_MS = 60 * 60 * 1000; // 60 minutes (increased from 15 to reduce lost conversions)
 
 interface QuizStorageData {
   results: Record<string, string | string[]>;
@@ -60,19 +60,29 @@ export function getQuizResults(): Record<string, string | string[]> | null {
  * Save quiz results to localStorage with expiration
  */
 export function saveQuizResults(results: Record<string, string | string[]>): void {
-  const quizData: QuizStorageData = {
-    results,
-    timestamp: Date.now(),
-    expiresAt: Date.now() + QUIZ_EXPIRATION_MS,
-  };
-  localStorage.setItem(QUIZ_RESULTS_KEY, JSON.stringify(quizData));
+  try {
+    const quizData: QuizStorageData = {
+      results,
+      timestamp: Date.now(),
+      expiresAt: Date.now() + QUIZ_EXPIRATION_MS,
+    };
+    localStorage.setItem(QUIZ_RESULTS_KEY, JSON.stringify(quizData));
+  } catch (error) {
+    console.warn("Failed to save quiz results to localStorage:", error);
+    // Silently fail - quiz results are enhancement, not critical
+  }
 }
 
 /**
  * Clear quiz results from localStorage
  */
 export function clearQuizResults(): void {
-  localStorage.removeItem(QUIZ_RESULTS_KEY);
+  try {
+    localStorage.removeItem(QUIZ_RESULTS_KEY);
+  } catch (error) {
+    console.debug("Failed to clear quiz results from localStorage:", error);
+    // Silently fail - non-critical operation
+  }
 }
 
 /**

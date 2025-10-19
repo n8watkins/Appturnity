@@ -73,11 +73,19 @@ export default function ChatWidget() {
 
   // ——— persist to localStorage whenever these change ———
   useEffect(() => {
-    localStorage.setItem("chat-isOpen", JSON.stringify(isOpen));
+    try {
+      localStorage.setItem("chat-isOpen", JSON.stringify(isOpen));
+    } catch (error) {
+      console.debug("Failed to save chat state to localStorage:", error);
+    }
   }, [isOpen]);
 
   useEffect(() => {
-    localStorage.setItem("chat-messages", JSON.stringify(messages));
+    try {
+      localStorage.setItem("chat-messages", JSON.stringify(messages));
+    } catch (error) {
+      console.debug("Failed to save chat messages to localStorage:", error);
+    }
   }, [messages]);
 
   // — smooth-scroll on new messages or actions —
