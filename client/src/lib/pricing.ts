@@ -15,6 +15,7 @@ export interface PricingTier {
 export interface Feature {
   id: string;
   name: string;
+  shortName?: string; // Shorter name for mobile display
   description: string;
   price: number;
   saasMonthly: number;
@@ -105,6 +106,7 @@ export const ALWAYS_INCLUDED_FEATURES: Feature[] = [
   {
     id: "analytics",
     name: "Analytics & Tracking",
+    shortName: "Analytics",
     description: "Google Analytics, conversion tracking, visitor insights",
     price: 0,
     saasMonthly: 49,
@@ -114,6 +116,7 @@ export const ALWAYS_INCLUDED_FEATURES: Feature[] = [
   {
     id: "ssl-hosting",
     name: "SSL & Premium Hosting",
+    shortName: "SSL & Hosting",
     description: "Secure HTTPS, 99.9% uptime, CDN, daily backups",
     price: 0,
     saasMonthly: 25,
@@ -123,6 +126,7 @@ export const ALWAYS_INCLUDED_FEATURES: Feature[] = [
   {
     id: "responsive",
     name: "Mobile Responsive Design",
+    shortName: "Responsive",
     description: "Perfect on phones, tablets, and desktops",
     price: 0,
     saasMonthly: 0,
@@ -132,6 +136,7 @@ export const ALWAYS_INCLUDED_FEATURES: Feature[] = [
   {
     id: "basic-seo",
     name: "Basic SEO Setup",
+    shortName: "Basic SEO",
     description: "Meta tags, sitemap, search console integration",
     price: 0,
     saasMonthly: 79,
@@ -141,6 +146,7 @@ export const ALWAYS_INCLUDED_FEATURES: Feature[] = [
   {
     id: "contact-forms",
     name: "Contact Forms",
+    shortName: "Forms",
     description: "Basic contact forms with email notifications",
     price: 0,
     saasMonthly: 15,
@@ -164,6 +170,7 @@ export const OPTIONAL_FEATURES: Feature[] = [
   {
     id: "forms",
     name: "Custom Forms",
+    shortName: "Forms",
     description: "Multi-step lead forms",
     price: 500,
     saasMonthly: 50,
@@ -188,6 +195,7 @@ export const OPTIONAL_FEATURES: Feature[] = [
   {
     id: "multilang",
     name: "Multi-language",
+    shortName: "Multi-lang",
     description: "Multiple language support",
     price: 700,
     saasMonthly: 79,
@@ -196,6 +204,7 @@ export const OPTIONAL_FEATURES: Feature[] = [
   {
     id: "auth",
     name: "User Authentication",
+    shortName: "Auth",
     description: "Login and signup system",
     price: 1500,
     saasMonthly: 99,
@@ -228,6 +237,7 @@ export const OPTIONAL_FEATURES: Feature[] = [
   {
     id: "api",
     name: "API Integration",
+    shortName: "API",
     description: "Connect third-party tools",
     price: 600,
     saasMonthly: 59,
@@ -236,6 +246,7 @@ export const OPTIONAL_FEATURES: Feature[] = [
   {
     id: "chat",
     name: "Live Chat",
+    shortName: "Chat",
     description: "Real-time customer support",
     price: 300,
     saasMonthly: 69,
@@ -260,6 +271,7 @@ export const OPTIONAL_FEATURES: Feature[] = [
   {
     id: "ai",
     name: "Generative AI",
+    shortName: "AI",
     description: "AI-powered features",
     price: 1200,
     saasMonthly: 150,

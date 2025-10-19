@@ -48,9 +48,9 @@ export function FeatureGrid({ featuresByCategory, onToggleFeature }: FeatureGrid
               </div>
             ) : null}
 
-            {/* Features Grid - responsive: 1 col mobile, 2 cols tablet, 3 cols desktop */}
+            {/* Features Grid - responsive: 2 cols mobile, 2 cols tablet, 3 cols desktop */}
             <div
-              className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 ${isAlwaysIncluded ? "mb-6" : ""}`}
+              className={`grid grid-cols-2 lg:grid-cols-3 gap-2.5 ${isAlwaysIncluded ? "mb-6" : ""}`}
             >
               {categoryFeatures.map((feature, index) => (
                 <FeatureCard

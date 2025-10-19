@@ -56,7 +56,8 @@ export function FeatureCard({ feature, onToggle, index }: FeatureCardProps) {
                 isDisabled ? "text-emerald-800" : "text-slate-900"
               }`}
             >
-              {feature.name}
+              <span className="lg:hidden">{feature.shortName || feature.name}</span>
+              <span className="hidden lg:inline">{feature.name}</span>
             </h4>
           </div>
           <p
