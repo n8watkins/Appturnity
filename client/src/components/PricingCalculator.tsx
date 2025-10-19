@@ -71,6 +71,42 @@ export default function PricingCalculator() {
     return "8-12 weeks";
   }, [pages, features]);
 
+  // Calculate optimal tier recommendation (cheapest option for user's configuration)
+  const recommendedTier = useMemo(() => {
+    const advancedCount = features.filter((f) => f.enabled && !f.isAlwaysIncluded).length;
+
+    // Calculate total price for each tier option
+    const calculateTierPrice = (tierBase: number, tierIncluded: number) => {
+      const paidFeatures = Math.max(0, advancedCount - tierIncluded);
+      return tierBase + paidFeatures * 500; // $500 per additional feature
+    };
+
+    const allTierOptions = [
+      { name: "Essential", base: 750, included: 1, maxPages: 5 },
+      { name: "Professional", base: 1700, included: 3, maxPages: 12 },
+      { name: "Growth", base: 2450, included: 7, maxPages: 20 },
+      { name: "Premium", base: 3500 + (pages - 20) * 100, included: 15, maxPages: 999 }, // Dynamic pricing
+    ];
+
+    // Start with tier based on page count
+    let currentTier = allTierOptions.find((t) => pages <= t.maxPages) || allTierOptions[3];
+    let bestPrice = calculateTierPrice(currentTier.base, currentTier.included);
+    let bestTier = currentTier.name;
+
+    // Check all tiers to find the cheapest option that supports the page count
+    allTierOptions.forEach((tier) => {
+      if (pages <= tier.maxPages) {
+        const tierPrice = calculateTierPrice(tier.base, tier.included);
+        if (tierPrice < bestPrice) {
+          bestPrice = tierPrice;
+          bestTier = tier.name;
+        }
+      }
+    });
+
+    return bestTier;
+  }, [pages, features]);
+
   // Feature management
   const toggleFeature = (id: string) => {
     setFeatures((prev) =>
@@ -182,11 +218,11 @@ export default function PricingCalculator() {
         timeline,
       };
 
-      // Dispatch to pricing section to highlight recommended tier
+      // Dispatch to pricing section to highlight optimal recommended tier
       window.dispatchEvent(
         new CustomEvent("projectConfigured", {
           detail: {
-            recommendedTier: tierInfo.pageTier,
+            recommendedTier: recommendedTier, // Use optimal tier calculation
             totalPrice,
             prefilledFromQuiz,
           },
@@ -202,7 +238,7 @@ export default function PricingCalculator() {
         })
       );
     }
-  }, [pages, users, features, tierInfo, totalPrice, timeline, prefilledFromQuiz]);
+  }, [pages, users, features, tierInfo, totalPrice, timeline, prefilledFromQuiz, recommendedTier]);
 
   // Event handlers
   const handleSeePricingOptions = () => {
