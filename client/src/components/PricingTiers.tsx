@@ -111,7 +111,7 @@ export default function PricingTiers() {
     return `$${discountedPrice.toLocaleString()}`;
   };
 
-  // Helper function to calculate best tier (upgrade when features exceed capacity)
+  // Helper function to calculate best tier (cheapest tier that supports page count)
   const calculateRecommendedTier = (data: any) => {
     if (!data.pageCount) return null;
 
@@ -140,35 +140,22 @@ export default function PricingTiers() {
       },
     ];
 
-    // Start with tier based on page count
-    let currentTierIndex = allTierOptions.findIndex((t) => pages <= t.maxPages);
-    if (currentTierIndex === -1) currentTierIndex = allTierOptions.length - 1;
+    // Filter tiers that support the page count
+    const compatibleTiers = allTierOptions.filter((tier) => pages <= tier.maxPages);
 
-    // Check if we need to upgrade due to features
-    // Upgrade to next tier when: current tier cost > next tier base price
-    for (let i = currentTierIndex; i < allTierOptions.length; i++) {
-      const currentTier = allTierOptions[i];
-      const extraFeatures = Math.max(0, advancedCount - currentTier.included);
-      const currentCost = currentTier.base + extraFeatures * 500;
+    // Find the cheapest compatible tier
+    let bestTier = compatibleTiers[0];
+    let bestCost = bestTier.base + Math.max(0, advancedCount - bestTier.included) * 500;
 
-      // If there's a next tier, check if upgrading is cheaper
-      if (i < allTierOptions.length - 1) {
-        const nextTier = allTierOptions[i + 1];
-        const nextExtraFeatures = Math.max(0, advancedCount - nextTier.included);
-        const nextCost = nextTier.base + nextExtraFeatures * 500;
-
-        // If next tier is cheaper or equal, upgrade
-        if (nextCost <= currentCost) {
-          continue; // Keep checking higher tiers
-        }
+    compatibleTiers.forEach((tier) => {
+      const tierCost = tier.base + Math.max(0, advancedCount - tier.included) * 500;
+      if (tierCost < bestCost) {
+        bestCost = tierCost;
+        bestTier = tier;
       }
+    });
 
-      // This tier is optimal
-      return currentTier.name;
-    }
-
-    // Fallback to highest tier
-    return allTierOptions[allTierOptions.length - 1].name;
+    return bestTier.name;
   };
 
   // Determine recommended tier from quiz results
