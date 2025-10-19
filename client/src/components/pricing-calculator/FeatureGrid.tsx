@@ -27,39 +27,18 @@ export function FeatureGrid({ featuresByCategory, onToggleFeature }: FeatureGrid
         return (
           <div key={category}>
             {isAlwaysIncluded ? (
-              /* Mobile: 2-column grid layout */
+              /* Desktop only: Original grid layout (mobile is in PricingCalculator) */
               <>
-                <div className="lg:hidden mb-3">
-                  <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-2.5">
-                    <div className="flex items-center gap-1.5 mb-2">
-                      <div className="w-4 h-4 rounded-full bg-emerald-600 flex items-center justify-center flex-shrink-0">
-                        <Check className="h-2.5 w-2.5 text-white" />
-                      </div>
-                      <h3 className="text-xs font-bold text-emerald-800 uppercase">
-                        Included Always
-                      </h3>
-                    </div>
-                    <div className="grid grid-cols-2 gap-x-3 gap-y-1">
-                      {categoryFeatures.map((feature) => (
-                        <div key={feature.id} className="text-xs text-emerald-700">
-                          • {feature.shortName || feature.name}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Desktop: Original grid layout */}
-                <div className="hidden lg:block">
+                <div className="hidden sm:block">
                   <div className="mb-4">
                     <div className="pb-2 border-b border-emerald-500/30">
-                      <h3 className="text-lg font-bold text-emerald-700">✓ INCLUDED FREE</h3>
+                      <h3 className="text-lg font-bold text-emerald-700">✓ INCLUDED ALWAYS</h3>
                       <p className="text-xs text-emerald-600 mt-1">
                         Essential features competitors charge $19+/month for
                       </p>
                     </div>
                   </div>
-                  <div className="grid grid-cols-3 gap-2.5 mb-6">
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2.5 mb-6">
                     {categoryFeatures.map((feature, index) => (
                       <FeatureCard
                         key={feature.id}

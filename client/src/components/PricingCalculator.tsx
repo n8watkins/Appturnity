@@ -8,6 +8,8 @@
 import { useState, useEffect, useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { Check } from "lucide-react";
 import { handleSmoothScroll } from "@/lib/utils";
 import { getQuizResults } from "@/lib/quizStorage";
 import { ALWAYS_INCLUDED_FEATURES, OPTIONAL_FEATURES } from "@/lib/pricing";
@@ -251,12 +253,75 @@ export default function PricingCalculator() {
                     Configure Your Project
                   </h3>
 
-                  <FeatureSliders
-                    pages={pages}
-                    users={users}
-                    onPagesChange={setPages}
-                    onUsersChange={setUsers}
-                  />
+                  {/* Mobile: 2-column layout (Included Always + Sliders) */}
+                  <div className="sm:hidden grid grid-cols-2 gap-2 mb-4">
+                    {/* Left: Included Always */}
+                    <div>
+                      {featuresByCategory["Always Included"] && (
+                        <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-2">
+                          <div className="flex items-center gap-1 mb-1.5">
+                            <div className="w-3 h-3 rounded-full bg-emerald-600 flex items-center justify-center flex-shrink-0">
+                              <Check className="h-2 w-2 text-white" />
+                            </div>
+                            <h3 className="text-xs font-bold text-emerald-800 uppercase">
+                              Included Always
+                            </h3>
+                          </div>
+                          <div className="space-y-0.5">
+                            {featuresByCategory["Always Included"].map((feature) => (
+                              <div key={feature.id} className="text-xs text-emerald-700">
+                                • {feature.shortName || feature.name}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Right: Pages + Users sliders stacked */}
+                    <div className="space-y-2">
+                      <div className="bg-slate-50 p-2 rounded-lg border border-slate-200">
+                        <label className="text-xs font-semibold text-slate-700 block mb-1">
+                          Pages
+                        </label>
+                        <span className="text-base font-bold text-slate-900 block mb-1">
+                          {pages}
+                        </span>
+                        <Slider
+                          value={[pages]}
+                          onValueChange={(value) => onPagesChange(value[0])}
+                          min={1}
+                          max={20}
+                          step={1}
+                        />
+                      </div>
+                      <div className="bg-slate-50 p-2 rounded-lg border border-slate-200">
+                        <label className="text-xs font-semibold text-slate-700 block mb-1">
+                          Users
+                        </label>
+                        <span className="text-base font-bold text-slate-900 block mb-1">
+                          {users}
+                        </span>
+                        <Slider
+                          value={[users]}
+                          onValueChange={(value) => onUsersChange(value[0])}
+                          min={1}
+                          max={20}
+                          step={1}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Desktop: Original layout */}
+                  <div className="hidden sm:block">
+                    <FeatureSliders
+                      pages={pages}
+                      users={users}
+                      onPagesChange={setPages}
+                      onUsersChange={setUsers}
+                    />
+                  </div>
 
                   <FeatureGrid
                     featuresByCategory={featuresByCategory}
