@@ -34,7 +34,7 @@ type ExitModalFormValues = z.infer<typeof exitModalSchema>;
 interface QuizExitModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: { name: string; email: string }) => void;
+  onSubmit: (data: { name: string; email: string; recaptchaToken: string }) => void;
   onContinueQuiz?: () => void;
 }
 
@@ -80,11 +80,18 @@ export default function QuizExitModal({
       await onSubmit({
         name: data.name.trim(),
         email: data.email.trim(),
+        recaptchaToken,
       });
 
       // Reset state
       setStep("qualifying");
       form.reset();
+
+      // Show success toast
+      toast({
+        title: "Success!",
+        description: "We'll send your personalized plan + 10% discount within 24 hours.",
+      });
     } catch (error) {
       toast({
         title: "Something went wrong",

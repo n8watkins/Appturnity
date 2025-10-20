@@ -62,15 +62,40 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
     return () => window.removeEventListener("scroll", handleScroll);
   }, [hasStarted, isCompleted, hasShownExitModal, quizHasBeenViewed]);
 
-  const handleExitModalSubmit = async (data: { name: string; email: string }) => {
-    // TODO: Send data to backend/API
-    console.log("Quiz exit modal submission:", { ...data, quizAnswers: answers });
+  const handleExitModalSubmit = async (data: {
+    name: string;
+    email: string;
+    recaptchaToken: string;
+  }) => {
+    try {
+      // Send data to backend/API
+      const response = await fetch("/api/quiz-exit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          quizAnswers: answers,
+          recaptchaToken: data.recaptchaToken,
+        }),
+      });
 
-    // Close modal
-    setShowExitModal(false);
+      if (!response.ok) {
+        throw new Error("Failed to submit quiz exit modal");
+      }
 
-    // Optional: Show a thank you message or toast notification
-    // You can add a toast library here if desired
+      // Close modal
+      setShowExitModal(false);
+
+      // You could show a success toast here if desired
+      console.log("Quiz exit modal submitted successfully");
+    } catch (error) {
+      console.error("Error submitting quiz exit modal:", error);
+      // Error handling is done in the modal component
+      throw error;
+    }
   };
 
   const handleContinueQuiz = () => {

@@ -624,7 +624,186 @@ export async function sendQuizExitModalEmail(data: QuizExitModalData) {
     return { success: true, mode: "development" };
   }
 
-  const htmlContent = `
+  // Send TWO emails:
+  // 1. Confirmation email to the user
+  // 2. Notification email to site owner
+
+  // === USER CONFIRMATION EMAIL ===
+  const userHtmlContent = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <style>
+          body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9fafb;
+          }
+          .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+          }
+          .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 28px;
+          }
+          .discount-badge {
+            display: inline-block;
+            background: #fef3c7;
+            color: #92400e;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 700;
+            margin: 15px 0;
+            border: 2px solid #f59e0b;
+          }
+          .content {
+            background: white;
+            padding: 40px 30px;
+            border: 1px solid #e5e7eb;
+            border-top: none;
+          }
+          .greeting {
+            font-size: 18px;
+            color: #1f2937;
+            margin-bottom: 20px;
+          }
+          .info-box {
+            background: #f0f9ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 4px;
+          }
+          .next-steps {
+            background: #ecfdf5;
+            border: 2px solid #10b981;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+          }
+          .next-steps h3 {
+            margin: 0 0 15px 0;
+            color: #059669;
+          }
+          .next-steps ul {
+            margin: 0;
+            padding-left: 20px;
+          }
+          .next-steps li {
+            margin-bottom: 10px;
+            color: #374151;
+          }
+          .footer {
+            background: #1f2937;
+            color: #9ca3af;
+            padding: 30px;
+            text-align: center;
+            font-size: 14px;
+            border-radius: 0 0 8px 8px;
+          }
+          .footer a {
+            color: #667eea;
+            text-decoration: none;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <h1>🎉 Your Plan is On the Way!</h1>
+          <div class="discount-badge">🎁 10% DISCOUNT INCLUDED</div>
+        </div>
+        <div class="content">
+          <div class="greeting">
+            Hi ${name},
+          </div>
+
+          <p style="font-size: 16px; line-height: 1.8;">
+            Thank you for your interest in Appturnity! We're excited to help you find the perfect solution for your project.
+          </p>
+
+          <div class="info-box">
+            <h3 style="margin: 0 0 10px 0; color: #667eea;">📬 What happens next?</h3>
+            <p style="margin: 0;">
+              We're reviewing your information and will send you a <strong>personalized recommendation</strong> with honest pricing and your <strong>10% discount code</strong> within the next 24 hours.
+            </p>
+          </div>
+
+          <div class="next-steps">
+            <h3>🚀 What you'll receive:</h3>
+            <ul>
+              <li><strong>Custom recommendation</strong> tailored to your specific needs</li>
+              <li><strong>Transparent pricing breakdown</strong> with no hidden costs</li>
+              <li><strong>10% discount code</strong> valid for your first project</li>
+              <li><strong>Timeline estimate</strong> for your project</li>
+              <li><strong>Next steps</strong> to get started</li>
+            </ul>
+          </div>
+
+          <p style="font-size: 16px; line-height: 1.8;">
+            In the meantime, if you have any questions, feel free to reply to this email. We're here to help!
+          </p>
+
+          <p style="font-size: 16px; margin-top: 30px;">
+            Best regards,<br>
+            <strong>The Appturnity Team</strong>
+          </p>
+        </div>
+        <div class="footer">
+          <p style="margin: 0 0 10px 0;">
+            <strong>Appturnity</strong> - Web Consulting<br>
+            Custom landing pages built to drive trust and growth
+          </p>
+          <p style="margin: 10px 0;">
+            <a href="https://appturnity.com">Visit our website</a>
+          </p>
+          <p style="font-size: 12px; color: #6b7280; margin-top: 20px;">
+            You're receiving this email because you requested a personalized plan from our quiz.
+          </p>
+        </div>
+      </body>
+    </html>
+  `;
+
+  const userTextContent = `
+Hi ${name},
+
+🎉 Your Plan is On the Way!
+🎁 10% DISCOUNT INCLUDED
+
+Thank you for your interest in Appturnity! We're excited to help you find the perfect solution for your project.
+
+WHAT HAPPENS NEXT?
+We're reviewing your information and will send you a personalized recommendation with honest pricing and your 10% discount code within the next 24 hours.
+
+WHAT YOU'LL RECEIVE:
+- Custom recommendation tailored to your specific needs
+- Transparent pricing breakdown with no hidden costs
+- 10% discount code valid for your first project
+- Timeline estimate for your project
+- Next steps to get started
+
+In the meantime, if you have any questions, feel free to reply to this email. We're here to help!
+
+Best regards,
+The Appturnity Team
+
+---
+Appturnity - Web Consulting
+Custom landing pages built to drive trust and growth
+Visit: https://appturnity.com
+  `.trim();
+
+  // === OWNER NOTIFICATION EMAIL ===
+  const ownerHtmlContent = `
     <!DOCTYPE html>
     <html>
       <head>
@@ -840,19 +1019,32 @@ NEXT STEPS:
 Reply to: ${email}
   `.trim();
 
+  // Rename for clarity
+  const ownerTextContent = textContent;
+
   try {
-    const result = await resend.emails.send({
+    // Send confirmation email to user
+    await resend.emails.send({
+      from: process.env.RESEND_FROM_EMAIL || "Appturnity <onboarding@resend.dev>",
+      to: email,
+      subject: "🎉 Your Personalized Plan is On the Way!",
+      html: userHtmlContent,
+      text: userTextContent,
+    });
+
+    // Send notification email to site owner
+    const ownerResult = await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL || "Appturnity Quiz <onboarding@resend.dev>",
       to: process.env.CONTACT_EMAIL || "nathancwatkins23@gmail.com",
       replyTo: email,
       subject: `🎁 10% Discount Lead: ${name} (Quiz Exit Capture)`,
-      html: htmlContent,
-      text: textContent,
+      html: ownerHtmlContent,
+      text: ownerTextContent,
     });
 
-    return result;
+    return ownerResult;
   } catch (error) {
-    logger.error("Failed to send quiz exit modal email", error as Error, { email, name });
+    logger.error("Failed to send quiz exit modal emails", error as Error, { email, name });
     throw error;
   }
 }

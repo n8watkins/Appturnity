@@ -1,7 +1,12 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { z } from "zod";
-import { sendContactEmail, sendChatWidgetEmail, sendNewsletterSubscription } from "./email";
+import {
+  sendContactEmail,
+  sendChatWidgetEmail,
+  sendNewsletterSubscription,
+  sendQuizExitModalEmail,
+} from "./email";
 import { logger } from "./lib/logger";
 import { sendErrorNotification } from "./lib/errorNotification";
 import {
@@ -31,6 +36,13 @@ const chatWidgetSchema = z.object({
 const newsletterSchema = z.object({
   email: z.string().email(),
   hp_field: z.string().optional(),
+  recaptchaToken: z.string().min(1),
+});
+
+const quizExitModalSchema = z.object({
+  name: z.string().min(2),
+  email: z.string().email(),
+  quizAnswers: z.record(z.union([z.string(), z.array(z.string())])).optional(),
   recaptchaToken: z.string().min(1),
 });
 
@@ -280,6 +292,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       logger.error("Error processing web vital", error as Error, undefined, req.requestId);
       res.status(500).json({ success: false });
+    }
+  });
+
+  // Quiz exit modal submission endpoint
+  app.post("/api/quiz-exit", async (req, res) => {
+    try {
+      // Validate the request body
+      const validatedData = quizExitModalSchema.parse(req.body);
+
+      // Verify reCAPTCHA token
+      const isHuman = await verifyRecaptcha(validatedData.recaptchaToken);
+
+      if (!isHuman) {
+        return res.status(400).json({
+          success: false,
+          message: "reCAPTCHA verification failed. Please try again.",
+        });
+      }
+
+      // Remove recaptchaToken before sending email
+      const { recaptchaToken, ...emailData } = validatedData;
+
+      // Send email notification
+      await sendQuizExitModalEmail(emailData);
+
+      logger.info(
+        "Quiz exit modal submission received",
+        { email: validatedData.email, name: validatedData.name },
+        req.requestId
+      );
+
+      return res.status(200).json({
+        success: true,
+        message: "Your request has been received. We'll send your plan within 24 hours!",
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({
+          success: false,
+          message: "Validation failed",
+          errors: error.errors,
+        });
+      }
+
+      logger.error(
+        "Error processing quiz exit modal submission",
+        error as Error,
+        undefined,
+        req.requestId
+      );
+
+      return res.status(500).json({
+        success: false,
+        message: "An error occurred while processing your request",
+      });
     }
   });
 
