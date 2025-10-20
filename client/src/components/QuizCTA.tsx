@@ -22,10 +22,14 @@ export default function QuizCTA({ variant = "banner", className = "" }: QuizCTAP
           <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-full flex items-center justify-center">
             <Sparkles className="h-5 w-5 md:h-6 md:w-6 text-primary" />
           </div>
-          <Button size="default" className="gap-2 group text-sm md:text-base font-semibold" asChild>
+          <Button
+            size="lg"
+            className="gap-2 group text-base md:text-base font-semibold px-6 h-11 md:h-10 md:px-4"
+            asChild
+          >
             <a href="#quiz" onClick={(e) => handleSmoothScroll(e, "quiz", undefined, true)}>
               Start Quiz
-              <ArrowRight className="h-4 w-4 md:h-5 md:w-5 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="h-5 w-5 md:h-5 md:w-5 group-hover:translate-x-1 transition-transform" />
             </a>
           </Button>
         </div>

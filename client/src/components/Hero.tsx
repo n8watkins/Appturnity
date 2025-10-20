@@ -143,7 +143,7 @@ export default function Hero() {
 
                 {/* Mobile mockup - adjusted for mobile view */}
                 <motion.div
-                  className="absolute bottom-4 left-4 md:bottom-8 md:-left-5 w-28 md:w-36 h-52 md:h-64 bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200"
+                  className="absolute bottom-12 left-4 md:bottom-8 md:-left-5 w-28 md:w-36 h-52 md:h-64 bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200"
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.8, duration: 0.5 }}
@@ -165,7 +165,7 @@ export default function Hero() {
                 {/* Quiz CTA Card - centered in image overlay */}
                 <QuizCTA
                   variant="card"
-                  className="absolute top-1/2 left-1/3 transform -translate-x-1/3 -translate-y-1/2 w-[280px] md:w-80 md:rotate-2 hover:rotate-0 transition-transform duration-300"
+                  className="absolute top-1/2 left-[10%] md:left-1/3 transform -translate-x-[10%] md:-translate-x-1/3 -translate-y-1/2 w-[300px] md:w-80 md:rotate-2 hover:rotate-0 transition-transform duration-300"
                 />
               </div>
             </div>

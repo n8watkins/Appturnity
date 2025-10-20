@@ -56,95 +56,69 @@ export function PricingSummary({
   };
 
   return (
-    <div className="md:sticky md:top-4 md:self-start space-y-3 sm:space-y-4">
-      {/* Our Recommendation Card */}
-      <div className="bg-gradient-to-br from-green-50 to-green-100 p-3 sm:p-4 lg:p-5 rounded-lg sm:rounded-xl border-2 border-green-300">
-        {/* Header */}
-        <div className="flex items-center gap-2 mb-2 sm:mb-3">
-          <Check className="h-4 w-4 sm:h-5 sm:w-5 text-green-600 flex-shrink-0" />
-          <h4 className="text-base sm:text-lg lg:text-xl font-bold text-green-900">
-            Our Recommendation
-          </h4>
+    <div className="md:sticky md:top-4 md:self-start space-y-3 sm:space-y-4 bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 rounded-lg sm:rounded-xl p-3 sm:p-4">
+      {/* Our Recommendation Header */}
+      <div>
+        <div className="flex items-center justify-center md:justify-start gap-2">
+          <Check className="h-5 w-5 text-green-600 flex-shrink-0" />
+          <h4 className="text-lg sm:text-xl font-bold text-green-900">Our Recommendation</h4>
         </div>
+      </div>
 
-        {/* Total Price (Prominent) */}
-        <div className="mb-3 sm:mb-4">
-          {prefilledFromQuiz && quizDiscount > 0 && (
-            <div className="mb-2 p-2 sm:p-2.5 bg-gradient-to-r from-yellow-100 to-yellow-50 rounded-lg border border-yellow-300">
-              <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-1.5 sm:gap-2">
-                  <span className="text-base sm:text-lg">🎉</span>
-                  <span className="text-xs sm:text-sm font-semibold text-yellow-900">
-                    Quiz Discount ({quizDiscountPercent}%)
-                  </span>
-                </div>
-                <span className="text-sm sm:text-base font-bold text-yellow-900">
-                  -${quizDiscount.toLocaleString()}
-                </span>
-              </div>
-            </div>
-          )}
-
-          <div className="flex justify-between items-center">
-            <span className="text-sm sm:text-base lg:text-lg font-bold text-green-900">
-              One-Time Investment:
+      {/* Plan Details Card - Green Border */}
+      <div className="bg-white rounded-lg sm:rounded-xl border-2 border-green-400 p-4 sm:p-5">
+        <div className="flex justify-between items-center mb-3">
+          <span className="text-base sm:text-lg font-bold text-slate-900">{pageTier} Plan</span>
+          <span className="text-xl sm:text-2xl font-bold text-green-600">
+            ${basePrice.toLocaleString()}
+          </span>
+        </div>
+        <div className="space-y-1.5 text-sm sm:text-base text-slate-600">
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-slate-400"></div>
+            <span>{getPageRange(pageTier)}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-slate-400"></div>
+            <span>
+              {getFeatureCount()} advanced {includedAdvancedFeatures === 1 ? "feature" : "features"}{" "}
+              included
             </span>
-            <div className="text-right">
-              {prefilledFromQuiz && quizDiscount > 0 && (
-                <div className="text-xs sm:text-sm text-green-700 line-through mb-0.5 sm:mb-1">
-                  ${totalPriceBeforeDiscount.toLocaleString()}
-                </div>
-              )}
-              <PriceDisplay price={totalPrice} size="lg" />
-            </div>
           </div>
-          <p className="text-xs sm:text-sm text-green-700 text-right mt-1">Timeline: {timeline}</p>
         </div>
+      </div>
 
-        {/* Plan Details - Compact */}
-        <div className="space-y-1.5 sm:space-y-2 text-sm sm:text-base text-green-900">
-          {/* Plan Tier - Smaller */}
-          <div className="bg-green-100/50 rounded-md sm:rounded-lg p-2 sm:p-2.5 border border-green-200">
-            <div className="flex justify-between items-center mb-1">
-              <span className="text-xs sm:text-sm font-semibold text-green-900">
-                {pageTier} Plan
-              </span>
-              <span className="text-sm sm:text-base font-bold text-green-800">
-                ${basePrice.toLocaleString()}
+      {/* Feature Breakdown */}
+      <FeatureBreakdown features={features} includedAdvancedFeatures={includedAdvancedFeatures} />
+
+      {/* Quiz Discount */}
+      {prefilledFromQuiz && quizDiscount > 0 && (
+        <div className="p-3 sm:p-4 bg-gradient-to-r from-yellow-100 to-yellow-50 rounded-lg border border-yellow-300">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">🎉</span>
+              <span className="text-sm sm:text-base font-semibold text-yellow-900">
+                Quiz Discount ({quizDiscountPercent}%)
               </span>
             </div>
-            <div className="space-y-0.5 text-xs text-green-700">
-              <div className="flex items-center gap-1.5">
-                <div className="w-1 h-1 rounded-full bg-green-600"></div>
-                <span>{getPageRange(pageTier)}</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <div className="w-1 h-1 rounded-full bg-green-600"></div>
-                <span>
-                  {getFeatureCount()} advanced{" "}
-                  {includedAdvancedFeatures === 1 ? "feature" : "features"} included
-                </span>
-              </div>
-            </div>
+            <span className="text-base sm:text-lg font-bold text-yellow-900">
+              -${quizDiscount.toLocaleString()}
+            </span>
           </div>
+        </div>
+      )}
 
-          {/* Feature Breakdown */}
-          <FeatureBreakdown
-            features={features}
-            includedAdvancedFeatures={includedAdvancedFeatures}
-          />
-
-          {/* Benefits - Compact */}
-          <div className="pt-2 sm:pt-3 border-t border-green-300 space-y-1 sm:space-y-1.5 text-xs sm:text-sm text-green-800">
-            <p className="flex items-center gap-1.5 sm:gap-2">
-              <Check className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" /> Unlimited users
-            </p>
-            <p className="flex items-center gap-1.5 sm:gap-2">
-              <Check className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" /> Full code ownership
-            </p>
-            <p className="flex items-center gap-1.5 sm:gap-2">
-              <Check className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" /> No monthly fees
-            </p>
+      {/* Total Price */}
+      <div className="bg-slate-50 rounded-lg p-4 sm:p-5 border border-slate-200">
+        <div className="flex justify-between items-center">
+          <span className="text-base sm:text-lg font-bold text-slate-900">One-Time Investment</span>
+          <div className="text-right">
+            {prefilledFromQuiz && quizDiscount > 0 && (
+              <div className="text-sm text-slate-500 line-through mb-1">
+                ${totalPriceBeforeDiscount.toLocaleString()}
+              </div>
+            )}
+            <PriceDisplay price={totalPrice} size="lg" />
           </div>
         </div>
       </div>

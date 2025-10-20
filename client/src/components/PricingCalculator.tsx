@@ -246,31 +246,31 @@ export default function PricingCalculator() {
         <div className="max-w-7xl mx-auto">
           <Card className="shadow-lg border border-slate-300 bg-white">
             <CardContent className="p-3 sm:p-5 md:p-6 lg:p-8">
-              <div className="grid md:grid-cols-[2fr_1fr] gap-4 sm:gap-6 md:gap-8">
-                {/* Left Column */}
-                <div>
-                  <h3 className="text-base sm:text-xl lg:text-2xl font-bold text-slate-900 mb-3 sm:mb-4 lg:mb-6">
-                    Configure Your Project
-                  </h3>
-
-                  {/* Mobile: 2-column layout (Included Always + Sliders) */}
-                  <div className="sm:hidden grid grid-cols-2 gap-2 mb-4">
-                    {/* Left: Included Always */}
-                    <div>
+              {/* Mobile only: Standard layout */}
+              <div className="sm:hidden">
+                <div className="grid md:grid-cols-[2fr_1fr] gap-4 sm:gap-6 md:gap-8">
+                  {/* Left Column */}
+                  <div>
+                    {/* Mobile: Always Included */}
+                    <div className="sm:hidden mb-4">
                       {featuresByCategory["Always Included"] && (
-                        <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-2">
-                          <div className="flex items-center gap-1 mb-1.5">
-                            <div className="w-3 h-3 rounded-full bg-emerald-600 flex items-center justify-center flex-shrink-0">
-                              <Check className="h-2 w-2 text-white" />
+                        <div className="bg-white border border-slate-200 rounded-lg p-3">
+                          <div className="flex items-center justify-center gap-1.5 mb-2">
+                            <div className="w-4 h-4 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                              <Check className="h-2.5 w-2.5 text-white" />
                             </div>
-                            <h3 className="text-xs font-bold text-emerald-800 uppercase">
-                              Included Always
+                            <h3 className="text-sm font-bold text-blue-900 uppercase">
+                              Always Included
                             </h3>
                           </div>
-                          <div className="space-y-0.5">
+                          <div className="grid grid-cols-2 gap-x-3 gap-y-1">
                             {featuresByCategory["Always Included"].map((feature) => (
-                              <div key={feature.id} className="text-xs text-emerald-700">
-                                • {feature.shortName || feature.name}
+                              <div
+                                key={feature.id}
+                                className="text-xs text-blue-700 flex items-start gap-1"
+                              >
+                                <span className="text-blue-600 mt-0.5">•</span>
+                                <span>{feature.shortName || feature.name}</span>
                               </div>
                             ))}
                           </div>
@@ -278,59 +278,149 @@ export default function PricingCalculator() {
                       )}
                     </div>
 
-                    {/* Right: Pages + Users sliders stacked */}
-                    <div className="space-y-2">
-                      <div className="bg-slate-50 p-2 rounded-lg border border-slate-200">
-                        <label className="text-xs font-semibold text-slate-700 block mb-1">
-                          Pages
-                        </label>
-                        <span className="text-base font-bold text-slate-900 block mb-1">
-                          {pages}
-                        </span>
-                        <Slider
-                          value={[pages]}
-                          onValueChange={(value) => onPagesChange(value[0])}
-                          min={1}
-                          max={20}
-                          step={1}
-                        />
-                      </div>
-                      <div className="bg-slate-50 p-2 rounded-lg border border-slate-200">
-                        <label className="text-xs font-semibold text-slate-700 block mb-1">
-                          Users
-                        </label>
-                        <span className="text-base font-bold text-slate-900 block mb-1">
-                          {users}
-                        </span>
-                        <Slider
-                          value={[users]}
-                          onValueChange={(value) => onUsersChange(value[0])}
-                          min={1}
-                          max={20}
-                          step={1}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Desktop: Original layout */}
-                  <div className="hidden sm:block">
-                    <FeatureSliders
-                      pages={pages}
-                      users={users}
-                      onPagesChange={setPages}
-                      onUsersChange={setUsers}
+                    <FeatureGrid
+                      featuresByCategory={featuresByCategory}
+                      onToggleFeature={toggleFeature}
                     />
                   </div>
 
+                  {/* Right Column */}
+                  <div>
+                    <PricingSummary
+                      tierInfo={tierInfo}
+                      features={features}
+                      users={users}
+                      totalPrice={totalPrice}
+                      totalPriceBeforeDiscount={totalPriceBeforeDiscount}
+                      timeline={timeline}
+                      prefilledFromQuiz={prefilledFromQuiz}
+                      quizDiscount={quizDiscount}
+                      quizDiscountPercent={QUIZ_DISCOUNT_PERCENT}
+                    />
+
+                    {/* Action Buttons */}
+                    <div className="space-y-2 sm:space-y-3 mt-4 sm:mt-6">
+                      <Button onClick={handleLockInQuote} size="lg" className="w-full">
+                        Lock in Your Quote Now
+                      </Button>
+                      <Button
+                        onClick={handleSeePricingOptions}
+                        variant="outline"
+                        size="lg"
+                        className="w-full"
+                      >
+                        See Pricing Options
+                      </Button>
+                      <p className="text-center text-xs text-slate-500 mt-1.5 sm:mt-2">
+                        No commitment • Free consultation
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Tablet (sm to lg): Single column layout */}
+              <div className="hidden sm:block lg:hidden space-y-4">
+                {/* Always Included */}
+                {featuresByCategory["Always Included"] && (
+                  <div className="bg-white border border-slate-200 rounded-xl p-4">
+                    <div className="flex items-center justify-center gap-2 mb-3">
+                      <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                        <Check className="h-3 w-3 text-white" />
+                      </div>
+                      <h3 className="text-sm font-bold text-blue-900 uppercase">Always Included</h3>
+                    </div>
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
+                      {featuresByCategory["Always Included"].map((feature) => (
+                        <div
+                          key={feature.id}
+                          className="text-sm text-blue-700 flex items-start gap-2"
+                        >
+                          <span className="text-blue-600 mt-0.5">•</span>
+                          <span>{feature.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Advanced Features - Full Width */}
+                <FeatureGrid
+                  featuresByCategory={featuresByCategory}
+                  onToggleFeature={toggleFeature}
+                />
+
+                {/* Pricing Summary - Full Width */}
+                <PricingSummary
+                  tierInfo={tierInfo}
+                  features={features}
+                  users={users}
+                  totalPrice={totalPrice}
+                  totalPriceBeforeDiscount={totalPriceBeforeDiscount}
+                  timeline={timeline}
+                  prefilledFromQuiz={prefilledFromQuiz}
+                  quizDiscount={quizDiscount}
+                  quizDiscountPercent={QUIZ_DISCOUNT_PERCENT}
+                />
+
+                {/* Action Buttons */}
+                <div className="space-y-2">
+                  <Button onClick={handleLockInQuote} size="lg" className="w-full">
+                    Lock in Your Quote Now
+                  </Button>
+                  <Button
+                    onClick={handleSeePricingOptions}
+                    variant="outline"
+                    size="lg"
+                    className="w-full"
+                  >
+                    See Pricing Options
+                  </Button>
+                  <p className="text-center text-xs text-slate-500 mt-1.5">
+                    No commitment • Free consultation
+                  </p>
+                </div>
+              </div>
+
+              {/* Desktop (lg+): 4-column layout */}
+              <div className="hidden lg:grid lg:grid-cols-4 gap-4 lg:gap-6">
+                {/* Left 2 columns: Advanced Features */}
+                <div className="lg:col-span-2 space-y-4">
+                  {/* Advanced Features */}
                   <FeatureGrid
                     featuresByCategory={featuresByCategory}
                     onToggleFeature={toggleFeature}
                   />
                 </div>
 
-                {/* Right Column */}
-                <div>
+                {/* Right 2 columns: Always Included and Summary */}
+                <div className="sm:col-span-2 space-y-4">
+                  {/* Always Included Features */}
+                  {featuresByCategory["Always Included"] && (
+                    <div className="bg-white border border-slate-200 rounded-xl p-4">
+                      <div className="flex items-center justify-center gap-2 mb-3">
+                        <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                          <Check className="h-3 w-3 text-white" />
+                        </div>
+                        <h3 className="text-sm font-bold text-blue-900 uppercase">
+                          Always Included
+                        </h3>
+                      </div>
+                      <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
+                        {featuresByCategory["Always Included"].map((feature) => (
+                          <div
+                            key={feature.id}
+                            className="text-sm text-blue-700 flex items-start gap-2"
+                          >
+                            <span className="text-blue-600 mt-0.5">•</span>
+                            <span>{feature.name}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Pricing Summary */}
                   <PricingSummary
                     tierInfo={tierInfo}
                     features={features}
@@ -344,7 +434,7 @@ export default function PricingCalculator() {
                   />
 
                   {/* Action Buttons */}
-                  <div className="space-y-2 sm:space-y-3 mt-4 sm:mt-6">
+                  <div className="space-y-2">
                     <Button onClick={handleLockInQuote} size="lg" className="w-full">
                       Lock in Your Quote Now
                     </Button>
@@ -356,7 +446,7 @@ export default function PricingCalculator() {
                     >
                       See Pricing Options
                     </Button>
-                    <p className="text-center text-xs text-slate-500 mt-1.5 sm:mt-2">
+                    <p className="text-center text-xs text-slate-500 mt-1.5">
                       No commitment • Free consultation
                     </p>
                   </div>
