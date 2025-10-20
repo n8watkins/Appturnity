@@ -29,6 +29,7 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
   const [isAdvancing, setIsAdvancing] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
   const [hasShownExitModal, setHasShownExitModal] = useState(false);
+  const [quizHasBeenViewed, setQuizHasBeenViewed] = useState(false);
   const advanceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const quizSectionRef = useRef<HTMLDivElement | null>(null);
 
@@ -45,9 +46,13 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
       const rect = quizSectionRef.current.getBoundingClientRect();
       const isQuizVisible = rect.top < window.innerHeight && rect.bottom > 0;
 
-      // If quiz has started (not just showing start screen) and user scrolls away
-      // Show exit modal to capture their contact info
-      if (!isQuizVisible && hasStarted) {
+      // First, track if the quiz has been in view at least once
+      if (isQuizVisible && !quizHasBeenViewed) {
+        setQuizHasBeenViewed(true);
+      }
+
+      // Only trigger modal if quiz has been viewed AND user scrolls away
+      if (!isQuizVisible && quizHasBeenViewed) {
         setShowExitModal(true);
         setHasShownExitModal(true);
       }
@@ -55,7 +60,7 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [hasStarted, isCompleted, hasShownExitModal]);
+  }, [hasStarted, isCompleted, hasShownExitModal, quizHasBeenViewed]);
 
   const handleExitModalSubmit = async (data: { name: string; email: string }) => {
     // TODO: Send data to backend/API
