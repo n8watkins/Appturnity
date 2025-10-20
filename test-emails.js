@@ -107,6 +107,45 @@ async function testChatWidget() {
   }
 }
 
+async function testQuizExitModal() {
+  console.log("\n📧 Testing Quiz Exit Modal Email...\n");
+
+  try {
+    const response = await fetch(`${apiUrl}/quiz-exit`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: "Sarah Johnson",
+        email: "test@example.com",
+        quizAnswers: {
+          projectType: "New Website",
+          hasExistingWebsite: "No",
+          timeframe: "1-3 months",
+          budgetRange: "$3,000 - $7,000",
+          desiredFeatures: ["Contact Form", "Blog", "Payment Integration"],
+          primaryGoal: "Generate leads",
+        },
+        recaptchaToken: "test_token",
+      }),
+    });
+
+    const data = await response.json();
+    console.log("Response:", data);
+
+    if (data.success) {
+      console.log("✅ Quiz exit modal emails sent successfully!");
+      console.log("   📨 Confirmation email sent to user");
+      console.log("   📨 Notification email sent to site owner");
+    } else {
+      console.log("❌ Failed:", data.message);
+    }
+  } catch (error) {
+    console.error("❌ Error testing quiz exit modal:", error.message);
+  }
+}
+
 // Run all tests
 (async () => {
   console.log("🧪 Starting Email Integration Tests...");
@@ -119,9 +158,13 @@ async function testChatWidget() {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
   await testChatWidget();
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  await testQuizExitModal();
 
   console.log("\n" + "=".repeat(60));
   console.log("🏁 All tests completed!");
   console.log("\n💡 Check your email at nathancwatkins23@gmail.com");
+  console.log("   For quiz exit modal: Check both user confirmation & owner notification");
   console.log("   Or check the server console for development mode output\n");
 })();
