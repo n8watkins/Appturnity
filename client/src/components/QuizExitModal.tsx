@@ -144,26 +144,20 @@ export default function QuizExitModal({
 
                 <div className="mb-4">
                   {/* Main CTA Box */}
-                  <div className="bg-gradient-to-br from-primary/10 via-purple-50 to-primary/5 border-2 border-primary/30 rounded-lg p-3.5 sm:p-4 shadow-sm">
-                    <div className="flex items-start gap-2.5 mb-3">
-                      <Gift className="h-5 w-5 sm:h-6 sm:w-6 text-primary flex-shrink-0 mt-0.5" />
-                      <div>
-                        <h3 className="text-sm sm:text-base font-bold text-slate-900 mb-1.5">
-                          Get a Personalized Plan + Save 10%
-                        </h3>
-                        <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
-                          We'll recommend the <span className="font-semibold">exact solution</span>{" "}
-                          for your needs—no fluff, no upselling.
-                        </p>
-                      </div>
+                  <div className="bg-gradient-to-br from-primary/10 via-purple-50 to-primary/5 border-2 border-primary/30 rounded-lg p-3 sm:p-3.5 shadow-sm">
+                    <div className="flex items-start gap-2 mb-2.5">
+                      <Gift className="h-5 w-5 sm:h-5.5 sm:w-5.5 text-primary flex-shrink-0 mt-0.5" />
+                      <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                        Get Personalized Plan + 10% Off
+                      </h3>
                     </div>
 
                     {/* Benefits List */}
                     <div className="space-y-1.5">
                       {[
-                        "Custom recommendation for your project",
-                        "Honest pricing (no hidden costs)",
-                        "10% discount code included",
+                        "Custom recommendation",
+                        "Honest pricing breakdown",
+                        "10% discount code",
                       ].map((benefit, idx) => (
                         <div key={idx} className="flex items-start gap-1.5">
                           <CheckCircle2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-green-600 flex-shrink-0 mt-0.5" />
@@ -180,21 +174,21 @@ export default function QuizExitModal({
                     onClick={handleYes}
                     className="w-full bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-700 gap-2 shadow-lg text-sm h-10 sm:h-11"
                   >
-                    <span>Yes! Send My Plan + Discount</span>
+                    <span>Send My Plan + 10% Off</span>
                     <ArrowRight className="h-3.5 w-3.5" />
                   </Button>
                   <div className="flex gap-2">
                     <Button
                       onClick={handleContinueQuiz}
                       variant="outline"
-                      className="flex-1 text-slate-700 hover:text-slate-900 text-sm h-10 sm:h-11"
+                      className="flex-1 text-slate-700 hover:text-slate-900 text-xs sm:text-sm h-9 sm:h-10"
                     >
                       Continue Quiz
                     </Button>
                     <Button
                       onClick={handleClose}
                       variant="ghost"
-                      className="flex-1 text-slate-600 hover:text-slate-900 text-sm h-10 sm:h-11"
+                      className="flex-1 text-slate-600 hover:text-slate-900 text-xs sm:text-sm h-9 sm:h-10"
                     >
                       No Thanks
                     </Button>
