@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useLocation } from "wouter";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Menu, Sparkles } from "lucide-react";
+import { Menu, Sparkles, BookOpen } from "lucide-react";
 import { scrollToElement } from "@/lib/utils";
 import { Helmet } from "react-helmet";
 
@@ -144,9 +144,10 @@ export default function Header() {
             </a>
             <a
               href="/blog"
-              className="px-4 py-2 rounded-md bg-white border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-200 shadow-sm"
+              className="flex items-center gap-2 px-4 py-2 rounded-md bg-white border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-200 shadow-sm"
               onClick={handleBlogClick}
             >
+              <BookOpen className="h-4 w-4" />
               <span className="lg:hidden">Blog</span>
               <span className="hidden lg:inline">Check out our Blog</span>
             </a>
@@ -206,12 +207,13 @@ export default function Header() {
                   </a>
                   <a
                     href="/blog"
-                    className="px-4 py-2 rounded-md bg-white border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-200 text-center shadow-sm"
+                    className="flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-white border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-200 shadow-sm"
                     onClick={(e) => {
                       setIsOpen(false);
                       handleBlogClick(e);
                     }}
                   >
+                    <BookOpen className="h-4 w-4" />
                     Check out our Blog
                   </a>
                 </div>
