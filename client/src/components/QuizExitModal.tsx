@@ -173,7 +173,7 @@ export default function QuizExitModal({
                   <Button
                     onClick={handleContinueQuiz}
                     variant="outline"
-                    className="w-full text-slate-700 hover:text-slate-900 text-sm h-10 sm:h-11"
+                    className="w-full bg-blue-50 hover:bg-blue-100 border-blue-200 text-blue-700 hover:text-blue-900 text-sm h-10 sm:h-11"
                   >
                     Continue Quiz
                   </Button>
@@ -189,7 +189,7 @@ export default function QuizExitModal({
                     variant="ghost"
                     className="w-full text-slate-600 hover:text-slate-900 text-xs sm:text-sm h-9 sm:h-10"
                   >
-                    No Thanks
+                    No Thanks, another time
                   </Button>
                 </div>
               </motion.div>
