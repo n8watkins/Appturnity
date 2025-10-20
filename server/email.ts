@@ -34,6 +34,12 @@ interface NewsletterData {
   email: string;
 }
 
+interface QuizExitModalData {
+  name: string;
+  email: string;
+  quizAnswers?: Record<string, string | string[]>;
+}
+
 export async function sendContactEmail(data: ContactFormData) {
   const { name, email, company, message, recommendation } = data;
 
@@ -604,4 +610,268 @@ Reply to: ${email}
     logger.error("Failed to send chat widget email", error as Error, { email, name });
     throw error;
   }
+}
+
+export async function sendQuizExitModalEmail(data: QuizExitModalData) {
+  const { name, email, quizAnswers } = data;
+
+  // Development mode: log to console instead of sending email
+  if (!resend) {
+    logger.warn("DEVELOPMENT MODE: Quiz exit modal email not sent (no RESEND_API_KEY)", {
+      from: `${name} <${email}>`,
+      quizAnswers,
+    });
+    return { success: true, mode: "development" };
+  }
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <style>
+          body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+          }
+          .header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+          }
+          .header h1 {
+            margin: 0;
+            font-size: 24px;
+          }
+          .discount-badge {
+            display: inline-block;
+            background: #fef3c7;
+            color: #92400e;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 700;
+            margin: 10px 0;
+            border: 2px solid #f59e0b;
+          }
+          .content {
+            background: #f9fafb;
+            padding: 30px;
+            border: 1px solid #e5e7eb;
+            border-top: none;
+          }
+          .field {
+            margin-bottom: 20px;
+          }
+          .label {
+            font-weight: 600;
+            color: #374151;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+          .value {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+            font-size: 15px;
+          }
+          .quiz-data-box {
+            background: #f0f9ff;
+            border-left: 4px solid #10b981;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+          }
+          .quiz-answer {
+            margin-bottom: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid #e5e7eb;
+          }
+          .quiz-answer:last-child {
+            border-bottom: none;
+          }
+          .quiz-question {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 4px;
+          }
+          .quiz-response {
+            color: #6b7280;
+            font-size: 14px;
+          }
+          .footer {
+            background: #1f2937;
+            color: #9ca3af;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            border-radius: 0 0 8px 8px;
+          }
+          .cta-button {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-weight: 600;
+          }
+          .priority-note {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+          }
+          .priority-note strong {
+            color: #92400e;
+            font-size: 16px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <h1>🎯 Quiz Exit Lead - 10% Discount Request</h1>
+          <div class="discount-badge">🎁 10% DISCOUNT LEAD</div>
+        </div>
+        <div class="content">
+          <div class="priority-note">
+            <strong>⚡ High Intent Lead:</strong> User scrolled away from quiz but requested personalized plan + 10% discount
+          </div>
+
+          <div class="field">
+            <span class="label">Name</span>
+            <div class="value">${name}</div>
+          </div>
+          <div class="field">
+            <span class="label">Email</span>
+            <div class="value">
+              <a href="mailto:${email}" style="color: #10b981; text-decoration: none;">${email}</a>
+            </div>
+          </div>
+
+          ${
+            quizAnswers && Object.keys(quizAnswers).length > 0
+              ? `
+          <div class="quiz-data-box">
+            <h3 style="margin: 0 0 15px 0; color: #10b981;">📊 Partial Quiz Answers</h3>
+            <p style="font-size: 13px; color: #6b7280; margin-bottom: 15px;">
+              User provided these answers before scrolling away:
+            </p>
+            ${Object.entries(quizAnswers)
+              .map(
+                ([question, answer]) => `
+              <div class="quiz-answer">
+                <div class="quiz-question">${formatQuestionId(question)}</div>
+                <div class="quiz-response">${Array.isArray(answer) ? answer.join(", ") : answer}</div>
+              </div>
+            `
+              )
+              .join("")}
+          </div>
+          `
+              : '<p style="color: #6b7280; font-style: italic;">User scrolled away before answering any questions</p>'
+          }
+
+          <div style="background: #ecfdf5; border: 1px solid #10b981; border-radius: 8px; padding: 15px; margin: 20px 0;">
+            <h4 style="margin: 0 0 10px 0; color: #059669;">📝 Next Steps:</h4>
+            <ol style="margin: 0; padding-left: 20px; color: #374151;">
+              <li>Review partial quiz answers to understand their needs</li>
+              <li>Prepare personalized recommendation</li>
+              <li>Send custom proposal with 10% discount code</li>
+              <li>Follow up within 24 hours as promised</li>
+            </ol>
+          </div>
+
+          <div style="text-align: center; margin-top: 30px;">
+            <a href="mailto:${email}" class="cta-button">Send Personalized Plan</a>
+          </div>
+        </div>
+        <div class="footer">
+          Sent from Appturnity Quiz Exit Modal<br>
+          <span style="font-size: 11px;">High-intent lead captured via exit-intent modal</span>
+        </div>
+      </body>
+    </html>
+  `;
+
+  const textContent = `
+🎯 QUIZ EXIT LEAD - 10% DISCOUNT REQUEST
+=========================================
+
+⚡ HIGH INTENT LEAD: User scrolled away from quiz but requested personalized plan + 10% discount
+
+Name: ${name}
+Email: ${email}
+
+${
+  quizAnswers && Object.keys(quizAnswers).length > 0
+    ? `PARTIAL QUIZ ANSWERS:
+${"-".repeat(60)}
+${Object.entries(quizAnswers)
+  .map(
+    ([question, answer]) =>
+      `${formatQuestionId(question)}: ${Array.isArray(answer) ? answer.join(", ") : answer}`
+  )
+  .join("\n")}
+${"-".repeat(60)}
+`
+    : "User scrolled away before answering any questions"
+}
+
+NEXT STEPS:
+1. Review partial quiz answers to understand their needs
+2. Prepare personalized recommendation
+3. Send custom proposal with 10% discount code
+4. Follow up within 24 hours as promised
+
+---
+Reply to: ${email}
+  `.trim();
+
+  try {
+    const result = await resend.emails.send({
+      from: process.env.RESEND_FROM_EMAIL || "Appturnity Quiz <onboarding@resend.dev>",
+      to: process.env.CONTACT_EMAIL || "nathancwatkins23@gmail.com",
+      replyTo: email,
+      subject: `🎁 10% Discount Lead: ${name} (Quiz Exit Capture)`,
+      html: htmlContent,
+      text: textContent,
+    });
+
+    return result;
+  } catch (error) {
+    logger.error("Failed to send quiz exit modal email", error as Error, { email, name });
+    throw error;
+  }
+}
+
+// Helper function to format question IDs into readable text
+function formatQuestionId(id: string): string {
+  const questionMap: Record<string, string> = {
+    projectType: "Project Type",
+    hasExistingWebsite: "Has Existing Website",
+    timeframe: "Timeframe",
+    budgetRange: "Budget Range",
+    desiredFeatures: "Desired Features",
+    primaryGoal: "Primary Goal",
+    targetAudience: "Target Audience",
+    contentReady: "Content Ready",
+    designPreference: "Design Preference",
+    technicalRequirements: "Technical Requirements",
+    maintenancePreference: "Maintenance Preference",
+    priorityFactor: "Priority Factor",
+  };
+  return questionMap[id] || id;
 }

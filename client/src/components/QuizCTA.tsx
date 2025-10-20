@@ -13,7 +13,7 @@ export default function QuizCTA({ variant = "banner", className = "" }: QuizCTAP
     // Card variant for Hero section
     return (
       <motion.div
-        className={`bg-white/95 backdrop-blur-sm p-4 md:p-6 rounded-lg shadow-2xl text-center ${className}`}
+        className={`bg-white/95 backdrop-blur-sm px-2 py-4 md:p-6 rounded-lg shadow-2xl text-center ${className}`}
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 1, duration: 0.5 }}
@@ -24,7 +24,7 @@ export default function QuizCTA({ variant = "banner", className = "" }: QuizCTAP
           </div>
           <Button
             size="lg"
-            className="gap-2 group text-base md:text-base font-semibold px-6 h-11 md:h-10 md:px-4"
+            className="gap-2 group text-base md:text-lg font-semibold px-6 h-11 md:h-12 lg:h-14 md:px-6 lg:px-8"
             asChild
           >
             <a href="#quiz" onClick={(e) => handleSmoothScroll(e, "quiz", undefined, true)}>

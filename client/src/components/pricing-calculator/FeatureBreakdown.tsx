@@ -34,14 +34,11 @@ export function FeatureBreakdown({ features, includedAdvancedFeatures }: Feature
     <>
       {/* Included Add-ons */}
       {includedFeatures.length > 0 && (
-        <div className="space-y-1">
+        <div className="space-y-1.5">
           {includedFeatures.map((f) => (
-            <div key={f.id} className="flex justify-between items-start py-0.5">
-              <span className="text-sm flex-grow">
-                {f.name}
-                <span className="text-green-700 text-xs ml-1">(included)</span>
-              </span>
-              <span className="text-base font-semibold ml-2 whitespace-nowrap line-through text-green-600">
+            <div key={f.id} className="flex justify-between items-start py-1">
+              <span className="text-sm flex-grow font-medium text-slate-900">{f.name}</span>
+              <span className="text-sm font-bold ml-2 whitespace-nowrap line-through text-green-600">
                 ${FEATURE_PRICE.toLocaleString()}
               </span>
             </div>
@@ -52,14 +49,16 @@ export function FeatureBreakdown({ features, includedAdvancedFeatures }: Feature
       {/* Additional Add-ons */}
       {paidFeatures.length > 0 && (
         <>
-          <div className="border-t border-green-300 my-2 pt-2">
-            <p className="text-xs font-semibold text-green-800 mb-1">Additional Add-ons:</p>
+          <div className="border-t-2 border-green-300 my-3 pt-2.5">
+            <p className="text-xs font-bold text-green-900 mb-1.5 uppercase tracking-wide">
+              Additional Add-ons:
+            </p>
           </div>
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             {paidFeatures.map((f) => (
-              <div key={f.id} className="flex justify-between items-start py-0.5">
-                <span className="text-sm flex-grow">{f.name}</span>
-                <span className="text-base font-semibold ml-2 whitespace-nowrap">
+              <div key={f.id} className="flex justify-between items-start py-1">
+                <span className="text-sm flex-grow font-medium text-slate-900">{f.name}</span>
+                <span className="text-sm font-bold ml-2 whitespace-nowrap text-slate-900">
                   +${FEATURE_PRICE.toLocaleString()}
                 </span>
               </div>

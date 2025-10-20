@@ -7,7 +7,7 @@
 export interface QuizQuestion {
   id: string;
   question: string;
-  options: { value: string; label: string; description?: string }[];
+  options: { value: string; label: string; description?: string; mobileLabel?: string }[];
   multiSelect?: boolean;
 }
 
@@ -125,24 +125,70 @@ export const quizQuestions: QuizQuestion[] = [
     question: "What advanced features do you need? (Select all that apply)",
     multiSelect: true,
     options: [
-      { value: "seo", label: "Advanced SEO", description: "Search engine optimization" },
+      {
+        value: "seo",
+        label: "Advanced SEO",
+        mobileLabel: "SEO",
+        description: "Search engine optimization",
+      },
       {
         value: "email-automation",
         label: "Email Automation",
+        mobileLabel: "Email Auto",
         description: "Automated email sequences",
       },
-      { value: "newsletter", label: "Newsletter Management", description: "Email list building" },
-      { value: "forms", label: "Custom Forms", description: "Multi-step forms" },
-      { value: "cms", label: "CMS", description: "Content management system" },
-      { value: "blog", label: "Blog", description: "Blogging platform" },
-      { value: "auth", label: "User Authentication", description: "Login & signup" },
-      { value: "ecommerce", label: "E-commerce", description: "Cart & checkout" },
-      { value: "payment", label: "Payment Processing", description: "Card processing" },
-      { value: "booking", label: "Booking System", description: "Appointment scheduling" },
-      { value: "api", label: "API Integration", description: "Third-party tools" },
-      { value: "chat", label: "Live Chat", description: "Customer support" },
-      { value: "crm", label: "CRM", description: "Customer management" },
-      { value: "ai", label: "Generative AI", description: "AI-powered features" },
+      {
+        value: "newsletter",
+        label: "Newsletter Management",
+        mobileLabel: "Newsletter",
+        description: "Email list building",
+      },
+      {
+        value: "forms",
+        label: "Custom Forms",
+        mobileLabel: "Forms",
+        description: "Multi-step forms",
+      },
+      { value: "cms", label: "CMS", mobileLabel: "CMS", description: "Content management system" },
+      { value: "blog", label: "Blog", mobileLabel: "Blog", description: "Blogging platform" },
+      {
+        value: "auth",
+        label: "User Authentication",
+        mobileLabel: "Auth",
+        description: "Login & signup",
+      },
+      {
+        value: "ecommerce",
+        label: "E-commerce",
+        mobileLabel: "E-commerce",
+        description: "Cart & checkout",
+      },
+      {
+        value: "payment",
+        label: "Payment Processing",
+        mobileLabel: "Payments",
+        description: "Card processing",
+      },
+      {
+        value: "booking",
+        label: "Booking System",
+        mobileLabel: "Booking",
+        description: "Appointment scheduling",
+      },
+      {
+        value: "api",
+        label: "API Integration",
+        mobileLabel: "API",
+        description: "Third-party tools",
+      },
+      { value: "chat", label: "Live Chat", mobileLabel: "Chat", description: "Customer support" },
+      { value: "crm", label: "CRM", mobileLabel: "CRM", description: "Customer management" },
+      {
+        value: "ai",
+        label: "Generative AI",
+        mobileLabel: "AI",
+        description: "AI-powered features",
+      },
     ],
   },
   {

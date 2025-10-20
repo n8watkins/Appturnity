@@ -127,14 +127,6 @@ export default function Header() {
               Pricing
             </a>
             <a
-              href="#quiz"
-              className="flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 transition-colors shadow-sm"
-              onClick={(e) => handleNavClick(e, "quiz", true)}
-            >
-              <Sparkles className="h-4 w-4" />
-              Take Quiz
-            </a>
-            <a
               href="#contact"
               className="text-slate-600 hover:text-primary transition-colors"
               onClick={(e) => handleNavClick(e, "contact")}
@@ -142,11 +134,21 @@ export default function Header() {
               Contact
             </a>
             <a
+              href="#quiz"
+              className="flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 transition-colors shadow-sm"
+              onClick={(e) => handleNavClick(e, "quiz", true)}
+            >
+              <Sparkles className="h-4 w-4" />
+              <span className="lg:hidden">Quiz</span>
+              <span className="hidden lg:inline">Take Quiz</span>
+            </a>
+            <a
               href="/blog"
               className="px-4 py-2 rounded-md bg-white border-2 border-primary text-primary hover:bg-primary/5 transition-all duration-200 shadow-sm"
               onClick={handleBlogClick}
             >
-              Check out our Blog
+              <span className="lg:hidden">Blog</span>
+              <span className="hidden lg:inline">Check out our Blog</span>
             </a>
           </nav>
 
@@ -188,19 +190,19 @@ export default function Header() {
                     Pricing
                   </a>
                   <a
+                    href="#contact"
+                    className="text-slate-700 hover:text-primary transition-colors"
+                    onClick={navigateAndClose}
+                  >
+                    Contact
+                  </a>
+                  <a
                     href="#quiz"
                     className="flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-primary text-white hover:bg-primary/90 transition-colors shadow-sm"
                     onClick={(e) => navigateAndClose(e, true)}
                   >
                     <Sparkles className="h-4 w-4" />
                     Take Quiz
-                  </a>
-                  <a
-                    href="#contact"
-                    className="text-slate-700 hover:text-primary transition-colors"
-                    onClick={navigateAndClose}
-                  >
-                    Contact
                   </a>
                   <a
                     href="/blog"

@@ -66,19 +66,24 @@ export default function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [itemsPerView, setItemsPerView] = useState(3);
 
   // Detect screen size for responsive items per view
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+    const updateItemsPerView = () => {
+      const width = window.innerWidth;
+      if (width < 768) {
+        setItemsPerView(1); // Mobile: 1 testimonial
+      } else if (width < 1024) {
+        setItemsPerView(2); // Tablet: 2 testimonials
+      } else {
+        setItemsPerView(3); // Desktop: 3 testimonials
+      }
     };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    updateItemsPerView();
+    window.addEventListener("resize", updateItemsPerView);
+    return () => window.removeEventListener("resize", updateItemsPerView);
   }, []);
-
-  const itemsPerView = isMobile ? 1 : 3;
 
   // Auto-rotate testimonials every 5 seconds (when not paused)
   useEffect(() => {
@@ -184,7 +189,7 @@ export default function Testimonials() {
           {/* Navigation Buttons */}
           <button
             onClick={goToPrevious}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 z-10 bg-slate-800/90 backdrop-blur-sm border border-slate-700 rounded-full p-3 shadow-lg hover:bg-primary hover:border-primary transition-all hover:scale-110"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 md:-translate-x-4 lg:-translate-x-6 z-10 bg-slate-800/90 backdrop-blur-sm border border-slate-700 rounded-full p-3 shadow-lg hover:bg-primary hover:border-primary transition-all hover:scale-110"
             aria-label="Previous testimonials"
           >
             <ChevronLeft className="h-6 w-6 text-white" />
@@ -192,7 +197,7 @@ export default function Testimonials() {
 
           <button
             onClick={goToNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 z-10 bg-slate-800/90 backdrop-blur-sm border border-slate-700 rounded-full p-3 shadow-lg hover:bg-primary hover:border-primary transition-all hover:scale-110"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 md:translate-x-4 lg:translate-x-6 z-10 bg-slate-800/90 backdrop-blur-sm border border-slate-700 rounded-full p-3 shadow-lg hover:bg-primary hover:border-primary transition-all hover:scale-110"
             aria-label="Next testimonials"
           >
             <ChevronRight className="h-6 w-6 text-white" />
@@ -218,7 +223,7 @@ export default function Testimonials() {
                     opacity: { duration: 0.25 },
                   },
                 }}
-                className="grid grid-cols-1 md:grid-cols-3 gap-8"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
               >
                 {visibleTestimonials.map((testimonial, idx) => (
                   <div key={testimonial.id} className="group relative">

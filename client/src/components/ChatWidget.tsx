@@ -17,7 +17,7 @@ type Msg = {
 };
 
 const MAX_MESSAGE_LENGTH = 500;
-const SUGGESTIONS = ["Pricing", "Request a Demo", "Feature Request"];
+const SUGGESTIONS = ["Pricing", "Demo Request", "Feature Request"];
 
 const chatSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -43,7 +43,7 @@ export default function ChatWidget() {
   // ——— load persisted state ———
   const [isOpen, setIsOpen] = useState<boolean>(() => loadJSON("chat-isOpen", false));
   const [messages, setMessages] = useState<Msg[]>(() =>
-    loadJSON("chat-messages", [{ sender: "bot", text: "Hey there! How can I help you?" }])
+    loadJSON("chat-messages", [{ sender: "bot", text: "Hey there! How can I help?" }])
   );
 
   // ——— other local state ———
@@ -229,7 +229,7 @@ export default function ChatWidget() {
         setMessageSent(false);
         setShowActions(false);
         setSelectedSuggestions([]);
-        setMessages([{ sender: "bot", text: "Hey there! How can I help you?" }]);
+        setMessages([{ sender: "bot", text: "Hey there! How can I help?" }]);
       }
       return !prev;
     });
@@ -329,7 +329,7 @@ export default function ChatWidget() {
 
           {/* form or Lottie */}
           {(isAnimating || !messageSent) && (
-            <div className="bg-white p-2 md:p-4">
+            <div className="bg-white p-2 md:px-4 md:pt-4 pb-8">
               {isAnimating ? (
                 <div className="w-full flex justify-center mb-4 md:mb-6">
                   <Lottie
@@ -398,7 +398,7 @@ export default function ChatWidget() {
                         <p className="text-red-500 text-sm mt-1">{errors.email[0]}</p>
                       )}
                     </div>
-                    <div className="relative">
+                    <div className="relative mb-5">
                       <textarea
                         name="message"
                         placeholder="Message"
@@ -413,22 +413,24 @@ export default function ChatWidget() {
                         <p className="text-red-500 text-sm mt-1">{errors.message[0]}</p>
                       )}
                     </div>
-                    <button
-                      type="submit"
-                      className="w-full flex items-center justify-center bg-primary text-white rounded-2xl py-2 md:py-2.5 text-sm md:text-base font-semibold hover:bg-primary/90 hover:shadow-lg transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] mt-2 md:mt-3"
-                    >
-                      <Send className="mr-2 h-3.5 w-3.5 md:h-4 md:w-4" /> Send Message
-                    </button>
+                    <div className="!mt-10 md:!mt-12">
+                      <button
+                        type="submit"
+                        className="w-full flex items-center justify-center bg-primary text-white rounded-2xl py-2 md:py-2.5 text-sm md:text-base font-semibold hover:bg-primary/90 hover:shadow-lg transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98]"
+                      >
+                        <Send className="mr-2 h-3.5 w-3.5 md:h-4 md:w-4" /> Send Message
+                      </button>
+                    </div>
                   </form>
                 </>
               )}
 
               {/* Custom reCAPTCHA v3 notification */}
               {!isAnimating && !messageSent && (
-                <div className="absolute bottom-2 right-2 opacity-70 hover:opacity-100 transition-opacity select-none">
-                  <div className="text-xs text-gray-500 flex items-center gap-1">
+                <div className="absolute bottom-2 left-0 right-0 px-2 opacity-70 hover:opacity-100 transition-opacity select-none">
+                  <div className="text-xs md:text-sm text-gray-500 flex items-center justify-center gap-0.5 md:gap-1">
                     <span>🛡️</span>
-                    <span>Protected by reCAPTCHA v3</span>
+                    <span className="whitespace-nowrap">Protected by reCAPTCHA v3</span>
                   </div>
                 </div>
               )}

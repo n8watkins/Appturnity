@@ -66,7 +66,7 @@ export default function WhyNotDIY() {
           </motion.div>
 
           {/* Feature Cards - Clean & Poignant */}
-          <div className="grid md:grid-cols-3 gap-8 mb-20 max-w-5xl mx-auto">
+          <div className="grid lg:grid-cols-3 gap-8 mb-20 max-w-5xl mx-auto">
             {[
               {
                 icon: Crown,

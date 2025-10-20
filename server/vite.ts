@@ -27,22 +27,42 @@ export async function setupVite(app: Express, server: Server) {
     customLogger: {
       ...viteLogger,
       error: (msg, options) => {
+        // Log the error but DON'T exit - let the dev server continue running
+        // This allows HMR to recover from errors instead of crashing
         viteLogger.error(msg, options);
-        process.exit(1);
+        logger.error("Vite error (non-fatal)", new Error(msg as string));
       },
     },
     server: serverOptions,
     appType: "custom",
   });
 
+  // Track if cleanup has been called to prevent multiple executions
+  let cleanupCalled = false;
+
   // Clean up Vite server on process termination
   const cleanup = async () => {
-    await vite.close();
+    if (cleanupCalled) return;
+    cleanupCalled = true;
+
+    logger.info("Shutting down Vite server gracefully...");
+    try {
+      await vite.close();
+      logger.info("Vite server closed successfully");
+    } catch (err) {
+      logger.error("Error closing Vite server", err as Error);
+    }
   };
 
-  process.on("SIGTERM", cleanup);
-  process.on("SIGINT", cleanup);
-  process.on("exit", cleanup);
+  // Use 'once' instead of 'on' to prevent multiple cleanup calls
+  process.once("SIGTERM", async () => {
+    await cleanup();
+    process.exit(0);
+  });
+  process.once("SIGINT", async () => {
+    await cleanup();
+    process.exit(0);
+  });
 
   app.use(vite.middlewares);
   app.use("*", async (req, res, next) => {

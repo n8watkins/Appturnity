@@ -304,11 +304,6 @@ export default function PricingTiers() {
                     )}
                   </div>
                   <p className="text-sm text-slate-600">{tier.description}</p>
-                  {hasQuizDiscount && tier.price !== "Custom" && (
-                    <p className="text-xs text-green-700 mt-1 font-medium">
-                      🎉 Quiz discount applied!
-                    </p>
-                  )}
                 </div>
 
                 {/* Quick Stats */}

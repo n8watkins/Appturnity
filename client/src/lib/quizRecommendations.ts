@@ -58,6 +58,7 @@ export interface QuizAnswers {
 export interface Recommendation {
   solutionName: string;
   solutionType: "landing" | "website" | "app" | "ecommerce";
+  tierName: string; // Pricing tier name
   description: string;
   bestFor: string;
   timeline: string;
@@ -378,31 +379,72 @@ function getBestForDescription(answers: QuizAnswers): string {
 }
 
 /**
- * Get solution name based on type
+ * Determine pricing tier based on budget selection
  */
-function getSolutionName(solutionType: Recommendation["solutionType"]): string {
-  const names: Record<Recommendation["solutionType"], string> = {
-    landing: "Lead Generation Landing Page",
-    website: "Professional Website",
-    app: "Custom Web Application",
-    ecommerce: "E-commerce Solution",
-  };
+function determinePricingTier(investment?: string | string[]): string {
+  const budget = Array.isArray(investment) ? investment[0] : investment;
 
-  return names[solutionType];
+  switch (budget) {
+    case "budget-conscious":
+      return "Essential";
+    case "standard":
+      return "Professional";
+    case "premium":
+      return "Growth";
+    case "enterprise":
+    case "premium-budget":
+      return "Premium";
+    case "need-guidance":
+      return "Professional"; // Default to Professional tier
+    default:
+      return "Professional";
+  }
 }
 
 /**
- * Get solution description
+ * Get solution name based on tier and type
  */
-function getSolutionDescription(solutionType: Recommendation["solutionType"]): string {
+function getSolutionName(tier: string, solutionType: Recommendation["solutionType"]): string {
+  // For landing pages, use Essential tier naming
+  if (solutionType === "landing") {
+    return `${tier} Landing Page`;
+  }
+
+  // For e-commerce, mention tier
+  if (solutionType === "ecommerce") {
+    return `${tier} E-commerce Store`;
+  }
+
+  // For apps, use tier name
+  if (solutionType === "app") {
+    return `${tier} Custom Application`;
+  }
+
+  // For websites, use tier name
+  return `${tier} Website Package`;
+}
+
+/**
+ * Get solution description with tier information
+ */
+function getSolutionDescription(
+  tier: string,
+  solutionType: Recommendation["solutionType"]
+): string {
+  const tierPages: Record<string, string> = {
+    Essential: "1-5 pages",
+    Professional: "6-12 pages",
+    Growth: "13-20 pages",
+    Premium: "21+ pages",
+  };
+
+  const pageRange = tierPages[tier] || "custom";
+
   const descriptions: Record<Recommendation["solutionType"], string> = {
-    landing:
-      "A focused, high-converting landing page designed to capture leads and drive action. Perfect for marketing campaigns and product launches.",
-    website:
-      "A comprehensive website with multiple pages showcasing your services, building credibility, and converting visitors into customers.",
-    app: "A custom web application tailored to your unique workflow, automating processes and streamlining operations for maximum efficiency.",
-    ecommerce:
-      "A complete online store with product management, secure checkout, and payment processing to sell your products online.",
+    landing: `Our ${tier} tier (${pageRange}) provides a focused, high-converting landing page designed to capture leads and drive action.`,
+    website: `Our ${tier} tier (${pageRange}) includes a comprehensive website showcasing your services, building credibility, and converting visitors.`,
+    app: `Our ${tier} tier delivers a custom web application tailored to your workflow, automating processes for maximum efficiency.`,
+    ecommerce: `Our ${tier} tier (${pageRange}) includes a complete online store with product management, secure checkout, and payment processing.`,
   };
 
   return descriptions[solutionType];
@@ -473,11 +515,13 @@ export function getRecommendation(answers: QuizAnswers): Recommendation {
   const priorityScore = Math.round(basePriorityScore + companySizeModifier + decisionMakerModifier);
 
   const solutionType = determineSolutionType(answers);
+  const tierName = determinePricingTier(answers.investment);
 
   return {
-    solutionName: getSolutionName(solutionType),
+    solutionName: getSolutionName(tierName, solutionType),
     solutionType,
-    description: getSolutionDescription(solutionType),
+    tierName,
+    description: getSolutionDescription(tierName, solutionType),
     bestFor: getBestForDescription(answers),
     timeline: getTimelineEstimate(solutionType, answers.timeline),
     investmentRange: getInvestmentRange(answers.investment),
