@@ -171,28 +171,26 @@ export default function QuizExitModal({
                 {/* Action Buttons */}
                 <div className="flex flex-col gap-2">
                   <Button
+                    onClick={handleContinueQuiz}
+                    variant="outline"
+                    className="w-full text-slate-700 hover:text-slate-900 text-sm h-10 sm:h-11"
+                  >
+                    Continue Quiz
+                  </Button>
+                  <Button
                     onClick={handleYes}
                     className="w-full bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-700 gap-2 shadow-lg text-sm h-10 sm:h-11"
                   >
                     <span>Send My Plan + 10% Off</span>
                     <ArrowRight className="h-3.5 w-3.5" />
                   </Button>
-                  <div className="flex gap-2">
-                    <Button
-                      onClick={handleContinueQuiz}
-                      variant="outline"
-                      className="flex-1 text-slate-700 hover:text-slate-900 text-xs sm:text-sm h-9 sm:h-10"
-                    >
-                      Continue Quiz
-                    </Button>
-                    <Button
-                      onClick={handleClose}
-                      variant="ghost"
-                      className="flex-1 text-slate-600 hover:text-slate-900 text-xs sm:text-sm h-9 sm:h-10"
-                    >
-                      No Thanks
-                    </Button>
-                  </div>
+                  <Button
+                    onClick={handleClose}
+                    variant="ghost"
+                    className="w-full text-slate-600 hover:text-slate-900 text-xs sm:text-sm h-9 sm:h-10"
+                  >
+                    No Thanks
+                  </Button>
                 </div>
               </motion.div>
             ) : (
