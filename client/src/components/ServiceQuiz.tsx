@@ -45,9 +45,9 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
       const rect = quizSectionRef.current.getBoundingClientRect();
       const isQuizVisible = rect.top < window.innerHeight && rect.bottom > 0;
 
-      // If quiz has started and user has answered at least one question
-      // and quiz is no longer visible, show exit modal
-      if (!isQuizVisible && Object.keys(answers).length > 0) {
+      // If quiz has started (not just showing start screen) and user scrolls away
+      // Show exit modal to capture their contact info
+      if (!isQuizVisible && hasStarted) {
         setShowExitModal(true);
         setHasShownExitModal(true);
       }
@@ -55,7 +55,7 @@ export default function ServiceQuiz({ onComplete, autoStart = false }: ServiceQu
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [hasStarted, isCompleted, answers, hasShownExitModal]);
+  }, [hasStarted, isCompleted, hasShownExitModal]);
 
   const handleExitModalSubmit = async (data: { name: string; email: string }) => {
     // TODO: Send data to backend/API
