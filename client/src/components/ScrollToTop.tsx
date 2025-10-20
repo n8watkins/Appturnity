@@ -38,15 +38,15 @@ export default function ScrollToTop() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
           transition={{ duration: 0.2 }}
-          className="fixed bottom-8 left-8 z-50"
+          className="fixed bottom-4 left-4 md:bottom-6 md:left-6 z-50"
         >
           <Button
             onClick={scrollToTop}
             size="icon"
-            className="h-12 w-12 rounded-full shadow-lg hover:shadow-xl transition-shadow"
+            className="h-10 w-10 md:h-12 md:w-12 rounded-full shadow-lg hover:shadow-xl transition-shadow"
             aria-label="Scroll to top"
           >
-            <ArrowUp className="h-5 w-5" />
+            <ArrowUp className="h-4 w-4 md:h-5 md:w-5" />
           </Button>
         </motion.div>
       )}

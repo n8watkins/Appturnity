@@ -9,15 +9,20 @@ export default function Footer() {
   return (
     <footer className="bg-slate-900 text-slate-400 py-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-10">
+        <div className="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-10">
           {/* Company Info */}
           <div className="lg:col-span-1">
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center">
-                <span className="text-white font-bold">A</span>
-              </div>
-              <span className="font-bold text-lg text-white">Appturnity</span>
-            </div>
+            <Link href="/">
+              <a className="inline-block mb-4">
+                <img
+                  src="/appturnity.webp"
+                  alt="Appturnity"
+                  width={180}
+                  height={180}
+                  className="brightness-0 invert"
+                />
+              </a>
+            </Link>
             <p className="mb-4 text-sm">
               Custom websites without the complexity.
               <br />

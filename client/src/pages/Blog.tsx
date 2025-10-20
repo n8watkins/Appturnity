@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { Calendar, Clock, Tag, Search, ArrowRight } from "lucide-react";
@@ -10,7 +10,9 @@ import LazyImage from "@/components/LazyImage";
 import NewsletterSignup from "@/components/NewsletterSignup";
 import TopBanner from "@/components/TopBanner";
 import BlogNavbar from "@/components/BlogNavbar";
-import BlogFooter from "@/components/BlogFooter";
+import Footer from "@/components/Footer";
+
+const ChatWidget = lazy(() => import("@/components/ChatWidget"));
 
 export default function Blog() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -409,8 +411,12 @@ export default function Blog() {
         </div>
       </div>
 
-      {/* Blog Footer */}
-      <BlogFooter />
+      {/* Footer */}
+      <Footer />
+
+      <Suspense fallback={null}>
+        <ChatWidget />
+      </Suspense>
     </div>
   );
 }

@@ -21,7 +21,7 @@ const QUIZ_DISCOUNT_PERCENT = 10;
 
 const pricingTiers = [
   {
-    name: "Essential",
+    name: "Standard",
     price: "$750",
     pageRange: "1-5 pages",
     delivery: "2-3 week delivery",
@@ -29,11 +29,11 @@ const pricingTiers = [
     description: "Perfect for landing pages & small sites",
     popular: false,
     features: [
-      "Essential features:",
+      "Standard features:",
       "Custom design",
       "Mobile responsive",
       "Contact forms",
-      "SEO optimization",
+      "SEO optimize",
       "SSL certificate",
       "Cloud hosting",
     ],
@@ -49,8 +49,8 @@ const pricingTiers = [
     popular: true,
     features: [
       "Popular advanced features:",
-      "Advanced SEO & analytics",
-      "Email marketing integration",
+      "Advanced SEO",
+      "Email marketing",
       "Multi-step forms",
       "Blog integration",
       "CRM integration",
@@ -68,13 +68,13 @@ const pricingTiers = [
     popular: false,
     features: [
       "Popular advanced features:",
-      "User authentication",
-      "Payment processing",
+      "User auth",
+      "Payments",
       "File uploads",
       "API integrations",
-      "Conversion tracking",
-      "Advanced animations",
-      "Custom illustrations",
+      "Conversion track",
+      "Animations",
+      "Custom graphics",
     ],
     highlight: false,
   },
@@ -88,12 +88,12 @@ const pricingTiers = [
     popular: false,
     features: [
       "Everything you need:",
-      "E-commerce platform",
-      "Multi-language support",
-      "Custom integrations",
+      "E-commerce",
+      "Multi-language",
+      "Custom APIs",
       "Dedicated support",
       "Priority delivery",
-      "White-glove service",
+      "White-glove",
     ],
     highlight: false,
     isUnlimited: false,
@@ -248,7 +248,7 @@ export default function PricingTiers() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className={`relative ${
                 recommendedTier === tier.name || (!recommendedTier && tier.popular)
-                  ? "lg:scale-105"
+                  ? "lg:scale-105 mt-12 md:mt-0"
                   : ""
               }`}
             >
@@ -280,7 +280,9 @@ export default function PricingTiers() {
               >
                 {/* Tier Header */}
                 <div className="text-center mb-6">
-                  <h3 className="text-2xl font-bold text-slate-900 mb-2">{tier.name}</h3>
+                  <h3 className="text-3xl md:text-2xl font-bold text-slate-900 mb-2">
+                    {tier.name}
+                  </h3>
                   <div className="mb-2">
                     {hasQuizDiscount && tier.price !== "Custom" ? (
                       <div className="space-y-1">
@@ -336,26 +338,26 @@ export default function PricingTiers() {
                 </div>
 
                 {/* Features List */}
-                <ul className="space-y-3 mb-6 flex-grow">
+                <ul className="grid grid-cols-2 gap-x-2 gap-y-3 mb-6 flex-grow">
                   {tier.features.map((feature, featureIndex) => {
                     const isSectionHeader =
-                      feature.includes("Essential features:") ||
+                      feature.includes("Standard features:") ||
                       feature.includes("Popular advanced features:") ||
                       feature.includes("Everything you need:");
 
                     return (
                       <li
                         key={featureIndex}
-                        className={`flex items-start gap-2 ${
+                        className={`flex items-start gap-1 ${
                           isSectionHeader
-                            ? "font-semibold text-slate-700 text-xs uppercase tracking-wide"
+                            ? "font-semibold text-slate-700 text-xs uppercase tracking-wide col-span-2"
                             : ""
                         }`}
                       >
                         {!isSectionHeader && (
-                          <Check className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
+                          <Check className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
                         )}
-                        <span className={`text-sm ${isSectionHeader ? "" : "text-slate-700"}`}>
+                        <span className={`text-xs ${isSectionHeader ? "" : "text-slate-700"}`}>
                           {feature}
                         </span>
                       </li>

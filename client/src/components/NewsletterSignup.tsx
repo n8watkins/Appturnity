@@ -123,8 +123,8 @@ export default function NewsletterSignup({
         </form>
 
         {/* Custom reCAPTCHA v3 notification */}
-        <div className="absolute bottom-2 right-2 opacity-70 hover:opacity-100 transition-opacity select-none">
-          <div className="text-xs text-slate-500 flex items-center gap-1">
+        <div className="mt-4 text-center opacity-70 select-none">
+          <div className="text-xs text-slate-500 flex items-center justify-center gap-1">
             <span>🛡️</span>
             <span>Protected by reCAPTCHA v3</span>
           </div>

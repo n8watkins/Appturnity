@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, lazy, Suspense } from "react";
 import { useRoute, Link } from "wouter";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
@@ -13,7 +13,9 @@ import ReadingProgress from "@/components/ReadingProgress";
 import NewsletterSignup from "@/components/NewsletterSignup";
 import TopBanner from "@/components/TopBanner";
 import BlogNavbar from "@/components/BlogNavbar";
-import BlogFooter from "@/components/BlogFooter";
+import Footer from "@/components/Footer";
+
+const ChatWidget = lazy(() => import("@/components/ChatWidget"));
 
 export default function BlogPost() {
   const [, params] = useRoute("/blog/:slug");
@@ -572,8 +574,12 @@ export default function BlogPost() {
         </section>
       )}
 
-      {/* Blog Footer */}
-      <BlogFooter />
+      {/* Footer */}
+      <Footer />
+
+      <Suspense fallback={null}>
+        <ChatWidget />
+      </Suspense>
     </div>
   );
 }

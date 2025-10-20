@@ -530,7 +530,7 @@ export default function Features() {
                     </h2>
                     <p className="text-slate-600 text-lg">Everything you need to get started</p>
                   </div>
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                  <div className="grid grid-cols-2 gap-2.5">
                     {essentialFeatures.map((feature, index) => {
                       const Icon = feature.icon;
                       return (
@@ -578,7 +578,7 @@ export default function Features() {
                     <h2 className="text-3xl font-bold text-slate-900 mb-2">Level Up Your Site</h2>
                     <p className="text-slate-600 text-lg">Pick the features that fit your goals</p>
                   </div>
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                  <div className="grid grid-cols-2 gap-2.5">
                     {advancedFeatures.map((feature, index) => {
                       const Icon = feature.icon;
                       return (

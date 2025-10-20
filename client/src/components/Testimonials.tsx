@@ -66,7 +66,19 @@ export default function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const itemsPerView = 3;
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect screen size for responsive items per view
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const itemsPerView = isMobile ? 1 : 3;
 
   // Auto-rotate testimonials every 5 seconds (when not paused)
   useEffect(() => {
@@ -206,7 +218,7 @@ export default function Testimonials() {
                     opacity: { duration: 0.25 },
                   },
                 }}
-                className="grid md:grid-cols-3 gap-8"
+                className="grid grid-cols-1 md:grid-cols-3 gap-8"
               >
                 {visibleTestimonials.map((testimonial, idx) => (
                   <div key={testimonial.id} className="group relative">

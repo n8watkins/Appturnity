@@ -165,7 +165,7 @@ export default function Hero() {
                 {/* Quiz CTA Card - centered in image overlay */}
                 <QuizCTA
                   variant="card"
-                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[280px] md:w-80 md:rotate-2 hover:rotate-0 transition-transform duration-300"
+                  className="absolute top-1/2 left-1/3 transform -translate-x-1/3 -translate-y-1/2 w-[280px] md:w-80 md:rotate-2 hover:rotate-0 transition-transform duration-300"
                 />
               </div>
             </div>
