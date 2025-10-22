@@ -129,8 +129,12 @@ export default function Contact() {
 
       form.reset();
 
-      // Redirect to success page
-      setLocation("/success");
+      // Show success message
+      toast({
+        title: "Message Sent Successfully!",
+        description: "Thank you for reaching out. We'll get back to you within 24 hours.",
+        variant: "default",
+      });
     } catch (error) {
       console.error("Contact form error:", error);
       const errorMessage =
