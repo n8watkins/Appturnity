@@ -11,6 +11,9 @@ const MAX_ERRORS_PER_MINUTE = 5;
 let errorsSentInLastMinute = 0;
 let lastErrorResetTime = Date.now();
 
+// Infinite loop protection - prevent tracking errors from error tracking itself
+let isProcessingError = false;
+
 interface ErrorData {
   message: string;
   stack?: string;
@@ -134,30 +137,60 @@ async function sendErrorToBackend(errorData: ErrorData) {
  * Track JavaScript errors
  */
 function handleError(event: ErrorEvent) {
-  const errorData: ErrorData = {
-    message: event.message,
-    stack: event.error?.stack,
-    type: "error",
-    severity: getErrorSeverity(event.error, "error"),
-    url: window.location.href,
-    pathname: window.location.pathname,
-    userAgent: navigator.userAgent,
-    timestamp: Date.now(),
-    context: {
-      filename: event.filename,
-      lineno: event.lineno,
-      colno: event.colno,
-      ...getBrowserInfo(),
-    },
-  };
+  // Prevent infinite loops - don't track errors that occur while tracking errors
+  if (isProcessingError) {
+    console.debug("[ErrorTracking] Skipping error to prevent infinite loop");
+    return;
+  }
 
-  sendErrorToBackend(errorData);
+  // Ignore errors from Vite/dev server overlay
+  if (import.meta.env.DEV && event.filename?.includes("/@vite/")) {
+    return;
+  }
+
+  // Ignore errors with no useful information
+  if (!event.message && !event.error) {
+    return;
+  }
+
+  isProcessingError = true;
+
+  try {
+    const errorData: ErrorData = {
+      message: event.message,
+      stack: event.error?.stack,
+      type: "error",
+      severity: getErrorSeverity(event.error, "error"),
+      url: window.location.href,
+      pathname: window.location.pathname,
+      userAgent: navigator.userAgent,
+      timestamp: Date.now(),
+      context: {
+        filename: event.filename,
+        lineno: event.lineno,
+        colno: event.colno,
+        ...getBrowserInfo(),
+      },
+    };
+
+    sendErrorToBackend(errorData);
+  } finally {
+    // Always reset the flag, even if sendErrorToBackend throws
+    isProcessingError = false;
+  }
 }
 
 /**
  * Track unhandled promise rejections
  */
 function handleUnhandledRejection(event: PromiseRejectionEvent) {
+  // Prevent infinite loops
+  if (isProcessingError) {
+    console.debug("[ErrorTracking] Skipping rejection to prevent infinite loop");
+    event.preventDefault();
+    return;
+  }
+
   const reason = event.reason;
 
   // Always prevent null/undefined rejections from propagating
@@ -189,43 +222,61 @@ function handleUnhandledRejection(event: PromiseRejectionEvent) {
     return;
   }
 
-  const errorData: ErrorData = {
-    message: reason?.message || "Unhandled Promise Rejection",
-    stack: reason?.stack,
-    type: "unhandledrejection",
-    severity: getErrorSeverity(reason, "unhandledrejection"),
-    url: window.location.href,
-    pathname: window.location.pathname,
-    userAgent: navigator.userAgent,
-    timestamp: Date.now(),
-    context: {
-      reason: reasonString,
-      ...getBrowserInfo(),
-    },
-  };
+  isProcessingError = true;
 
-  sendErrorToBackend(errorData);
+  try {
+    const errorData: ErrorData = {
+      message: reason?.message || "Unhandled Promise Rejection",
+      stack: reason?.stack,
+      type: "unhandledrejection",
+      severity: getErrorSeverity(reason, "unhandledrejection"),
+      url: window.location.href,
+      pathname: window.location.pathname,
+      userAgent: navigator.userAgent,
+      timestamp: Date.now(),
+      context: {
+        reason: reasonString,
+        ...getBrowserInfo(),
+      },
+    };
+
+    sendErrorToBackend(errorData);
+  } finally {
+    isProcessingError = false;
+  }
 }
 
 /**
  * Track React errors (called from ErrorBoundary)
  */
 export function trackReactError(error: Error, errorInfo: { componentStack?: string }) {
-  const errorData: ErrorData = {
-    message: error.message,
-    stack: error.stack,
-    type: "react",
-    severity: getErrorSeverity(error, "react"),
-    url: window.location.href,
-    pathname: window.location.pathname,
-    userAgent: navigator.userAgent,
-    timestamp: Date.now(),
-    componentStack: errorInfo.componentStack,
-    errorInfo,
-    context: getBrowserInfo(),
-  };
+  // Prevent infinite loops
+  if (isProcessingError) {
+    console.debug("[ErrorTracking] Skipping React error to prevent infinite loop");
+    return;
+  }
 
-  sendErrorToBackend(errorData);
+  isProcessingError = true;
+
+  try {
+    const errorData: ErrorData = {
+      message: error.message,
+      stack: error.stack,
+      type: "react",
+      severity: getErrorSeverity(error, "react"),
+      url: window.location.href,
+      pathname: window.location.pathname,
+      userAgent: navigator.userAgent,
+      timestamp: Date.now(),
+      componentStack: errorInfo.componentStack,
+      errorInfo,
+      context: getBrowserInfo(),
+    };
+
+    sendErrorToBackend(errorData);
+  } finally {
+    isProcessingError = false;
+  }
 }
 
 /**
@@ -249,22 +300,34 @@ export function initErrorTracking() {
  * Manually track an error with custom context
  */
 export function trackError(error: Error | string, context?: Record<string, unknown>) {
-  const errorObj = typeof error === "string" ? new Error(error) : error;
+  // Prevent infinite loops
+  if (isProcessingError) {
+    console.debug("[ErrorTracking] Skipping manual error to prevent infinite loop");
+    return;
+  }
 
-  const errorData: ErrorData = {
-    message: errorObj.message,
-    stack: errorObj.stack,
-    type: "error",
-    severity: "error",
-    url: window.location.href,
-    pathname: window.location.pathname,
-    userAgent: navigator.userAgent,
-    timestamp: Date.now(),
-    context: {
-      ...context,
-      ...getBrowserInfo(),
-    },
-  };
+  isProcessingError = true;
 
-  sendErrorToBackend(errorData);
+  try {
+    const errorObj = typeof error === "string" ? new Error(error) : error;
+
+    const errorData: ErrorData = {
+      message: errorObj.message,
+      stack: errorObj.stack,
+      type: "error",
+      severity: "error",
+      url: window.location.href,
+      pathname: window.location.pathname,
+      userAgent: navigator.userAgent,
+      timestamp: Date.now(),
+      context: {
+        ...context,
+        ...getBrowserInfo(),
+      },
+    };
+
+    sendErrorToBackend(errorData);
+  } finally {
+    isProcessingError = false;
+  }
 }
