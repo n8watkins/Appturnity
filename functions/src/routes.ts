@@ -249,6 +249,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Performance metrics endpoint
+  app.post("/api/vitals", (req, res) => {
+    try {
+      const { name, value, rating, delta, pathname } = req.body;
+
+      console.log("Web Vital", {
+        metric: name,
+        value: Math.round(value),
+        rating,
+        delta: Math.round(delta),
+        pathname,
+      });
+
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.error("Error processing web vital:", error);
+      res.status(500).json({ success: false });
+    }
+  });
+
+  // Client error tracking endpoint
+  app.post("/api/errors", async (req, res) => {
+    try {
+      const errorData = req.body;
+
+      // Log the error
+      console.error("Client error:", errorData);
+
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.error("Error processing client error report:", error);
+      // Still return success so client doesn't retry
+      res.status(200).json({ success: false });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;
