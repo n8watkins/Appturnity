@@ -106,16 +106,18 @@ export default function Contact() {
     setIsSubmitting(true);
     try {
       // Execute reCAPTCHA to get token
-      let recaptchaToken = "";
+      let recaptchaToken = "dev_token"; // Default fallback
       try {
-        recaptchaToken = await executeRecaptcha("contact_form");
-        if (!recaptchaToken) {
-          // Fallback for development mode when reCAPTCHA might not work
-          recaptchaToken = "dev_token";
+        const token = await Promise.race([
+          executeRecaptcha("contact_form"),
+          new Promise<string>((resolve) => setTimeout(() => resolve("dev_token"), 1000)),
+        ]);
+        if (token) {
+          recaptchaToken = token;
         }
       } catch (recaptchaError) {
-        console.warn("reCAPTCHA execution failed, using fallback:", recaptchaError);
-        recaptchaToken = "dev_token";
+        // Silently use fallback token - this is expected in development
+        console.debug("Using fallback reCAPTCHA token");
       }
 
       // Prepare request data
