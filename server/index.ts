@@ -118,9 +118,12 @@ app.use(
 );
 
 // Rate limiting for API endpoints
+// More lenient in development for easier testing
+const isDevelopment = process.env.NODE_ENV === "development";
+
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
+  max: isDevelopment ? 1000 : 100, // Dev: 1000 requests, Prod: 100 requests per windowMs
   message: "Too many requests from this IP, please try again later.",
   standardHeaders: true,
   legacyHeaders: false,
@@ -128,8 +131,8 @@ const apiLimiter = rateLimit({
 
 // Stricter rate limit for contact form
 const contactLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 5, // Limit each IP to 5 contact form submissions per hour
+  windowMs: isDevelopment ? 5 * 60 * 1000 : 60 * 60 * 1000, // Dev: 5 minutes, Prod: 1 hour
+  max: isDevelopment ? 100 : 5, // Dev: 100 submissions, Prod: 5 submissions per window
   message: "Too many contact form submissions, please try again later.",
   standardHeaders: true,
   legacyHeaders: false,
@@ -137,8 +140,8 @@ const contactLimiter = rateLimit({
 
 // Rate limit for chat widget
 const chatLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 10, // Limit each IP to 10 chat messages per hour
+  windowMs: isDevelopment ? 5 * 60 * 1000 : 60 * 60 * 1000, // Dev: 5 minutes, Prod: 1 hour
+  max: isDevelopment ? 100 : 10, // Dev: 100 messages, Prod: 10 messages per window
   message: "Too many messages, please try again later.",
   standardHeaders: true,
   legacyHeaders: false,
