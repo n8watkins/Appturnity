@@ -105,7 +105,8 @@ describe("ServiceQuiz Component", () => {
 
   it("should show results after completing all questions", async () => {
     const user = userEvent.setup();
-    render(<ServiceQuiz />);
+    const mockOnComplete = vi.fn();
+    render(<ServiceQuiz onComplete={mockOnComplete} />);
 
     const startButton = screen.getByRole("button", { name: /start quiz/i });
     await user.click(startButton);

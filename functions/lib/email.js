@@ -8,32 +8,30 @@ const html_escaper_1 = require("html-escaper");
 // Get config values from environment variables
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL || "nathancwatkins23@gmail.com";
-const RESEND_FROM_EMAIL =
-  process.env.RESEND_FROM_EMAIL || "Appturnity Contact Form <onboarding@resend.dev>";
+const RESEND_FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "Appturnity Contact Form <onboarding@resend.dev>";
 const resend = RESEND_API_KEY ? new resend_1.Resend(RESEND_API_KEY) : null;
 async function sendContactEmail(data) {
-  const { name, email, company, message, recommendation } = data;
-  // Development mode: log to console instead of sending email
-  if (!resend) {
-    console.log("\n" + "=".repeat(60));
-    console.log("📧 DEVELOPMENT MODE: Email not sent (no RESEND_API_KEY)");
-    console.log("=".repeat(60));
-    console.log(`From: ${name} <${email}>`);
-    if (company) console.log(`Company: ${company}`);
-    if (recommendation) {
-      console.log(`\n${recommendation.priorityLabel}`);
-      console.log(`Solution: ${recommendation.solutionName}`);
-      console.log(`Timeline: ${recommendation.timeline}`);
-      console.log(`Budget: ${recommendation.investmentRange}`);
-      console.log(
-        `Score: ${recommendation.priorityScore}/40+ (Budget: ${recommendation.scores.budget}/4, Urgency: ${recommendation.scores.urgency}/4, Complexity: ${recommendation.scores.complexity}/4)`
-      );
+    const { name, email, company, message, recommendation } = data;
+    // Development mode: log to console instead of sending email
+    if (!resend) {
+        console.log("\n" + "=".repeat(60));
+        console.log("📧 DEVELOPMENT MODE: Email not sent (no RESEND_API_KEY)");
+        console.log("=".repeat(60));
+        console.log(`From: ${name} <${email}>`);
+        if (company)
+            console.log(`Company: ${company}`);
+        if (recommendation) {
+            console.log(`\n${recommendation.priorityLabel}`);
+            console.log(`Solution: ${recommendation.solutionName}`);
+            console.log(`Timeline: ${recommendation.timeline}`);
+            console.log(`Budget: ${recommendation.investmentRange}`);
+            console.log(`Score: ${recommendation.priorityScore}/40+ (Budget: ${recommendation.scores.budget}/4, Urgency: ${recommendation.scores.urgency}/4, Complexity: ${recommendation.scores.complexity}/4)`);
+        }
+        console.log(`Message:\n${message}`);
+        console.log("=".repeat(60) + "\n");
+        return { success: true, mode: "development" };
     }
-    console.log(`Message:\n${message}`);
-    console.log("=".repeat(60) + "\n");
-    return { success: true, mode: "development" };
-  }
-  const htmlContent = `
+    const htmlContent = `
     <!DOCTYPE html>
     <html>
       <head>
@@ -164,20 +162,17 @@ async function sendContactEmail(data) {
       <body>
         <div class="header">
           <h1>🚀 New Contact Form Submission</h1>
-          ${
-            recommendation
-              ? `
+          ${recommendation
+        ? `
             <div class="priority-badge priority-${recommendation.priorityScore >= 32 ? "high" : recommendation.priorityScore >= 24 ? "medium" : "standard"}">
               ${recommendation.priorityLabel}
             </div>
           `
-              : ""
-          }
+        : ""}
         </div>
         <div class="content">
-          ${
-            recommendation
-              ? `
+          ${recommendation
+        ? `
           <div class="recommendation-box">
             <h3 style="margin: 0 0 10px 0; color: #667eea;">📊 Quiz Recommendation</h3>
             <div style="margin-bottom: 10px;">
@@ -208,8 +203,7 @@ async function sendContactEmail(data) {
             </div>
           </div>
           `
-              : ""
-          }
+        : ""}
           <div class="field">
             <span class="label">Name</span>
             <div class="value">${(0, html_escaper_1.escape)(name)}</div>
@@ -220,16 +214,14 @@ async function sendContactEmail(data) {
               <a href="mailto:${(0, html_escaper_1.escape)(email)}" style="color: #667eea; text-decoration: none;">${(0, html_escaper_1.escape)(email)}</a>
             </div>
           </div>
-          ${
-            company
-              ? `
+          ${company
+        ? `
           <div class="field">
             <span class="label">Company</span>
             <div class="value">${(0, html_escaper_1.escape)(company)}</div>
           </div>
           `
-              : ""
-          }
+        : ""}
           <div class="field">
             <span class="label">Message</span>
             <div class="value message-value">${(0, html_escaper_1.escape)(message)}</div>
@@ -244,14 +236,13 @@ async function sendContactEmail(data) {
       </body>
     </html>
   `;
-  const textContent = `
+    const textContent = `
 New Contact Form Submission
 ============================
-${
-  recommendation
-    ? `\n${recommendation.priorityLabel}\n` +
-      "=".repeat(60) +
-      `
+${recommendation
+        ? `\n${recommendation.priorityLabel}\n` +
+            "=".repeat(60) +
+            `
 
 QUIZ RECOMMENDATION:
 - Recommended Solution: ${recommendation.solutionName}
@@ -263,10 +254,9 @@ QUIZ RECOMMENDATION:
   - Complexity Score: ${recommendation.scores.complexity}/4
 
 ` +
-      "=".repeat(60) +
-      "\n"
-    : ""
-}
+            "=".repeat(60) +
+            "\n"
+        : ""}
 Name: ${name}
 Email: ${email}
 ${company ? `Company: ${company}` : ""}
@@ -277,39 +267,39 @@ ${message}
 ---
 Reply to: ${email}
   `.trim();
-  try {
-    const priorityPrefix =
-      recommendation && recommendation.priorityScore >= 32
-        ? "🔥 HIGH PRIORITY - "
-        : recommendation && recommendation.priorityScore >= 24
-          ? "⚡ "
-          : "";
-    const result = await resend.emails.send({
-      from: RESEND_FROM_EMAIL,
-      to: CONTACT_EMAIL,
-      replyTo: email,
-      subject: `${priorityPrefix}New Contact: ${name}${company ? ` from ${company}` : ""}`,
-      html: htmlContent,
-      text: textContent,
-    });
-    return result;
-  } catch (error) {
-    console.error("Failed to send email:", error);
-    throw error;
-  }
+    try {
+        const priorityPrefix = recommendation && recommendation.priorityScore >= 32
+            ? "🔥 HIGH PRIORITY - "
+            : recommendation && recommendation.priorityScore >= 24
+                ? "⚡ "
+                : "";
+        const result = await resend.emails.send({
+            from: RESEND_FROM_EMAIL,
+            to: CONTACT_EMAIL,
+            replyTo: email,
+            subject: `${priorityPrefix}New Contact: ${name}${company ? ` from ${company}` : ""}`,
+            html: htmlContent,
+            text: textContent,
+        });
+        return result;
+    }
+    catch (error) {
+        console.error("Failed to send email:", error);
+        throw error;
+    }
 }
 async function sendNewsletterSubscription(data) {
-  const { email } = data;
-  // Development mode: log to console instead of sending email
-  if (!resend) {
-    console.log("\n" + "=".repeat(60));
-    console.log("📰 DEVELOPMENT MODE: Newsletter Subscription not sent (no RESEND_API_KEY)");
-    console.log("=".repeat(60));
-    console.log(`Subscriber Email: ${email}`);
-    console.log("=".repeat(60) + "\n");
-    return { success: true, mode: "development" };
-  }
-  const htmlContent = `
+    const { email } = data;
+    // Development mode: log to console instead of sending email
+    if (!resend) {
+        console.log("\n" + "=".repeat(60));
+        console.log("📰 DEVELOPMENT MODE: Newsletter Subscription not sent (no RESEND_API_KEY)");
+        console.log("=".repeat(60));
+        console.log(`Subscriber Email: ${email}`);
+        console.log("=".repeat(60) + "\n");
+        return { success: true, mode: "development" };
+    }
+    const htmlContent = `
     <!DOCTYPE html>
     <html>
       <head>
@@ -390,44 +380,45 @@ async function sendNewsletterSubscription(data) {
       </body>
     </html>
   `;
-  const textContent = `
+    const textContent = `
 New Newsletter Subscriber
 =========================
 
 Email: ${email}
 Subscribed: ${new Date().toLocaleString("en-US", { dateStyle: "full", timeStyle: "short" })}
   `.trim();
-  try {
-    // Send notification to site owner
-    const result = await resend.emails.send({
-      from: RESEND_FROM_EMAIL,
-      to: CONTACT_EMAIL,
-      subject: `📰 New Newsletter Subscriber: ${email}`,
-      html: htmlContent,
-      text: textContent,
-    });
-    return result;
-  } catch (error) {
-    console.error("Failed to send newsletter subscription email:", error);
-    throw error;
-  }
+    try {
+        // Send notification to site owner
+        const result = await resend.emails.send({
+            from: RESEND_FROM_EMAIL,
+            to: CONTACT_EMAIL,
+            subject: `📰 New Newsletter Subscriber: ${email}`,
+            html: htmlContent,
+            text: textContent,
+        });
+        return result;
+    }
+    catch (error) {
+        console.error("Failed to send newsletter subscription email:", error);
+        throw error;
+    }
 }
 async function sendChatWidgetEmail(data) {
-  const { name, email, message, suggestions } = data;
-  // Development mode: log to console instead of sending email
-  if (!resend) {
-    console.log("\n" + "=".repeat(60));
-    console.log("💬 DEVELOPMENT MODE: Chat Widget Email not sent (no RESEND_API_KEY)");
-    console.log("=".repeat(60));
-    console.log(`From: ${name} <${email}>`);
-    if (suggestions && suggestions.length > 0) {
-      console.log(`Topics: ${suggestions.join(", ")}`);
+    const { name, email, message, suggestions } = data;
+    // Development mode: log to console instead of sending email
+    if (!resend) {
+        console.log("\n" + "=".repeat(60));
+        console.log("💬 DEVELOPMENT MODE: Chat Widget Email not sent (no RESEND_API_KEY)");
+        console.log("=".repeat(60));
+        console.log(`From: ${name} <${email}>`);
+        if (suggestions && suggestions.length > 0) {
+            console.log(`Topics: ${suggestions.join(", ")}`);
+        }
+        console.log(`Message:\n${message}`);
+        console.log("=".repeat(60) + "\n");
+        return { success: true, mode: "development" };
     }
-    console.log(`Message:\n${message}`);
-    console.log("=".repeat(60) + "\n");
-    return { success: true, mode: "development" };
-  }
-  const htmlContent = `
+    const htmlContent = `
     <!DOCTYPE html>
     <html>
       <head>
@@ -525,9 +516,8 @@ async function sendChatWidgetEmail(data) {
               <a href="mailto:${(0, html_escaper_1.escape)(email)}" style="color: #667eea; text-decoration: none;">${(0, html_escaper_1.escape)(email)}</a>
             </div>
           </div>
-          ${
-            suggestions && suggestions.length > 0
-              ? `
+          ${suggestions && suggestions.length > 0
+        ? `
           <div class="field">
             <span class="label">Interested In</span>
             <div class="value">
@@ -535,8 +525,7 @@ async function sendChatWidgetEmail(data) {
             </div>
           </div>
           `
-              : ""
-          }
+        : ""}
           <div class="field">
             <span class="label">Message</span>
             <div class="value message-value">${(0, html_escaper_1.escape)(message)}</div>
@@ -551,7 +540,7 @@ async function sendChatWidgetEmail(data) {
       </body>
     </html>
   `;
-  const textContent = `
+    const textContent = `
 New Chat Widget Message
 =======================
 
@@ -565,19 +554,20 @@ ${message}
 ---
 Reply to: ${email}
   `.trim();
-  try {
-    const result = await resend.emails.send({
-      from: RESEND_FROM_EMAIL,
-      to: CONTACT_EMAIL,
-      replyTo: email,
-      subject: `💬 Chat: ${name}${suggestions && suggestions.length > 0 ? ` - ${suggestions.join(", ")}` : ""}`,
-      html: htmlContent,
-      text: textContent,
-    });
-    return result;
-  } catch (error) {
-    console.error("Failed to send chat widget email:", error);
-    throw error;
-  }
+    try {
+        const result = await resend.emails.send({
+            from: RESEND_FROM_EMAIL,
+            to: CONTACT_EMAIL,
+            replyTo: email,
+            subject: `💬 Chat: ${name}${suggestions && suggestions.length > 0 ? ` - ${suggestions.join(", ")}` : ""}`,
+            html: htmlContent,
+            text: textContent,
+        });
+        return result;
+    }
+    catch (error) {
+        console.error("Failed to send chat widget email:", error);
+        throw error;
+    }
 }
 //# sourceMappingURL=email.js.map

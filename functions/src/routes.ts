@@ -62,10 +62,26 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
 
     const data = await response.json();
 
+    // Log reCAPTCHA response for debugging
+    console.log("reCAPTCHA verification response:", {
+      success: data.success,
+      score: data.score,
+      action: data.action,
+      hostname: data.hostname,
+      error_codes: data["error-codes"],
+    });
+
     // Check if verification was successful and score is above threshold
     // reCAPTCHA v3 returns a score from 0.0 to 1.0
     // 0.5 is a reasonable threshold (higher = more likely human)
-    return data.success && data.score >= 0.5;
+    if (!data.success) {
+      console.warn("reCAPTCHA verification failed:", {
+        error_codes: data["error-codes"],
+      });
+      return false;
+    }
+
+    return data.score >= 0.5;
   } catch (error) {
     console.error("reCAPTCHA verification error:", error);
     return false;

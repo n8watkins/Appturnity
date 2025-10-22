@@ -9,6 +9,9 @@ import { registerRoutes } from "./routes";
 // Create Express app
 const app = express();
 
+// Trust proxy for rate limiting to work correctly with Firebase/cloud functions
+app.set("trust proxy", true);
+
 // CORS configuration - whitelist allowed origins
 const allowedOrigins = [
   process.env.FRONTEND_URL,
