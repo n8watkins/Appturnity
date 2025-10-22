@@ -12,16 +12,14 @@ export default function Footer() {
         <div className="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-10">
           {/* Company Info */}
           <div className="lg:col-span-1">
-            <Link href="/">
-              <a className="inline-block mb-4">
-                <img
-                  src="/appturnity.webp"
-                  alt="Appturnity"
-                  width={180}
-                  height={180}
-                  className="brightness-0 invert"
-                />
-              </a>
+            <Link href="/" className="inline-block mb-4">
+              <img
+                src="/appturnity.webp"
+                alt="Appturnity"
+                width={180}
+                height={180}
+                className="brightness-0 invert"
+              />
             </Link>
             <p className="mb-4 text-sm">
               Custom websites without the complexity.
@@ -144,13 +142,12 @@ export default function Footer() {
             <h3 className="text-white font-semibold mb-4">Resources</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/blog">
-                  <a
-                    className="hover:text-white transition-colors cursor-pointer"
-                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                  >
-                    Blog
-                  </a>
+                <Link
+                  href="/blog"
+                  className="hover:text-white transition-colors cursor-pointer"
+                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                >
+                  Blog
                 </Link>
               </li>
               <li>
@@ -163,13 +160,12 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <Link href="/features">
-                  <a
-                    className="hover:text-white transition-colors cursor-pointer"
-                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                  >
-                    All Features
-                  </a>
+                <Link
+                  href="/features"
+                  className="hover:text-white transition-colors cursor-pointer"
+                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                >
+                  All Features
                 </Link>
               </li>
             </ul>
@@ -180,23 +176,21 @@ export default function Footer() {
             <h3 className="text-white font-semibold mb-4">Legal</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/terms">
-                  <a
-                    className="hover:text-white transition-colors cursor-pointer"
-                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                  >
-                    Terms of Use
-                  </a>
+                <Link
+                  href="/terms"
+                  className="hover:text-white transition-colors cursor-pointer"
+                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                >
+                  Terms of Use
                 </Link>
               </li>
               <li>
-                <Link href="/privacy">
-                  <a
-                    className="hover:text-white transition-colors cursor-pointer"
-                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                  >
-                    Privacy Policy
-                  </a>
+                <Link
+                  href="/privacy"
+                  className="hover:text-white transition-colors cursor-pointer"
+                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                >
+                  Privacy Policy
                 </Link>
               </li>
             </ul>

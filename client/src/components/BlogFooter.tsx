@@ -25,16 +25,14 @@ export default function BlogFooter() {
         <div className="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
           {/* Brand Column */}
           <div>
-            <Link href="/">
-              <a className="inline-block mb-4">
-                <img
-                  src="/appturnity.webp"
-                  alt="Appturnity"
-                  width={180}
-                  height={180}
-                  className="brightness-0 invert"
-                />
-              </a>
+            <Link href="/" className="inline-block mb-4">
+              <img
+                src="/appturnity.webp"
+                alt="Appturnity"
+                width={180}
+                height={180}
+                className="brightness-0 invert"
+              />
             </Link>
             <p className="text-slate-400 text-sm mb-4">
               Custom websites without the complexity. Simple solutions. Predictable prices.
@@ -137,10 +135,11 @@ export default function BlogFooter() {
                 </button>
               </li>
               <li>
-                <Link href="/features">
-                  <a className="text-slate-400 hover:text-white transition-colors text-sm">
-                    All Features
-                  </a>
+                <Link
+                  href="/features"
+                  className="text-slate-400 hover:text-white transition-colors text-sm"
+                >
+                  All Features
                 </Link>
               </li>
               <li>
@@ -159,22 +158,27 @@ export default function BlogFooter() {
             <h3 className="font-bold text-lg mb-4">Resources</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/blog">
-                  <a className="text-slate-400 hover:text-white transition-colors text-sm">Blog</a>
+                <Link
+                  href="/blog"
+                  className="text-slate-400 hover:text-white transition-colors text-sm"
+                >
+                  Blog
                 </Link>
               </li>
               <li>
-                <Link href="/terms">
-                  <a className="text-slate-400 hover:text-white transition-colors text-sm">
-                    Terms of Use
-                  </a>
+                <Link
+                  href="/terms"
+                  className="text-slate-400 hover:text-white transition-colors text-sm"
+                >
+                  Terms of Use
                 </Link>
               </li>
               <li>
-                <Link href="/privacy">
-                  <a className="text-slate-400 hover:text-white transition-colors text-sm">
-                    Privacy Policy
-                  </a>
+                <Link
+                  href="/privacy"
+                  className="text-slate-400 hover:text-white transition-colors text-sm"
+                >
+                  Privacy Policy
                 </Link>
               </li>
             </ul>

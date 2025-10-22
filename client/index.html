@@ -189,8 +189,9 @@
     <!-- Google Analytics -->
     <script>
       // Only load Google Analytics if measurement ID is configured
-      if (window.VITE_GA_MEASUREMENT_ID || import.meta.env.VITE_GA_MEASUREMENT_ID) {
-        const GA_ID = window.VITE_GA_MEASUREMENT_ID || import.meta.env.VITE_GA_MEASUREMENT_ID;
+      // Note: VITE_GA_MEASUREMENT_ID should be injected by Vite during build
+      if (window.VITE_GA_MEASUREMENT_ID) {
+        const GA_ID = window.VITE_GA_MEASUREMENT_ID;
 
         // Google tag (gtag.js)
         const script = document.createElement('script');
