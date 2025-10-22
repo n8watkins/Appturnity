@@ -159,6 +159,14 @@ function handleError(event: ErrorEvent) {
  */
 function handleUnhandledRejection(event: PromiseRejectionEvent) {
   const reason = event.reason;
+
+  // In development mode, ignore null rejections (common with reCAPTCHA)
+  if (import.meta.env.DEV && (reason === null || reason === undefined)) {
+    console.warn("Ignoring null/undefined promise rejection in development mode");
+    event.preventDefault(); // Prevent the error overlay
+    return;
+  }
+
   const errorData: ErrorData = {
     message: reason?.message || "Unhandled Promise Rejection",
     stack: reason?.stack,
