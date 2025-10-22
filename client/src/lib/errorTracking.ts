@@ -14,6 +14,40 @@ let lastErrorResetTime = Date.now();
 // Infinite loop protection - prevent tracking errors from error tracking itself
 let isProcessingError = false;
 
+/**
+ * Safely stringify data, handling circular references and non-serializable values
+ */
+function safeStringify(obj: unknown): string {
+  const seen = new WeakSet();
+
+  return JSON.stringify(obj, (key, value) => {
+    // Handle undefined
+    if (value === undefined) {
+      return "[undefined]";
+    }
+
+    // Handle functions
+    if (typeof value === "function") {
+      return "[function]";
+    }
+
+    // Handle symbols
+    if (typeof value === "symbol") {
+      return "[symbol]";
+    }
+
+    // Handle circular references
+    if (typeof value === "object" && value !== null) {
+      if (seen.has(value)) {
+        return "[Circular]";
+      }
+      seen.add(value);
+    }
+
+    return value;
+  });
+}
+
 interface ErrorData {
   message: string;
   stack?: string;
@@ -117,18 +151,21 @@ async function sendErrorToBackend(errorData: ErrorData) {
   errorsSentInLastMinute++;
 
   try {
+    // Use safe stringify to handle circular references
+    const payload = safeStringify(errorData);
+
     await fetch("/api/errors", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(errorData),
+      body: payload,
       keepalive: true,
     }).catch(() => {
       // Fail silently - don't create infinite error loops
     });
   } catch (error) {
-    // Silently fail
+    // Silently fail - this catch prevents errors in safeStringify or fetch from propagating
     console.debug("Failed to send error to backend:", error);
   }
 }
