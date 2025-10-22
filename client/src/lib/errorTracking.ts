@@ -219,25 +219,27 @@ function handleError(event: ErrorEvent) {
 
 /**
  * Track unhandled promise rejections
+ *
+ * IMPORTANT: We do NOT call event.preventDefault() because it breaks Vite's error overlay.
+ * Instead, we just silently ignore benign rejections without preventing the event.
  */
 function handleUnhandledRejection(event: PromiseRejectionEvent) {
   // Prevent infinite loops
   if (isProcessingError) {
     console.debug("[ErrorTracking] Skipping rejection to prevent infinite loop");
-    event.preventDefault();
+    // DON'T preventDefault - let Vite handle it
     return;
   }
 
   const reason = event.reason;
 
-  // Always prevent null/undefined rejections from propagating
+  // Silently ignore null/undefined rejections - don't track them, don't prevent them
   // These are commonly caused by:
   // 1. reCAPTCHA library internal promises during initialization
   // 2. Third-party libraries with poor error handling
   // 3. Component unmounting during async operations
   if (reason === null || reason === undefined) {
-    event.preventDefault(); // Prevent the error overlay
-    // Silently ignore - these are not actionable errors
+    // Just return - don't track, but also don't prevent (let Vite handle it)
     return;
   }
 
@@ -251,11 +253,11 @@ function handleUnhandledRejection(event: PromiseRejectionEvent) {
   ];
 
   if (benignPatterns.some((pattern) => pattern.test(reasonString))) {
-    event.preventDefault();
     // Log in development for debugging
     if (import.meta.env.DEV) {
       console.debug("[ErrorTracking] Ignoring benign rejection:", reasonString);
     }
+    // Just return - don't track, but also don't prevent (let Vite handle it)
     return;
   }
 

@@ -1,28 +1,22 @@
 /**
  * reCAPTCHA Utility Functions
  *
- * Safe wrapper around react-google-recaptcha-v3 to prevent null/undefined promise rejections.
- * Handles edge cases like:
- * - Component unmounting before promise resolves
- * - reCAPTCHA script failing to load
- * - Network timeouts
- * - Rate limiting
+ * SIMPLIFIED wrapper that always returns a token (never throws or rejects).
+ * Removed Promise.race and timeout logic that was causing unhandled rejections.
  */
 
 /**
  * Safely execute reCAPTCHA and guarantee a string result (never null/undefined)
  *
  * This function:
- * 1. Never rejects with null/undefined (prevents unhandled rejection warnings)
- * 2. Has built-in timeout protection (1 second default)
- * 3. Returns a fallback token in dev mode if reCAPTCHA fails
- * 4. Throws descriptive errors in production mode for debugging
+ * 1. Never rejects - always returns a token string
+ * 2. Returns fallback tokens if reCAPTCHA fails
+ * 3. Simple try-catch, no complex Promise.race logic
  *
  * @param executeRecaptcha - The executeRecaptcha function from useGoogleReCaptcha hook
  * @param action - The action name for reCAPTCHA (e.g., "contact_form", "newsletter")
- * @param timeoutMs - Timeout in milliseconds (default: 1000ms)
- * @returns Promise that always resolves to a string token
- * @throws Error in production if reCAPTCHA fails (never null/undefined)
+ * @param timeoutMs - Kept for backwards compatibility but not used
+ * @returns Promise that always resolves to a string token (never rejects)
  */
 export async function safeExecuteRecaptcha(
   executeRecaptcha: ((action: string) => Promise<string>) | undefined,
@@ -42,34 +36,19 @@ export async function safeExecuteRecaptcha(
   }
 
   try {
-    // Race between reCAPTCHA execution and timeout
-    const token = await Promise.race<string>([
-      // Main reCAPTCHA execution with null/undefined protection
-      (async () => {
-        try {
-          const result = await executeRecaptcha(action);
+    // SIMPLIFIED: Just await directly - no Promise.race, no timeout
+    // Let the reCAPTCHA library handle its own timeouts
+    const result = await executeRecaptcha(action);
 
-          // Ensure we never return null/undefined
-          if (result === null || result === undefined || result === "") {
-            throw new Error("reCAPTCHA returned null/undefined/empty");
-          }
+    // Ensure we never return null/undefined
+    if (result === null || result === undefined || result === "") {
+      if (import.meta.env.DEV) {
+        console.warn("[reCAPTCHA] Returned null/undefined/empty, using fallback");
+      }
+      return `fallback_token_empty_${action}`;
+    }
 
-          return result;
-        } catch (err) {
-          // Catch and re-throw with better error message
-          // This prevents null/undefined rejections from propagating
-          const errorMessage = err instanceof Error ? err.message : String(err);
-          throw new Error(`reCAPTCHA execution failed: ${errorMessage}`);
-        }
-      })(),
-
-      // Timeout fallback
-      new Promise<string>((_, reject) =>
-        setTimeout(() => reject(new Error("reCAPTCHA timeout")), timeoutMs)
-      ),
-    ]);
-
-    return token;
+    return result;
   } catch (error) {
     // At this point, we know the error is not null/undefined
     // because we wrapped everything above
@@ -83,14 +62,13 @@ export async function safeExecuteRecaptcha(
     }
 
     if (import.meta.env.DEV) {
-      console.warn(`[reCAPTCHA] Execution failed: ${errorMessage}, using dev fallback token`);
-      return `dev_token_${action}_${Date.now()}`;
+      console.warn(`[reCAPTCHA] Execution failed: ${errorMessage}, using fallback`);
+      return `dev_token_error_${action}`;
     }
 
     // In production, also use fallback instead of throwing
-    // This prevents form submissions from failing due to reCAPTCHA issues
-    console.error(`[reCAPTCHA] Production execution failed: ${errorMessage}, using fallback`);
-    return `fallback_token_${action}_${Date.now()}`;
+    console.error(`[reCAPTCHA] Execution failed: ${errorMessage}, using fallback`);
+    return `fallback_token_error_${action}`;
   }
 }
 
