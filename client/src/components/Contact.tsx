@@ -122,9 +122,12 @@ export default function Contact() {
       // Redirect to success page
       setLocation("/success");
     } catch (error) {
+      console.error("Contact form error:", error);
+      const errorMessage =
+        error instanceof Error ? error.message : "Your message couldn't be sent. Please try again.";
       toast({
         title: "Something went wrong",
-        description: "Your message couldn't be sent. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
