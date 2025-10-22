@@ -136,12 +136,10 @@ export default function BlogPost() {
             Sorry, we couldn't find the article you're looking for.
           </p>
           <Link href="/blog">
-            <a>
-              <Button>
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Blog
-              </Button>
-            </a>
+            <Button>
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Blog
+            </Button>
           </Link>
         </div>
       </div>
@@ -429,15 +427,13 @@ export default function BlogPost() {
                   Calculate your savings with a custom website
                 </p>
                 <Link href="/#pricing">
-                  <a>
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      className="w-full bg-white text-primary hover:bg-white/90 font-semibold py-2.5"
-                    >
-                      View Pricing
-                    </Button>
-                  </a>
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    className="w-full bg-white text-primary hover:bg-white/90 font-semibold py-2.5"
+                  >
+                    View Pricing
+                  </Button>
                 </Link>
               </div>
             </div>
@@ -454,11 +450,13 @@ export default function BlogPost() {
           <h3 className="text-sm font-semibold text-slate-900 mb-4">Tagged in</h3>
           <div className="flex flex-wrap gap-2">
             {post.tags.map((tag) => (
-              <Link key={tag} href="/blog">
-                <a className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 rounded-lg text-sm font-medium transition-colors">
-                  <Tag className="h-3.5 w-3.5" />
-                  {tag}
-                </a>
+              <Link
+                key={tag}
+                href="/blog"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 rounded-lg text-sm font-medium transition-colors"
+              >
+                <Tag className="h-3.5 w-3.5" />
+                {tag}
               </Link>
             ))}
           </div>
@@ -516,15 +514,13 @@ export default function BlogPost() {
               Calculate how much you can save with a custom website.
             </p>
             <Link href="/#pricing">
-              <a>
-                <Button
-                  size="lg"
-                  variant="secondary"
-                  className="bg-white text-primary hover:bg-white/90 font-semibold"
-                >
-                  Calculate Your Savings with Appturnity
-                </Button>
-              </a>
+              <Button
+                size="lg"
+                variant="secondary"
+                className="bg-white text-primary hover:bg-white/90 font-semibold"
+              >
+                Calculate Your Savings with Appturnity
+              </Button>
             </Link>
           </div>
         </motion.div>
@@ -549,23 +545,25 @@ export default function BlogPost() {
               </p>
               <div className="grid md:grid-cols-3 gap-8">
                 {relatedPosts.map((relatedPost) => (
-                  <Link key={relatedPost.id} href={`/blog/${relatedPost.slug}`}>
-                    <a className="group block bg-white rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 h-full">
-                      <LazyImage
-                        src={relatedPost.image}
-                        alt={relatedPost.title}
-                        className="aspect-video group-hover:scale-105 transition-transform duration-300"
-                      />
-                      <div className="p-6">
-                        <span className="inline-block mb-3 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold">
-                          {relatedPost.category}
-                        </span>
-                        <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-primary transition-colors line-clamp-2">
-                          {relatedPost.title}
-                        </h3>
-                        <p className="text-slate-600 line-clamp-3">{relatedPost.excerpt}</p>
-                      </div>
-                    </a>
+                  <Link
+                    key={relatedPost.id}
+                    href={`/blog/${relatedPost.slug}`}
+                    className="group block bg-white rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 h-full"
+                  >
+                    <LazyImage
+                      src={relatedPost.image}
+                      alt={relatedPost.title}
+                      className="aspect-video group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="p-6">
+                      <span className="inline-block mb-3 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold">
+                        {relatedPost.category}
+                      </span>
+                      <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                        {relatedPost.title}
+                      </h3>
+                      <p className="text-slate-600 line-clamp-3">{relatedPost.excerpt}</p>
+                    </div>
                   </Link>
                 ))}
               </div>

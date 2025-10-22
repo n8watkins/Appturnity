@@ -117,37 +117,38 @@ export default function Blog() {
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
                 <h2 className="text-2xl font-bold text-slate-900 mb-6">Featured Article</h2>
-                <Link href={`/blog/${featuredPost.slug}`}>
-                  <a className="group block bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                    <LazyImage
-                      src={featuredPost.image}
-                      alt={featuredPost.title}
-                      className="aspect-video group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="p-8">
-                      <div className="flex items-center gap-4 mb-4 text-sm text-slate-600">
-                        <span className="inline-flex items-center gap-1">
-                          <Calendar className="h-4 w-4" />
-                          {formatBlogDate(featuredPost.date)}
-                        </span>
-                        <span className="inline-flex items-center gap-1">
-                          <Clock className="h-4 w-4" />
-                          {featuredPost.readTime}
-                        </span>
-                        <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold">
-                          {featuredPost.category}
-                        </span>
-                      </div>
-                      <h3 className="text-3xl font-bold text-slate-900 mb-4 group-hover:text-primary transition-colors">
-                        {featuredPost.title}
-                      </h3>
-                      <p className="text-lg text-slate-600 mb-6">{featuredPost.excerpt}</p>
-                      <div className="flex items-center text-primary font-semibold group-hover:gap-3 transition-all">
-                        Read Article
-                        <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                      </div>
+                <Link
+                  href={`/blog/${featuredPost.slug}`}
+                  className="group block bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                >
+                  <LazyImage
+                    src={featuredPost.image}
+                    alt={featuredPost.title}
+                    className="aspect-video group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="p-8">
+                    <div className="flex items-center gap-4 mb-4 text-sm text-slate-600">
+                      <span className="inline-flex items-center gap-1">
+                        <Calendar className="h-4 w-4" />
+                        {formatBlogDate(featuredPost.date)}
+                      </span>
+                      <span className="inline-flex items-center gap-1">
+                        <Clock className="h-4 w-4" />
+                        {featuredPost.readTime}
+                      </span>
+                      <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold">
+                        {featuredPost.category}
+                      </span>
                     </div>
-                  </a>
+                    <h3 className="text-3xl font-bold text-slate-900 mb-4 group-hover:text-primary transition-colors">
+                      {featuredPost.title}
+                    </h3>
+                    <p className="text-lg text-slate-600 mb-6">{featuredPost.excerpt}</p>
+                    <div className="flex items-center text-primary font-semibold group-hover:gap-3 transition-all">
+                      Read Article
+                      <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
                 </Link>
               </motion.div>
             )}
@@ -198,48 +199,49 @@ export default function Blog() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                 >
-                  <Link href={`/blog/${post.slug}`}>
-                    <a className="group block bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all h-full flex flex-col">
-                      <LazyImage
-                        src={post.image}
-                        alt={post.title}
-                        className="aspect-video group-hover:scale-105 transition-transform duration-300"
-                      />
-                      <div className="p-6 flex-grow flex flex-col">
-                        <div className="flex items-center gap-3 mb-3 text-sm text-slate-600">
-                          <span className="inline-flex items-center gap-1">
-                            <Calendar className="h-3.5 w-3.5" />
-                            {formatBlogDateShort(post.date)}
-                          </span>
-                          <span className="inline-flex items-center gap-1">
-                            <Clock className="h-3.5 w-3.5" />
-                            {post.readTime}
-                          </span>
-                        </div>
-                        <span className="inline-block mb-3 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold w-fit">
-                          {post.category}
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="group block bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all h-full flex flex-col"
+                  >
+                    <LazyImage
+                      src={post.image}
+                      alt={post.title}
+                      className="aspect-video group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="p-6 flex-grow flex flex-col">
+                      <div className="flex items-center gap-3 mb-3 text-sm text-slate-600">
+                        <span className="inline-flex items-center gap-1">
+                          <Calendar className="h-3.5 w-3.5" />
+                          {formatBlogDateShort(post.date)}
                         </span>
-                        <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-primary transition-colors line-clamp-2">
-                          {post.title}
-                        </h3>
-                        <p className="text-slate-600 mb-4 line-clamp-3 flex-grow">{post.excerpt}</p>
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          {post.tags.slice(0, 3).map((tag) => (
-                            <span
-                              key={tag}
-                              className="inline-flex items-center gap-1 px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs"
-                            >
-                              <Tag className="h-3 w-3" />
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                        <div className="flex items-center text-primary font-medium text-sm group-hover:gap-2 transition-all mt-auto">
-                          Read More
-                          <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                        </div>
+                        <span className="inline-flex items-center gap-1">
+                          <Clock className="h-3.5 w-3.5" />
+                          {post.readTime}
+                        </span>
                       </div>
-                    </a>
+                      <span className="inline-block mb-3 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold w-fit">
+                        {post.category}
+                      </span>
+                      <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                        {post.title}
+                      </h3>
+                      <p className="text-slate-600 mb-4 line-clamp-3 flex-grow">{post.excerpt}</p>
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {post.tags.slice(0, 3).map((tag) => (
+                          <span
+                            key={tag}
+                            className="inline-flex items-center gap-1 px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs"
+                          >
+                            <Tag className="h-3 w-3" />
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="flex items-center text-primary font-medium text-sm group-hover:gap-2 transition-all mt-auto">
+                        Read More
+                        <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </div>
                   </Link>
                 </motion.div>
               ))}
@@ -373,14 +375,12 @@ export default function Blog() {
                 Get a custom website that you own, with no monthly fees. See how much you can save.
               </p>
               <Link href="/#pricing">
-                <a>
-                  <Button
-                    variant="secondary"
-                    className="w-full bg-white text-primary hover:bg-white/90"
-                  >
-                    Calculate Your Savings →
-                  </Button>
-                </a>
+                <Button
+                  variant="secondary"
+                  className="w-full bg-white text-primary hover:bg-white/90"
+                >
+                  Calculate Your Savings →
+                </Button>
               </Link>
             </motion.div>
 
@@ -394,15 +394,11 @@ export default function Blog() {
               <h3 className="text-lg font-bold text-slate-900 mb-4">Recent Articles</h3>
               <div className="space-y-4">
                 {blogMetadata.slice(0, 5).map((post) => (
-                  <Link key={post.id} href={`/blog/${post.slug}`}>
-                    <a className="block group">
-                      <h4 className="font-medium text-slate-900 group-hover:text-primary transition-colors line-clamp-2 mb-1">
-                        {post.title}
-                      </h4>
-                      <span className="text-xs text-slate-500">
-                        {formatBlogDateShort(post.date)}
-                      </span>
-                    </a>
+                  <Link key={post.id} href={`/blog/${post.slug}`} className="block group">
+                    <h4 className="font-medium text-slate-900 group-hover:text-primary transition-colors line-clamp-2 mb-1">
+                      {post.title}
+                    </h4>
+                    <span className="text-xs text-slate-500">{formatBlogDateShort(post.date)}</span>
                   </Link>
                 ))}
               </div>
