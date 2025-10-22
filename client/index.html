@@ -36,9 +36,22 @@
 
     <!-- Performance Optimizations: Resource Hints -->
     <!-- Preconnect to critical third-party domains -->
+    <link rel="preconnect" href="https://images.unsplash.com" />
     <link rel="preconnect" href="https://www.google.com" crossorigin />
     <link rel="preconnect" href="https://www.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://assets.calendly.com" crossorigin />
+
+    <!-- Preload LCP image for faster paint -->
+    <link
+      rel="preload"
+      as="image"
+      href="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=75"
+      imagesrcset="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=75 800w,
+                   https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=75 1200w,
+                   https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=75 1600w"
+      imagesizes="(max-width: 768px) 100vw, 50vw"
+      fetchpriority="high"
+    />
 
     <!-- DNS prefetch for faster lookups -->
     <link rel="dns-prefetch" href="https://www.google.com" />

@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
 import { Sparkles, Check, ArrowRight } from "lucide-react";
 import { handleSmoothScroll } from "@/lib/utils";
 import QuizCTA from "@/components/QuizCTA";
@@ -21,11 +20,7 @@ export default function Hero() {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 select-none">
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
+          <div className="animate-fade-in-up">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary mb-6">
               <Sparkles className="h-4 w-4" />
               <span className="text-sm font-medium">Modern designs, real results</span>
@@ -67,12 +62,10 @@ export default function Hero() {
                   description: "Landing pages crafted for your brand and goals",
                 },
               ].map((item, i) => (
-                <motion.div
+                <div
                   key={i}
-                  className="flex items-start gap-2"
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.7 + i * 0.1 }}
+                  className="flex items-start gap-2 animate-fade-in-left"
+                  style={{ animationDelay: `${0.7 + i * 0.1}s` }}
                 >
                   <div className="mt-1 bg-green-100 rounded-full p-0.5">
                     <Check className="h-4 w-4 text-green-600" />
@@ -80,7 +73,7 @@ export default function Hero() {
                   <span className="text-slate-700">
                     <span className="font-semibold">{item.title}:</span> {item.description}
                   </span>
-                </motion.div>
+                </div>
               ))}
             </div>
 
@@ -101,19 +94,23 @@ export default function Hero() {
                 </a>
               </Button>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-2xl"
+          <div
+            className="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-2xl animate-fade-in-scale"
+            style={{ animationDelay: "0.2s" }}
           >
-            {/* Main image */}
+            {/* Main image - Optimized for LCP */}
             <img
-              src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+              src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=75"
+              srcSet="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=75 800w,
+                      https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=75 1200w,
+                      https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=75 1600w"
+              sizes="(max-width: 768px) 100vw, 50vw"
               alt="App development team"
               className="w-full h-full object-cover"
+              fetchPriority="high"
+              loading="eager"
             />
 
             {/* Overlay gradient */}
@@ -123,11 +120,9 @@ export default function Hero() {
             <div className="absolute inset-0 flex items-center justify-center md:justify-start p-4 md:p-0">
               <div className="relative w-full md:max-w-sm h-full md:h-auto">
                 {/* Hero Browser - Desktop mockup - hidden on mobile, shown on md+ */}
-                <motion.div
-                  className="hidden md:block absolute -top-16 -right-5 lg:-right-4 lg:-top-12 w-72 h-48 bg-white rounded-lg shadow-2xl overflow-hidden border border-slate-200 z-20"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.6, duration: 0.5 }}
+                <div
+                  className="hidden md:block absolute -top-16 -right-5 lg:-right-4 lg:-top-12 w-72 h-48 bg-white rounded-lg shadow-2xl overflow-hidden border border-slate-200 z-20 animate-fade-in-up"
+                  style={{ animationDelay: "0.6s" }}
                 >
                   <div className="h-8 bg-slate-100 border-b flex items-center px-3 gap-1.5">
                     <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
@@ -139,14 +134,12 @@ export default function Hero() {
                     <div className="h-20 bg-slate-100 rounded mb-2"></div>
                     <div className="h-4 w-1/2 bg-slate-200 rounded"></div>
                   </div>
-                </motion.div>
+                </div>
 
                 {/* Hero Phone - Mobile mockup - adjusted for mobile view */}
-                <motion.div
-                  className="absolute bottom-12 left-4 md:bottom-8 md:-left-5 lg:-bottom-24 lg:left-40 w-28 md:w-36 h-52 md:h-64 bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200 z-10"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.8, duration: 0.5 }}
+                <div
+                  className="absolute bottom-12 left-4 md:bottom-8 md:-left-5 lg:-bottom-24 lg:left-40 w-28 md:w-36 h-52 md:h-64 bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200 z-10 animate-fade-in-up"
+                  style={{ animationDelay: "0.8s" }}
                 >
                   <div className="h-4 md:h-5 bg-slate-800 flex justify-center items-end pb-0.5">
                     <div className="w-16 md:w-20 h-1 md:h-1.5 bg-slate-600 rounded"></div>
@@ -160,7 +153,7 @@ export default function Hero() {
                       <div className="h-2 md:h-3 w-2/3 bg-slate-200 rounded"></div>
                     </div>
                   </div>
-                </motion.div>
+                </div>
 
                 {/* Hero Quiz CTA - Quiz CTA Card - centered in image overlay */}
                 <QuizCTA
@@ -169,7 +162,7 @@ export default function Hero() {
                 />
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
