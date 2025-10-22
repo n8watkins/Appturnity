@@ -109,6 +109,7 @@ export default function Hero() {
               sizes="(max-width: 768px) 100vw, 50vw"
               alt="App development team"
               className="w-full h-full object-cover"
+              // @ts-ignore - fetchpriority is a valid HTML attribute but not in React types yet
               fetchpriority="high"
               loading="eager"
             />

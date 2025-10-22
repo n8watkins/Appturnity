@@ -104,9 +104,9 @@ class Logger {
       ...metadata,
       error: error
         ? {
-            message: error.message,
-            stack: this.isDevelopment ? error.stack : undefined,
-            name: error.name,
+            message: (error as Error).message,
+            stack: this.isDevelopment ? (error as Error).stack : undefined,
+            name: (error as Error).name,
             ...error,
           }
         : undefined,

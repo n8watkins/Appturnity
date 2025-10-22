@@ -147,7 +147,8 @@ export default function PricingCalculator() {
         prev.map((feature) => ({
           ...feature,
           enabled:
-            (data.desiredFeatures as string[]).includes(feature.id) || feature.isAlwaysIncluded,
+            (data.desiredFeatures as string[]).includes(feature.id) ||
+            Boolean(feature.isAlwaysIncluded),
         }))
       );
       setPrefilledFromQuiz(true);
@@ -218,11 +219,11 @@ export default function PricingCalculator() {
 
   // Event handlers
   const handleSeePricingOptions = () => {
-    handleSmoothScroll(new Event("click") as MouseEvent, "pricing-tiers", undefined, true);
+    handleSmoothScroll(new MouseEvent("click") as any, "pricing-tiers", undefined, true);
   };
 
   const handleLockInQuote = () => {
-    handleSmoothScroll(new Event("click") as MouseEvent, "contact", undefined, true);
+    handleSmoothScroll(new MouseEvent("click") as any, "contact", undefined, true);
   };
 
   const handleSeeEstimate = async () => {

@@ -2,22 +2,16 @@
  * Window Object Type Extensions
  */
 
-export interface WindowWithGtag extends Window {
-  gtag?: (...args: unknown[]) => void;
-  dataLayer?: unknown[];
-}
-
-export interface WindowWithDataLayer extends Window {
-  dataLayer?: unknown[];
-}
-
 export interface CustomEventMap {
   calculatorUpdated: CustomEvent<import("./calculator").CalculatorData>;
   startQuiz: Event;
 }
 
 declare global {
-  interface Window extends WindowWithGtag, WindowWithDataLayer {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+    dataLayer?: unknown[];
+
     addEventListener<K extends keyof CustomEventMap>(
       type: K,
       listener: (this: Window, ev: CustomEventMap[K]) => void,

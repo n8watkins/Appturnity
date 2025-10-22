@@ -67,8 +67,8 @@ interface ErrorData {
  * Determine error severity based on error details
  */
 function getErrorSeverity(error: Error | unknown, type: string): "critical" | "error" | "warning" {
-  const errorMessage = error?.message || String(error);
-  const errorStack = error?.stack || "";
+  const errorMessage = (error as Error)?.message || String(error);
+  const errorStack = (error as Error)?.stack || "";
 
   // Critical errors - immediate attention needed
   const criticalPatterns = [
