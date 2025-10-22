@@ -23,8 +23,6 @@ export async function safeExecuteRecaptcha(
   action: string,
   _timeoutMs?: number // Keep for backwards compatibility but don't use
 ): Promise<string> {
-  console.log("[reCAPTCHA] Executing for:", action);
-
   // In dev, just return a test token immediately
   if (import.meta.env.DEV) {
     return `test_token_${action}`;

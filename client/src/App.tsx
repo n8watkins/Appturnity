@@ -55,9 +55,8 @@ function App() {
   // Initialize monitoring on mount
   useEffect(() => {
     initPerformanceMonitoring();
-    // DISABLED - Error tracking was causing Vite overlay crashes
+    // Error tracking disabled - was causing Vite overlay crashes with reCAPTCHA
     // initErrorTracking();
-    console.log("[SIMPLIFIED] Error tracking DISABLED");
   }, []);
 
   return (
