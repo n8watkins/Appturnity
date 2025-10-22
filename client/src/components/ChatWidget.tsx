@@ -4,6 +4,7 @@ import Lottie from "lottie-react";
 import { z } from "zod";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useToast } from "@/hooks/use-toast";
+import { safeExecuteRecaptcha, isRecaptchaReady } from "@/lib/recaptchaUtils";
 
 const CALENDLY_URL =
   import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/nathancwatkins23/web-consulting";
@@ -131,7 +132,7 @@ export default function ChatWidget() {
     if (form.hp_field) return; // spam honeypot
 
     // Check if reCAPTCHA is ready
-    if (!executeRecaptcha) {
+    if (!isRecaptchaReady(executeRecaptcha)) {
       toast({
         title: "reCAPTCHA not ready",
         description: "Please wait a moment and try again.",
@@ -156,8 +157,8 @@ export default function ChatWidget() {
 
     // Send to API
     try {
-      // Execute reCAPTCHA to get token
-      const recaptchaToken = await executeRecaptcha("chat_widget");
+      // Execute reCAPTCHA safely - never rejects with null/undefined
+      const recaptchaToken = await safeExecuteRecaptcha(executeRecaptcha, "chat_widget");
 
       const response = await fetch("/api/chat", {
         method: "POST",

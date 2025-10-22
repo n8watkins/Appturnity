@@ -7,6 +7,7 @@ import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { safeExecuteRecaptcha, isRecaptchaReady } from "@/lib/recaptchaUtils";
 import { Calendar, Mail, Phone } from "lucide-react";
 import { CalendlyButton } from "@/components/ui/calendly-embed";
 import type { ProjectDetails, CalculatorData } from "@/types";
@@ -94,7 +95,7 @@ export default function Contact() {
   }, []);
 
   async function onSubmit(data: ContactFormValues) {
-    if (!executeRecaptcha) {
+    if (!isRecaptchaReady(executeRecaptcha)) {
       toast({
         title: "reCAPTCHA not ready",
         description: "Please wait a moment and try again.",
@@ -105,13 +106,8 @@ export default function Contact() {
 
     setIsSubmitting(true);
     try {
-      // Execute reCAPTCHA - wrap to never reject, preventing error overlay
-      const recaptchaToken = await Promise.race([
-        // Wrap to catch any rejections immediately
-        Promise.resolve(executeRecaptcha("contact_form")).catch(() => "dev_token"),
-        // Timeout fallback
-        new Promise<string>((resolve) => setTimeout(() => resolve("dev_token"), 1000)),
-      ]);
+      // Execute reCAPTCHA safely - never rejects with null/undefined
+      const recaptchaToken = await safeExecuteRecaptcha(executeRecaptcha, "contact_form");
 
       // Prepare request data
       const requestData = {

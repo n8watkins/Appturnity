@@ -160,10 +160,32 @@ function handleError(event: ErrorEvent) {
 function handleUnhandledRejection(event: PromiseRejectionEvent) {
   const reason = event.reason;
 
-  // In development mode, ignore null rejections (common with reCAPTCHA)
-  if (import.meta.env.DEV && (reason === null || reason === undefined)) {
-    console.warn("Ignoring null/undefined promise rejection in development mode");
+  // Always prevent null/undefined rejections from propagating
+  // These are commonly caused by:
+  // 1. reCAPTCHA library internal promises during initialization
+  // 2. Third-party libraries with poor error handling
+  // 3. Component unmounting during async operations
+  if (reason === null || reason === undefined) {
     event.preventDefault(); // Prevent the error overlay
+    // Silently ignore - these are not actionable errors
+    return;
+  }
+
+  // Ignore known benign errors from third-party libraries
+  const reasonString = String(reason);
+  const benignPatterns = [
+    /recaptcha/i, // reCAPTCHA internal errors
+    /grecaptcha/i, // Google reCAPTCHA script errors
+    /cancelled/i, // User-cancelled operations
+    /aborted/i, // Aborted fetch requests
+  ];
+
+  if (benignPatterns.some((pattern) => pattern.test(reasonString))) {
+    event.preventDefault();
+    // Log in development for debugging
+    if (import.meta.env.DEV) {
+      console.debug("[ErrorTracking] Ignoring benign rejection:", reasonString);
+    }
     return;
   }
 
@@ -177,7 +199,7 @@ function handleUnhandledRejection(event: PromiseRejectionEvent) {
     userAgent: navigator.userAgent,
     timestamp: Date.now(),
     context: {
-      reason: String(reason),
+      reason: reasonString,
       ...getBrowserInfo(),
     },
   };

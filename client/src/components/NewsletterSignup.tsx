@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { safeExecuteRecaptcha, isRecaptchaReady } from "@/lib/recaptchaUtils";
 
 interface NewsletterSignupProps {
   variant?: "default" | "compact" | "inline";
@@ -25,7 +26,7 @@ export default function NewsletterSignup({
 
     if (!email) return;
 
-    if (!executeRecaptcha) {
+    if (!isRecaptchaReady(executeRecaptcha)) {
       setStatus("error");
       setMessage("reCAPTCHA not ready. Please wait a moment and try again.");
       setTimeout(() => {
@@ -38,8 +39,11 @@ export default function NewsletterSignup({
     setStatus("loading");
 
     try {
-      // Execute reCAPTCHA to get token
-      const recaptchaToken = await executeRecaptcha("newsletter_subscription");
+      // Execute reCAPTCHA safely - never rejects with null/undefined
+      const recaptchaToken = await safeExecuteRecaptcha(
+        executeRecaptcha,
+        "newsletter_subscription"
+      );
 
       // Call the API endpoint
       const response = await fetch("/api/newsletter", {

@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useToast } from "@/hooks/use-toast";
+import { safeExecuteRecaptcha, isRecaptchaReady } from "@/lib/recaptchaUtils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -62,7 +63,7 @@ export default function QuizExitModal({
   };
 
   const handleFormSubmit = async (data: ExitModalFormValues) => {
-    if (!executeRecaptcha) {
+    if (!isRecaptchaReady(executeRecaptcha)) {
       toast({
         title: "reCAPTCHA not ready",
         description: "Please wait a moment and try again.",
@@ -73,8 +74,8 @@ export default function QuizExitModal({
 
     setIsSubmitting(true);
     try {
-      // Execute reCAPTCHA to get token
-      const recaptchaToken = await executeRecaptcha("quiz_exit_modal");
+      // Execute reCAPTCHA safely - never rejects with null/undefined
+      const recaptchaToken = await safeExecuteRecaptcha(executeRecaptcha, "quiz_exit_modal");
 
       // Submit with reCAPTCHA token
       await onSubmit({
