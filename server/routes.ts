@@ -58,13 +58,9 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
     return true;
   }
 
-  // In development mode, allow test tokens for email testing ONLY if explicitly enabled
-  if (
-    process.env.NODE_ENV === "development" &&
-    process.env.ALLOW_TEST_RECAPTCHA === "true" &&
-    token === "test_token"
-  ) {
-    logger.debug("Development mode: accepting test_token for email testing");
+  // In development mode, skip reCAPTCHA verification entirely if enabled
+  if (process.env.NODE_ENV === "development" && process.env.ALLOW_TEST_RECAPTCHA === "true") {
+    logger.debug("Development mode: skipping reCAPTCHA verification");
     return true;
   }
 
