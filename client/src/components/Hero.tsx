@@ -109,7 +109,7 @@ export default function Hero() {
               sizes="(max-width: 768px) 100vw, 50vw"
               alt="App development team"
               className="w-full h-full object-cover"
-              fetchPriority="high"
+              fetchpriority="high"
               loading="eager"
             />
 
