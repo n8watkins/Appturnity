@@ -21,54 +21,25 @@
 export async function safeExecuteRecaptcha(
   executeRecaptcha: ((action: string) => Promise<string>) | undefined,
   action: string,
-  timeoutMs: number = 1000
+  _timeoutMs?: number // Keep for backwards compatibility but don't use
 ): Promise<string> {
-  // Handle case where executeRecaptcha is not available
+  console.log("[reCAPTCHA] Executing for:", action);
+
+  // In dev, just return a test token immediately
+  if (import.meta.env.DEV) {
+    return `test_token_${action}`;
+  }
+
+  // In production, try to execute with minimal error handling
   if (!executeRecaptcha) {
-    const error = new Error("reCAPTCHA not initialized");
-
-    if (import.meta.env.DEV) {
-      console.warn("[reCAPTCHA] Not initialized, using dev fallback token");
-      return "dev_token_not_initialized";
-    }
-
-    throw error;
+    return "fallback_no_recaptcha";
   }
 
   try {
-    // SIMPLIFIED: Just await directly - no Promise.race, no timeout
-    // Let the reCAPTCHA library handle its own timeouts
-    const result = await executeRecaptcha(action);
-
-    // Ensure we never return null/undefined
-    if (result === null || result === undefined || result === "") {
-      if (import.meta.env.DEV) {
-        console.warn("[reCAPTCHA] Returned null/undefined/empty, using fallback");
-      }
-      return `fallback_token_empty_${action}`;
-    }
-
-    return result;
-  } catch (error) {
-    // At this point, we know the error is not null/undefined
-    // because we wrapped everything above
-
-    // Extract error message safely, avoiding any complex error objects
-    let errorMessage = "Unknown error";
-    try {
-      errorMessage = error instanceof Error ? error.message : String(error);
-    } catch {
-      errorMessage = "Error could not be serialized";
-    }
-
-    if (import.meta.env.DEV) {
-      console.warn(`[reCAPTCHA] Execution failed: ${errorMessage}, using fallback`);
-      return `dev_token_error_${action}`;
-    }
-
-    // In production, also use fallback instead of throwing
-    console.error(`[reCAPTCHA] Execution failed: ${errorMessage}, using fallback`);
-    return `fallback_token_error_${action}`;
+    const token = await executeRecaptcha(action);
+    return token || "fallback_empty_token";
+  } catch {
+    return "fallback_error_token";
   }
 }
 

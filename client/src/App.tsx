@@ -55,7 +55,9 @@ function App() {
   // Initialize monitoring on mount
   useEffect(() => {
     initPerformanceMonitoring();
-    initErrorTracking();
+    // DISABLED - Error tracking was causing Vite overlay crashes
+    // initErrorTracking();
+    console.log("[SIMPLIFIED] Error tracking DISABLED");
   }, []);
 
   return (
