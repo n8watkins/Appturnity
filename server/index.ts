@@ -52,6 +52,9 @@ process.setMaxListeners(20);
 
 const app = express();
 
+// Trust proxy for rate limiting to work correctly with Firebase/cloud functions
+app.set("trust proxy", true);
+
 // Security middleware
 app.use(
   helmet({

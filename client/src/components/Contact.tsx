@@ -105,20 +105,13 @@ export default function Contact() {
 
     setIsSubmitting(true);
     try {
-      // Execute reCAPTCHA to get token
-      let recaptchaToken = "dev_token"; // Default fallback
-      try {
-        const token = await Promise.race([
-          executeRecaptcha("contact_form"),
-          new Promise<string>((resolve) => setTimeout(() => resolve("dev_token"), 1000)),
-        ]);
-        if (token) {
-          recaptchaToken = token;
-        }
-      } catch (recaptchaError) {
-        // Silently use fallback token - this is expected in development
-        console.debug("Using fallback reCAPTCHA token");
-      }
+      // Execute reCAPTCHA - wrap to never reject, preventing error overlay
+      const recaptchaToken = await Promise.race([
+        // Wrap to catch any rejections immediately
+        Promise.resolve(executeRecaptcha("contact_form")).catch(() => "dev_token"),
+        // Timeout fallback
+        new Promise<string>((resolve) => setTimeout(() => resolve("dev_token"), 1000)),
+      ]);
 
       // Prepare request data
       const requestData = {
